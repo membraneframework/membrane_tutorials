@@ -252,3 +252,202 @@ Here, we are only making use out of ```push``` method provided by Phoenix.Channe
 
 Great job! You have just implemented server's side of our communication channel. How about doing it for our client?
 
+### Let's implement client's endpoint for communication purpose 
+We will put whole logic into assets/src/room.ts. Methods aimed to change user's interface are already in assets/src/room_ui.ts and we will use them along the room's logic implementation. So first, let's import all neccessary dependencies concerning UI to our newly created file:
+```ts
+import {
+  addVideoElement,
+  getRoomId,
+  removeVideoElement,
+  setErrorMessage,
+  setParticipantsList,
+  attachStream,
+  setupDisconnectButton,
+} from "./room_ui";
+```
+We have basically imported all the methods defined in room_ui.ts. For more details on how these methods work and what is their interface please refer to the source file.
+Take a look at our assets/packae.json file which defines outer dependecies for our project. We have put there the following dependency:
+```json
+"membrane_rtc_engine": "file:../deps/membrane_rtc_engine/"
+```
+which is a client library provided by rtc engine plugin from membrane framework.
+Let's import some constructs from this library (the name should be self-explanatory and you can read about them in [the official membrane's rtc engine documentation](https://hexdocs.pm/membrane_rtc_engine/js/index.html):
+```ts
+import {
+  MembraneWebRTC,
+  Peer,
+  SerializedMediaEvent,
+} from "membrane_rtc_engine";
+```
+
+Later on, let's import interesting constructs from Phoenix - Push and Socket classes (can you guess where will we be using them? ;) )
+```ts
+import { Push, Socket } from "phoenix";
+```
+
+It might be worth for us to somehow wrap our room's client logic into a class - so at the very beggining let's simply define Room class:
+```ts
+export class Room {
+  constructor(){
+    
+  }
+  
+  public init = async () => {
+  
+  };
+
+  public join = () => {
+  
+  };
+
+  private leave = () => {
+
+  };
+
+  private parseUrl = (): string => {
+  };
+
+  private updateParticipantsList = (): void => {
+  };
+
+  private phoenixChannelPushResult = async (push: Push): Promise<any> => {
+  };
+
+
+//no worries, we will put something into this functions :) 
+}
+```
+Let's start with a constructor to define what how our room will be created. We need to declare member fields used in this part of the constructor in the class body first:
+```ts
+  private socket;
+  private webrtcSocketRefs: string[] = [];
+  private webrtcChannel;
+```
+and then pass the constructor code into ```constructor()``` method:
+```ts
+this.socket = new Socket("/socket");
+this.socket.connect();
+this.displayName = this.parseUrl();
+this.webrtcChannel = this.socket.channel(`room:${getRoomId()}`);
+
+this.webrtcSocketRefs.push(this.socket.onError(this.leave));
+this.webrtcSocketRefs.push(this.socket.onClose(this.leave));
+```
+
+What happens at the beggining of the constructor? We are creating new Phoenix Socket with ```/socket``` name (must be the same as we have defined on the server side!) and right after that we are starting a connection. 
+Then we are creating Phoenix's channel (which is, ofcourse, associated with the socket we have just created!) and setting it's name to the ```"room< room name>"```. Room name is fetched from the UI. Since the room object will be created once the user clicks "connect" button, the room's name will be the one passed to the input label on the page.
+Later on we are putting ...
+
+Now let's create  MembraneWebRTC object! Declare it as a Room class member field:
+```ts
+private webrtc: MembraneWebRTC
+```
+
+and initialize it within constructor:
+```ts
+this.webrtc = new MembraneWebRTC({callbacks: callbacks});
+```
+What the hell callbacks are? Well, it's complicated...we need to define them first.
+According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behaviour of client's part of RTC engine by passing the proper callbacks during the construction. 
+
+We will go through callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called ```callbacks``` before initializing ```this.webrtc``` object.
+### Callbacks
+#### onSendMediaEvent
+```ts
+ onSendMediaEvent: (mediaEvent: SerializedMediaEvent) => {
+          this.webrtcChannel.push("mediaEvent", { data: mediaEvent });
+        },
+```
+
+#### onConnectionError
+```ts
+onConnectionError: setErrorMessage,
+```
+
+#### onJoinSuccess
+
+
+Let's add member field representing localStream (webRTC stream) to our Room class:
+```ts
+private localStream: MediaStream | undefined;
+```
+
+
+and provide implementation of ```init``` method our class:
+```ts
+public init = async () => {
+    try {
+      this.localStream = await navigator.mediaDevices.getUserMedia(
+        MEDIA_CONSTRAINTS
+      );
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(
+        "Failed to setup video room, make sure to grant camera and microphone permissions"
+      );
+      throw "error";
+    }
+
+    addVideoElement(LOCAL_PEER_ID, "Me", true);
+    attachStream(this.localStream!, LOCAL_PEER_ID);
+
+    await this.phoenixChannelPushResult(this.webrtcChannel.join());
+  };
+
+```
+In the code snippet shown above we are doing really important thing - we are getting a reference to users media. ```await navigator.mediaDevices.getUserMedia()``` method is a method defined by webRTC standard. We cann pass some media constraints which will limit the tracks available in the stream. Take a look to assets/src/consts.ts file where you will find MEDIA_CONSTRAINTS definition - it says that we want to get both autio data and video data (but in a specified format!). Latr on we are dealing with UI - we are adding video element do our DOM (and we are identifying it with LOCAL_PEER_ID) and attaching our local media stream to this newly added video element (this is the first time we will be using PEER_ID as a handler to a proper element - as you can see, attachStream() method distinguishes between all video elements, which we will be having many - one for us and one for each of the peers - basing on this id).
+The last thing we do here is that we are waiting for a result of this.webrtcChannel.join() method (can you guess what happens on the server side once we are running this method?). ```this.phoenixChannelPushResult``` is simply wrapping this result ...
+
+```ts
+onJoinSuccess: (peerId, peersInRoom) => {
+          this.localStream!.getTracks().forEach((track) =>
+            this.webrtc.addTrack(track, this.localStream!)
+          );
+
+          this.peers = peersInRoom;
+          this.peers.forEach((peer) => {
+            addVideoElement(peer.id, peer.metadata.displayName, false);
+          });
+          this.updateParticipantsList();
+        },
+```
+#### onJoinError
+```ts
+onJoinError: (metadata) => {
+          throw `Peer denied.`;
+        },
+```
+#### onTrackReady
+```ts
+onTrackReady: ({ stream, peer, metadata }) => {
+          attachStream(stream!, peer.id);
+        },
+```
+#### onTrackAdded
+```ts
+onTrackAdded: (ctx) => {},
+```
+#### onTrackRemoved
+```ts
+onTrackRemoved: (ctx) => {},
+```
+#### onPeerJoined
+```ts
+onPeerJoined: (peer) => {
+          this.peers.push(peer);
+          this.updateParticipantsList();
+          addVideoElement(peer.id, peer.metadata.displayName, false);
+        },
+```
+#### onPeerLeft
+```ts
+onPeerLeft: (peer) => {
+          this.peers = this.peers.filter((p) => p.id !== peer.id);
+          removeVideoElement(peer.id);
+          this.updateParticipantsList();
+        },
+```
+#### onPeerUpdated
+```ts
+onPeerUpdated: (ctx) => {},
+```
