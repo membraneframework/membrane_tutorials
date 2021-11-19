@@ -1,4 +1,4 @@
-Scope of this tutorial covers the process of creating own videroom with the use of the Membrane framework.
+Scope of this tutorial covers the process of creating own videoroom with the use of the Membrane framework.
 # Introduction
 
 ## Motivation
@@ -14,10 +14,10 @@ Scope of this tutorial covers the process of creating own videroom with the use 
     When we think about building the web application the very first thing which comes to our mind is HTTP. Surely, Phoenix allows us to send HTTP requests from the client application to the server - however, Phoenix developers have prepared for you an optional way to communicate - sockets. Sockets, in contrast to plain HTTP requests, are persistent and allow bidirectional communication, while HTTP request are stateless and work in request -> reply mode. Want to dig deeper? Feel free to read the provided part of official Phoenix documentation!
 
   + [How to access user's media from the browser?](https://www.html5rocks.com/en/tutorials/webrtc/basics/)
-    Ever wondered how is it possible for the browser to access your camera or a microphone? Here you will find an answer for that and many more inquisting you questions!
+    Ever wondered how is it possible for the browser to access your camera or a microphone? Here you will find an answer for that and many more inquiring you questions!
 
   + [WebRTC Connectivity (signalling, ICE etc.)](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity)
-    One does not simply connect and send media! First, peers need to get in touch with each other (with a litle help from a publicly available server), as well as exchange some information about themselves. This short tutorial will give you and outlook on how does this proccess (called 'signalling') can be performed!
+    One does not simply connect and send media! First, peers need to get in touch with each other (with a little help from a publicly available server), as well as exchange some information about themselves. This short tutorial will give you and outlook on how does this process (called 'signalling') can be performed!
 
   + [Why do we need STUN/TURN servers?](https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/)
     Peer to peer connection can be (and in most cases is) problematic. At the same time it is also demanded - we don't want to have our media pass through some server (both due to the throughput limitations and privacy issues). While reading this tutorial you will find some tricks which allow you connect your beloved peer hidden by some firewalls and NAT!
@@ -28,7 +28,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
 ## Elixir installation
   I don't think I can describe it any better: [How to install Elixir](https://elixir-lang.org/install.html).
   But to not forget to add the elixir bin to your PATH variable!
-  After the installation you should be able to print Elixir's version with the following commnad:
+  After the installation you should be able to print Elixir's version with the following command:
   ```bash
   elixir --version
   ```
@@ -48,7 +48,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   elixir < .exs file to execute >  
   ```
 
-  Pay attention to the difference in files format (.ex vs .exs) since Elixir distinguishes between .ex files, which are expected to be compiled with Elixir compiler (```elixirc``` command) and .exs script files (which are executed inline with ```elixir``` command). In our project we will use both types of the files - the main differece is that .ex files will also be stored in compiled version.
+  Pay attention to the difference in files format (.ex vs .exs) since Elixir distinguishes between .ex files, which are expected to be compiled with Elixir compiler (```elixirc``` command) and .exs script files (which are executed inline with ```elixir``` command). In our project we will use both types of the files - the main difference is that .ex files will also be stored in compiled version.
 
   After Elixir installation you should also have an access to mix build automation tool. For instance you can create new mix project with:
   ```bash
@@ -79,7 +79,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   git clone https://github.com/membraneframework/membrane_videoroom_demo
   ```
 
-  and then changing directory to the freshly cloned repository and switching to the branch which provides the unfulfiled template:
+  and then changing directory to the freshly cloned repository and switching to the branch which provides the unfulfilled template:
 
   ```bash
   cd membrane_videoroom_demo
@@ -94,7 +94,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   mix deps.get
   npm ci --prefix=assets
   ```
-  to install all the neccessary dependencies (both for the server and for the client).
+  to install all the necessary dependencies (both for the server and for the client).
   Then you can simply run the Phoenix server with the following command:
   ```
   mix phx.server
@@ -115,15 +115,15 @@ Scope of this tutorial covers the process of creating own videroom with the use 
 
 # Planning is always a good idea
   Hang on for a moment! I know that after slipping through the tons of the documentation you are really eager to start coding, but let's think for a moment before taking any actions. How do we want our application to look like?
-  Can we somehow decomposit our application?
+  Can we somehow decompose our application?
 
   Sure we can - as in each web application we have two independent subsystems:
   + server (backend) - written in Elixir, one and the only for the whole system. It will host the signalling service.
   + client application (frontend) - the one written in form of JS code and executed on each client's machine (to be precise - by his web browser). It will be responsible for fetching user's media stream as well as displaying the stream from the peers.
 
   ## We might need something else than the plain Elixir standard library...
-  Ugh...I am sure till now on you have already found out that media streaming is not that easy. It covers many topic which originates to the nature of the reality. We need to deal with some limitations brought to us by the physics of the surrounding universe, we want to compress the data being sent with the great tools mathematics has equiped us with, we are taking an advantage of imperfections of our perception system...
-  All this stuff is both complex and complicated - and that is why we don't want to code it from the very scratch. We will be using some tools which provde some level of abstraction for working with media streaming. Ledies and gents - let me introduce to you -  the Membrane framework.
+  Ugh...I am sure till now on you have already found out that media streaming is not that easy. It covers many topic which originates to the nature of the reality. We need to deal with some limitations brought to us by the physics of the surrounding universe, we want to compress the data being sent with the great tools mathematics has equipped us with, we are taking an advantage of imperfections of our perception system...
+  All this stuff is both complex and complicated - and that is why we don't want to code it from the very scratch. We will be using some tools which provide some level of abstraction for working with media streaming. Ladies and gents - let me introduce to you -  the Membrane framework.
   ## What does Membrane framework do?
 
   ## Membrane framework structure
@@ -164,7 +164,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   ```
   What happens here? Well, it is just a definition of our custom Phoenix's socket. Starting from the top, we are:
   + saying, that this module is a Phoenix.Socket and we want to be able to override Phoenix's socket methods - ```use Phoenix.Socket```
-  + declaring our channel - ```channel("room:*", VideoRoomWeb.PeerChannel)``` . We are saying, that all messages pointing to ```"room:*"``` topic should be directed to VideoRoomWeb.PeerChannel module (no worries, we will declare this module later). Notice the use of a wildcard sign ```*``` in the definition - effectively speaking, we will be heading all requests whose topic start with ```"room:"``` to the beforementioned channel - that is, both the message with "room: WhereTheHellAmI" topic and "room: WhatANiceCosyRoom" topic will be directed to VideoRoomWeb.PeerChannel (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
+  + declaring our channel - ```channel("room:*", VideoRoomWeb.PeerChannel)``` . We are saying, that all messages pointing to ```"room:*"``` topic should be directed to VideoRoomWeb.PeerChannel module (no worries, we will declare this module later). Notice the use of a wildcard sign ```*``` in the definition - effectively speaking, we will be heading all requests whose topic start with ```"room:"``` to the aforementioned channel - that is, both the message with "room: WhereTheHellAmI" topic and "room: WhatANiceCosyRoom" topic will be directed to VideoRoomWeb.PeerChannel (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
   + implementing ```connect(params, socket, connect_info)``` callback
   + implementing ```id(socket)``` callback
   Both the callbacks are brought to us by Phoenix.Socket module. Since we do not need any advanced logic there, our implementation is really simple (just to match the desired callback interface).
@@ -179,7 +179,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
     )
   ```
 
-  In this piece of code we are simply saying, that we are defining socket-type endpoint with name ```"/socket"```, which behaviour will be described by ```VideoRoomWeb.UserSocket``` module. Those two options passed as the following arguments let us define the type of our socket - we indicate, that we want to use websocket as our Pheonix's socket base - in contrast, we could achieve the same behaviour, but by longpolling HTTP requests (this could be helpful in case of websockets not being available for our clients). Do you want to know more about this two mechanisms? Feel free to stop for a moment and read [this article](https://ably.com/blog/websockets-vs-long-polling)
+  In this piece of code we are simply saying, that we are defining socket-type endpoint with name ```"/socket"```, which behavior will be described by ```VideoRoomWeb.UserSocket``` module. Those two options passed as the following arguments let us define the type of our socket - we indicate, that we want to use websocket as our Pheonix's socket base - in contrast, we could achieve the same behavior, but by longpolling HTTP requests (this could be helpful in case of websockets not being available for our clients). Do you want to know more about this two mechanisms? Feel free to stop for a moment and read [this article](https://ably.com/blog/websockets-vs-long-polling)
 
   ### Where is VideoRoomWeb.PeerChannel? 
   Well, for now there is no VideoRoomWeb.PeerChannel! We need to define it - in lib/videoroom_web/peer_channel.ex file.
@@ -195,7 +195,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   ```
 
   Is there anything left to explain? Well, we are defining our ```VideoRoomWeb.PeerChannel``` and making it use Phoenix.Channel (we will be able to implements its callbacks then!). We are also "importing" Logger module.
-  Let's impor our first callback!
+  Let's import our first callback!
   ```elixir
     @impl true
     def join("room:" <> room_id, _params, socket) do
@@ -222,13 +222,13 @@ Scope of this tutorial covers the process of creating own videroom with the use 
     end
   ```
   See? We can fetch room name by using pattern match here! We make use of pattern matching for
-  ```join(topic, params, socket)```  callback signature so that we are splliting the ```topic``` into ```"room:"<>room_id``` - and this way we will be able to use room_id in our callback's implementation!
+  ```join(topic, params, socket)```  callback signature so that we are splitting the ```topic``` into ```"room:"<>room_id``` - and this way we will be able to use room_id in our callback's implementation!
   Let's go step by step through the code:
   + First, we are trying to find process with ```room_id``` identifier in ```:global``` registry (this process will be an instance of Videoroom.Room):
-    + if we cannot find it, we are starting ```Videoroom.Room``` genserver and we are rgistering it in ```:global``` registry with ```room_id``` as it's identificator 
-    + in case there is entry with ```room_id``` identificator in the ```:global``` registry, we can simply return pid of this process
+    + if we cannot find it, we are starting ```Videoroom.Room``` genserver and we are registering it in ```:global``` registry with ```room_id``` as it's identifier 
+    + in case there is entry with ```room_id``` identifier in the ```:global``` registry, we can simply return pid of this process
   + Right now we have a tuple {status, pid|reason} in our flow. Let's distinguish between this situation:
-    + If status is :ok, we will have ```Videoroom.Room``` pid for a room with given ```room_id```. We can start monitoring that room's process (so that we will receive ```:DOWN``` message in case of room process dying) and notify room's procces that we would like him to take us (peer channel) under consideration. In this process we are providing our peer_id (generated as unique id with UUID module) so that room will have a way to identify our process (and will be able to direct messages meant to be sent to us to our peer channel process)
+    + If status is :ok, we will have ```Videoroom.Room``` pid for a room with given ```room_id```. We can start monitoring that room's process (so that we will receive ```:DOWN``` message in case of room process dying) and notify room's process that we would like him to take us (peer channel) under consideration. In this process we are providing our peer_id (generated as unique id with UUID module) so that room will have a way to identify our process (and will be able to direct messages meant to be sent to us to our peer channel process)
     + Otherwise, the status is ```:error```, so let's simply log that fact and return ```:error``` tuple.
 
   There you go! You might wonder when will this code be invoked (which means - when the ```join(topic, params, socket)``` gets called) - well, the trigger is client's application connecting to the given channel! 
@@ -257,12 +257,12 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   end
 
   ```
-  Here, we are only making use out of ```push``` method provided by Phoenix.Channel. we are pusshing all events signed with ```:media_event``` type to the socket (and socket will later on send them to the client).
+  Here, we are only making use out of ```push``` method provided by Phoenix.Channel. we are pushing all events signed with ```:media_event``` type to the socket (and socket will later on send them to the client).
 
   Great job! You have just implemented server's side of our communication channel. How about doing it for our client?
 
   ## Let's implement client's endpoint!
-  We will put whole logic into assets/src/room.ts. Methods aimed to change user's interface are already in assets/src/room_ui.ts and we will use them along the room's logic implementation. So first, let's import all neccessary dependencies concerning UI to our newly created file:
+  We will put whole logic into assets/src/room.ts. Methods aimed to change user's interface are already in assets/src/room_ui.ts and we will use them along the room's logic implementation. So first, let's import all necessary dependencies concerning UI to our newly created file:
   ```ts
   import {
     addVideoElement,
@@ -275,7 +275,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   } from "./room_ui";
   ```
   We have basically imported all the methods defined in room_ui.ts. For more details on how these methods work and what is their interface please refer to the source file.
-  Take a look at our assets/packae.json file which defines outer dependecies for our project. We have put there the following dependency:
+  Take a look at our assets/package.json file which defines outer dependencies for our project. We have put there the following dependency:
   ```json
   "membrane_rtc_engine": "file:../deps/membrane_rtc_engine/"
   ```
@@ -294,12 +294,12 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   import { Push, Socket } from "phoenix";
   ```
 
-  We will also need ```parse``` method from ```"query-string"``` dendency - to nicely get our display name from the url. Let's import it here:
+  We will also need ```parse``` method from ```"query-string"``` dependency - to nicely get our display name from the url. Let's import it here:
   ```ts
   import { parse } from "query-string";
   ```
 
-  It might be worth for us to somehow wrap our room's client logic into a class - so at the very beggining let's simply define Room class:
+  It might be worth for us to somehow wrap our room's client logic into a class - so at the very beginning let's simply define Room class:
   ```ts
   export class Room {
     constructor(){
@@ -344,9 +344,9 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   this.displayName = this.parseUrl();
   this.webrtcChannel = this.socket.channel(`room:${getRoomId()}`);
 
-  ```
+  ``` 
 
-  What happens at the beggining of the constructor? We are creating new Phoenix Socket with ```/socket``` name (must be the same as we have defined on the server side!) and right after that we are starting a connection. 
+  What happens at the beginning of the constructor? We are creating new Phoenix Socket with ```/socket``` name (must be the same as we have defined on the server side!) and right after that we are starting a connection. 
   Later on we are setting our display name (we have set it in UI while joining the room, so we need to fetch it from the URL as it had set up URL parameter) - that's why we need ```this.parseUrl()``` method. It's implementation might look as follows:
   ```ts
   private parseUrl = (): string => {
@@ -359,7 +359,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   };
   ```
 
-  Then we are creating Phoenix's channel (which is, ofcourse, associated with the socket we have just created!) and setting it's name to the ```"room< room name>"```. Room name is fetched from the UI. Since the room object will be created once the user clicks "connect" button, the room's name will be the one passed to the input label on the page.
+  Then we are creating Phoenix's channel (which is, of course, associated with the socket we have just created!) and setting it's name to the ```"room< room name>"```. Room name is fetched from the UI. Since the room object will be created once the user clicks "connect" button, the room's name will be the one passed to the input label on the page.
 
 
   Following on the constructor implementation - wouldn't it be great to hold references to the socket?
@@ -369,7 +369,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   this.webrtcSocketRefs.push(socketErrorCallbackRef);
   this.webrtcSocketRefs.push(socketClosedCallbackRef);
   ```
-  This structure might look a little bit ambigious. What we are storing in ```this.webrtcSocketRefs```? Well, we are storing references...to the callbacks we have just defined.
+  This structure might look a little bit ambiguous. What we are storing in ```this.webrtcSocketRefs```? Well, we are storing references...to the callbacks we have just defined.
   We have passed what method should be invoked in case our Phoenix socket is closed or has experienced error of some type.
   However, we want to keep track of those callbacks so that we will be able to turn them off ("unregister " those callbacks).
   Where will we be unregistering the callbacks? Inside ```this.leave()``` method!
@@ -383,11 +383,11 @@ Scope of this tutorial covers the process of creating own videroom with the use 
       }
     };
   ```
-  What we do here is that we are using methods aimed for leaving for both our MembraneWebRTC object and Phoenix's channel. Then we are calling the beforementioned ```this.socket.off(refs)``` method ([click here for documentation](https://hexdocs.pm/phoenix/js/#off)) - which means we are unregistering all the callbacks. The last thing we need to do it to empty references list.
+  What we do here is that we are using methods aimed for leaving for both our MembraneWebRTC object and Phoenix's channel. Then we are calling the aforementioned ```this.socket.off(refs)``` method ([click here for documentation](https://hexdocs.pm/phoenix/js/#off)) - which means we are unregistering all the callbacks. The last thing we need to do it to empty references list.
 
   Let's leave constructor for a moment - we will fulfil it's implementation in a moment (we need to create MembraneWebRTC object which is a heart of our client's side system!).
   For now on let's focus on providing more things which might be useful while creating the room. Let's gather them in one method, called ```init()```. 
-  We will be dealing with user media - so let's add a member fieldto hold a reference to our localStream (webRTC stream):
+  We will be dealing with user media - so let's add a member field to hold a reference to our localStream (webRTC stream):
   ```ts
   private localStream: MediaStream | undefined;
   ```
@@ -415,7 +415,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
     };
 
   ```
-  In the code snippet shown above we are doing really important thing - we are getting a reference to users media. ```await navigator.mediaDevices.getUserMedia()``` method is a method defined by webRTC standard. We cann pass some media constraints which will limit the tracks available in the stream. Take a look to assets/src/consts.ts file where you will find MEDIA_CONSTRAINTS definition - it says that we want to get both autio data and video data (but in a specified format!). Later on we are dealing with the UI - we are adding video element do our DOM (and we are identifying it with LOCAL_PEER_ID) and attaching our local media stream to this newly added video element (this is the first time we will be using PEER_ID as a handler to a proper element - as you can see, attachStream() method distinguishes between all video elements, which we will be having many - one for us and one for each of the peers - basing on this id).
+  In the code snippet shown above we are doing really important thing - we are getting a reference to users media. ```await navigator.mediaDevices.getUserMedia()``` method is a method defined by webRTC standard. We can pass some media constraints which will limit the tracks available in the stream. Take a look to assets/src/consts.ts file where you will find MEDIA_CONSTRAINTS definition - it says that we want to get both audio data and video data (but in a specified format!). Later on we are dealing with the UI - we are adding video element do our DOM (and we are identifying it with LOCAL_PEER_ID) and attaching our local media stream to this newly added video element (this is the first time we will be using PEER_ID as a handler to a proper element - as you can see, attachStream() method distinguishes between all video elements, which we will be having many - one for us and one for each of the peers - basing on this id).
   The last thing we do here is that we are waiting for a result of this.webrtcChannel.join() method (can you guess what happens on the server side once we are running this method?). ```this.phoenixChannelPushResult``` is simply wrapping this result:
 
   ```ts
@@ -443,7 +443,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   this.webrtc = new MembraneWebRTC({callbacks: callbacks});
   ```
   What the hell callbacks are? Well, it's complicated...we need to define them first.
-  According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behaviour of client's part of RTC engine by passing the proper callbacks during the construction. 
+  According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of client's part of RTC engine by passing the proper callbacks during the construction. 
 
   We will go through callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called ```callbacks``` before initializing ```this.webrtc``` object.
 
@@ -501,12 +501,12 @@ Scope of this tutorial covers the process of creating own videroom with the use 
     setParticipantsList(participantsNames);
   };
   ```
-  We are simply puttin all the peers display names into the list and later on we are adding there our own name. The last thing to do is to inform UI that the participants list has changed - and we do it by invoking ```setParticipantsList(participantsNames)``` from ```assets/src/room_ui.ts```.
+  We are simply putting all the peers display names into the list and later on we are adding there our own name. The last thing to do is to inform UI that the participants list has changed - and we do it by invoking ```setParticipantsList(participantsNames)``` from ```assets/src/room_ui.ts```.
 
 
   How about you trying to implement the rest of the callbacks on your own? Please refer to the [documentation]() and think where you can use methods from ```./assets/src/room_ui.ts```.
   Below you will find the expected result (callback implementation) for each of the methods - it might not be the best implementation...but it is the implementation you have payed for!
-  Seriously speaking - we have split some of these callbacks implementation into multiple functions, accroding to some good practices and we consider it to be a little bit...cleaner ;) 
+  Seriously speaking - we have split some of these callbacks implementation into multiple functions, according to some good practices and we consider it to be a little bit...cleaner ;) 
 
   #### onJoinError
   ```ts
@@ -551,7 +551,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
 
 
 
-  Since initialization might take some time we might want to perform some actions when it is completed. That's why it might be a good idea to define ```join()``` method which will be invoked once ```init()``` returns sucessfully:
+  Since initialization might take some time we might want to perform some actions when it is completed. That's why it might be a good idea to define ```join()``` method which will be invoked once ```init()``` returns successfully:
   ```ts
   public join = () => {
       setupDisconnectButton(() => {
@@ -574,12 +574,12 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   let room = new Room();
   room.init().then(() => room.join());
   ```
-  First thing we do is to import the appropiate class. Then we are creating new Room's instance (the ```constructor()``` get's called). Later on we are initializing newly created room with ```init()``` method (which might take some times as it need to get an access to user's media - that is why this method is asynchronius). Once the ```init()``` method returns successfully, we are making our local room instance join the real room (where we might meet other peers!). And that's it! We have our client defined! In case something does not work properly (or in case we have forgotten to describe some crucial part of code ;) ) feel free to refer to the implementation of the videoroom's client side available [here](https://github.com/membraneframework/membrane_demo/tree/master/webrtc/videoroom/assets/src).
+  First thing we do is to import the appropriate class. Then we are creating new Room's instance (the ```constructor()``` get's called). Later on we are initializing newly created room with ```init()``` method (which might take some times as it need to get an access to user's media - that is why this method is asynchronous). Once the ```init()``` method returns successfully, we are making our local room instance join the real room (where we might meet other peers!). And that's it! We have our client defined! In case something does not work properly (or in case we have forgotten to describe some crucial part of code ;) ) feel free to refer to the implementation of the videoroom's client side available [here](https://github.com/membraneframework/membrane_demo/tree/master/webrtc/videoroom/assets/src).
 
 
   ## Let's create The Room! ;)
   We are still missing probably the most important part - the heart of our application - implementation of the room.
-  Room should dispatch messages sent from SFU Engine to appropiate peer channels - and at the same time it should direct all the messages sent to him via peer channel to the SFU Engine.
+  Room should dispatch messages sent from SFU Engine to appropriate peer channels - and at the same time it should direct all the messages sent to him via peer channel to the SFU Engine.
   Let's start by creating /lib/videoroom/room.ex file with a declaration of Videoroom.Room module:
   ```elixir
   defmodule Videoroom.Room do
@@ -592,7 +592,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   #we will put something here ;)
   end
   ```
-  We will be using OTP's [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) to describe the behaviour of this module.
+  We will be using OTP's [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) to describe the behavior of this module.
 
 
   Let's start by adding methods which will be used to create the module (it is a part of GenServer's interface - no magic happens here)
@@ -665,8 +665,8 @@ Scope of this tutorial covers the process of creating own videroom with the use 
     {:noreply, state}
   end
   ```
-  The idea here is very simmilar to the one in code snippet described previously - we want to direct the messages sent by SFU Engine's server to the SFU Engine's client.
-  The only difference is that not the event is about to be send to a particular user - that is why instead of ```:broadcast``` atom as the second element of event's tuple we have ```to``` - which is a peer unique id. Since we precisly know to who we should send the message there is nothing else to do than to find the peer channel's process id associated with the given peer id (we are holding the (peer_id -> peer_channel_pid) mapping in the state of the GenServer!) and to send the message there. Once again the state do not need to change.
+  The idea here is very similar to the one in code snippet described previously - we want to direct the messages sent by SFU Engine's server to the SFU Engine's client.
+  The only difference is that not the event is about to be send to a particular user - that is why instead of ```:broadcast``` atom as the second element of event's tuple we have ```to``` - which is a peer unique id. Since we precisely know to who we should send the message there is nothing else to do than to find the peer channel's process id associated with the given peer id (we are holding the (peer_id -> peer_channel_pid) mapping in the state of the GenServer!) and to send the message there. Once again the state do not need to change.
 
 
   There we go with another message sent by SFU engine:
@@ -680,9 +680,9 @@ Scope of this tutorial covers the process of creating own videroom with the use 
     {:noreply, state}
   end
   ```
-  That one might seem a little bit tricky. What is the deal here? Be aware that it is our process (based on Videoroom.Room module) who is the only one holding the mapping (peer_id->peer_channel_id). Once new peer joins, the SFU Engine is not aware of any mapping between ```peer_id```and ```peer_channel_pid```. That is why SFU Engine, which is only aware of ```peer_id``` is asking our room process to give him some informaiton about new peer - especially, the ```Kernel.node``` it belongs to (notice that due to use of BEAM virtual machine our application can be distributed - and server can be put on many machines working in the same cluster). To retrieve the information about the node on which peer channel exists, we need to refer to the process id of peer channel process - and it is the room process who is aware of this process id.
+  That one might seem a little bit tricky. What is the deal here? Be aware that it is our process (based on Videoroom.Room module) who is the only one holding the mapping (peer_id->peer_channel_id). Once new peer joins, the SFU Engine is not aware of any mapping between ```peer_id```and ```peer_channel_pid```. That is why SFU Engine, which is only aware of ```peer_id``` is asking our room process to give him some information about new peer - especially, the ```Kernel.node``` it belongs to (notice that due to use of BEAM virtual machine our application can be distributed - and server can be put on many machines working in the same cluster). To retrieve the information about the node on which peer channel exists, we need to refer to the process id of peer channel process - and it is the room process who is aware of this process id.
 
-  And once we recieve ```:peer_left``` message from SFU we simply ignore that fact (we could of course remove the peer_id from the (peer_id->peer_channel_pid) mapping...but do we need to?):
+  And once we receive ```:peer_left``` message from SFU we simply ignore that fact (we could of course remove the peer_id from the (peer_id->peer_channel_pid) mapping...but do we need to?):
   ```elixir
   @impl true
   def handle_info({_sfu_engine, {:peer_left, _peer_id}}, state) do
@@ -712,7 +712,7 @@ Scope of this tutorial covers the process of creating own videroom with the use 
 
   It is a great example to show how does state updating looks like. We are putting into our (peer_id->peer_channel_pid) the new entry - and we are returning the state updated this way. Meanwhile we also start monitoring the process with id ```peer_channel_pid``` - to receive ```:DOWN``` message when the peer channel process will be down.
 
-  You might wonder why sometimes do we override ```handle_info``` method, and sometimes we override ```handle_call``` - it is defined by GenServer's behaviour. ```handle_info``` gets invoked when our process receives inter-process message sent to it. SFU engine sends us such a messages - and that is why we are about overriding this method since we are expecting it to be invoked. ```handle_call``` is designed to be invoked when somebody would invoke a method on our GenServer - with ```GenServer.call``` method. Let's create a wrapper for such a function calling:
+  You might wonder why sometimes do we override ```handle_info``` method, and sometimes we override ```handle_call``` - it is defined by GenServer's behavior. ```handle_info``` gets invoked when our process receives inter-process message sent to it. SFU engine sends us such a messages - and that is why we are about overriding this method since we are expecting it to be invoked. ```handle_call``` is designed to be invoked when somebody would invoke a method on our GenServer - with ```GenServer.call``` method. Let's create a wrapper for such a function calling:
   ```elixir
   def add_peer_channel(room, peer_channel_pid, peer_id) do
     GenServer.call(room, {:add_peer_channel, peer_channel_pid, peer_id})
@@ -745,4 +745,4 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   [Your videoroom on http://localhost:4000](http://localhost:4000)
   <br>
   and then join a room with a given name!
-  Later on you can visit your videoroom's page once again, from another browser's tab or from the another browser's window (or even another browser - however the recommended browsers to use are Chrome and Firefox) and join the same room as before - you should start seing two participants in the same room!
+  Later on you can visit your videoroom's page once again, from another browser's tab or from the another browser's window (or even another browser - however the recommended browsers to use are Chrome and Firefox) and join the same room as before - you should start seeing two participants in the same room!
