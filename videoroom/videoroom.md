@@ -87,9 +87,24 @@ Scope of this tutorial covers the process of creating own videroom with the use 
   ```
 
 # What do we have here?
-  Let's make some reconnaissance. Does the project structure reassembles you the structure of a Phoenix project? (in fact it should!)
-  ## assets
+  Let's make some reconnaissance. 
+  First, let's run the template.
+  Please type:
+  ```
+  mix deps.get
+  npm ci --prefix=assets
+  ```
+  to install all the neccessary dependencies (both for the server and for the client).
+  Then you can simply run the Phoenix server with the following command:
+  ```
+  mix phx.server
+  ```
+  Then you can go to [http://localhost:4000](http://localhost:4000/).
 
+  Play around...but it is not that match to do! We have better inspect what is the structure of our project.
+  Does the project structure reassembles you the structure of a Phoenix project? (in fact it should!). We will go through the directories in our project.
+  ## assets
+  
   ## lib
 
   ### videoroom
