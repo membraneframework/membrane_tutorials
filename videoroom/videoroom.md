@@ -4,14 +4,14 @@ Scope of this tutorial covers the process of creating own videoroom with the use
 ## Motivation
 
 
-  We will be building our app basing on great Phoenix application framework
+  We will be building our app basing on great Phoenix application framework (???)
 ## Prerequisites
   Since media streaming is quite a complex topic it would be great for you to know something about how the browser can fetch user's media and how the connection is made between the peers etc. Since we will be using Phoenix framework to create our application - it will be much easier for you to understand what's going on if you will be even slightly familiar with that framework. Take your time and glance over these links:
   + [How does Phoenix work?](https://hexdocs.pm/phoenix/request_lifecycle.html)
     Phoenix, while being a great tool which allows to create complex application in considerably easy manner, requires it's user to follow a bunch of good practices and use some helpful project patterns. Most important one is MVC (Model-View-Controller) pattern, which affects the structure of project directories. The tutorial attached there provides a great introduction for Phoenix application creation and will allow you to understand the structure of our template project.
 
   + [How  do Phoenix sockets work and the difference between endpoint and socket/channel?](https://hexdocs.pm/phoenix/channels.html) 
-    When we think about building the web application the very first thing which comes to our mind is HTTP. Surely, Phoenix allows us to send HTTP requests from the client application to the server - however, Phoenix developers have prepared for you an optional way to communicate - sockets. Sockets, in contrast to plain HTTP requests, are persistent and allow bidirectional communication, while HTTP request are stateless and work in request -> reply mode. Want to dig deeper? Feel free to read the provided part of official Phoenix documentation!
+    When we think about building the web application the very first thing which comes to our mind is HTTP. Surely, Phoenix allows us to send HTTP requests from the client application to the server - however, Phoenix developers have prepared for you an optional way to communicate - sockets. Sockets, in contrast to plain HTTP requests, are persistent and allow bidirectional communication, while HTTP request are stateless and work in request -> reply mode. Want to dig deeper? Feel free to read the provided part of the official Phoenix documentation!
 
   + [How to access user's media from the browser?](https://www.html5rocks.com/en/tutorials/webrtc/basics/)
     Ever wondered how is it possible for the browser to access your camera or a microphone? Here you will find an answer for that and many more inquiring you questions!
@@ -66,12 +66,13 @@ Scope of this tutorial covers the process of creating own videoroom with the use
   ```bash
   mix archive.install hex phx_new
   ```
-  Later on you can use the generator in order to create new Phoenix application:
+  Later on you can use the generator in order to create a new Phoenix application:
   ```bash
   mix phx.new
   ```
 
   Inspect the structure which was created by the use of the command since our project will be based on the same structure (in fact it was also generated using this generator ;) )
+
 ## Template downloading
   Once we have the development environment set up properly (let's hope so!) we can start the work on our project. We don't want you to do it from the scratch as the development requires some dull playing around with UI, setting the dependencies etc. - we want to provide you only the meat! That is why we would like you to download the template project with core parts of the code missing. You can do it by typing:
 
@@ -103,17 +104,31 @@ Scope of this tutorial covers the process of creating own videoroom with the use
 
   Play around...but it is not that match to do! We have better inspect what is the structure of our project.
   Does the project structure reassembles you the structure of a Phoenix project? (in fact it should!). We will go through the directories in our project.
-  ## assets
+  + <b> assets/ </b> <br>
+  You can find the frontend of our application. The most interesting subdirectory here is src/ - we will be putting our typescript files there. For now, the following files should be present there: 
+    + <b> consts.ts </b> - as the name suggests, you will find there some constant values - media constrains and our local peer id
+    + <b> index.ts </b> - this one should be empty. It will act as an initialization point for our application and later on we will spawn a room object there.
+    + <b> room_ui.ts </b> - methods which modify DOM are put there. You will find these methods helpful while implementing your room's logic - you will be able to simply call a method in order to put a next video tile among previously present video tiles and this whole process (along with rescaling or moving the tiles so they are nicely put on the screen) will be performed automatically
+  + <b> config/ </b> <br>
+  Here you can find Phoenix configuration files for given environments. There is nothing we should be interested in.
+  + <b> deps/ </b> <br>
+  Once you type ```mix deps.get``` all the dependencies listed in mix.lock file will get downloaded and be put into this directory. Once again - this is just how mix works and we do not care about this directory anyhow.
+  + <b> lib/ </b> <br>
+  This directory contains server's logic. As mentioned previously, the Phoenix server implements Model-View-Controller architecture so the structure of this directory will reflect this architecture. The only .ex file in this directory is videoroom_web.ex file - it defines the aforementioned parts of the system - ```controller``` and ```view```. Moreover, it defines ```router``` and ```channel``` - the part of the system which are used for communication. This file is generated automatically with Phoenix project generator and there are not that many situations in which you should manually change it.
+    + <b> videoroom/ </b> <br>
+      This directory contains the business logic of our application, which stands for M (model) in MVC architecture. For now it should only contain application.ex file which defines the Application module for our videoroom. As each [application](https://hexdocs.pm/elixir/1.12/Application.html), it can be loaded, started and stopped, as well as it can bring to life its own children (which constitute the environment created by an application). Later on we will put into this directory files which will provide some logic of our application - for instance Videoroom.Room module will be defined there.
+    + <b> videoroom_web/ </b> <br>
+      This directory contains files which stand for V (view) and C (controller) in the MVC architecture.
+      As you can see, there are already directories with names "views" and "controllers" present here. The aforementioned (tutorial) (the one available in "helpful links" sections) describes the structure and contents of this directory in a really clear way so I don't think there is a need to repeat this description here. The only think I would like to point out is the way in which we are loading our custom Javascript's scripts. Take a look at lib/videoroom_web/room/index.html.eex file (as the Phoenix tutorial says, this file should contain EEx template for your room controller ) - you will find the following line there:
+  ```html
+  <script src="<%= static_path(@conn, "/js/room.js") %>"></script>
+  ```
+  As you can see, we are loading a script which is placed in ```/js/room.js``` (notice, that a path provided there is passed in respect to priv/static/ directory which holds files generated from typescript scripts in assets/src/ directory)
+
+  + <b> priv/static/ </b> <br>
+  Here you will find static assets. They can be generated, for instance, from the files contained in assets/ directory (.ts which are in assets/src are converted into .js files put inside priv/static/js). Not interesting at all, despite the fact, that we needed to load /js/room.js script file from here ;)
   
-  ## lib
-
-  ### videoroom
-
-  ### videoroom_web
-
-
-
-# Planning is always a good idea
+  # Planning is always a good idea
   Hang on for a moment! I know that after slipping through the tons of the documentation you are really eager to start coding, but let's think for a moment before taking any actions. How do we want our application to look like?
   Can we somehow decompose our application?
 
@@ -125,18 +140,28 @@ Scope of this tutorial covers the process of creating own videoroom with the use
   Ugh...I am sure till now on you have already found out that media streaming is not that easy. It covers many topic which originates to the nature of the reality. We need to deal with some limitations brought to us by the physics of the surrounding universe, we want to compress the data being sent with the great tools mathematics has equipped us with, we are taking an advantage of imperfections of our perception system...
   All this stuff is both complex and complicated - and that is why we don't want to code it from the very scratch. We will be using some tools which provide some level of abstraction for working with media streaming. Ladies and gents - let me introduce to you -  the Membrane framework.
   ## What does Membrane framework do?
-
+  (???)
   ## Membrane framework structure
   Membrane framework consists from the following parts:
   + Core
   + Plugins
-
+  (???)
 
   ## Client 
-  In the client application we will be dealing with webRTC. (???)
+  In the client's application we need to get user's media stream as well as display streams coming from other users. We will receive one stream per each of the users (the streams will be coming from the server rather then directly from peers but we do not care about this at the moment - the most important thing is that we will have a separate stream for each of the peers). We need to provide a way to communicate with the server so that the server will be able to talk with us while signalling and while sending peer's streams events. A good choice for such a communication mean is to use Phoenix's sockets - using them will allow us to launch a persistent and bidirectional connection.
+  The structure of our client application can look as follows:
+  ![Client Scheme](assets/images/client_scheme.png "Client scheme")
 
+  As you can see, we will have a Room object which will be composed out of the following objects:
+  + Phoenix's socket and Phoenix's channel (which in fact is a part of Phoenix's socket as each socket can have multiple channels)
+  + MembraneWebRTC object - which is an object from Membrane's client library. It will be responsible for handling events coming from our user's media stream.
+
+  We will have two flows defined in client's application:
+  + Flow from the server to the client - server sends an event which is received in the channel. Channel calls the appropriate callback depending on event type. The callback is changing the user's UI (for instance it is updating the frame in a video tile).
+  
   ## Server
-  (???)
+  Our server will have two responsibilities - the first one is that it will act as a signalling server. The second one is that it will be a Selective Forwarding Unit (SFU).
+  Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data among peers allows us to provide a  
   ![Server Scheme](assets/images/server_scheme.png "Server scheme")
 
 # I know you have been waiting for that moment - let's start coding!
@@ -328,7 +353,7 @@ Scope of this tutorial covers the process of creating own videoroom with the use
     };
 
 
-  //no worries, we will put something into this functions :) 
+  //no worries, we will put something into these functions :) 
   }
   ```
   Let's start with a constructor to define what how our room will be created. We need to declare member fields used in this part of the constructor in the class body first:
