@@ -149,16 +149,15 @@ Scope of this tutorial covers the process of creating own videoroom with the use
 
   ## Client 
   In the client's application we need to get user's media stream as well as display streams coming from other users. We will receive one stream per each of the users (the streams will be coming from the server rather then directly from peers but we do not care about this at the moment - the most important thing is that we will have a separate stream for each of the peers). We need to provide a way to communicate with the server so that the server will be able to talk with us while signalling and while sending peer's streams events. A good choice for such a communication mean is to use Phoenix's sockets - using them will allow us to launch a persistent and bidirectional connection.
-  The structure of our client application can look as follows:
-  ![Client Scheme](assets/images/client_scheme.png "Client scheme")
-
-  As you can see, we will have a Room object which will be composed out of the following objects:
-  + Phoenix's socket and Phoenix's channel (which in fact is a part of Phoenix's socket as each socket can have multiple channels)
-  + MembraneWebRTC object - which is an object from Membrane's client library. It will be responsible for handling events coming from our user's media stream.
-
-  We will have two flows defined in client's application:
-  + Flow from the server to the client - server sends an event which is received in the channel. Channel calls the appropriate callback depending on event type. The callback is changing the user's UI (for instance it is updating the frame in a video tile).
-  
+  Take a look at one of the flows we are about to implement:
+  ![Client Flow 1](assets/images/client_flow1.png "Client flow 1")
+  <br>
+  The diagram above describes behavior of the client's application when an event from the server is received. 
+  Channel, who is the recipient of the event's message, fires one of the callbacks, depending on the message type. Such a callback can directly update the user's interface or pass the event to the MembraneWebRTC who knows how to handle it because of a set of callbacks defined for a particular event types. 
+  The second flow looks somehow like as shown below: <br>
+  ![Client Flow 2](assets/images/client_flow2.png "Client flow 2")
+  <br>
+  When our local media tracks produce an event, it is pushed to the MembraneWebRTC object. MembraneWebRTC has a set of callbacks defined so that it knows how to behave when an event of a particular type occurs. Basing on the event type MembraneWebRTC object either updates user's interface or pushes the event to the server via the socket's channel.
   ## Server
   Our server will have two responsibilities - the first one is that it will act as a signalling server. The second one is that it will be a Selective Forwarding Unit (SFU).
   Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data among peers allows us to provide a  
