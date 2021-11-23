@@ -48,7 +48,7 @@ Scope of this tutorial covers the process of creating own videoroom with the use
   elixir < .exs file to execute >  
   ```
 
-  Pay attention to the difference in files format (.ex vs .exs) since Elixir distinguishes between .ex files, which are expected to be compiled with Elixir compiler (```elixirc``` command) and .exs script files (which are executed inline with ```elixir``` command). In our project we will use both types of the files - the main difference is that .ex files will also be stored in compiled version.
+  Pay attention to the difference in files format (`.ex` vs `.exs`) since Elixir distinguishes between `.ex` files, which are expected to be compiled with Elixir compiler (```elixirc``` command) and `.exs` script files (which are executed inline with ```elixir``` command). In our project we will use both types of the files - the main difference is that .ex files will also be stored in compiled version.
 
   After Elixir installation you should also have an access to mix build automation tool. For instance you can create new mix project with:
   ```bash
@@ -62,45 +62,43 @@ Scope of this tutorial covers the process of creating own videoroom with the use
 
 
 ## Phoenix application generator
-  You can also install Phoenix application generator with the following command:
-  ```bash
-  mix archive.install hex phx_new
-  ```
-  Later on you can use the generator in order to create a new Phoenix application:
-  ```bash
-  mix phx.new
-  ```
-
-  Inspect the structure which was created by the use of the command since our project will be based on the same structure (in fact it was also generated using this generator ;) )
+You can also install Phoenix application generator with the following command:
+```bash
+mix archive.install hex phx_new
+```
+The template you are going to use in this tutorial was created using:
+```bash
+mix phx.new
+```
+If you are curious about what this command does, run it in some temporary directory and inspect the created directory structure. Afterwards, you can safely delete that directory - in the very next step you are going to download the proper template.
 
 ## Template downloading
-  Once we have the development environment set up properly (let's hope so!) we can start the work on our project. We don't want you to do it from the scratch as the development requires some dull playing around with UI, setting the dependencies etc. - we want to provide you only the meat! That is why we would like you to download the template project with core parts of the code missing. You can do it by typing:
+Once we have the development environment set up properly (let's hope so!) we can start the work on our project. We don't want you to do it from the scratch as the development requires some dull playing around with UI, setting the dependencies etc. - we want to provide you only the meat! That is why we would like you to download the template project with core parts of the code missing. You can do it by typing:
 
-  ```bash
-  git clone https://github.com/membraneframework/membrane_videoroom_demo
-  ```
+```bash
+git clone https://github.com/membraneframework/membrane_videoroom_demo
+```
 
-  and then changing directory to the freshly cloned repository and switching to the branch which provides the unfulfilled template:
+and then changing directory to the freshly cloned repository and switching to the branch which provides the unfulfilled template:
 
-  ```bash
-  cd membrane_videoroom_demo
-  git checkout start
-  ```
+```bash
+cd membrane_videoroom_demo
+git checkout start
+```
 
 # What do we have here?
   Let's make some reconnaissance. 
   First, let's run the template.
-  Please type:
+  Before running the template we need to install the dependencies using:
   ```
   mix deps.get
   npm ci --prefix=assets
   ```
-  to install all the necessary dependencies (both for the server and for the client).
   Then you can simply run the Phoenix server with the following command:
   ```
   mix phx.server
   ```
-  Then you can go to [http://localhost:4000](http://localhost:4000/).
+  If everything went well the application should be available on [http://localhost:4000](http://localhost:4000/).
 
   Play around...but it is not that match to do! We have better inspect what is the structure of our project.
   Does the project structure reassembles you the structure of a Phoenix project? (in fact it should!). We will go through the directories in our project.
@@ -138,7 +136,7 @@ Scope of this tutorial covers the process of creating own videoroom with the use
 
   ## We might need something else than the plain Elixir standard library...
   Ugh...I am sure till now on you have already found out that media streaming is not that easy. It covers many topic which originates to the nature of the reality. We need to deal with some limitations brought to us by the physics of the surrounding universe, we want to compress the data being sent with the great tools mathematics has equipped us with, we are taking an advantage of imperfections of our perception system...
-  All this stuff is both complex and complicated - and that is why we don't want to code it from the very scratch. We will be using some tools which provide some level of abstraction for working with media streaming. Ladies and gents - let me introduce to you -  the Membrane framework.
+  All this stuff is both complex and complicated - and that is why we don't want to design it from the very scratch. Fortunately, we have an access to the protocols - as somebody has already inspected the problem and created a protocol which defines how should we behave. But that's not enough - those protocols are also complicated and implementing them on our own would still oblige us to dig into it's fundamentals. That is why we will be using tools which provide some level of abstraction on top of these protocols. Ladies and gents - let me introduce to you - the Membrane framework.
   ## What does Membrane framework do?
   (???)
   ## Membrane framework structure
@@ -169,7 +167,7 @@ Scope of this tutorial covers the process of creating own videoroom with the use
   Sockets fit just in a place!
 
   ### Let's declare our socket
-  First, let's create the socket module for our application. How about calling it VideoRoomWeb.UserSocket? Remember to put it in the right place, according to modules' naming convention (oh, just for this first time, I will give you a small tip - you need to create user_socket.ex file in lib/videoroom_web directory and put the following code inside)
+  First, let's create the socket module for our application. How about calling it VideoRoomWeb.UserSocket? You need to create user_socket.ex file in lib/videoroom_web directory and put the following code inside:
 
   ```elixir
   defmodule VideoRoomWeb.UserSocket do
@@ -186,8 +184,9 @@ Scope of this tutorial covers the process of creating own videoroom with the use
     def id(_socket), do: nil
   end
   ```
+  
   What happens here? Well, it is just a definition of our custom Phoenix's socket. Starting from the top, we are:
-  + saying, that this module is a Phoenix.Socket and we want to be able to override Phoenix's socket methods - ```use Phoenix.Socket```
+  + saying, that this module is a `Phoenix.Socket` and we want to be able to override Phoenix's socket methods (['use' documentation](https://elixir-lang.org/getting-started/alias-require-and-import.html#use)) - ```use Phoenix.Socket```
   + declaring our channel - ```channel("room:*", VideoRoomWeb.PeerChannel)``` . We are saying, that all messages pointing to ```"room:*"``` topic should be directed to VideoRoomWeb.PeerChannel module (no worries, we will declare this module later). Notice the use of a wildcard sign ```*``` in the definition - effectively speaking, we will be heading all requests whose topic start with ```"room:"``` to the aforementioned channel - that is, both the message with "room: WhereTheHellAmI" topic and "room: WhatANiceCosyRoom" topic will be directed to VideoRoomWeb.PeerChannel (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
   + implementing ```connect(params, socket, connect_info)``` callback
   + implementing ```id(socket)``` callback
