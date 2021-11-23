@@ -38,16 +38,6 @@ Scope of this tutorial covers the process of creating own videoroom with the use
   ```
   Feel free to experiment with the language in the interactive shell if you haven't done it before!
 
-  Elixir compilation can be done with:
-  ```bash
-  elixirc < .ex files to compile >
-  ```
-
-  And elixir script execution can be done with:
-  ```bash
-  elixir < .exs file to execute >  
-  ```
-
   Pay attention to the difference in files format (`.ex` vs `.exs`) since Elixir distinguishes between `.ex` files, which are expected to be compiled with Elixir compiler (```elixirc``` command) and `.exs` script files (which are executed inline with ```elixir``` command). In our project we will use both types of the files - the main difference is that .ex files will also be stored in compiled version.
 
   After Elixir installation you should also have an access to mix build automation tool. For instance you can create new mix project with:
@@ -76,14 +66,14 @@ If you are curious about what this command does, run it in some temporary direct
 Once we have the development environment set up properly (let's hope so!) we can start the work on our project. We don't want you to do it from the scratch as the development requires some dull playing around with UI, setting the dependencies etc. - we want to provide you only the meat! That is why we would like you to download the template project with core parts of the code missing. You can do it by typing:
 
 ```bash
-git clone https://github.com/membraneframework/membrane_videoroom_demo
+git clone https://github.com/membraneframework/membrane_videoroom_tutorial
 ```
 
 and then changing directory to the freshly cloned repository and switching to the branch which provides the unfulfilled template:
 
 ```bash
-cd membrane_videoroom_demo
-git checkout start
+cd membrane_videoroom_tutorial
+git checkout template/start
 ```
 
 # What do we have here?
@@ -209,8 +199,7 @@ git checkout start
 
   ### Where is VideoRoomWeb.PeerChannel? 
   Well, for now there is no VideoRoomWeb.PeerChannel! We need to define it - in lib/videoroom_web/peer_channel.ex file.
-  This one will be more complex than the previous pieces of code - so we will cut it into smaller parts.
-  First, let's define the module:
+  This module will handle messages sent on the previously created socket by implementing `Phoenix.Channel` callbacks. To achieve that we need to `use Phoenix.Channel`. The initial definition of `VideoRoomWeb.PeerChannel` should look as follows:
   ```elixir
   defmodule VideoRoomWeb.PeerChannel do
     use Phoenix.Channel
@@ -220,7 +209,6 @@ git checkout start
   end
   ```
 
-  Is there anything left to explain? Well, we are defining our ```VideoRoomWeb.PeerChannel``` and making it use Phoenix.Channel (we will be able to implements its callbacks then!). We are also "importing" Logger module.
   Let's implement our first callback!
   ```elixir
     @impl true
