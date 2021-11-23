@@ -187,22 +187,25 @@ git checkout start
   
   What happens here? Well, it is just a definition of our custom Phoenix's socket. Starting from the top, we are:
   + saying, that this module is a `Phoenix.Socket` and we want to be able to override Phoenix's socket methods (['use' documentation](https://elixir-lang.org/getting-started/alias-require-and-import.html#use)) - ```use Phoenix.Socket```
-  + declaring our channel - ```channel("room:*", VideoRoomWeb.PeerChannel)``` . We are saying, that all messages pointing to ```"room:*"``` topic should be directed to VideoRoomWeb.PeerChannel module (no worries, we will declare this module later). Notice the use of a wildcard sign ```*``` in the definition - effectively speaking, we will be heading all requests whose topic start with ```"room:"``` to the aforementioned channel - that is, both the message with "room: WhereTheHellAmI" topic and "room: WhatANiceCosyRoom" topic will be directed to VideoRoomWeb.PeerChannel (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
+  + declaring our channel - ```channel("room:*", VideoRoomWeb.PeerChannel)``` . We are saying, that all messages pointing to ```"room:*"``` topic should be directed to `VideoRoomWeb.PeerChannel` module (no worries, we will declare this module later). Notice the use of a wildcard sign ```*``` in the definition - effectively speaking, we will be heading all requests whose topic start with ```"room:"``` to the aforementioned channel - that is, both the message with "room:WhereTheHellAmI" topic and "room:WhatANiceCosyRoom" topic will be directed to `VideoRoomWeb.PeerChannel` (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
   + implementing ```connect(params, socket, connect_info)``` callback
   + implementing ```id(socket)``` callback
-  Both the callbacks are brought to us by Phoenix.Socket module. Since we do not need any advanced logic there, our implementation is really simple (just to match the desired callback interface).
-  You can read about these two callbacks [here](https://hexdocs.pm/phoenix/Phoenix.Socket.html#callbacks)
+  Both the callbacks are brought to us by `Phoenix.Socket` module. Since we do not need any advanced logic there, our implementation is really simple (just to match the desired callback interface).
+  You can read about these two callbacks [here](https://hexdocs.pm/phoenix/Phoenix.Socket.html#callbacks).
   ### Let's make our server aware that we will be using socket
   We need to somehow register the usage of our newly created custom socket module. As you might have heard previously (and, surprisingly, as the name suggests!), VideoRoomWeb.Endpoint is responsible for declaring our application endpoints. Normally, we put there our router declaration (router will dispatch HTTP requests sent to our server basing on URI) there - but nothing will stop us from declaring other communication endpoint there - socket!
-  in lib/videoroom_web/endpoint.ex, inside the VideoRoomWeb.Endpoint module, please put the following piece of code:
-  ```elixir  
-  socket("/socket", VideoRoomWeb.UserSocket,
-      websocket: true,
-      longpoll: false
+  In `lib/videoroom_web/endpoint.ex`, inside the `VideoRoomWeb.Endpoint` module, please add the socket definition:
+  ```elixir
+  defmodule VideoRoomWeb.Endpoint do  
+    ...
+    socket("/socket", VideoRoomWeb.UserSocket,
+        websocket: true,
+        longpoll: false
     )
+    ...
+  end 
   ```
-
-  In this piece of code we are simply saying, that we are defining socket-type endpoint with name ```"/socket"```, which behavior will be described by ```VideoRoomWeb.UserSocket``` module. Those two options passed as the following arguments let us define the type of our socket - we indicate, that we want to use websocket as our Pheonix's socket base - in contrast, we could achieve the same behavior, but by longpolling HTTP requests (this could be helpful in case of websockets not being available for our clients). Do you want to know more about this two mechanisms? Feel free to stop for a moment and read [this article](https://ably.com/blog/websockets-vs-long-polling)
+  In this piece of code we are simply saying, that we are defining socket-type endpoint with path ```"/socket"```, which behavior will be described by ```VideoRoomWeb.UserSocket``` module. Those two options passed as the following arguments let us define the type of our socket - we indicate, that we want to use websocket as our Pheonix's socket base - in contrast, we could achieve the same behavior, but by longpolling HTTP requests (this could be helpful in case of websockets not being available for our clients). Do you want to know more about this two mechanisms? Feel free to stop for a moment and read [this article](https://ably.com/blog/websockets-vs-long-polling)
 
   ### Where is VideoRoomWeb.PeerChannel? 
   Well, for now there is no VideoRoomWeb.PeerChannel! We need to define it - in lib/videoroom_web/peer_channel.ex file.
@@ -218,7 +221,7 @@ git checkout start
   ```
 
   Is there anything left to explain? Well, we are defining our ```VideoRoomWeb.PeerChannel``` and making it use Phoenix.Channel (we will be able to implements its callbacks then!). We are also "importing" Logger module.
-  Let's import our first callback!
+  Let's implement our first callback!
   ```elixir
     @impl true
     def join("room:" <> room_id, _params, socket) do
@@ -244,19 +247,15 @@ git checkout start
       end
     end
   ```
-  See? We can fetch room name by using pattern match here! We make use of pattern matching for
-  ```join(topic, params, socket)```  callback signature so that we are splitting the ```topic``` into ```"room:"<>room_id``` - and this way we will be able to use room_id in our callback's implementation!
-  Let's go step by step through the code:
-  + First, we are trying to find process with ```room_id``` identifier in ```:global``` registry (this process will be an instance of Videoroom.Room):
-    + if we cannot find it, we are starting ```Videoroom.Room``` genserver and we are registering it in ```:global``` registry with ```room_id``` as it's identifier 
-    + in case there is entry with ```room_id``` identifier in the ```:global``` registry, we can simply return pid of this process
-  + Right now we have a tuple {status, pid|reason} in our flow. Let's distinguish between this situation:
-    + If status is :ok, we will have ```Videoroom.Room``` pid for a room with given ```room_id```. We can start monitoring that room's process (so that we will receive ```:DOWN``` message in case of room process dying) and notify room's process that we would like him to take us (peer channel) under consideration. In this process we are providing our peer_id (generated as unique id with UUID module) so that room will have a way to identify our process (and will be able to direct messages meant to be sent to us to our peer channel process)
-    + Otherwise, the status is ```:error```, so let's simply log that fact and return ```:error``` tuple.
+  Just the beginning - note how do we fetch the room's name by using pattern matching in the argument list of `join/3`. ([pattern matching in Elixir](https://elixir-lang.org/getting-started/pattern-matching.html#pattern-matching)). <br>
 
-  There you go! You might wonder when will this code be invoked (which means - when the ```join(topic, params, socket)``` gets called) - well, the trigger is client's application connecting to the given channel! 
-  How about client sending some events? What should we do then?
-  Let's define another callback - ```handle_in``` which will get called once "mediaEvent" is sent:
+  What happens here?
+  `join/3` is called when the client joins the channel. First, we are looking for a process saved in the global registry under the `room_id` key. If such a process exists, we are simply returning it's pid. Otherwise, we are trying to create a new `Videoroom.Room` process on the fly (and we register it with `room_id` key in the global registry). If we are successful we return the pid of newly created room's process.
+  At the entrance point of the following step we already have a `Videoroom.Room` process's pid or a `:error` notification. In case of error occurring we have a simple error handler which logs the fact, that the room has failed to start. Otherwise, we can make use of the room's process. First we start to monitor it (so that we will receive ```:DOWN``` message in case of the room's process dying). Then we notify the room's process that it should take us (peer channel) under consideration - we provide our peer_id (generated as unique id with UUID module) in the `Videoroom.Room.add_peer_channel/3) method invocation so that room will have a way to identify our process - and will be able to direct messages meant to be sent to us to our process. The last thing we do is that we are adding information about association between room's identifier, room's pid and peer's identifier to the map of socket's assigns. We will refer to this information later so we need to somehow store it.
+
+  
+  Our channel acts as a communication channel between the Room process on the backend and the client application on the frontend. The responsibility of the channel is to simply forward all `:media_event` messages from the room to the client and all `mediaEvent` messages from the client to the Room process. 
+  The first one is done by implementing handle_info/2 callback as shown below:
   ```elixir
   @impl true
     def handle_in("mediaEvent", %{"data" => event}, socket) do
@@ -265,12 +264,7 @@ git checkout start
       {:noreply, socket}
     end
   ```
-  We are simply sending a message to the room process assigned to given socket. The body of this message is as follows:
-  + ```:media_event``` - message type (room will route messages basing on message type)
-  + ```socket.assigns.peer_id``` - our peer id (generated previously with UUID)
-  + ```event``` - event, available under "data" key in event's body map
-
-  And now - let's do it another way around. This means that we want to send to the socket (and via the socket to the client) information from our room process. In order to do so we can implement another callback - ```def handle_info(event, socket)``` this way:
+  The second one is done by providing following implementation of handle_in/3:
   ```elixir
   @impl true
   def handle_info({:media_event, event}, socket) do
@@ -280,7 +274,7 @@ git checkout start
   end
 
   ```
-  Here, we are only making use out of ```push``` method provided by Phoenix.Channel. we are pushing all events signed with ```:media_event``` type to the socket (and socket will later on send them to the client).
+  Note the use of `push` method provided by Phoenix.Channel. 
 
   Great job! You have just implemented server's side of our communication channel. How about doing it for our client?
 
