@@ -135,21 +135,29 @@ git checkout template/start
   + Plugins
   (???)
 
-  ## Client 
-  In the client's application we need to get user's media stream as well as display streams coming from other users. We will receive one stream per each of the users (the streams will be coming from the server rather then directly from peers but we do not care about this at the moment - the most important thing is that we will have a separate stream for each of the peers). We need to provide a way to communicate with the server so that the server will be able to talk with us while signalling and while sending peer's streams events. A good choice for such a communication mean is to use Phoenix's sockets - using them will allow us to launch a persistent and bidirectional connection.
-  Take a look at one of the flows we are about to implement:
-  ![Client Flow 1](assets/images/client_flow1.png "Client flow 1")
-  <br>
-  The diagram above describes behavior of the client's application when an event from the server is received. 
-  Channel, who is the recipient of the event's message, fires one of the callbacks, depending on the message type. Such a callback can directly update the user's interface or pass the event to the MembraneWebRTC who knows how to handle it because of a set of callbacks defined for a particular event types. 
-  The second flow looks somehow like as shown below: <br>
-  ![Client Flow 2](assets/images/client_flow2.png "Client flow 2")
-  <br>
-  When our local media tracks produce an event, it is pushed to the MembraneWebRTC object. MembraneWebRTC has a set of callbacks defined so that it knows how to behave when an event of a particular type occurs. Basing on the event type MembraneWebRTC object either updates user's interface or pushes the event to the server via the socket's channel.
+
+  The diagram below describes the desired architecture of our system: <br>
+  ![Application Scheme](assets/images/total_scheme.png)
+
   ## Server
   Our server will have two responsibilities - the first one is that it will act as a signalling server. The second one is that it will be a Selective Forwarding Unit (SFU).
-  Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data among peers allows us to provide a  
-  ![Server Scheme](assets/images/server_scheme.png "Server scheme")
+  Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data among peers allows us to balance between server's and client's bandwidth.
+  The server will consist of two components holding the logic and two components needed for communication.
+  The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
+  The "heart" of the server will be `SFU Engine` - it will deal with all the dirty stuff connected with signalling and streaming. We will also have a separate `Room` process (one per each of the videorooms) whose responsibility will be to aggregate information about peers in the particular room.
+  `SFU Engine` will send signalling messages to the `Room`, which will dispatch them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
+  Signalling messages coming on the `socket` will be dispatched to the appropriate `channel`. Then the `channel` will send them to the `Room`'s process, which finally will pass them to the `SFU Engine`.
+  Media transmission will be done with the use of stream protocols. The way in which this will be performed is out the scope of this tutorial. The only thing you need to know is that SFU Engine will also take care of it. 
+
+  ## Client 
+  Each client's application will have a structure reassembling the structure of the server.
+  We will have a `socket` who will receive signalling messages sent from the server. These messages will then be passed to the `channel`. 
+  The `channel` will send these messages to the `Room` object, which will later send them to the `MembraneWebRTC` object. `MembraneWebRTC` object methods will also be directly called from the `Room` object. 
+  `MembraneWebRTC` will be able to change the `Room`'s state by invoking the callbacks provided during construction of this object. These callbacks as well as the `Room` object itself will be able to update user's interface. 
+  
+
+  When our local media tracks produce an event, it is pushed to the MembraneWebRTC object. MembraneWebRTC has a set of callbacks defined so that it knows how to behave when an event of a particular type occurs. Basing on the event type MembraneWebRTC object either updates user's interface or pushes the event to the server via the socket's channel.
+
 
 # I know you have been waiting for that moment - let's start coding!
   ## Let's prepare server's endpoint
@@ -756,7 +764,7 @@ git checkout template/start
   We can share with you an inspiration for a further improvements!
   ## Voice activation detection
   Wouldn't it be great to have a feature which would somehow mark a person who is currently speaking in the room? That's where voice activation detection (VAD) joins the game!
-  There is a chance that you remember that SFU engine was sending some other messages which we purposely didn't handle (once again you can refer to the (documentation)[https://hexdocs.pm/membrane_rtc_engine/Membrane.RTC.Engine.html#module-messages]). One of these messages sent from SFU to the client is ```{:vad_notification, val, peer_id}``` - the message which is sent once the client starts or stops speaking. We need to simply pass this message from SFU to the client's application and take some actions once it is received - for instance, you can change the user's name displayed under the video panel so that instead of plain user's name (i.e. "John") we would be seeing "<user> is speaking now" message. 
+  There is a chance that you remember that SFU engine was sending some other messages which we purposely didn't handle (once again you can refer to the [documentation](https://hexdocs.pm/membrane_rtc_engine/Membrane.RTC.Engine.html#module-messages]). One of these messages sent from SFU to the client is ```{:vad_notification, val, peer_id}``` - the message which is sent once the client starts or stops speaking. We need to simply pass this message from SFU to the client's application and take some actions once it is received - for instance, you can change the user's name displayed under the video panel so that instead of plain user's name (i.e. "John") we would be seeing "<user> is speaking now" message. 
   Below you can see what is the expected result:
 
 
