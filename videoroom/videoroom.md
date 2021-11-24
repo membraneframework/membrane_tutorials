@@ -155,8 +155,7 @@ git checkout template/start
   The `channel` will send these messages to the `Room` object, which will later send them to the `MembraneWebRTC` object. `MembraneWebRTC` object methods will also be directly called from the `Room` object. 
   `MembraneWebRTC` will be able to change the `Room`'s state by invoking the callbacks provided during construction of this object. These callbacks as well as the `Room` object itself will be able to update user's interface. 
   
-
-  When our local media tracks produce an event, it is pushed to the MembraneWebRTC object. MembraneWebRTC has a set of callbacks defined so that it knows how to behave when an event of a particular type occurs. Basing on the event type MembraneWebRTC object either updates user's interface or pushes the event to the server via the socket's channel.
+  Be aware that MembraneWebRTC will also care about the incoming media stream.
 
 
 # I know you have been waiting for that moment - let's start coding!
