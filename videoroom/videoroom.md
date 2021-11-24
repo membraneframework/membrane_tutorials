@@ -122,20 +122,21 @@ git checkout template/start
 
   Sure we can - as in each web application we have two independent subsystems:
   + server (backend) - written in Elixir, one and the only for the whole system. It will host the signalling service and work as SFU engine.
-  + client application (frontend) - the one written in form of JS code and executed on each client's machine (to be precise - by his web browser). It will be responsible for fetching user's media stream as well as displaying the stream from the peers.
+  + client application (frontend) - the one written in form of JS code and executed on each client's machine (to be precise - by client's web browser). It will be responsible for fetching user's media stream as well as displaying the stream from the peers.
 
   ## We might need something else than the plain Elixir standard library...
   Ugh...I am sure till now on you have already found out that media streaming is not that easy. It covers many topic which originates to the nature of the reality. We need to deal with some limitations brought to us by the physics of the surrounding universe, we want to compress the data being sent with the great tools mathematics has equipped us with, we are taking an advantage of imperfections of our perception system...
   All this stuff is both complex and complicated - and that is why we don't want to design it from the very scratch. Fortunately, we have an access to the protocols - as somebody has already inspected the problem and created a protocol which defines how should we behave. But that's not enough - those protocols are also complicated and implementing them on our own would still oblige us to dig into it's fundamentals. That is why we will be using tools which provide some level of abstraction on top of these protocols. Ladies and gents - let me introduce to you - the Membrane framework.
   ## What does Membrane framework do?
-  (???)
+  Seek at the root! [Membrane documentation](https://membraneframework.org/guide/v0.7/introduction.html)
   ## Membrane framework structure
-  Membrane framework consists from the following parts:
+  It would be good for you to know that the Membrane Framework consists of the following parts:
   + Core
   + Plugins
-  (???)
+  
+  We will be using one of its plugins - [RTC Engine plugin](https://github.com/membraneframework/membrane_rtc_engine), which has both the server part (written in Elixir) and the client's library (written in Javascript). This plugin provides the implementation of the [Selective Forwarding Unit (SFU)](https://github.com/membraneframework/membrane_rtc_engine) and is adjusted to be used with WebRTC (so it deals with ICE-styled signalling etc.).
 
-
+  ## System scheme
   The diagram below describes the desired architecture of our system: <br>
   ![Application Scheme](assets/images/total_scheme.png)
 
@@ -160,7 +161,7 @@ git checkout template/start
 
 # I know you have been waiting for that moment - let's start coding!
   ## Let's prepare server's endpoint
-  Do you still remember about Phoenix's sockets? Hopefully, since we will make use of them in a moment! We want to provide a communication channel between our client's application (run by internet browser) and our server.
+  Do you still remember about Phoenix's sockets? Hopefully, since we will make use of them in a moment! We want to provide a communication channel between our client's application and our server.
   Sockets fit just in a place!
 
   ### Let's declare our socket
@@ -343,7 +344,7 @@ git checkout template/start
   //no worries, we will put something into these functions :) 
   }
   ```
-  Let's start with a constructor to define what how our room will be created. We need to declare member fields used in this part of the constructor in the class body first:
+  Let's start with a constructor to define how our room will be created. We need to declare member fields used in this part of the constructor in the class body first:
   ```ts
     private socket;
     private webrtcSocketRefs: string[] = [];
@@ -358,7 +359,7 @@ git checkout template/start
 
   ``` 
 
-  What happens at the beginning of the constructor? We are creating new Phoenix Socket with ```/socket``` name (must be the same as we have defined on the server side!) and right after that we are starting a connection. 
+  What happens at the beginning of the constructor? We are creating new Phoenix Socket with ```/socket``` path (must be the same as we have defined on the server side!) and right after that we are starting a connection. 
   Later on we are setting our display name (we have set it in UI while joining the room, so we need to fetch it from the URL as it had set up URL parameter) - that's why we need ```this.parseUrl()``` method. It's implementation might look as follows:
   ```ts
   private parseUrl = (): string => {
@@ -370,8 +371,7 @@ git checkout template/start
     return displayName as string;
   };
   ```
-
-  Then we are creating Phoenix's channel (which is, of course, associated with the socket we have just created!) and setting it's name to the ```"room< room name>"```. Room name is fetched from the UI. Since the room object will be created once the user clicks "connect" button, the room's name will be the one passed to the input label on the page.
+  Then we are connecting to the Phoenix's channel on the topic `room <room name>`. Room name is fetched from the UI. 
 
 
   Following on the constructor implementation - wouldn't it be great to hold references to the socket?
@@ -455,7 +455,7 @@ git checkout template/start
   this.webrtc = new MembraneWebRTC({callbacks: callbacks});
   ```
   What the hell callbacks are? Well, it's complicated...we need to define them first.
-  According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of client's part of RTC engine by passing the proper callbacks during the construction. 
+  According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of the RTC engine client by passing the proper callbacks during the construction. 
 
   We will go through callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called ```callbacks``` before initializing ```this.webrtc``` object.
 
@@ -730,7 +730,7 @@ git checkout template/start
     GenServer.call(room, {:add_peer_channel, peer_channel_pid, peer_id})
   end
   ```
-  Do your recall this method? We were using it in ```VideoroomWeb.PeerChannel.join```. Each peer, once his peer channel is created and ```join``` method is called on this channel, invokes ```Videoroom.Room.add_peer_channel``` method which sends calls GenServers ```handle_call``` callback (which is putting (peer_id->peer_channel_pid) to the map).
+  Do your recall this method? We were using it in ```VideoroomWeb.PeerChannel.join```. Each peer, once the peer's channel is created and ```join``` method is called on this channel, invokes ```Videoroom.Room.add_peer_channel``` method which sends calls GenServers ```handle_call``` callback (which is putting (peer_id->peer_channel_pid) to the map).
   We are almost done! We are monitoring all the peer channels processes. Once they die, we receive ```:DOWN``` message. Let's handle this event!
   ```elixir
   @impl true
@@ -786,4 +786,4 @@ git checkout template/start
 
 
 
-  You can also conduct some experiments on how to disable the video track (so that the user can turn off and on his camera while being in the room).
+  You can also conduct some experiments on how to disable the video track (so that the user can turn off and on camera while being in the room).
