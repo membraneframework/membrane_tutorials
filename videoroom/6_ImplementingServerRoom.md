@@ -55,7 +55,7 @@
     {:ok, %{sfu_engine: pid, peer_channels: %{}}}
   end
   ```
-  (???) - poor documentation of these options
+  
   For the description of ```engine_options``` please refer to [Membrane's documentation](https://hexdocs.pm/membrane_rtc_engine/Membrane.RTC.Engine.html#content)
 
   We are starting ```Membrane.RTC.Engine``` process (we will refer to this process using ```pid```) which will be serving as SFU server.

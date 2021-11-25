@@ -1,8 +1,11 @@
-Scope of this tutorial covers the process of creating own videoroom with the use of the Membrane framework.
+Scope of this tutorial covers the process of creating own videoroom with use of the Membrane framework.
 # Introduction
-
-## Motivation
-  We will be building our app basing on great Phoenix application framework (???)
+It hasn't been that long ago then video rooms have became quite a common tool used in many fields of our life. We use them when we want to have an impression of meeting our beloved ones in the manner as they were sitting just next to us. We use them at work, to synchronize our work progress and exchange information between us and our colleagues.  
+Taking advantage of recent technological improvements and state-of-the-art tools introduced in the field of data transmission, video streaming
+has became accessible to everyone at the scale not known previously. 
+But have you ever wondered how does a videoroom works under the hood? How is it possible for tools such as WebEx or Google Meets to be capable of streaming data between that many peers participating in the same video conversation? 
+Or maybe you have thought of creating your own videoroom but didn't know where to start?
+If so, I will be pleased to invite you to take an exciting journey to the land of data streaming and follow this tutorial. At the end of the tutorial you will have a fully functional videoroom implemented - a place, where you will be able to meet your friend and have a conversation. And by the way you will find out about many interesting aspects of media streaming as well as you will get familiar with the use of tools which make media streaming easier.
 
 ## Expected result
 Here you can see how our application should work. We want to be able to open the web application, pass a name of the room to which we want to join and our own name and then join to this room. In the room we will be seeing and hearing all of the other users who have joined given room. 

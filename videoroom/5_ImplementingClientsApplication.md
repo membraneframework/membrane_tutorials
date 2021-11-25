@@ -164,10 +164,6 @@
     };
   ```
 
-  (???)
-
-
-
 
   Now let's get back to the constructor. Let's create  MembraneWebRTC object! Declare it as a Room class member field:
   ```ts
