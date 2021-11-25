@@ -360,7 +360,7 @@ git checkout template/start
   ``` 
 
   What happens at the beginning of the constructor? We are creating new Phoenix Socket with ```/socket``` path (must be the same as we have defined on the server side!) and right after that we are starting a connection. 
-  Later on we are setting our display name (we have set it in UI while joining the room, so we need to fetch it from the URL as it had set up URL parameter) - that's why we need ```this.parseUrl()``` method. It's implementation might look as follows:
+  Later on, we are retrieving the display name from the URL (the user has set it in the UI while joining the room and it was passed to the next view as the URL param) - that's why we need ```this.parseUrl()``` method. Its implementation might look as follows:
   ```ts
   private parseUrl = (): string => {
     const { display_name: displayName } = parse(document.location.search);
@@ -454,7 +454,7 @@ git checkout template/start
   ```ts
   this.webrtc = new MembraneWebRTC({callbacks: callbacks});
   ```
-  What the hell callbacks are? Well, it's complicated...we need to define them first.
+  
   According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of the RTC engine client by passing the proper callbacks during the construction. 
 
   We will go through callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called ```callbacks``` before initializing ```this.webrtc``` object.
@@ -479,8 +479,7 @@ git checkout template/start
 
 
 
-
-  We might need a member field where we will be holding the list of the peers - why don't you add such a field to our class definition:
+  Firstly let's add a member field responsible for holding the list of peers:
   ```ts
   private peers: Peer[] = [];
   ```
