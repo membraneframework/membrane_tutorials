@@ -24,7 +24,8 @@
 
   ## Server
   Our server will have two responsibilities - the first one is that it will act as a signalling server. The second one is that it will be a Selective Forwarding Unit (SFU).
-  Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data among peers allows us to balance between server's and client's bandwidth.
+  Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data among peers allows us to balance between server's and client's bandwidth. SFU is receiving stream per each of the peers and passes each of these streams to each of the other peers. <br>
+  ![SFU scheme](assets/images/SFU_scheme.png)<br>
   The server will consist of two components holding the logic and two components needed for communication.
   The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
   The "heart" of the server will be `SFU Engine` - it will deal with all the dirty stuff connected with signalling and streaming. We will also have a separate `Room` process (one per each of the videorooms) whose responsibility will be to aggregate information about peers in the particular room.

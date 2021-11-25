@@ -2,9 +2,11 @@ Scope of this tutorial covers the process of creating own videoroom with the use
 # Introduction
 
 ## Motivation
-
-
   We will be building our app basing on great Phoenix application framework (???)
+
+## Expected result
+Here you can see how our application should work. We want to be able to open the web application, pass a name of the room to which we want to join and our own name and then join to this room. In the room we will be seeing and hearing all of the other users who have joined given room. 
+![Expected Result](assets/records/expected_result.gif)
 ## Prerequisites
   Since media streaming is quite a complex topic it would be great for you to know something about how the browser can fetch user's media and how the connection is made between the peers etc. Since we will be using Phoenix framework to create our application - it will be much easier for you to understand what's going on if you will be even slightly familiar with that framework. Take your time and glance over these links:
   + [How does Phoenix work?](https://hexdocs.pm/phoenix/request_lifecycle.html)
