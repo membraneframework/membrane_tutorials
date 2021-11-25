@@ -163,7 +163,7 @@
   ```
   visit the following page in your browser:
   <br>
-  [Your videoroom on http://localhost:4000](http://localhost:4000)
+  [http://localhost:4000](http://localhost:4000)
   <br>
   and then join a room with a given name!
   Later on you can visit your videoroom's page once again, from another browser's tab or from the another browser's window (or even another browser - however the recommended browsers to use are Chrome and Firefox) and join the same room as before - you should start seeing two participants in the same room!

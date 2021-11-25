@@ -51,6 +51,7 @@ cd membrane_videoroom_tutorial
 git checkout template/start
 ```
 
+In case you find yourself lost along the tutorial, feel free to check the suggested implementation provided by us, which is available on `template/end` branch of this repository.
 # What do we have here?
   Let's make some reconnaissance. 
   First, let's run the template.
