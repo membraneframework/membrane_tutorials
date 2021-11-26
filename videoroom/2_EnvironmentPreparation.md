@@ -74,7 +74,7 @@ In case you find yourself lost along the tutorial, feel free to check the sugges
     + <b> index.ts </b> - this one should be empty. It will act as an initialization point for our application and later on we will spawn a room object there.
     + <b> room_ui.ts </b> - methods which modify DOM are put there. You will find these methods helpful while implementing your room's logic - you will be able to simply call a method in order to put a next video tile among previously present video tiles and this whole process (along with rescaling or moving the tiles so they are nicely put on the screen) will be performed automatically
   + <b> config/ </b> <br>
-  Here you can find Phoenix configuration files for given environments. There is nothing we should be interested in.
+  Here you can find configuration files for given environments. There is nothing we should be interested in.
   + <b> deps/ </b> <br>
   Once you type ```mix deps.get``` all the dependencies listed in mix.lock file will get downloaded and be put into this directory. Once again - this is just how mix works and we do not care about this directory anyhow.
   + <b> lib/ </b> <br>
