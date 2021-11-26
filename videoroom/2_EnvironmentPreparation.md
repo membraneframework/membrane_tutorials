@@ -3,39 +3,9 @@
 ## Elixir installation
   I don't think I can describe it any better: [How to install Elixir](https://elixir-lang.org/install.html).
   But to not forget to add the elixir bin to your PATH variable!
-  After the installation you should be able to print Elixir's version with the following command:
-  ```bash
-  elixir --version
-  ```
-  At the same time you should have an access to IEx (Interactive Elixir Shell) by typing:
-  ```bash
-  iex
-  ```
-  Feel free to experiment with the language in the interactive shell if you haven't done it before!
-
-  Pay attention to the difference in files format (`.ex` vs `.exs`) since Elixir distinguishes between `.ex` files, which are expected to be compiled with Elixir compiler (```elixirc``` command) and `.exs` script files (which are executed inline with ```elixir``` command). In our project we will use both types of the files - the main difference is that .ex files will also be stored in compiled version.
-
-  After Elixir installation you should also have an access to mix build automation tool. For instance you can create new mix project with:
-  ```bash
-  mix new <your project name>
-  ```
-
-  and then build your project with:
-  ```
-  mix run
-  ```
-
-
-## Phoenix application generator
-You can also install Phoenix application generator with the following command:
-```bash
-mix archive.install hex phx_new
-```
-The template you are going to use in this tutorial was created using:
-```bash
-mix phx.new
-```
-If you are curious about what this command does, run it in some temporary directory and inspect the created directory structure. Afterwards, you can safely delete that directory - in the very next step you are going to download the proper template.
+  
+  Take your time and make yourself comfortable with Elixir. Check if you can run Elixir's interactive terminal and if you can compile Elixir's source files with the Elixir compiler.
+  You can also try to create a new Mix project - we will be using [Mix](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html) as the build automation tool all along the tutorial.
 
 ## Template downloading
 Once we have the development environment set up properly (let's hope so!) we can start the work on our project. We don't want you to do it from the scratch as the development requires some dull playing around with UI, setting the dependencies etc. - we want to provide you only the meat! That is why we would like you to download the template project with core parts of the code missing. You can do it by typing:

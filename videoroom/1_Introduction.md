@@ -15,7 +15,7 @@ Here you can see how our application should work. We want to be able to open the
   + [How does Phoenix work?](https://hexdocs.pm/phoenix/request_lifecycle.html)
     Phoenix, while being a great tool which allows to create complex application in considerably easy manner, requires it's user to follow a bunch of good practices and use some helpful project patterns. Most important one is MVC (Model-View-Controller) pattern, which affects the structure of project directories. The tutorial attached there provides a great introduction for Phoenix application creation and will allow you to understand the structure of our template project.
 
-  + [How  do Phoenix sockets work and the difference between endpoint and socket/channel?](https://hexdocs.pm/phoenix/channels.html) 
+  + [How do Phoenix sockets work and the difference between endpoint and socket/channel?](https://hexdocs.pm/phoenix/channels.html) 
     When we think about building the web application the very first thing which comes to our mind is HTTP. Surely, Phoenix allows us to send HTTP requests from the client application to the server - however, Phoenix developers have prepared for you an optional way to communicate - sockets. Sockets, in contrast to plain HTTP requests, are persistent and allow bidirectional communication, while HTTP request are stateless and work in request -> reply mode. Want to dig deeper? Feel free to read the provided part of the official Phoenix documentation!
 
   + [How to access user's media from the browser?](https://www.html5rocks.com/en/tutorials/webrtc/basics/)
@@ -27,3 +27,5 @@ Here you can see how our application should work. We want to be able to open the
   + [Why do we need STUN/TURN servers?](https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/)
     Peer to peer connection can be (and in most cases is) problematic. At the same time it is also demanded - we don't want to have our media pass through some server (both due to the throughput limitations and privacy issues). While reading this tutorial you will find some tricks which allow you connect your beloved peer hidden by some firewalls and NAT!
 
+  + [WebRTC architectures](https://medium.com/securemeeting/webrtc-architecture-basics-p2p-sfu-mcu-and-hybrid-approaches-6e7d77a46a66)
+    Take a quick glance there and find out what are possible architectures of WebRTC server, when to use which architecture and how to build a streaming solution that scales and behaves well.
