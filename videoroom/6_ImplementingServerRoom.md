@@ -1,6 +1,6 @@
 ## Let's create The Room! ;)
   We are still missing probably the most important part - the heart of our application - implementation of the room.
-  Room should dispatch messages sent from SFU Engine to appropriate peer channels - and at the same time it should direct all the messages sent to him via peer channel to the SFU Engine.
+  Room should dispatch messages sent from SFU Engine to appropriate peer channels - and at the same time it should direct all the messages sent to it via peer channel to the SFU Engine.
   Let's start by creating /lib/videoroom/room.ex file with a declaration of Videoroom.Room module:
   ```elixir
   defmodule Videoroom.Room do
