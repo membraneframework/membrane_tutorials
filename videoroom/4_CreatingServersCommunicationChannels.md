@@ -10,11 +10,11 @@
 
  ```elixir
  defmodule VideoRoomWeb.UserSocket do
- use Phoenix.Socket
+    use Phoenix.Socket
 
- channel("room:*", VideoRoomWeb.PeerChannel)
- 
- ...
+    channel("room:*", VideoRoomWeb.PeerChannel)
+    
+    ...
  end
  ```
  
@@ -28,12 +28,12 @@
  That's quite easy - we defined the usage of our socket in `lib/videoroom_web/endpoint.ex`, inside the `VideoRoomWeb.Endpoint` module:
  ```elixir
  defmodule VideoRoomWeb.Endpoint do 
- ...
- socket("/socket", VideoRoomWeb.UserSocket,
- websocket: true,
- longpoll: false
- )
- ...
+    ...
+    socket("/socket", VideoRoomWeb.UserSocket,
+    websocket: true,
+    longpoll: false
+    )
+    ...
  end 
  ```
  In this piece of code we are simply saying, that we are defining socket-type endpoint with path ```"/socket"```, which behavior will be described by 
@@ -43,9 +43,9 @@
  It is in `lib/videoroom_web/peer_channel.ex` file! However, for now on, this file is only declaring the `VideoRoomWeb.PeerChannel` module, but does not provide any implementation.
  ```elixir
  defmodule VideoRoomWeb.PeerChannel do
- use Phoenix.Channel
+    use Phoenix.Channel
 
- require Logger
+    require Logger
 
  end
  ```
@@ -56,26 +56,26 @@
  ```elixir
  @impl true
  def join("room:" <> room_id, _params, socket) do
- case :global.whereis_name(room_id) do
- :undefined -> Videoroom.Room.start(name: {:global, room_id})
- pid -> {:ok, pid}
- end
- |> case do
- {:ok, room} ->
- peer_id = "#{UUID.uuid4()}"
- Process.monitor(room)
- Videoroom.Room.add_peer_channel(room, self(), peer_id)
- {:ok, Phoenix.Socket.assign(socket, %{room_id: room_id, room: room, peer_id: peer_id})}
+    case :global.whereis_name(room_id) do
+        :undefined -> Videoroom.Room.start(name: {:global, room_id})
+        pid -> {:ok, pid}
+    end
+    |> case do
+        {:ok, room} ->
+        peer_id = "#{UUID.uuid4()}"
+        Process.monitor(room)
+        Videoroom.Room.add_peer_channel(room, self(), peer_id)
+        {:ok, Phoenix.Socket.assign(socket, %{room_id: room_id, room: room, peer_id: peer_id})}
 
- {:error, reason} ->
- Logger.error("""
-  Failed to start room.
-  Room: #{inspect(room_id)}
-  Reason: #{inspect(reason)}
-  """)
+        {:error, reason} ->
+        Logger.error("""
+        Failed to start room.
+        Room: #{inspect(room_id)}
+        Reason: #{inspect(reason)}
+        """)
 
-  {:error, %{reason: "failed to start room"}}
-  end
+        {:error, %{reason: "failed to start room"}}
+    end
  end
  ```
  Just the beginning - note how do we fetch the room's name by using pattern matching in the argument list of `join/3`. ([pattern matching in Elixir](https://elixir-lang.org/getting-started/pattern-matching.html#pattern-matching)). <br>
@@ -90,18 +90,16 @@
  ```elixir
  @impl true
  def handle_in("mediaEvent", %{"data" => event}, socket) do
- send(socket.assigns.room, {:media_event, socket.assigns.peer_id, event})
-
- {:noreply, socket}
+    send(socket.assigns.room, {:media_event, socket.assigns.peer_id, event})
+    {:noreply, socket}
  end
  ```
  The second one is done by providing following implementation of handle_in/3:
  ```elixir
  @impl true
  def handle_info({:media_event, event}, socket) do
- push(socket, "mediaEvent", %{data: event})
-
- {:noreply, socket}
+    push(socket, "mediaEvent", %{data: event})
+    {:noreply, socket}
  end
 
  ```

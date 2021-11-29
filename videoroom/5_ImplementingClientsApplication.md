@@ -2,13 +2,13 @@
  We will put whole logic into `assets/src/room.ts`. Methods aimed to change user's interface are already in `assets/src/room_ui.ts` and we will use them along the room's logic implementation. So first, let's import all necessary dependencies concerning UI to our newly created file:
  ```ts
  import {
- addVideoElement,
- getRoomId,
- removeVideoElement,
- setErrorMessage,
- setParticipantsList,
- attachStream,
- setupDisconnectButton,
+    addVideoElement,
+    getRoomId,
+    removeVideoElement,
+    setErrorMessage,
+    setParticipantsList,
+    attachStream,
+    setupDisconnectButton,
  } from "./room_ui";
  ```
  We have basically imported all the methods defined in `room_ui.ts`. For more details on how these methods work and what is their interface please refer to the source file.
@@ -20,9 +20,9 @@
  Let's import some constructs from this library (their name should be self-explanatory and you can read about them in [the official Membrane's RTC engine documentation](https://hexdocs.pm/membrane_rtc_engine/js/index.html):
  ```ts
  import {
- MembraneWebRTC,
- Peer,
- SerializedMediaEvent,
+    MembraneWebRTC,
+    Peer,
+    SerializedMediaEvent,
  } from "membrane_rtc_engine";
  ```
 
@@ -39,30 +39,30 @@
  It might be worth to somehow wrap our room's client logic into a class - so at the very beginning let's simply define `Room` class:
  ```ts
  export class Room {
- constructor(){
- 
- }
- 
- public init = async () => {
- 
- };
+    constructor(){
+    
+    }
+    
+    public init = async () => {
+    
+    };
 
- public join = () => {
- 
- };
+    public join = () => {
+    
+    };
 
- private leave = () => {
+    private leave = () => {
 
- };
+    };
 
- private parseUrl = (): string => {
- };
+    private parseUrl = (): string => {
+    };
 
- private updateParticipantsList = (): void => {
- };
+    private updateParticipantsList = (): void => {
+    };
 
- private phoenixChannelPushResult = async (push: Push): Promise<any> => {
- };
+    private phoenixChannelPushResult = async (push: Push): Promise<any> => {
+    };
 
 
  //no worries, we will put something into these functions :) 
@@ -87,12 +87,12 @@
  Later on, we are retrieving the display name from the URL (the user has set it in the UI while joining the room and it was passed to the next view as the URL param) - that's why we need ```this.parseUrl()``` method. Its implementation might look as follows:
  ```ts
  private parseUrl = (): string => {
- const { display_name: displayName } = parse(document.location.search);
+    const { display_name: displayName } = parse(document.location.search);
 
- // remove query params without reloading the page
- window.history.replaceState(null, "", window.location.pathname);
+    // remove query params without reloading the page
+    window.history.replaceState(null, "", window.location.pathname);
 
- return displayName as string;
+    return displayName as string;
  };
  ```
  Then we are connecting to the Phoenix's channel on the topic `room:<room name>`. The room name is fetched from the UI. 
@@ -131,7 +131,7 @@
  #### onSendMediaEvent
  ```ts
  onSendMediaEvent: (mediaEvent: SerializedMediaEvent) => {
- this.webrtcChannel.push("mediaEvent", { data: mediaEvent });
+    this.webrtcChannel.push("mediaEvent", { data: mediaEvent });
  },
  ```
  If `mediaEvent` from our client Membrane Library appears (this event can be one of many types - for instance it can be an event that is trying to set up a connection with other peers) we need to pass it to the server. That is why we are making use of our Phoenix channel which has a second endpoint on the server-side - and we are simply pushing data through that channel. The form of the event pushed: ```("mediaEvent", { data: mediaEvent })``` is the one we are expecting on the server-side - recall the implementation of ```VideoRoomWeb.PeerChannel.handle_in("mediaEvent", %{"data" => event}, socket)```
@@ -152,15 +152,15 @@
  And here is `onJoinSuccess` callback implementation:
  ```ts
  onJoinSuccess: (peerId, peersInRoom) => {
- this.localStream!.getTracks().forEach((track) =>
- this.webrtc.addTrack(track, this.localStream!)
- );
+    this.localStream!.getTracks().forEach((track) =>
+        this.webrtc.addTrack(track, this.localStream!)
+    );
 
- this.peers = peersInRoom;
- this.peers.forEach((peer) => {
- addVideoElement(peer.id, peer.metadata.displayName, false);
- });
- this.updateParticipantsList();
+    this.peers = peersInRoom;
+    this.peers.forEach((peer) => {
+        addVideoElement(peer.id, peer.metadata.displayName, false);
+    });
+    this.updateParticipantsList();
  },
  ```
  Once we have successfully joined the room, we add each of the tracks from our `this.localStream` (do you remember that we have audio and video track?) to MembraneWebRTC object (we are also passing the reference to the whole local stream). 
@@ -168,13 +168,13 @@
  The last thing we do is invoking the method which will update participants list (we want to have the list of all the participants in our room be nicely displayed) - let's wrap this functionality into another method:
  ```ts
  private updateParticipantsList = (): void => {
- const participantsNames = this.peers.map((p) => p.metadata.displayName);
+    const participantsNames = this.peers.map((p) => p.metadata.displayName);
 
- if (this.displayName) {
- participantsNames.push(this.displayName);
- }
+    if (this.displayName) {
+        participantsNames.push(this.displayName);
+    }
 
- setParticipantsList(participantsNames);
+    setParticipantsList(participantsNames);
  };
  ```
  We are simply putting all the peers' display names into the list and later on, we are adding our own name on top of this list. The last thing to do is to inform UI that the participants' list has changed - and we do it by invoking ```setParticipantsList(participantsNames)``` from ```assets/src/room_ui.ts```.
@@ -187,13 +187,13 @@
  #### onJoinError
  ```ts
  onJoinError: (metadata) => {
- throw `Peer denied.`;
+    throw `Peer denied.`;
  },
  ```
  #### onTrackReady
  ```ts
  onTrackReady: ({ stream, peer, metadata }) => {
- attachStream(stream!, peer.id);
+    attachStream(stream!, peer.id);
  },
  ```
  #### onTrackAdded
@@ -207,17 +207,17 @@
  #### onPeerJoined
  ```ts
  onPeerJoined: (peer) => {
- this.peers.push(peer);
- this.updateParticipantsList();
- addVideoElement(peer.id, peer.metadata.displayName, false);
+    this.peers.push(peer);
+    this.updateParticipantsList();
+    addVideoElement(peer.id, peer.metadata.displayName, false);
  },
  ```
  #### onPeerLeft
  ```ts
  onPeerLeft: (peer) => {
- this.peers = this.peers.filter((p) => p.id !== peer.id);
- removeVideoElement(peer.id);
- this.updateParticipantsList();
+    this.peers = this.peers.filter((p) => p.id !== peer.id);
+    removeVideoElement(peer.id);
+    this.updateParticipantsList();
  },
  ```
  #### onPeerUpdated
@@ -231,16 +231,16 @@
  Further initialization might take some time. That's why it might be a good idea to define an asynchronous method `join()`:
  ```ts
  public join = async () => {
- try {
- await this.init();
- setupDisconnectButton(() => {
- this.leave();
- window.location.replace("");
- });
- this.webrtc.join({ displayName: this.displayName });
- } catch (error) {
- console.error("Error while joining to the room:", error);
- }
+    try {
+        await this.init();
+        setupDisconnectButton(() => {
+            this.leave();
+            window.location.replace("");
+        });
+        this.webrtc.join({ displayName: this.displayName });
+    } catch (error) {
+        console.error("Error while joining to the room:", error);
+    }
  };
  ```
 
@@ -258,22 +258,22 @@
  This is how the implementation of `this.init()` can look like:
  ```ts
  private init = async () => {
- try {
- this.localStream = await navigator.mediaDevices.getUserMedia(
- MEDIA_CONSTRAINTS
- );
- } catch (error) {
- console.error(error);
- setErrorMessage(
- "Failed to setup video room, make sure to grant camera and microphone permissions"
- );
- throw "error";
- }
+    try {
+        this.localStream = await navigator.mediaDevices.getUserMedia(
+            MEDIA_CONSTRAINTS
+        );
+    } catch (error) {
+        console.error(error);
+        setErrorMessage(
+            "Failed to setup video room, make sure to grant camera and microphone permissions"
+        );
+        throw "error";
+    }
 
- addVideoElement(LOCAL_PEER_ID, "Me", true);
- attachStream(this.localStream!, LOCAL_PEER_ID);
+    addVideoElement(LOCAL_PEER_ID, "Me", true);
+    attachStream(this.localStream!, LOCAL_PEER_ID);
 
- await this.phoenixChannelPushResult(this.webrtcChannel.join());
+    await this.phoenixChannelPushResult(this.webrtcChannel.join());
  };
 
  ```
@@ -288,21 +288,21 @@
 
  ```ts
  private phoenixChannelPushResult = async (push: Push): Promise<any> => {
- return new Promise((resolve, reject) => {
- push
- .receive("ok", (response: any) => resolve(response))
- .receive("error", (response: any) => reject(response));
- });
+    return new Promise((resolve, reject) => {
+        push
+        .receive("ok", (response: any) => resolve(response))
+        .receive("error", (response: any) => reject(response));
+    });
  };
  ```
 
  Oh, we would have almost forget! We need to define `this.leave()` method:
  ```ts
  private leave = () => {
- this.webrtc.leave();
- this.webrtcChannel.leave();
- this.socket.off(this.webrtcSocketRefs);
- this.webrtcSocketRefs = [];
+    this.webrtc.leave();
+    this.webrtcChannel.leave();
+    this.socket.off(this.webrtcSocketRefs);
+    this.webrtcSocketRefs = [];
  };
  ```
  What we do here is that we are using methods aimed at leaving for both our MembraneWebRTC object and Phoenix's channel. Then we are calling `this.socket.off(refs)` method ([click here for documentation](https://hexdocs.pm/phoenix/js/#off)) 
