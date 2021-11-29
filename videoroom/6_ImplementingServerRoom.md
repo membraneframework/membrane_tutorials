@@ -111,8 +111,8 @@
  end
  ```
 
- That's it! In the case of SFU sending us some messages we know how to react...but how about doing it another way around?
- We need to define callbacks for messages sent to us by peer channels, which we should direct to the SFU engine. 
+If case SFU Engine wants to communicate with the client during the signaling process, we know how to react - we are simply passing the message to the appropriate `PeerChannel`.
+How about messages coming from the client, via the `PeerChannel`? We need to pass them to the SFU Engine!
  ```elixir
  @impl true
  def handle_info({:media_event, _from, _event} = msg, state) do
