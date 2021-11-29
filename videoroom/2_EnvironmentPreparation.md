@@ -57,7 +57,7 @@ In case you find yourself lost along with the tutorial, feel free to check the s
  ```html
  <script src="<%= static_path(@conn, "/js/room.js") %>"></script>
  ```
- As you can see, we are loading a script which is placed in ```/js/room.js``` (notice, that a path provided there is passed in respect to priv/static/ directory which holds files generated from typescript scripts in assets/src/ directory)
+ As you can see, we are loading a script which is placed in `/js/room.js` (notice, that a path provided there is passed in respect to priv/static/ directory which holds files generated from typescript scripts in assets/src/ directory)
 
  + <b> priv/static/ </b> <br>
  Here you will find static assets. They can be generated, for instance, from the files contained in assets/ directory (.ts which are in assets/src are converted into .js files put inside priv/static/js). Not interesting at all, despite the fact, that we needed to load /js/room.js script file from here ;)

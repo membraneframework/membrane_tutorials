@@ -3,7 +3,8 @@
   Can we somehow decompose our application?
 
   Sure we can - as in each web application we have two independent subsystems:
-  + server (backend) - written in Elixir, one and the only for the whole system. It will host the signalling service and work as RTC engine in SFU architecture.
+  + server (backend) - written in Elixir, one and the only for the whole system. It will spawn a `Room` process for each of the rooms created by the users, which will handle 
+    signalling and relay media among the peers in the room.
   + client application (frontend) - the one written in form of JS code and executed on each client's machine (to be precise - by client's web browser). It will be responsible for fetching user's media stream as well as displaying the stream from the peers.
 
   ## We might need something else than the plain Elixir standard library...
@@ -19,19 +20,26 @@
   We will be using one of its plugins - [RTC Engine plugin](https://github.com/membraneframework/membrane_rtc_engine), which has both the server part (written in Elixir) and the client's library (written in Javascript). This plugin provides the implementation of the [Selective Forwarding Unit (SFU)](https://github.com/membraneframework/membrane_rtc_engine) and is adjusted to be used with WebRTC (so it deals with ICE-styled signalling etc.).
 
   ## System scheme
-  The diagram below describes the desired architecture of our system: <br>
+  The diagram below describes the desired architecture of the signalling system which is the part of the system we need to provide on our own: <br>
   ![Application Scheme](assets/images/total_scheme.png)
 
-  ## Server
-  Our server will have two responsibilities - the first one is that it will act as a signalling server. The second one is that it will be a Selective Forwarding Unit (SFU).
-  Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data among peers allows us to balance between server's and client's bandwidth and limit CPU usage of the server. SFU is receiving stream from each of the peers and passes each of these streams to each of the other peers. <br>
+  And here is how do we want our server to relay media:<br>
   ![SFU scheme](assets/images/SFU_scheme.png)<br>
   
+  In terms of media streaming, our server will be a Selective Forwarding Unit (SFU).
+  Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data 
+  among peers allows us to balance between server's and client's bandwidth and limit CPU usage of the server. 
+  SFU is receiving stream from each of the peers and passes each of these streams to each of the other peers. <br>
+
+  ## Server
+  As pointed previously, the server will have two responsibilities - the first one is that it will act as a signalling server. 
+  The second one is that it will be a Selective Forwarding Unit (SFU).
+  In the tutorial we will focus on it's signalling functionalities as the Membrane Framework provides SFU engine implementation and we will make use of it.
   
   The server will consist of two components holding the logic and two components needed for communication.
   The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
   
-  The "heart" of the server will be `SFU Engine` - it will deal with all the dirty stuff connected with signalling and streaming. We will also have a separate `Room` process (one per each of the video rooms) whose responsibility will be to aggregate information about peers in the particular room.
+  The "heart" of the server will be `SFU Engine` - it will deal with all the dirty stuff connected with both the signalling and streaming. We will also have a separate `Room` process (one per each of the video rooms) whose responsibility will be to aggregate information about peers in the particular room.
   `SFU Engine` will send signalling messages to the `Room`, which will dispatch them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
   Signalling messages coming on the `socket` will be dispatched to the appropriate `channel`. Then the `channel` will send them to the `Room`'s process, which finally will pass them to the `SFU Engine`.
   Media transmission will be done with the use of stream protocols. The way in which this will be performed is out the scope of this tutorial. The only thing you need to know is that SFU Engine will also take care of it. 
