@@ -1,7 +1,8 @@
 # I know you have been waiting for that moment - let's start coding!
  ## Let's prepare the server's endpoint
  Do you still remember about Phoenix's sockets? Hopefully, since we will make use of them in a moment! We want to provide a communication channel between our client's application and our server.
- Sockets fit just in a place!
+ Sockets fit just in a place - but be aware, that it is not the only possible option. Neither WebRTC nor Membrane Framework expects you to use any particular mean of communication between 
+ the server and the client - they just want you to communicate. 
 
  ### Socket's declaration
  Socket's declaration is already present in our template. Take a quick glance at the `lib/videoroom_web/user_socket.ex` file.
