@@ -124,22 +124,16 @@ How about messages coming from the client, via the `PeerChannel`? We need to pas
  And here come the callback for a ```:add_peer_channel``` message:
  ```elixir
  @impl true
- def handle_call({:add_peer_channel, peer_channel_pid, peer_id}, _from, state) do
+ def handle_info({:add_peer_channel, peer_channel_pid, peer_id}, state) do
     state = put_in(state, [:peer_channels, peer_id], peer_channel_pid)
     Process.monitor(peer_channel_pid)
-    {:reply, :ok, state}
+    {:noreply, state}
  end
  ```
 
- It is a great example to show how does state updating looks like. We are putting into our (peer_id->peer_channel_pid) the new entry - and we are returning the state updated this way. Meanwhile, we also start monitoring the process with id ```peer_channel_pid``` - to receive ```:DOWN``` message when the peer channel process will be down.
-
- You might wonder why sometimes do we override ```handle_info``` method, and sometimes we override ```handle_call``` - it is defined by GenServer's behavior. ```handle_info``` gets invoked when our process receives an inter-process message sent to it. SFU engine sends us such a message - and that is why we are about to override this method since we are expecting it to be invoked. ```handle_call``` is designed to be invoked when somebody would invoke a method on our GenServer - with ```GenServer.call``` method. Let's create a wrapper for such a function call:
- ```elixir
- def add_peer_channel(room, peer_channel_pid, peer_id) do
-    GenServer.call(room, {:add_peer_channel, peer_channel_pid, peer_id})
- end
- ```
- Do your recall this method? We were using it in ```VideoroomWeb.PeerChannel.join```. Each peer, once the peer's channel is created and ```join``` method is called on this channel, invokes ```Videoroom.Room.add_peer_channel``` method which sends calls GenServers ```handle_call``` callback (which is putting (peer_id->peer_channel_pid) to the map).
+ It is a great example to show how does state updating looks like. We are putting into our (peer_id->peer_channel_pid) the new entry - and we are returning
+ the state updated this way. Meanwhile, we also start monitoring the process with id ```peer_channel_pid``` - to receive ```:DOWN``` message when the peer channel process will be down.
+ 
  We are almost done! We are monitoring all the peer channels processes. Once they die, we receive ```:DOWN``` message. Let's handle this event!
  ```elixir
  @impl true

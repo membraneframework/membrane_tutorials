@@ -64,7 +64,7 @@
         {:ok, room} ->
         peer_id = "#{UUID.uuid4()}"
         Process.monitor(room)
-        Videoroom.Room.add_peer_channel(room, self(), peer_id)
+        send(room, {:add_peer_channel, self(), peer_id})
         {:ok, Phoenix.Socket.assign(socket, %{room_id: room_id, room: room, peer_id: peer_id})}
 
         {:error, reason} ->
@@ -86,8 +86,8 @@
  At the entrance point of the following step, we already have a `Videoroom.Room` process's pid or an `:error` notification. 
  In case of an error occurring we have a simple error handler that logs the fact, that the room has failed to start. Otherwise, we can make use of the room's process. 
  First, we start to monitor it (so that we will receive ```:DOWN``` message in case of the room's process crash/failure). Then we notify the room's process that 
- it should take us (peer channel) under consideration - we provide our peer_id (generated as unique id with UUID module) in the `Videoroom.Room.add_peer_channel/3) method 
- invocation so that room will have a way to identify our process. The last thing we do is that we are adding information about the association between 
+ it should take us (peer channel) under consideration - we send our peer_id (generated as unique id with UUID module) along with the peer channel's PID to 
+ the room process in the `:add_peer_channel` message so that the room will have a way to identify our process. The last thing we do is that we are adding information about the association between 
  room's identifier, room's PID, and peer's identifier to the map of socket's assigns. We will refer to this information later so we need to store it somehow.
 
  
