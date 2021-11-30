@@ -22,6 +22,18 @@ git checkout template/start
 ```
 
 In case you find yourself lost along with the tutorial, feel free to check the suggested implementation provided by us, which is available on the `template/end` branch of this repository.
+
+# Install native dependencies
+First, some native dependencies are needed. Here is how you can install them.
+## Ubuntu
+```
+brew install srtp libnice clang-format ffmpeg opus
+```
+## Mac OS X
+```
+sudo apt-get install libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev libavutil-dev libopus-dev
+```
+
 # What do we have here?
  Let's make some reconnaissance. 
  First, let's run the template.
@@ -30,6 +42,7 @@ In case you find yourself lost along with the tutorial, feel free to check the s
  mix deps.get
  npm ci --prefix=assets
  ```
+
  Then you can simply run the Phoenix server with the following command:
  ```
  mix phx.server
