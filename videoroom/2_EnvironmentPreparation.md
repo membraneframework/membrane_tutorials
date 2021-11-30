@@ -8,7 +8,7 @@
  You can also try to create a new Mix project - we will be using [Mix](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html) as the build automation tool all along with the tutorial.
 
 ## Template downloading
-Once we have the development environment set up properly (let's hope so!) we can start the work on our project. We don't want you to do it from scratch as the development requires some dull playing around with UI, setting the dependencies, etc. - we want to provide you only the meat! That is why we would like you to download the template project with core parts of the code missing. You can do it by typing:
+Once we have the development environment set up properly (let's hope so!) we can start to work on our project. We don't want you to do it from scratch as the development requires some dull playing around with UI, setting the dependencies, etc. - we want to provide you only the meat! That is why we would like you to download the template project with core parts of the code missing. You can do it by typing:
 
 ```bash
 git clone https://github.com/membraneframework/membrane_videoroom_tutorial
@@ -48,7 +48,10 @@ In case you find yourself lost along with the tutorial, feel free to check the s
  + <b> deps/ </b> <br>
  Once you type ```mix deps.get``` all the dependencies listed in mix.lock file will get downloaded and be put into this directory. Once again - this is just how mix works and we do not care about this directory anyhow.
  + <b> lib/ </b> <br>
- This directory contains the server's logic. As mentioned previously, the Phoenix server implements Model-View-Controller architecture so the structure of this directory will reflect this architecture. The only .ex file in this directory is videoroom_web.ex file - it defines the aforementioned parts of the system - ```controller``` and ```view```. Moreover, it defines ```router``` and ```channel``` - the part of the system which is used for communication. This file is generated automatically with the Phoenix project generator and there are not that many situations in which you should manually change it.
+ This directory contains the server's logic. As mentioned previously, the Phoenix server implements Model-View-Controller architecture so the structure of this directory will reflect this architecture. 
+ The only .ex file in this directory is `videoroom_web.ex` file - it defines the aforementioned parts of the system - **controller** and **view**. Moreover, 
+ it defines ```router``` and ```channel``` - the part of the system which is used for communication. This file is generated automatically with the Phoenix project generator
+ and there are not that many situations in which you should manually change it.
  + <b> videoroom/ </b> <br>
  This directory contains the business logic of our application, which stands for M (model) in MVC architecture. For now, it should only contain application.ex file which defines the Application module for our video room. As each [application](https://hexdocs.pm/elixir/1.12/Application.html), it can be loaded, started, and stopped, as well as it can bring to life its own children (which constitute the environment created by an application). Later on, we will put into this directory files which will provide some logic of our application - for instance, Videoroom.Room module will be defined there.
  + <b> videoroom_web/ </b> <br>

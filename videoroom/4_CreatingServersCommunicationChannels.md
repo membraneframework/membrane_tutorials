@@ -50,7 +50,7 @@
  end
  ```
 
- The module will handle messages sent on the previously created socket by implementing `Phoenix.Channel` callbacks. To achieve that we need to `use Phoenix.Channel`.
+ The module will handle messages sent and received on the previously created socket by implementing `Phoenix.Channel` callbacks. To achieve that we need to `use Phoenix.Channel`.
  
  Let's implement our first callback!
  ```elixir
@@ -81,27 +81,32 @@
  Just the beginning - note how do we fetch the room's name by using pattern matching in the argument list of `join/3`. ([pattern matching in Elixir](https://elixir-lang.org/getting-started/pattern-matching.html#pattern-matching)). <br>
 
  What happens here?
- `join/3` is called when the client joins the channel. First, we are looking for a process saved in the global registry under the `room_id` key. If such a process exists, we are simply returning its PID. Otherwise, we are trying to create a new `Videoroom.Room` process on the fly (and we register it with `room_id` key in the global registry). If we are successful we return the PID of the newly created room's process.
- At the entrance point of the following step, we already have a `Videoroom.Room` process's pid or a `:error` notification. In case of an error occurring we have a simple error handler that logs the fact, that the room has failed to start. Otherwise, we can make use of the room's process. First, we start to monitor it (so that we will receive ```:DOWN``` message in case of the room's process dying). Then we notify the room's process that it should take us (peer channel) under consideration - we provide our peer_id (generated as unique id with UUID module) in the `Videoroom.Room.add_peer_channel/3) method invocation so that room will have a way to identify our process - and will be able to direct messages meant to be sent to us to our process. The last thing we do is that we are adding information about the association between room's identifier, room's PID, and peer's identifier to the map of socket's assigns. We will refer to this information later so we need to somehow store it.
+ `join/3` is called when the client joins the channel. First, we are looking for a process saved in the global registry under the `room_id` key. If such a process exists, we are simply returning its PID. Otherwise, we are trying to create
+ a new `Videoroom.Room` process on the fly (and we register it with `room_id` key in the global registry). If we are successful we return the PID of the newly created room's process.
+ At the entrance point of the following step, we already have a `Videoroom.Room` process's pid or an `:error` notification. 
+ In case of an error occurring we have a simple error handler that logs the fact, that the room has failed to start. Otherwise, we can make use of the room's process. 
+ First, we start to monitor it (so that we will receive ```:DOWN``` message in case of the room's process crash/failure). Then we notify the room's process that 
+ it should take us (peer channel) under consideration - we provide our peer_id (generated as unique id with UUID module) in the `Videoroom.Room.add_peer_channel/3) method 
+ invocation so that room will have a way to identify our process. The last thing we do is that we are adding information about the association between 
+ room's identifier, room's PID, and peer's identifier to the map of socket's assigns. We will refer to this information later so we need to store it somehow.
 
  
  Our channel acts as a communication channel between the Room process on the backend and the client application on the frontend. The responsibility of the channel is to simply forward all `:media_event` messages from the room to the client and all `mediaEvent` messages from the client to the Room process. 
- The first one is done by implementing handle_info/2 callback as shown below:
- ```elixir
- @impl true
- def handle_in("mediaEvent", %{"data" => event}, socket) do
-    send(socket.assigns.room, {:media_event, socket.assigns.peer_id, event})
-    {:noreply, socket}
- end
- ```
- The second one is done by providing following implementation of handle_in/3:
+ The first one is done by implementing `handle_info/2` callback as shown below:
  ```elixir
  @impl true
  def handle_info({:media_event, event}, socket) do
     push(socket, "mediaEvent", %{data: event})
     {:noreply, socket}
  end
-
+ ```
+ The second one is done by providing following implementation of `handle_in/3`:
+ ```elixir
+ @impl true
+ def handle_in("mediaEvent", %{"data" => event}, socket) do
+    send(socket.assigns.room, {:media_event, socket.assigns.peer_id, event})
+    {:noreply, socket}
+ end
  ```
  Note the use of `push` method provided by Phoenix.Channel. 
 

@@ -8,8 +8,13 @@
   + client application (frontend) - the one written in form of JS code and executed on each client's machine (to be precise - by client's web browser). It will be responsible for fetching user's media stream as well as displaying the stream from the peers.
 
   ## We might need something else than the plain Elixir standard library...
-  Ugh...I am sure till now on you have already found out that media streaming is not that easy. It covers many topic which originates to the nature of the reality. We need to deal with some limitations brought to us by the physics of the surrounding universe, we want to compress the data being sent with the great tools mathematics has equipped us with, we are taking an advantage of imperfections of our perception system...
-  All this stuff is both complex and complicated - and that is why we don't want to design it from the very scratch. Fortunately, we have an access to the protocols - as somebody has already inspected the problem and created a protocol which defines how should we behave. But that's not enough - those protocols are also complicated and implementing them on our own would still oblige us to dig into it's fundamentals. That is why we will be using tools which provide some level of abstraction on top of these protocols. Ladies and gents - let me introduce to you - the Membrane framework.
+  Ugh...I am sure till now on you have already found out that media streaming is not that easy. It covers many topic which originates to the nature of the reality. 
+  We need to deal with some limitations brought to us by the physics of the surrounding universe, we want to compress the data being sent with the great tools 
+  mathematics has equipped us with, we are taking an advantage of imperfections of our perception system...
+  All this stuff is both complex and complicated - and that is why we don't want to design it from very scratch. Fortunately, we have access to the protocols
+  and codecs - ICE, RTP, H264, VP9, VP8, Opus etc. - which already solves the aforementioned problems. But that's not enough - 
+  those protocols are also complicated and implementing or even using them requires digging into their fundamentals. 
+  That is why we will be using the framework that provides some level of abstraction on top of these protocols. Ladies and gents - let me introduce to you - the Membrane framework.
   ## What does Membrane framework do?
   Seek at the root! [Membrane documentation](https://membraneframework.org/guide/v0.7/introduction.html)
   ## Membrane framework structure
@@ -32,9 +37,10 @@
   SFU is receiving stream from each of the peers and passes each of these streams to each of the other peers. <br>
 
   ## Server
-  As pointed previously, the server will have two responsibilities - the first one is that it will act as a signalling server. 
-  The second one is that it will be a Selective Forwarding Unit (SFU).
-  In the tutorial we will focus on it's signalling functionalities as the Membrane Framework provides SFU engine implementation and we will make use of it.
+  As pointed previously, the server will have two responsibilities - the first one is that it will act as a signaling server. 
+  The second one is that it will be streaming multimedia between the peers.
+  The Membrane Framework provides Selective Forwarding Unit implementation called `SFU Engine`, which handles both the signaling and streaming. 
+  In the tutorial we will wrap the `SFU Engine` and provide business logic in order to add video room functionalities.
   
   The server will consist of two components holding the logic and two components needed for communication.
   The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
@@ -42,7 +48,7 @@
   The "heart" of the server will be `SFU Engine` - it will deal with all the dirty stuff connected with both the signalling and streaming. We will also have a separate `Room` process (one per each of the video rooms) whose responsibility will be to aggregate information about peers in the particular room.
   `SFU Engine` will send signalling messages to the `Room`, which will dispatch them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
   Signalling messages coming on the `socket` will be dispatched to the appropriate `channel`. Then the `channel` will send them to the `Room`'s process, which finally will pass them to the `SFU Engine`.
-  Media transmission will be done with the use of stream protocols. The way in which this will be performed is out the scope of this tutorial. The only thing you need to know is that SFU Engine will also take care of it. 
+  Media transmission will be done with the use of streaming protocols. The way in which this will be performed is out the scope of this tutorial. The only thing you need to know is that SFU Engine will also take care of it. 
 
   ## Client 
   Each client's application will have a structure reassembling the structure of the server.
@@ -50,4 +56,4 @@
   In the `Room` instance, the client will receive messages sent from the server on the associated `channel`. The `Room` will call the appropriate methods of `MembraneWebRTC` object.
   At the same time, `MembraneWebRTC` object will be able to change the `Room`'s state by invoking the callbacks provided during construction of this object. These callbacks as well as the `Room` object itself will be able to update the user's interface. 
   
-  Be aware that `MembraneWebRTC` object will also care about the incoming media stream.
+  Be aware that `MembraneWebRTC` object will also take care of the incoming media stream.
