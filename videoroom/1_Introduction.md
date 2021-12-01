@@ -12,7 +12,7 @@ You will learn about many interesting aspects of media streaming as well as get 
 Here you can see how our application should work. We want to be able to open the web application, pass the name of the room to which we want to join and our own name and then join this room. In the room, we will be seeing and hearing all of the other users who have joined the given room. 
 ![Expected Result](assets/records/expected_result.gif)
 ## Prerequisites
- Since media streaming is quite a complex topic it would be great for you to know something about how the browser can fetch user's media and how the connection is made between peers etc. Since we will be using the Phoenix framework to create our application - it will be much easier for you to understand what's going on if you will be even slightly familiar with that framework. Take your time and glance over these links:
+ Since media streaming is quite a complex topic it would be great for you to know something about how the browser can fetch user's media, how the connection is made between peers etc. Since we will be using the Phoenix framework to create our application - it will be much easier for you to understand what's going on if you will be even slightly familiar with that framework. Take your time and glance over these links:
  + [How does Phoenix work?](https://hexdocs.pm/phoenix/request_lifecycle.html)
  Phoenix, while being a great tool that allows creating a complex application in a considerably easy manner, requires its user to follow a bunch of good practices and use some helpful project patterns. The most important one is the MVC (Model-View-Controller) pattern, which affects the structure of project directories. The tutorial attached there provides a great introduction to Phoenix application creation and will allow you to understand the structure of our template project.
 
@@ -26,7 +26,7 @@ Here you can see how our application should work. We want to be able to open the
  + [How to access user's media from the browser?](https://www.html5rocks.com/en/tutorials/webrtc/basics/)
  Ever wondered how is it possible for the browser to access your camera or a microphone? Here you will find an answer for that and many more inquiring questions!
 
- + [WebRTC Connectivity (signalling, ICE etc.)](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity)
+ + [WebRTC Connectivity (signaling, ICE etc.)](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity)
  One does not simply connect and send media! First, peers need to get in touch with each other (with a little help from a publicly available server), 
  as well as exchange some information about themselves. This short tutorial will give you an outlook on how this process (called 'signaling') can be performed!
 
