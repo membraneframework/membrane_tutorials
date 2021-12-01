@@ -28,7 +28,7 @@
   The diagram below describes the desired architecture of the events passing system which is the part of the system we need to provide on our own: <br>
   ![Application Scheme](assets/images/total_scheme.png)
 
-  And here is how do we want our server to relay media:<br>
+  And here is how the **SFU Engine** will relay multimedia streams:<br>
   ![SFU scheme](assets/images/SFU_scheme.png)<br>
   
   In terms of media streaming, our server will be a Selective Forwarding Unit (SFU).
