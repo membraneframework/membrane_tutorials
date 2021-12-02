@@ -22,7 +22,9 @@
   + Core
   + Plugins
   
-  We will be using one of its plugins - [RTC Engine plugin](https://github.com/membraneframework/membrane_rtc_engine), which has both the server part (written in Elixir) and the client's library (written in Javascript). This plugin provides the implementation of the [Selective Forwarding Unit (SFU)](https://github.com/membraneframework/membrane_rtc_engine) and is adjusted to be used with WebRTC (so it deals with ICE-styled signaling etc.).
+  We will be using one of its plugins - [RTC Engine plugin](https://github.com/membraneframework/membrane_rtc_engine), which has both the server part (written in Elixir) 
+  and the client's library (written in Javascript). This plugin provides both the implementation of the 
+  [Selective Forwarding Unit (SFU)](https://github.com/membraneframework/membrane_rtc_engine) and the signaling server logic (with the usage of ICE protocol).
 
   ## System scheme
   The diagram below describes the desired architecture of the events passing system which is the part of the system we need to provide on our own: <br>
@@ -37,11 +39,11 @@
   SFU is receiving stream from each of the peers and passes each of these streams to each of the other peers. <br>
 
   ## Server
-  As pointed previously, the server will have two responsibilities - the first one is that it will broadcast event messages among the peers.
+  As pointed previously, the server will have two responsibilities - the first one is that it will work as a signalling server, broadcasting event messages among the peers.
   The second one is that it will act as a streaming server. 
   The Membrane Framework provides Selective Forwarding Unit implementation called `SFU Engine`, which handles both the signaling and streaming. 
   In the tutorial we will wrap the `SFU Engine` and provide business logic in order to add video room functionalities.
-  
+
   The server will consist of two components holding the logic and two components needed for communication.
   The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
   
