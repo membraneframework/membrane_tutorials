@@ -134,7 +134,8 @@
     this.webrtcChannel.push("mediaEvent", { data: mediaEvent });
  },
  ```
- If `mediaEvent` from our client Membrane Library appears (this event can be one of many types - for instance it can be an event that is trying to set up a connection with other peers) we need to pass it to the server. That is why we are making use of our Phoenix channel which has a second endpoint on the server-side - and we are simply pushing data through that channel. The form of the event pushed: ```("mediaEvent", { data: mediaEvent })``` is the one we are expecting on the server-side - recall the implementation of ```VideoRoomWeb.PeerChannel.handle_in("mediaEvent", %{"data" => event}, socket)```
+ If `mediaEvent` from our client Membrane Library appears (this event can be one of many types - for instance it can be message containing information about an ICE candidate in a form of SDP attribute)
+  we need to pass it to the server. That is why we are making use of our Phoenix channel which has a second endpoint on the server-side - and we are simply pushing data through that channel. The form of the event pushed: ```("mediaEvent", { data: mediaEvent })``` is the one we are expecting on the server-side - recall the implementation of ```VideoRoomWeb.PeerChannel.handle_in("mediaEvent", %{"data" => event}, socket)```
  #### onConnectionError
  ```ts
  onConnectionError: setErrorMessage,
@@ -224,6 +225,17 @@
  ```ts
  onPeerUpdated: (ctx) => {},
  ```
+
+
+
+ Once we are ready with `MembraneWebRTC`'s callbacks implementation, let's specify how to behave when the server sends us a message on the channel. 
+ You could have guessed - we will implement another callback:
+ ```ts
+ this.webrtcChannel.on("mediaEvent", (event) =>
+      this.webrtc.receiveMediaEvent(event.data)
+ );
+ ```
+ Once we receive `mediaEvent` from the server (which can be, for instance, a notification that a peer has left), we are simply passing it to the `MembraneWebRTC` object to take care of it.
 
  Now we have the `Room`'s constructor defined! But we cannot say that all the operations allowing us to connect to the server have been performed inside the constructor.
  
