@@ -1,5 +1,5 @@
 ## Let's implement the client's endpoint!
- We will put whole logic into `assets/src/room.ts`. Methods aimed to change user's interface are already in `assets/src/room_ui.ts` and we will use them along the room's logic implementation. So first, let's import all necessary dependencies concerning UI to our newly created file:
+We will put the whole logic into `assets/src/room.ts`. Methods responsible for handling UI are already in `assets/src/room_ui.ts`, let's import them: 
  ```ts
  import {
     addVideoElement,
@@ -17,26 +17,19 @@
  "membrane_rtc_engine": "file:../deps/membrane_rtc_engine/"
  ```
  which is a client library provided by the RTC engine plugin from the Membrane Framework.
- Let's import some constructs from this library (their name should be self-explanatory and you can read about them in [the official Membrane's RTC engine documentation](https://hexdocs.pm/membrane_rtc_engine/js/index.html):
+ Let's import some constructs from this library (their name should be self-explanatory and you can read about them in [the official Membrane's RTC engine documentation](https://hexdocs.pm/membrane_rtc_engine/js/index.html) along with some other dependencies which we will need later:
  ```ts
  import {
     MembraneWebRTC,
     Peer,
     SerializedMediaEvent,
  } from "membrane_rtc_engine";
- ```
-
- Later on, let's import interesting constructs from the Phoenix - `Push` and `Socket` classes (can you guess what is the purpose of using them? ;) )
- ```ts
  import { Push, Socket } from "phoenix";
- ```
-
- We will also need ```parse``` method from ```"query-string"``` dependency - to nicely get our display name from the URL. Let's import it here:
- ```ts
  import { parse } from "query-string";
  ```
 
- It might be worth to somehow wrap our room's client logic into a class - so at the very beginning let's simply define `Room` class:
+
+ Once we are ready with the imports, it might be worth to somehow wrap our room's client logic into a class - so at the very beginning let's simply define `Room` class:
  ```ts
  export class Room {
     constructor(){
@@ -55,9 +48,6 @@
 
     };
 
-    private parseUrl = (): string => {
-    };
-
     private updateParticipantsList = (): void => {
     };
 
@@ -68,36 +58,26 @@
  //no worries, we will put something into these functions :) 
  }
  ```
- Let's start with a constructor to define how our room will be created. First, we need to declare some member fields initialized in the constructor, in the class body:
+ Let's start with a bunch of member fields and the constructor that will initialize them::
  ```ts
  private socket;
  private webrtcSocketRefs: string[] = [];
  private webrtcChannel;
- ```
- and then pass the constructor code into ```constructor()``` method:
- ```ts
- this.socket = new Socket("/socket");
- this.socket.connect();
- this.displayName = this.parseUrl();
- this.webrtcChannel = this.socket.channel(`room:${getRoomId()}`);
 
+ constructor(){   
+   this.socket = new Socket("/socket");
+   this.socket.connect();
+   const { display_name: displayName } = parse(document.location.search);
+   this.displayName = displayName as string;
+   window.history.replaceState(null, "", window.location.pathname);
+   this.webrtcChannel = this.socket.channel(`room:${getRoomId()}`);
+ ...
+ }
  ``` 
 
  What happens at the beginning of the constructor? We are creating a new Phoenix Socket with `/socket` path (must be the same as we have defined on the server-side!) and right after that, we are starting a connection. 
- Later on, we are retrieving the display name from the URL (the user has set it in the UI while joining the room and it was passed to the next view as the URL param) - that's why we need ```this.parseUrl()``` method. Its implementation might look as follows:
- ```ts
- private parseUrl = (): string => {
-    const { display_name: displayName } = parse(document.location.search);
-
-    // remove query params without reloading the page
-    window.history.replaceState(null, "", window.location.pathname);
-
-    return displayName as string;
- };
- ```
+ Later on, we are retrieving the display name from the URL (the user has set it in the UI while joining the room and it was passed to the next view as the URL param).
  Then we are connecting to the Phoenix's channel on the topic `room:<room name>`. The room name is fetched from the UI. 
-
-
  Following on the constructor implementation:
  ```ts
  const socketErrorCallbackRef = this.socket.onError(this.leave);
@@ -164,9 +144,9 @@
     this.updateParticipantsList();
  },
  ```
- Once we have successfully joined the room, we add each of the tracks from our `this.localStream` (do you remember that we have audio and video track?) to MembraneWebRTC object (we are also passing the reference to the whole local stream). 
- Later on, we are adding video element () per each of the peers (we want to see a video from each of the peers in our room, don't we?).
- The last thing we do is invoking the method which will update participants list (we want to have the list of all the participants in our room be nicely displayed) - let's wrap this functionality into another method:
+ Once we have successfully joined the room, we make `MembraneWebRTC` object aware of our `this.localStream` tracks (do you remember that we have audio and video track?).
+ Later on, we are adding a video element for each of the peers (we want to see a video from each of the peers in our room, don't we?).
+ The last thing we do is invoking the method which will update participants list (we want to have the list of all the participants in our room to be nicely displayed) - let's wrap this functionality into another method:
  ```ts
  private updateParticipantsList = (): void => {
     const participantsNames = this.peers.map((p) => p.metadata.displayName);
@@ -182,7 +162,7 @@
 
 
  How about you trying to implement the rest of the callbacks on your own? Please refer to the [documentation]() and think where you can use methods from ```./assets/src/room_ui.ts```.
- Below you will find the expected result (callback implementation) for each of the methods - it might not be the best implementation...but it is the implementation can afford!
+ Below you will find the expected result (callback implementation) for each of the methods - it might not be the best implementation...but this is the implementation you can afford!
  Seriously speaking - we have split some of these callbacks implementation into multiple functions, according to some good practices and we consider it to be a little bit...cleaner ;) 
 
  #### onJoinError
@@ -229,7 +209,7 @@
 
 
  Once we are ready with `MembraneWebRTC`'s callbacks implementation, let's specify how to behave when the server sends us a message on the channel. 
- You could have guessed - we will implement another callback:
+ We need to implement an event handler:
  ```ts
  this.webrtcChannel.on("mediaEvent", (event) =>
       this.webrtc.receiveMediaEvent(event.data)
@@ -292,10 +272,11 @@
  In the code snippet shown above, we are doing a really important thing - we are getting a reference to the user's media. `navigator.mediaDevices.getUserMedia()` method is an
  asynchronous method allowing the browser to fetch tracks of the user's media. We can pass some media constraints which will limit the tracks available in the stream.
  Take a look at `assets/src/consts.ts` file where you will find `MEDIA_CONSTRAINTS` definition - it says that we want to get both audio data and video data (but in a specified format!).
- Later on, we are dealing with the UI - we are adding a video element to our DOM (and we are identifying it with `LOCAL_PEER_ID`) and attaching our local media stream to this newly 
- added video element (this is the first time we will be using PEER_ID as a handler to a proper element - as you can see, attachStream() method distinguishes between all video elements,
- which we will be having many - one for us and one for each of the peers - basing on this id).
- The last thing we do here is that we are waiting for a result of `this.webrtcChannel.join()` method (can you guess what happens on the server side once we are running this method?).
+ Later on, we are dealing with the UI - we are adding a video element to our DOM.
+ Due to the fact that we need to distinguish between many video tiles in the DOM, we associate each of them with an ID.
+ In case of this newly added video element (which will be displaying the stream from our local camera) the ID is a `LOCAL_PEER_ID` constant. 
+ We specify that we want our local stream to be displayed in the video element with `LOCAL_PEER_ID` identifier by using `attachStream()` method.
+ The last thing we do here is that we are waiting for a result of `this.webrtcChannel.join()` method (calling this method will invoke `VideoRoomWeb.PeerChannel.join()` function on the server side).
 ```this.phoenixChannelPushResult``` is simply wrapping this result:
 
  ```ts
@@ -308,7 +289,7 @@
  };
  ```
 
- Oh, we would have almost forget! We need to define `this.leave()` method:
+ Oh, we would have almost forgotten! We need to define `this.leave()` method:
  ```ts
  private leave = () => {
     this.webrtc.leave();

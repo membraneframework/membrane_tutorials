@@ -16,7 +16,7 @@
  We will be using OTP's [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) to describe the behavior of this module.
 
 
- Let's start by adding methods that will be used to create the module (it is a part of GenServer's interface - no magic happens here)
+ Let's start by adding wrappers for GenServer's `start` and `start_link` functions:
  ```elixir
  def start(opts) do
     GenServer.start(__MODULE__, [], opts)
@@ -69,8 +69,8 @@
  ```elixir
  @impl true
  def handle_info({_sfu_engine, {:sfu_media_event, :broadcast, event}}, state) do
- for {_peer_id, pid} <- state.peer_channels, do: send(pid, {:media_event, event})
- {:noreply, state}
+   for {_peer_id, pid} <- state.peer_channels, do: send(pid, {:media_event, event})
+   {:noreply, state}
  end
  ```
  Here comes the first one - once we receive ```:sfu_media_event``` from the SFU engine with the `:broadcast` specifier, we will send this event to all peers' channels which are currently saved in the ```state.peer_channels``` map in the state of our GenServer. We need to "reformat" the event description so that the message sent to the peer channel matches the interface defined by us previously, in VideoroomWeb.PeerChannel. If you are new to GenServers you might wonder what are we returning in this function - in fact, we are returning the state updated while handling this message. In our case, the state will be the same so we do not change anything. ```:no_reply``` means that we do not need to send the response to the sender (who, in our case, is the SFU engine process). The updated state will be then passed to the next callback while handling the next message - and will be updated during the process of handling that message. And so on and so on :) 
@@ -101,9 +101,10 @@
     {:noreply, state}
  end
  ```
- That one might seem a little bit tricky. What is the deal here? Be aware that it is our process (based on Videoroom.Room module) who is the only one holding the mapping (peer_id->peer_channel_id). Once a new peer joins, the SFU Engine is not aware of any mapping between ```peer_id```and ```peer_channel_pid```. That is why SFU Engine, which is only aware of ```peer_id``` is asking our room process to give him some information about new peer - especially, the ```Kernel.node``` it belongs to (notice that due to use of BEAM virtual machine our application can be distributed - and server can be put on many machines working in the same cluster). To retrieve the information about the node on which peer channel exists, we need to refer to the process id of the peer channel process - and it is the room process that is aware of this process id.
+ That one might seem a little bit tricky. What is the deal here? Be aware that it is our room's process who is the only one holding the mapping between peer's id and peer channel's PID. Once a new peer joins, the SFU Engine is not aware of this peer channel's PID. That is it is asking our room process to give him some information about the new peer. 
+ Apart from sending just peer channel's PID, the room process is also sending the identifier of a node on which the peer channel's process is located (notice that due to use of BEAM virtual machine our application can be distributed - and server can be put on many different nodes working in the same cluster).
 
- And once we receive ```:peer_left``` message from SFU we simply ignore that fact (we could of course remove the peer_id from the (peer_id->peer_channel_pid) mapping...but do we need to?):
+ Once we receive ```:peer_left``` message from SFU we simply ignore that fact (we could of course remove the peer_id from the (peer_id->peer_channel_pid) mapping...but do we need to?):
  ```elixir
  @impl true
  def handle_info({_sfu_engine, {:peer_left, _peer_id}}, state) do
