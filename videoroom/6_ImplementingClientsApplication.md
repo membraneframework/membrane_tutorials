@@ -316,3 +316,15 @@ We will put the whole logic into `assets/src/room.ts`. Methods responsible for h
  feel free to refer to the implementation of the video room's client-side available 
  [here](https://github.com/membraneframework/membrane_demo/tree/master/webrtc/videoroom/assets/src).
 
+ Now, finally, you should be able to check the fruits of your labor!
+ Please run:
+ ```
+ mix phx.server
+ ```
+ visit the following page in your browser:
+ <br>
+ [http://localhost:4000](http://localhost:4000)
+ <br>
+ and then join a room with a given name!
+ Later on, you can visit your video room's page once again, from another browser's tab or from another browser's window (or even another browser - however the recommended browsers to use are Chrome and Firefox) and join the same room as before - you should start seeing two participants in the same room!
+

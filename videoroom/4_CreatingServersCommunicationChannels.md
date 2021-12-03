@@ -110,5 +110,4 @@
  ```
  Note the use of `push` method provided by Phoenix.Channel. 
 
- Great job! You have just implemented the server's side of our communication channel. How about doing it for our client?
-
+ Great job! You have just implemented the server's side of our communication channel. How about adding our server's business logic?

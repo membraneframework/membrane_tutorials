@@ -151,15 +151,7 @@ How about messages coming from the client, via the `PeerChannel`? We need to pas
  First, we find the id of a peer whose channel has died. Then we send a message to the SFU engine telling it to remove peer with given peer_id.
  The last thing we do is to update the state - we remove the mapping (peer_id->peer_channel_pid) from our ```:peer_channels``` map.
 
- Great job! We are done with that! Now, finally, you should be able to check the fruits of your labor!
- Please run:
- ```
- mix phx.server
- ```
- visit the following page in your browser:
- <br>
- [http://localhost:4000](http://localhost:4000)
- <br>
- and then join a room with a given name!
- Later on, you can visit your video room's page once again, from another browser's tab or from another browser's window (or even another browser - however the recommended browsers to use are Chrome and Firefox) and join the same room as before - you should start seeing two participants in the same room!
+ After all of this hard work our server is finally ready. But we still need a client application.
+
+ 
 
