@@ -81,8 +81,11 @@
  Just the beginning - note how do we fetch the room's name by using pattern matching in the argument list of `join/3`. ([pattern matching in Elixir](https://elixir-lang.org/getting-started/pattern-matching.html#pattern-matching)). <br>
 
  What happens here?
- `join/3` is called when the client joins the channel. First, we are looking for a process saved in the global registry under the `room_id` key. If such a process exists, we are simply returning its PID. Otherwise, we are trying to create
- a new `Videoroom.Room` process on the fly (and we register it with `room_id` key in the global registry). If we are successful we return the PID of the newly created room's process.
+ `join/3` is called when the client joins the channel. First, we are looking for a `Videoroom.Room` process saved in the global registry under the `room_id` key. 
+ (`Videoroom.Room` module will hold the whole business logic of the video room - we will implement this module in the next chapter.)
+ If videoroom process is already registered, we are simply returning its PID. Otherwise, we are trying to create
+ a new `Videoroom.Room` process on the fly (and we register it with `room_id` key in the global registry). 
+ If we are successful we return the PID of the newly created room's process.
  At the entrance point of the following step, we already have a `Videoroom.Room` process's pid or an `:error` notification. 
  In case of an error occurring we have a simple error handler that logs the fact, that the room has failed to start. Otherwise, we can make use of the room's process. 
  First, we start to monitor it (so that we will receive ```:DOWN``` message in case of the room's process crash/failure). Then we notify the room's process that 
