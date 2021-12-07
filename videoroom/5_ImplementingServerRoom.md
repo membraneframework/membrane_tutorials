@@ -28,7 +28,7 @@
  ```
 
 
- Then we are providing the implementation of ```init(opts)``` callback:
+ Then we are providing the implementation of `init/1` callback:
  ```elixir
  @impl true
  def init(opts) do
@@ -112,7 +112,7 @@
  end
  ```
 
-If case SFU Engine wants to communicate with the client during the signaling process, we know how to react - we are simply passing the message to the appropriate `PeerChannel`.
+In case SFU Engine wants to communicate with the client during the signaling process, we know how to react - we are simply passing the message to the appropriate `PeerChannel`.
 How about messages coming from the client, via the `PeerChannel`? We need to pass them to the SFU Engine!
  ```elixir
  @impl true

@@ -33,6 +33,22 @@ brew install srtp libnice clang-format ffmpeg opus
 ```
 sudo apt-get install libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev libavutil-dev libopus-dev
 ```
+Later on we you might need to specify some environmental variables. This process might differ among different systems:
+
+## Mac OS with Intel
+```
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+```
+
+## Mac OS with M1
+```
+
+```
+
+## Ubuntu
+```
+export PKG_CONFIG_PATH="/usr/local/ssl/lib/pkgconfig"
+```
 
 # What do we have here?
  Let's make some reconnaissance. 
@@ -49,13 +65,13 @@ sudo apt-get install libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev lib
  ```
  If everything went well the application should be available on [http://localhost:4000](http://localhost:4000/).
 
- Play around...but it is not that match to do! We have better inspect what is the structure of our project.
+ Play around...but it is not that much to do! We have better inspect what is the structure of our project.
  Does the project structure reassemble you the structure of a Phoenix project? (in fact, it should!). We will go through the directories in our project.
  + <b> assets/ </b> <br>
  You can find the front end of our application. The most interesting subdirectory here is src/ - we will be putting our typescript files there. For now, the following files should be present there: 
- + <b> consts.ts </b> - as the name suggests, you will find there some constant values - media constrains and our local peer id
- + <b> index.ts </b> - this one should be empty. It will act as an initialization point for our application and later on, we will spawn a room object there.
- + <b> room_ui.ts </b> - methods which modify DOM are put there. You will find these methods helpful while implementing your room's logic - you will be able to simply call a method in order to put a next video tile among previously present video tiles and this whole process (along with rescaling or moving the tiles so they are nicely put on the screen) will be performed automatically
+   + <b> consts.ts </b> - as the name suggests, you will find there some constant values - media constrains and our local peer id
+   + <b> index.ts </b> - this one should be empty. It will act as an initialization point for our application and later on, we will spawn a room object there.
+   + <b> room_ui.ts </b> - methods which modify DOM are put there. You will find these methods helpful while implementing your room's logic - you will be able to simply call a method in order to put a next video tile among previously present video tiles and this whole process (along with rescaling or moving the tiles so they are nicely put on the screen) will be performed automatically
  + <b> config/ </b> <br>
  Here you can find configuration files for given environments. There is nothing we should be interested in.
  + <b> deps/ </b> <br>

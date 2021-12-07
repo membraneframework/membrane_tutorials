@@ -48,7 +48,7 @@
   The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
   
   The "heart" of the server will be `SFU Engine` - it will deal with all the dirty stuff connected with both the signaling and streaming. We will also have a separate `Room` process (one per each of the video rooms) whose responsibility will be to aggregate information about peers in the particular room.
-  `SFU Engine` will send event messages (i.e. `:new_peer` or `:peer_left` messages) to the `Room`, which will dispatch them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
+  `SFU Engine` will send event messages (e.g. `:new_peer` or `:sfu_media_event` messages) on which obtainment the `Room` process will react, for instance, by dispatching them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
   Messages coming on the `socket` will be dispatched to the appropriate `channel`. Then the `channel` will send them to the `Room`'s process, which finally will pass them to the `SFU Engine`.
   Media transmission will be done with the use of streaming protocols. The way in which this will be performed is out the scope of this tutorial. The only thing you need to know is that SFU Engine will also take care of it. 
 
