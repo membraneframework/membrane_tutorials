@@ -82,7 +82,7 @@
 
  What happens here?
  `join/3` is called when the client joins the channel. First, we are looking for a `Videoroom.Room` process saved in the global registry under the `room_id` key. 
- (`Videoroom.Room` module will hold the whole business logic of the video room - we will implement this module in the next chapter.)
+ (`Videoroom.Room` module will hold the whole business logic of the video room - we will implement this module in the next chapter).
  If videoroom process is already registered, we are simply returning its PID. Otherwise, we are trying to create
  a new `Videoroom.Room` process on the fly (and we register it with `room_id` key in the global registry). 
  If we are successful we return the PID of the newly created room's process.
