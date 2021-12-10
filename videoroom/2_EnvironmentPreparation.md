@@ -77,7 +77,7 @@ export PKG_CONFIG_PATH="/usr/local/ssl/lib/pkgconfig"
  + <b> config/ </b> <br>
  Here you can find configuration files for given environments. There is nothing we should be interested in.
  + <b> deps/ </b> <br>
- Once you type ```mix deps.get``` all the dependencies listed in mix.lock file will get downloaded and be put into this directory. Once again - this is just how mix works and we do not care about this directory anyhow.
+ Once you type ```mix deps.get``` all the dependencies listed in `mix.lock` file will get downloaded and be put into this directory. Once again - this is just how mix works and we do not care about this directory anyhow.
  + <b> lib/ </b> <br>
  This directory contains the server's logic. As mentioned previously, the Phoenix server implements Model-View-Controller architecture so the structure of this directory will reflect this architecture. 
  The only .ex file in this directory is `videoroom_web.ex` file - it defines the aforementioned parts of the system - **controller** and **view**. Moreover, 
@@ -87,12 +87,12 @@ export PKG_CONFIG_PATH="/usr/local/ssl/lib/pkgconfig"
  This directory contains the business logic of our application, which stands for M (model) in MVC architecture. For now, it should only contain application.ex file which defines the Application module for our video room. As each [application](https://hexdocs.pm/elixir/1.12/Application.html), it can be loaded, started, and stopped, as well as it can bring to life its own children (which constitute the environment created by an application). Later on, we will put into this directory files which will provide some logic of our application - for instance, Videoroom.Room module will be defined there.
  + <b> videoroom_web/ </b> <br>
  This directory contains files that stand for V (view) and C (controller) in the MVC architecture.
- As you can see, there are already directories with names "views" and "controllers" present here. The aforementioned (tutorial) (the one available in the "helpful links" sections) describes the structure and contents of this directory in a really clear way so I don't think there is a need to repeat this description here. The only thing I would like to point out is the way in which we are loading our custom Javascript scripts. Take a look at lib/videoroom_web/room/index.html.eex file (as the Phoenix tutorial says, this file should contain an EEx template for your room controller ) - you will find the following line there:
+ As you can see, there are already directories with names "views" and "controllers" present here. The aforementioned (tutorial) (the one available in the "helpful links" sections) describes the structure and contents of this directory in a really clear way so I don't think there is a need to repeat this description here. The only thing I would like to point out is the way in which we are loading our custom Javascript scripts. Take a look at `lib/videoroom_web/templates/room/index.html.eex` file (as the Phoenix tutorial says, this file should contain an EEx template for your room controller ) - you will find the following line there:
  ```html
  <script src="<%= static_path(@conn, "/js/room.js") %>"></script>
  ```
  As you can see, we are loading a script which is placed in `/js/room.js` (notice, that a path provided there is passed in respect to priv/static/ directory which holds files generated from typescript scripts in assets/src/ directory)
 
  + <b> priv/static/ </b> <br>
- Here you will find static assets. They can be generated, for instance, from the files contained in assets/ directory (.ts which are in assets/src are converted into .js files put inside priv/static/js). Not interesting at all, despite the fact, that we needed to load /js/room.js script file from here ;)
+ Here you will find static assets. They can be generated, for instance, from the files contained in `assets/` directory (`.ts` which are in `assets/src` are converted into .js files put inside `priv/static/js`). Not interesting at all, despite the fact, that we needed to load `/js/room.js` script file from here ;)
  
