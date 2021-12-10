@@ -1,2 +1,4 @@
 # membrane_tutorials
-Repository which contains templates of some of the demos with parts of the code missing, so that the user can fulfil them during the process of learning.
+Repository which contains text and assets used in Membrane Framework tutorials.
+The following tutorials are now available:
++ Videoroom Tutorial
