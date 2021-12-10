@@ -60,6 +60,7 @@ We will put the whole logic into `assets/src/room.ts`. Methods responsible for h
  ```
  Let's start with a bunch of member fields and the constructor that will initialize them::
  ```ts
+ private displayName: string;
  private socket;
  private webrtcSocketRefs: string[] = [];
  private webrtcChannel;
