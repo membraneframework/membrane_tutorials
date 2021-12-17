@@ -14,4 +14,4 @@ Sections:
 + [Futher steps](7_FurtherSteps.md)
 
 <br>
-[List of tutorials](../index.md)
+[List of tutorials](../../index.md)
