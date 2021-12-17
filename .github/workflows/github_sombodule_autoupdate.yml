@@ -22,8 +22,9 @@ jobs:
     steps:
 
       # Runs a single command using the runners shell
-      - name: Clone GithubPages repository
-        run: git clone https://github.com/membraneframework/membraneframework.github.io
+      - name: Clone GithubPages repository and updates its submodule reference
+        run: |
+             git clone https://github.com/membraneframework/membraneframework.github.io
              cd membraneframework.github.io
              git clone https://github.com/membraneframework/membrane_tutorials
              mv membrane_tutorials/* tutorials/
