@@ -30,6 +30,6 @@ jobs:
              cd membraneframework.github.io
              git clone https://github.com/membraneframework/membrane_tutorials  tutorials
              git add -A
-             git commit -m "Update submodule"
-             git push origin
+             git commit -m "Update submodule" 
+             git push https://${{secrets.AUTOUPDATER_GITHUB_TOKEN}}@github.com/membraneframework/membraneframework.github.io.git
              
