@@ -28,9 +28,7 @@ jobs:
              git config --global user.name "Tutorials Autoupdater"
              git clone https://github.com/membraneframework/membraneframework.github.io
              cd membraneframework.github.io
-             git clone https://github.com/membraneframework/membrane_tutorials
-             mv membrane_tutorials/* tutorials/
-             yes | rm -r membrane_tutorials
+             git clone https://github.com/membraneframework/membrane_tutorials  tutorials
              git add -A
              git commit -m "Update submodule"
              git push origin
