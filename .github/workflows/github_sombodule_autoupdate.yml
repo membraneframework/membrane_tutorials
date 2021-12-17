@@ -24,6 +24,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: Clone GithubPages repository and updates its submodule reference
         run: |
+             git config --global user.email "autoupdater@example.com"
+             git config --global user.name "Tutorials Autoupdater"
              git clone https://github.com/membraneframework/membraneframework.github.io
              cd membraneframework.github.io
              git clone https://github.com/membraneframework/membrane_tutorials
