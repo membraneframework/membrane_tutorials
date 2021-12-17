@@ -180,7 +180,7 @@ After all of this hard work our server is finally ready. But we still need a cli
 [NEXT - Client's application](6_ImplementingClientsApplication.md)<br>
 [PREV - Server's communication channels](4_CreatingServersCommunicationChannels.md)<br>
 [List of contents](index.md)<br>
-[List of tutorials](../index.md)
+[List of tutorials](../../index.md)
 
  
 

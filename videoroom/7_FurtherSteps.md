@@ -37,4 +37,4 @@ Here our journey ends! I modestly hope that you have enjoyed the tutorial and ha
 <br>
 [PREV - Client's application](6_ImplementingClientsApplication.md)<br>
 [List of contents](index.md)<br>
-[List of tutorials](../index.md)
+[List of tutorials](../../index.md)

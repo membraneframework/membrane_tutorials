@@ -67,4 +67,4 @@ Be aware that `MembraneWebRTC` object will also take care of the incoming media 
 [NEXT - Server's communication channels](4_CreatingServersCommunicationChannels.md)<br>
 [PREV - Environment preparation](2_EnvironmentPreparation)<br>
 [List of contents](index.md)<br>
-[List of tutorials](../index.md)
+[List of tutorials](../../index.md)

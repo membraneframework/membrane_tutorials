@@ -44,4 +44,4 @@ behind some firewalls and NAT!
 Take a quick glance there and find out what are possible architectures of WebRTC servers, when to use which architecture, and how to build a streaming solution that scales and behaves well. <br><br>
 [NEXT - Environment preparation](2_EnvironmentPreparation.md)<br>
 [List of contents](index.md) <br>
-[List of tutorials](../index.md)
+[List of tutorials](../../index.md)

@@ -135,4 +135,4 @@ Great job! You have just implemented the server's side of our communication chan
 [NEXT - Server's room process](5_ImplementingServerRoom.md)<br>
 [PREV - System architecture](3_SystemArchitecture.md)<br>
 [List of contents](index.md)<br>
-[List of tutorials](../index.md)
+[List of tutorials](../../index.md)

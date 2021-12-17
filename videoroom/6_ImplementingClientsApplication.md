@@ -367,5 +367,5 @@ Later on, you can visit your video room's page once again, from another browser'
 [NEXT - Further steps](7_FurtherSteps.md)<br>
 [PREV - Server's room process](5_ImplementingServerRoom.md)<br>
 [List of contents](index.md)<br>
-[List of tutorials](../index.md)
+[List of tutorials](../../index.md)
 
