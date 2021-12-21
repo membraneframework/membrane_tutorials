@@ -37,7 +37,7 @@ defmodule Hello do
   end
 end
 ```
-That might not look too simple for now but don't worry, there'll be a lot of new things you're going to meet, and we'll be introducing you to some of them, or giving hints how and where to learn more.
+That might not look too simple for now but don't worry, there'll be a lot of new things you're going to encounter, and we'll be introducing you to some of them, or giving hints about how and where to learn more.
 
 > #### Elixir
 > Membrane is written in Elixir. It's an awesome programming language of functional paradigm with great fault tolerance and process management, which made it a best choice for Membrane.
