@@ -1,6 +1,6 @@
 ﻿# Get Started with Membrane
 
-Hello there, we're glad you choose to learn Membrane. We'd like to invite you for a journey around multimedia with us, to show you how to make all that stuff we made work for you. 
+Hello there, we're glad you chose to learn Membrane. We'd like to invite you on a journey around multimedia with us, to show you how to make all that stuff we made work for you. 
 
 Lets start with some old-fashioned "Hello world!"
 
