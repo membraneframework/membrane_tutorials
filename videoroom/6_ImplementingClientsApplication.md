@@ -1,6 +1,11 @@
 ---
 title: 6. Client's application
-description: Videoroom Tutorial
+description: >- 
+  Create your very own videoconference room with a little help from the Membrane Framework!
+  <div>
+  <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
+  <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
+  </div>
 ---
 ## Let's implement the client's endpoint!
 We will put the whole logic into `assets/src/room.ts`. Methods responsible for handling UI are already in `assets/src/room_ui.ts`, let's import them: 

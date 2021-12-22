@@ -1,9 +1,14 @@
 ---
 title: Videoroom Tutorial
-description: Create your very own videoconference room with a little help from the Membrane Framework!
+description: >- 
+  Create your very own videoconference room with a little help from the Membrane Framework!
+  <div>
+  <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
+  <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
+  </div>
 ---
 
-{{page.description}}
+Create your very own videoconference room with a little help from the Membrane Framework!
 Sections:
 + [Introduction](1_Introduction.md)
 + [Environment preparation](2_EnvironmentPreparation.md)
