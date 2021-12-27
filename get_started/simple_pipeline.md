@@ -189,7 +189,7 @@ At the end of the callback we need to return a proper tuple from `handle_init`. 
 ```
 We're passing empty map for state, as we don't need anything to be stored as state.
 
-After that a full modul will look like that:
+After that the full module will look like this:
 
 ```elixir
 defmodule Hello do
