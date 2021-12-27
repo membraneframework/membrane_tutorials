@@ -227,7 +227,7 @@ end
 
 ### Running a pipeline
 
-Your pipeline you can start from any place in the code, but you can easily start it using Elixir interactive console:
+You can start your pipeline from any place in the code but it's convenient to use Elixir's interactive console:
 
 ```bash
 $ iex -S mix
