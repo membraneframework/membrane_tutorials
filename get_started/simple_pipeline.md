@@ -73,7 +73,7 @@ Lets use it to create a project for our first Membrane adventure:
 $ mix new hello --module Hello
 ```
 
-Mix generator will create some files for us. Lets take a closer look into two of them:
+Mix generator will create some files for us. Lets take a closer look at two of them:
 
 **mix.exs** - It's an entry file for our mix project, a place where we can configure it, and set-up our dependencies. We'll do it by adding them into `deps` function:
 
