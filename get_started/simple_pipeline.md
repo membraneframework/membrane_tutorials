@@ -176,7 +176,7 @@ File Source read bytes from our mp3, sends them to decoder. Decoder, after decod
 
 Tha last but not least is to take elements and links together into a proper structure:
 
-A structure here is `Membrane.ParentSpec` [docs](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html). You can also declare here other options if needed. In our pipeline `ParentSpec` will contains only children elements and links between them:
+The structure here is `Membrane.ParentSpec` [docs](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html). You can also declare other options here if needed. In our pipeline `ParentSpec` will contain only children elements and links between them:
 
 ```elixir
 spec = %ParentSpec{children: children, links: links}
