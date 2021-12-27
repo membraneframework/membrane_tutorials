@@ -40,7 +40,7 @@ end
 That might not look too simple for now but don't worry, there'll be a lot of new things you're going to encounter, and we'll be introducing you to some of them, or giving hints about how and where to learn more.
 
 > #### Elixir
-> Membrane is written in Elixir. It's an awesome programming language of functional paradigm with great fault tolerance and process management, which made it a best choice for Membrane.
+> Membrane is written in Elixir. It's an awesome programming language of the functional paradigm with great fault tolerance and process management, which made it the best choice for Membrane.
 > If you're not familiar with it, you can use [this cheatsheet](https://devhints.io/elixir) for quick look-up.
 > We encourage you also to take a [deep look into Elixir](https://elixir-lang.org/getting-started/introduction.html) and learn how to use it to take advantage of all it's awesomeness. We believe you fall in love with Elixir too!
 >
