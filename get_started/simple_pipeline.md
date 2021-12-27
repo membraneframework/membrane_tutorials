@@ -44,7 +44,7 @@ That might not look too simple for now but don't worry, there'll be a lot of new
 > If you're not familiar with it, you can use [this cheatsheet](https://devhints.io/elixir) for quick look-up.
 > We encourage you also to take a [deep look into Elixir](https://elixir-lang.org/getting-started/introduction.html) and learn how to use it to take full advantage of all it's awesomeness. We believe you'll fall in love with Elixir too!
 >
-> To play and work with membrane you'll need to have Elixir environment installed on your system. Instructions how to do it depending to your operating system you'll find [here](https://elixir-lang.org/install.html).
+> To play and work with Membrane you'll need to have the Elixir environment installed on your system. You'll find instructions for how to do it depending on your operating system [here](https://elixir-lang.org/install.html).
 
 
 The code above is one of the simplest examples of Membrane usage. It plays mp3 file through your device's `portaudio`. Let's make it work.
