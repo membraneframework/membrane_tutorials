@@ -125,7 +125,7 @@ end
 
 The main purpose of `handle_init` callback is to prepare our pipeline. Preparing among others means that we need to specify all its elements as children and set-up linkings between them. All other options that can be specified if needed you can find in `Membrane.ParentSpec` [docs](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html).
 
->If concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially a part starring GenServer and Supervisor). You can find proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
+>If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring GenServer and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
 
 #### Elements
 
