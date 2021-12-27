@@ -51,7 +51,7 @@ The code above is one of the simplest examples of Membrane usage. It plays an mp
 
 ### Prerequisites
 
-First we need to get all libraries that Membrane needs to operate in our case. You can read about them more if you'd like, but for now we'll just jump to installation:
+First we need to get all the libraries that Membrane needs to operate in our case. You can read about them more if you'd like, but for now we'll just jump to installation:
 
 ##### Ubuntu
 ```bash
