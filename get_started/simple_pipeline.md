@@ -64,7 +64,7 @@ $ brew install clang-format portaudio ffmpeg libmad pkg-config
 
 ### Creating a Project
 
-While installing Elixir you'll get a bunch of useful tools. One of them is [Mix](https://hexdocs.pm/mix/Mix.html). As you can read in its documentation preface:
+By installing Elixir you'll get a bunch of useful tools. One of them is [Mix](https://hexdocs.pm/mix/Mix.html). As you can read in its documentation preface:
 > Mix is a build tool that provides tasks for creating, compiling, and testing Elixir projects, managing its dependencies, and more.
 
 Lets use it to create a project for our first Membrane adventure:
