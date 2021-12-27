@@ -47,7 +47,7 @@ That might not look too simple for now but don't worry, there'll be a lot of new
 > To play and work with Membrane you'll need to have the Elixir environment installed on your system. You'll find instructions for how to do it depending on your operating system [here](https://elixir-lang.org/install.html).
 
 
-The code above is one of the simplest examples of Membrane usage. It plays mp3 file through your device's `portaudio`. Let's make it work.
+The code above is one of the simplest examples of Membrane usage. It plays an mp3 file through your device's `portaudio`. Let's make it work.
 
 ### Prerequisites
 
