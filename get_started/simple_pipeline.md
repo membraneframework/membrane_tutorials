@@ -152,7 +152,7 @@ children = %{
 }
 ```
 
-The keys in that keyword list are just a names we gave to elements. We're going to need them when linking.
+The keys in the `children` keyword list (`file`, `decoder`, `converter`, `portaudio`) are just convenient names we gave our elements to refer to them later. We're going to need them for linking.
 
 #### Linking elements
 
