@@ -167,7 +167,7 @@ links = [
 ]
 ```
 
-File Source read bytes from our mp3, sends them to decoder. Decoder, after decoding, sends them to converter. Converter, after conversion sends them to sink. Portaudio sink receives them and plays music through Portaudio 🎶
+The file Source reads bytes from our mp3 file and sends them to decoder. Decoder, after decoding, sends them to converter. Converter, after conversion sends them to our portaudio sink, which receives them and plays music through Portaudio 🎶
 
 #### Parent Spec
 
