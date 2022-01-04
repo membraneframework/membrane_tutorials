@@ -77,7 +77,7 @@ $ mix new hello --module Hello
 
 Mix generator will create some files for us. Lets take a closer look at two of them:
 
-+ **mix.exs** - It's an entry file for our mix project, a place where we can configure it, and set-up our dependencies. We'll do it by adding them into `deps` function:
++ **mix.exs** - It's an entry file for our mix project, a place where we can configure it, and set up our dependencies. We'll do it by adding them into the `deps` function:
 
   ```elixir
   defp deps do
@@ -94,7 +94,7 @@ Mix generator will create some files for us. Lets take a closer look at two of t
 
 #### Pipeline behaviour
 
-Let's start with declaring that we'll be using `Membrane.Pipeline` behaviour:
+Let's start with declaring that we'll be using the `Membrane.Pipeline` behaviour:
 
 ```elixir
 defmodule Hello do
@@ -130,7 +130,7 @@ The elements we'd like to use to play our mp3 will be:
 
  - `Membrane.File.Source` - the Source module form Membrane file plugin that will read a file.
  - `Membrane.MP3.MAD.Decoder` - an mp3 decoder based on [MAD](https://www.underbit.com/products/mad/)
- - `Membrane.FFmpeg.SWResample.Converter` - a converter based on [FFmpeg SWResample](https://ffmpeg.org/doxygen/trunk/group__lswr.html#details). We'll be needing it to resample our row audio stream from 24 to 16 bits.
+ - `Membrane.FFmpeg.SWResample.Converter` - a converter based on [FFmpeg SWResample](https://ffmpeg.org/doxygen/trunk/group__lswr.html#details). We'll be needing it to resample our raw audio stream from 24 to 16 bits.
  - `Membrane.Portaudio.Sink` - A Sink module that will be playing our music with [Portaudio](http://www.portaudio.com)
 
 > As you can see all elements we're using are not a part of `membrane_core`, but can be found in separate libraries. You can find a list of packages provided by Membrane team [here](https://membraneframework.org/guide/v0.7/packages.html). You can also learn how to write your own Element.
