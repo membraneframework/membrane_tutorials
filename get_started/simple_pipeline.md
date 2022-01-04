@@ -104,7 +104,7 @@ defmodule Hello do
 end
 ```
 
-Using a behaviour means we are treating our module as a Membrane pipeline, so we've access to functions defined in `Membrane.Pipeline` module, and we can implement some of it's callbacks.
+Using this behaviour means we are treating our module as a Membrane Pipeline, so we will have access to functions defined in the `Membrane.Pipeline` module, and we can implement some of it's callbacks.
 Let's implement the first callback: `handle_init/1`. As you can see in [the documentation](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/1) `handle_init` takes one argument which can be of any type - it's a way to pass some arguments needed for the pipeline to start. As our app's one and only purpose is to play an mp3 file we can assume that the only value we need to pass into the pipeline is a path for a file we want to play:
 ```elixir
 defmodule Hello do
@@ -133,9 +133,9 @@ The elements we'd like to use to play our mp3 will be:
  - `Membrane.FFmpeg.SWResample.Converter` - a converter based on [FFmpeg SWResample](https://ffmpeg.org/doxygen/trunk/group__lswr.html#details). We'll be needing it to resample our raw audio stream from 24 to 16 bits.
  - `Membrane.Portaudio.Sink` - A Sink module that will be playing our music with [Portaudio](http://www.portaudio.com)
 
-> As you can see all elements we're using are not a part of `membrane_core`, but can be found in separate libraries. You can find a list of packages provided by Membrane team [here](https://membraneframework.org/guide/v0.7/packages.html). You can also learn how to write your own Element.
+> As you can see all the elements we're using are not part of `membrane_core`, but can be found in separate plugins. You can find a list of packages provided by the Membrane Team [here](https://membraneframework.org/guide/v0.7/packages.html). There you can also learn how to write your own Element.
 
-The full children declaration for our player will look like that:
+The full children declaration for our player will look like this:
 
 ```elixir
 children = %{
@@ -152,11 +152,11 @@ children = %{
 }
 ```
 
-The keys in that keyword list are just a names we gave to elements. We're going to need them when linking.
+The keys in the `children` keyword list (`file`, `decoder`, `converter`, `portaudio`) are just convenient names we gave our elements to refer to them later. We're going to need them for linking.
 
 #### Linking elements
 
-Now we should link them in proper order. Each membrane element is one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output. That means Source element can only start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipeline (it will not send any data to succeeding elements), and Filters can be in the middle (it will receive, process and send data further). In our case a links declaration will look like that: 
+Now we should link them in the proper order. Each Membrane Element can be one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output pads. That means only a Source element start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipelines (it will not send any data to subsequent elements), and Filters can be in the middle (they receive, process and send data further). In our case the links declaration will look like this: 
 
 ```elixir
 links = [
@@ -167,11 +167,11 @@ links = [
 ]
 ```
 
-File Source read bytes from our mp3, sends them to decoder. Decoder, after decoding, sends them to converter. Converter, after conversion sends them to sink. Portaudio sink receives them and plays music through Portaudio 🎶
+The file Source reads bytes from our mp3 file and sends them to decoder. Decoder, after decoding, sends them to converter. Converter, after conversion sends them to our portaudio sink, which receives them and plays music through Portaudio 🎶
 
 #### Parent Spec
 
-Tha last but not least is to take elements and links together into a proper structure:
+Last but not least we need group our elements and links together into a proper structure:
 
 The structure here is `Membrane.ParentSpec` [docs](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html). You can also declare other options here if needed. In our pipeline `ParentSpec` will contain only children elements and links between them:
 
