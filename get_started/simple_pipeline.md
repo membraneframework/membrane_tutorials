@@ -94,7 +94,7 @@ Mix generator will create some files for us. Lets take a closer look at two of t
 
 #### Pipeline behaviour
 
-Let's start with declaring that we'll be using `Membrane.Pipeline` behaviour:
+Let's start with declaring that we'll be using the `Membrane.Pipeline` behaviour:
 
 ```elixir
 defmodule Hello do
