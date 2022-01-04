@@ -135,7 +135,7 @@ The elements we'd like to use to play our mp3 will be:
 
 > As you can see all the elements we're using are not part of `membrane_core`, but can be found in separate plugins. You can find a list of packages provided by the Membrane Team [here](https://membraneframework.org/guide/v0.7/packages.html). There you can also learn how to write your own Element.
 
-The full children declaration for our player will look like that:
+The full children declaration for our player will look like this:
 
 ```elixir
 children = %{
