@@ -104,7 +104,7 @@ defmodule Hello do
 end
 ```
 
-Using a behaviour means we are treating our module as a Membrane pipeline, so we've access to functions defined in `Membrane.Pipeline` module, and we can implement some of it's callbacks.
+Using this behaviour means we are treating our module as a Membrane Pipeline, so we will have access to functions defined in the `Membrane.Pipeline` module, and we can implement some of it's callbacks.
 Let's implement the first callback: `handle_init/1`. As you can see in [the documentation](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/1) `handle_init` takes one argument which can be of any type - it's a way to pass some arguments needed for the pipeline to start. As our app's one and only purpose is to play an mp3 file we can assume that the only value we need to pass into the pipeline is a path for a file we want to play:
 ```elixir
 defmodule Hello do
