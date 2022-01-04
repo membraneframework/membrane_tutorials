@@ -156,7 +156,7 @@ The keys in the `children` keyword list (`file`, `decoder`, `converter`, `portau
 
 #### Linking elements
 
-Now we should link them in proper order. Each membrane element is one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output. That means Source element can only start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipeline (it will not send any data to succeeding elements), and Filters can be in the middle (it will receive, process and send data further). In our case a links declaration will look like that: 
+Now we should link them in the proper order. Each Membrane Element can be one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output pads. That means only a Source element start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipelines (it will not send any data to subsequent elements), and Filters can be in the middle (they receive, process and send data further). In our case the links declaration will look like this: 
 
 ```elixir
 links = [
