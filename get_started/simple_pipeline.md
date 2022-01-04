@@ -62,6 +62,8 @@ $ apt install clang-format portaudio19-dev ffmpeg libavutil-dev libswresample-de
 $ brew install clang-format portaudio ffmpeg libmad pkg-config
 ```
 
+Alternatively, you can use our docker image that already contains all libraries you need to smoothly run any membrane code. You can read more about how to do it [here](https://tutorials.membraneframework.org/tutorials/videoroom/2_EnvironmentPreparation.html#setting-environment-with-the-use-of-docker).
+
 ### Creating a Project
 
 While installing Elixir you'll get a bunch of useful tools. One of them is [Mix](https://hexdocs.pm/mix/Mix.html). As you can read in its documentation preface:
@@ -123,7 +125,9 @@ defmodule Hello do
 end
 ```
 
-The main purpose of `handle_init` callback is to prepare our pipeline. Preparing among others means that we need to specify all its elements as children and set-up linkings between them. All other options that can be specified if needed you can find in `Membrane.ParentSpec` [docs](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html).
+The main purpose of the `handle_init` callback is to prepare our pipeline. Preparing means that we need to specify all its elements as children and set up links between those children to describe the order in which data will flow through the pipeline.
+Pipeline's callbacks are expected to return a status and an optional list of actions to be taken. The action can be of one of the following [types](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:t/0).
+Since we want to spawn children processes and link them, we will use the [`spec_t()`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0) action which is described with the use of `Membrane.ParentSpec` structure.
 
 >If concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially a part starring GenServer and Supervisor). You can find proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
 
