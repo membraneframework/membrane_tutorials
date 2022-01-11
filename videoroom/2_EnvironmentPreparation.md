@@ -52,7 +52,7 @@ export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
 ## Mac OS with M1
 ```
-export C_INCLUDE_PATH=/opt/homebrew/Cellar/libnice/0.1.18/include:/opt/homebrew/Cellar opus/1.3.1/include:/opt/homebrew/Cellar/openssl@1.1/1.1.1l_1/include
+export C_INCLUDE_PATH=/opt/homebrew/Cellar/libnice/0.1.18/include:/opt/homebrew/Cellar/opus/1.3.1/include:/opt/homebrew/Cellar/openssl@1.1/1.1.1l_1/include
 export LIBRARY_PATH=/opt/homebrew/Cellar/opus/1.3.1/lib
 export PKG_CONFIG_PATH=/opt/homebrew/Cellar/openssl@1.1/1.1.1l_1/lib/pkgconfig/
 ```
