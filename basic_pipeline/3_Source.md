@@ -46,13 +46,14 @@ You can read more on the pad specification [here](https://hexdocs.pm/membrane_co
 Let's define our first callback! Why not to start with [`handle_init/1`](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_init/1), which gets called once the element is created?
 ```Elixir
 # FILE: lib/elements/Source.ex
+
 defmodule Basic.Elements.Source do
   ...
   @impl true
-  def handle_init(%__MODULE__{location: location}) do
+  def handle_init(options) do
     {:ok,
      %{
-       location: location,
+       location: options.location,
        content: nil
      }}
   end
@@ -70,14 +71,15 @@ The callbacks we are about to implement will be called once the transition betwe
 
 ```Elixir
 # FILE: lib/elements/Source.ex
+
 defmodule Basic.Elements.Source do
   ...
   @impl true
-  def handle_stopped_to_prepared(_ctx, %{location: location} = state) do
-    raw_file_binary = File.read!(location)
+  def handle_stopped_to_prepared(_ctx, state) do
+    raw_file_binary = File.read!(state.location)
     content = String.split(raw_file_binary, "\n")
     state = %{state | content: content}
-    { {:ok, [caps: {:output, %Basic.Formats.Packet{type: :custom_packets}}  ] }, state}
+    {{:ok, [caps: {:output, %Basic.Formats.Packet{type: :custom_packets}}]}, state}
   end
 
   @impl true
@@ -98,6 +100,7 @@ Before going any further let's stop for a moment and talk about the demands. Do 
 Once the succeeding element requests for the data, the `handle_demand/4` callback will be invoked - therefore it would be good for us to define it:
 ```Elixir
 #FILE: lib/elements/Source.ex
+
 defmodule Basic.Elements.Source do
     ...
     @impl true
@@ -106,16 +109,16 @@ defmodule Basic.Elements.Source do
     end
 
     @impl true
-    def handle_demand(:output, size, :buffers, _ctx, %{content: content}=state) do
-        if content == [] do
-            {{:ok, end_of_stream: :output}, state}
-        else
-            [chosen|rest] = content
-            state = %{state | content: rest}
-            action = [buffer: {:output, %Buffer{payload: chosen}}]
-            action = if size > 1, do: action++[redemand: :output], else: action
-            {{:ok, action}, state}
-        end
+    def handle_demand(:output, size, :buffers, _ctx, state) do
+      if state.content == [] do
+        {{:ok, end_of_stream: :output}, state}
+      else
+        [chosen | rest] = state.content
+        state = %{state | content: rest}
+        action = [buffer: {:output, %Buffer{payload: chosen}}]
+        action = if size > 1, do: action ++ [redemand: :output], else: action
+        {{:ok, action}, state}
+      end
     end
     ...
 end
