@@ -19,8 +19,10 @@
   + payloader, depayloader
   + encoder, decoder
   + encryptor, decryptor
+  + muxer, demuxer
   + jitter buffer (ordering buffer)
   + mixer
++ container format
 + ICE
   + STUN
   + TURN
