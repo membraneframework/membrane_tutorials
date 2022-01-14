@@ -15,7 +15,7 @@ There is a chance that you remember that the SFU engine was sending some other m
 Below you can see what is the expected result:
 
 
-![VAD example](assets/records/vad.gif "VAD example")
+![VAD example](assets/records/vad.webp "VAD example")
 
 Hopefully, you will find the diagram placed below helpful as it describes the flow of the VAD notification and shows which component's of the system need to be changed:
 
@@ -30,7 +30,7 @@ Hopefully, you will find the diagram placed below helpful as it describes the fl
 It's not necessary for each peer to hear everything...
 Why not allow users of our video room to mute themselves when they want to?
 This simple feature has nothing to do with the server-side of our system. Everything you need to do in order to disable the voice stream being sent can be found in (WebRTC MediaStreamTrack API documentation)[https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack]. You need to find a way to disable and reenable the audio track from your local media stream and then add a button that would set you in a "muted" or "unmuted" state. The expected result is shown below:
-![Mute example](assets/records/mute.gif "mute example")
+![Mute example](assets/records/mute.webp "mute example")
 
 
 
