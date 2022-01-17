@@ -21,7 +21,7 @@ At the end of the tutorial, you will have a fully functional video room implemen
 You will learn about many interesting aspects of media streaming as well as get familiar with the use of tools which make media streaming easier.
 ## Expected result
 Here you can see how our application should work. We want to be able to open the web application, pass the name of the room to which we want to join and our own name and then join this room. In the room, we will be seeing and hearing all of the other users who have joined the given room. <br>
-![Expected Result](assets/records/expected_result.gif) <br>
+![Expected Result](assets/records/expected_result.webp) <br>
 ## Prerequisites
 Since media streaming is quite a complex topic it would be great for you to know something about how the browser can fetch user's media, how the connection is made between peers etc. Since we will be using the Phoenix framework to create our application - it will be much easier for you to understand what's going on if you will be even slightly familiar with that framework. Take your time and glance over these links:
 + [How does Phoenix work?](https://hexdocs.pm/phoenix/request_lifecycle.html)
