@@ -1,14 +1,14 @@
 ---
 title: 6. Client's application
-description: >- 
-  Create your very own videoconference room with a little help from the Membrane Framework!
+description: >-
+  Create your very own videoconferencing room with a little help from the Membrane Framework!
   <div>
   <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
   <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
   </div>
 ---
 ## Let's implement the client's endpoint!
-We will put the whole logic into `assets/src/room.ts`. Methods responsible for handling UI are already in `assets/src/room_ui.ts`, let's import them: 
+We will put the whole logic into `assets/src/room.ts`. Methods responsible for handling UI are already in `assets/src/room_ui.ts`, let's import them:
 ```ts
 //FILE: assets/src/room.ts
 
@@ -81,7 +81,7 @@ export class Room {
   };
 
 
-//no worries, we will put something into these functions :) 
+//no worries, we will put something into these functions :)
 }
 ```
 Let's start with the constructor that will initialize the member fields:
@@ -99,9 +99,9 @@ constructor(){
 }
 ```
 
-What happens at the beginning of the constructor? We are creating a new Phoenix Socket with `/socket` path (must be the same as we have defined on the server-side!) and right after that, we are starting a connection. 
+What happens at the beginning of the constructor? We are creating a new Phoenix Socket with `/socket` path (must be the same as we have defined on the server-side!) and right after that, we are starting a connection.
 Later on, we are retrieving the display name from the URL (the user has set it in the UI while joining the room and it was passed to the next view as the URL param).
-Then we are connecting to the Phoenix's channel on the topic `room:<room name>`. The room name is fetched from the UI. 
+Then we are connecting to the Phoenix's channel on the topic `room:<room name>`. The room name is fetched from the UI.
 Following on the constructor implementation:
 ```ts
 //FILE: assets/src/room.ts
@@ -121,7 +121,7 @@ However, we want to keep track of those callbacks so that we will be able to tur
 Where will we be unregistering the callbacks? Inside `this.leave()` method!
 
 
-Now let's get back to the constructor. Let's initialize a MembraneWebRTC object! 
+Now let's get back to the constructor. Let's initialize a MembraneWebRTC object!
 ```ts
 //FILE: assets/src/room.ts
 
@@ -132,7 +132,7 @@ constructor(){
 }
 ```
 
-According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of the RTC engine client by the mean of passing the proper callbacks during the construction. 
+According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of the RTC engine client by the mean of passing the proper callbacks during the construction.
 
 We will go through the callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called ```callbacks``` before initializing ```this.webrtc``` object.
 
@@ -152,7 +152,7 @@ we need to pass it to the server. That is why we are making use of our Phoenix c
 onConnectionError: setErrorMessage,
 ```
 This one is quite easy - if the error occurs on the client-side of our library, we are simply setting an error message.
-In our template `setErrorMessage` method is already provided, but take a look at this method - `onConnectionError` callback forces us to 
+In our template `setErrorMessage` method is already provided, but take a look at this method - `onConnectionError` callback forces us to
 provide a method with a given signature (because it is passing some parameters which might be helpful to track the reason of the error).
 #### onJoinSuccess
 We will manipulate the list of peers in this method.
@@ -189,7 +189,7 @@ We are simply putting all the peers' display names into the list and later on, w
 
 How about you trying to implement the rest of the callbacks on your own? Please refer to the [documentation]() and think where you can use methods from ```./assets/src/room_ui.ts```.
 Below you will find the expected result (callback implementation) for each of the methods - it might not be the best implementation...but this is the implementation you can afford!
-Seriously speaking - we have split some of these callbacks implementation into multiple functions, according to some good practices and we consider it to be a little bit...cleaner ;) 
+Seriously speaking - we have split some of these callbacks implementation into multiple functions, according to some good practices and we consider it to be a little bit...cleaner ;)
 
 #### onJoinError
 ```ts
@@ -305,7 +305,7 @@ asynchronous method allowing the browser to fetch tracks of the user's media. We
 Take a look at `assets/src/consts.ts` file where you will find `MEDIA_CONSTRAINTS` definition - it says that we want to get both audio data and video data (but in a specified format!).
 Later on, we are dealing with the UI - we are adding a video element to our DOM.
 Due to the fact that we need to distinguish between many video tiles in the DOM, we associate each of them with an ID.
-In case of this newly added video element (which will be displaying the stream from our local camera) the ID is a `LOCAL_PEER_ID` constant. 
+In case of this newly added video element (which will be displaying the stream from our local camera) the ID is a `LOCAL_PEER_ID` constant.
 We specify that we want our local stream to be displayed in the video element with `LOCAL_PEER_ID` identifier by using `attachStream()` method.
 The last thing we do here is that we are waiting for a result of `this.webrtcChannel.join()` method (calling this method will invoke `VideoRoomWeb.PeerChannel.join()` function on the server side).
 ```this.phoenixChannelPushResult``` is simply wrapping this result:
@@ -369,4 +369,3 @@ Later on, you can visit your video room's page once again, from another browser'
 [PREV - Server's room process](5_ImplementingServerRoom.md)<br>
 [List of contents](index.md)<br>
 [List of tutorials](../../index.md)
-
