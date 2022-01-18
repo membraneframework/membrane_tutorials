@@ -50,9 +50,15 @@ export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 ```
 
 ## Ubuntu
+
 ```
-sudo apt-get install npm libssl-dev libopus-dev libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev libavutil-dev
+sudo apt-get install npm build-essential pkg-config libssl-dev libopus-dev libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev libavutil-dev
 export PKG_CONFIG_PATH="/usr/local/ssl/lib/pkgconfig"
+```
+
+If you installed Elixir from ESL repo, make sure the following erlang packages are present
+```
+sudo apt-get install erlang-dev erlang-parsetools erlang-src
 ```
 
 # Setting environment with the use of Docker
