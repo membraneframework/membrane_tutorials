@@ -1,7 +1,7 @@
 ---
 title: 5. Server's room
-description: >- 
-  Create your very own videoconference room with a little help from the Membrane Framework!
+description: >-
+  Create your very own video conference room with a little help from the Membrane Framework!
   <div>
   <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
   <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
@@ -50,19 +50,19 @@ def init(opts) do
   Membrane.Logger.info("Spawning room process: #{inspect(self())}")
 
   engine_options = [
-     id: opts[:room_id],
-     network_options: [
-     stun_servers: [
-        %{server_addr: "stun.l.google.com", server_port: 19_302}
-     ],
-     turn_servers: [],
-     dtls_pkey: Application.get_env(:membrane_videoroom_demo, :dtls_pkey),
-     dtls_cert: Application.get_env(:membrane_videoroom_demo, :dtls_cert)
-     ],
-     packet_filters: %{
-        OPUS: [silence_discarder: %Membrane.RTP.SilenceDiscarder{vad_id: 1}]
-     },
-     payload_and_depayload_tracks?: false
+    id: opts[:room_id],
+    network_options: [
+    stun_servers: [
+      %{server_addr: "stun.l.google.com", server_port: 19_302}
+    ],
+    turn_servers: [],
+      dtls_pkey: Application.get_env(:membrane_videoroom_demo, :dtls_pkey),
+      dtls_cert: Application.get_env(:membrane_videoroom_demo, :dtls_cert)
+    ],
+    packet_filters: %{
+      OPUS: [silence_discarder: %Membrane.RTP.SilenceDiscarder{vad_id: 1}]
+    },
+    payload_and_depayload_tracks?: false
   ]
 
   {:ok, pid} = Membrane.RTC.Engine.start(engine_options, [])
@@ -79,7 +79,7 @@ Then we send a message to this process saying that we want to register ourselves
 The last thing we do is return the current state of the GenServer - in our state we are holding a reference to ```:sfu_engine``` which is the id of this process and ```peer_channels``` - the map of the following form: (peer_uuid -> peer_channel_pid). For now, this map is empty.
 
 What's next? We need to handle the callbacks in order to properly react to the incoming events. Once again - please take a look at the [plugin documentation](https://hexdocs.pm/membrane_rtc_engine/Membrane.RTC.Engine.html#module-messages) in order to find out what types of messages SFU sends and what types of messages SFU expects to receive.
-We won't implement handling all of these messages - only the ones which are crucial to set up the connection between peers, start the process of media streaming and take proper actions when participants disconnect. After finishing the reading of this tutorial you can try to implement handling of other messages (for instance those connected with voice activation detection - ```:vad_notification```). 
+We won't implement handling all of these messages - only the ones which are crucial to set up the connection between peers, start the process of media streaming and take proper actions when participants disconnect. After finishing the reading of this tutorial you can try to implement handling of other messages (for instance those connected with voice activation detection - ```:vad_notification```).
 Let's start with handling message sent to us by SFU.
 ```elixir
 #FILE: lib/videoroom/room.ex
@@ -90,7 +90,7 @@ def handle_info({_sfu_engine, {:sfu_media_event, :broadcast, event}}, state) do
   {:noreply, state}
 end
 ```
-Here comes the first one - once we receive ```:sfu_media_event``` from the SFU engine with the `:broadcast` specifier, we will send this event to all peers' channels which are currently saved in the ```state.peer_channels``` map in the state of our GenServer. We need to "reformat" the event description so that the message sent to the peer channel matches the interface defined by us previously, in VideoroomWeb.PeerChannel. If you are new to GenServers you might wonder what are we returning in this function - in fact, we are returning the state updated while handling this message. In our case, the state will be the same so we do not change anything. ```:no_reply``` means that we do not need to send the response to the sender (who, in our case, is the SFU engine process). The updated state will be then passed to the next callback while handling the next message - and will be updated during the process of handling that message. And so on and so on :) 
+Here comes the first one - once we receive ```:sfu_media_event``` from the SFU engine with the `:broadcast` specifier, we will send this event to all peers' channels which are currently saved in the ```state.peer_channels``` map in the state of our GenServer. We need to "reformat" the event description so that the message sent to the peer channel matches the interface defined by us previously, in VideoroomWeb.PeerChannel. If you are new to GenServers you might wonder what are we returning in this function - in fact, we are returning the state updated while handling this message. In our case, the state will be the same so we do not change anything. ```:no_reply``` means that we do not need to send the response to the sender (who, in our case, is the SFU engine process). The updated state will be then passed to the next callback while handling the next message - and will be updated during the process of handling that message. And so on and so on :)
 
 Here comes the next method:
 ```elixir
@@ -99,7 +99,7 @@ Here comes the next method:
 @impl true
 def handle_info({_sfu_engine, {:sfu_media_event, to, event}}, state) do
   if state.peer_channels[to] != nil do
-     send(state.peer_channels[to], {:media_event, event})
+    send(state.peer_channels[to], {:media_event, event})
   end
 
   {:noreply, state}
@@ -122,7 +122,7 @@ def handle_info({sfu_engine, {:new_peer, peer_id, _metadata}}, state) do
   {:noreply, state}
 end
 ```
-That one might seem a little bit tricky. What is the deal here? Be aware that it is our room's process who is the only one holding the mapping between peer's id and peer channel's PID. Once a new peer joins, the SFU Engine is not aware of this peer channel's PID. That is it is asking our room process to give him some information about the new peer. 
+That one might seem a little bit tricky. What is the deal here? Be aware that it is our room's process who is the only one holding the mapping between peer's id and peer channel's PID. Once a new peer joins, the SFU Engine is not aware of this peer channel's PID. That is it is asking our room process to give him some information about the new peer.
 Apart from sending just peer channel's PID, the room process is also sending the identifier of a node on which the peer channel's process is located (notice that due to use of BEAM virtual machine our application can be distributed - and server can be put on many different nodes working in the same cluster).
 
 Once we receive ```:peer_left``` message from SFU we simply ignore that fact (we could of course remove the peer_id from the (peer_id->peer_channel_pid) mapping...but do we need to?):
@@ -146,7 +146,7 @@ def handle_info({:media_event, _from, _event} = msg, state) do
   {:noreply, state}
 end
 ```
-Again - no magic tricks there. We are receiving ```:media_event``` - we are sending it to our SFU engine process. 
+Again - no magic tricks there. We are receiving ```:media_event``` - we are sending it to our SFU engine process.
 And here come the callback for a ```:add_peer_channel``` message:
 ```elixir
 #FILE: lib/videoroom/room.ex
@@ -172,7 +172,7 @@ def handle_info({:DOWN, _ref, :process, pid, _reason}, state) do
   state.peer_channels
   |> Enum.find(fn {_peer_id, peer_channel_pid} -> peer_channel_pid == pid end)
 
-  send(state.sfu_engine, {:remove_peer, peer_id}) 
+  send(state.sfu_engine, {:remove_peer, peer_id})
   {_elem, state} = pop_in(state, [:peer_channels, peer_id])
   {:noreply, state}
 end
@@ -186,6 +186,3 @@ After all of this hard work our server is finally ready. But we still need a cli
 [PREV - Server's communication channels](4_CreatingServersCommunicationChannels.md)<br>
 [List of contents](index.md)<br>
 [List of tutorials](../../index.md)
-
- 
-

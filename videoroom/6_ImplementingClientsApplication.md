@@ -28,8 +28,8 @@ Take a look at our `assets/package.json` file which defines outer dependencies f
 //FILE: assets/package.json
 
 "dependencies": {
-"membrane_rtc_engine": "file:../deps/membrane_rtc_engine/",
-...
+  "membrane_rtc_engine": "file:../deps/membrane_rtc_engine/",
+  ...
 }
 ```
 which is a client library provided by the RTC engine plugin from the Membrane Framework.
@@ -39,9 +39,9 @@ Let's import some constructs from this library (their name should be self-explan
 
 import {MEDIA_CONSTRAINTS, LOCAL_PEER_ID} from './consts';
 import {
-   MembraneWebRTC,
-   Peer,
-   SerializedMediaEvent,
+  MembraneWebRTC,
+  Peer,
+  SerializedMediaEvent,
 } from "membrane_rtc_engine";
 import { Push, Socket } from "phoenix";
 import { parse } from "query-string";
@@ -54,35 +54,31 @@ Once we are ready with the imports, it might be worth to somehow wrap our room's
 
 export class Room {
 
-   private socket;
-   private webrtcSocketRefs: string[] = [];
-   private webrtcChannel;
-   private displayName: String;
-   private webrtc: MembraneWebRTC;
-   private peers: Peer[] = [];
-   private localStream: MediaStream | undefined;
+  private socket;
+  private webrtcSocketRefs: string[] = [];
+  private webrtcChannel;
+  private displayName: String;
+  private webrtc: MembraneWebRTC;
+  private peers: Peer[] = [];
+  private localStream: MediaStream | undefined;
 
-   constructor(){
-   
-   }
-   
-   private init = async () => {
-   
-   };
+  constructor(){
+  }
 
-   public join = () => {
-   
-   };
+  private init = async () => {
+  };
 
-   private leave = () => {
+  public join = () => {
+  };
 
-   };
+  private leave = () => {
+  };
 
-   private updateParticipantsList = (): void => {
-   };
+  private updateParticipantsList = (): void => {
+  };
 
-   private phoenixChannelPushResult = async (push: Push): Promise<any> => {
-   };
+  private phoenixChannelPushResult = async (push: Push): Promise<any> => {
+  };
 
 
 //no worries, we will put something into these functions :) 
@@ -92,16 +88,16 @@ Let's start with the constructor that will initialize the member fields:
 ```ts
 //FILE: assets/src/room.ts
 
-constructor(){   
-this.socket = new Socket("/socket");
-this.socket.connect();
-const { display_name: displayName } = parse(document.location.search);
-this.displayName = displayName as string;
-window.history.replaceState(null, "", window.location.pathname);
-this.webrtcChannel = this.socket.channel(`room:${getRoomId()}`);
-...
+constructor(){
+  this.socket = new Socket("/socket");
+  this.socket.connect();
+  const { display_name: displayName } = parse(document.location.search);
+  this.displayName = displayName as string;
+  window.history.replaceState(null, "", window.location.pathname);
+  this.webrtcChannel = this.socket.channel(`room:${getRoomId()}`);
+  ...
 }
-``` 
+```
 
 What happens at the beginning of the constructor? We are creating a new Phoenix Socket with `/socket` path (must be the same as we have defined on the server-side!) and right after that, we are starting a connection. 
 Later on, we are retrieving the display name from the URL (the user has set it in the UI while joining the room and it was passed to the next view as the URL param).
@@ -110,13 +106,13 @@ Following on the constructor implementation:
 ```ts
 //FILE: assets/src/room.ts
 
-constructor(){  
-...
-const socketErrorCallbackRef = this.socket.onError(this.leave);
-const socketClosedCallbackRef = this.socket.onClose(this.leave);
-this.webrtcSocketRefs.push(socketErrorCallbackRef);
-this.webrtcSocketRefs.push(socketClosedCallbackRef);
-...
+constructor(){
+  ...
+  const socketErrorCallbackRef = this.socket.onError(this.leave);
+  const socketClosedCallbackRef = this.socket.onClose(this.leave);
+  this.webrtcSocketRefs.push(socketErrorCallbackRef);
+  this.webrtcSocketRefs.push(socketClosedCallbackRef);
+  ...
 }
 ```
 This structure might look a little bit ambiguous. What we are storing in ```this.webrtcSocketRefs```? Well, we are storing references...to the callbacks we have just defined.
@@ -130,9 +126,9 @@ Now let's get back to the constructor. Let's initialize a MembraneWebRTC object!
 //FILE: assets/src/room.ts
 
 constructor(){
-...  
-this.webrtc = new MembraneWebRTC({callbacks: callbacks});
-...
+  ...
+  this.webrtc = new MembraneWebRTC({callbacks: callbacks});
+  ...
 }
 ```
 
@@ -146,7 +142,7 @@ We will go through the callbacks list one by one, providing the desired implemen
 #### onSendMediaEvent
 ```ts
 onSendMediaEvent: (mediaEvent: SerializedMediaEvent) => {
-   this.webrtcChannel.push("mediaEvent", { data: mediaEvent });
+  this.webrtcChannel.push("mediaEvent", { data: mediaEvent });
 },
 ```
 If `mediaEvent` from our client Membrane Library appears (this event can be one of many types - for instance it can be message containing information about an ICE candidate in a form of SDP attribute)
@@ -163,15 +159,15 @@ We will manipulate the list of peers in this method.
 Here is `onJoinSuccess` callback implementation:
 ```ts
 onJoinSuccess: (peerId, peersInRoom) => {
-   this.localStream!.getTracks().forEach((track) =>
-      this.webrtc.addTrack(track, this.localStream!)
-   );
+  this.localStream!.getTracks().forEach((track) =>
+    this.webrtc.addTrack(track, this.localStream!)
+  );
 
-   this.peers = peersInRoom;
-   this.peers.forEach((peer) => {
-      addVideoElement(peer.id, peer.metadata.displayName, false);
-   });
-   this.updateParticipantsList();
+  this.peers = peersInRoom;
+  this.peers.forEach((peer) => {
+    addVideoElement(peer.id, peer.metadata.displayName, false);
+  });
+  this.updateParticipantsList();
 },
 ```
 Once we have successfully joined the room, we make `MembraneWebRTC` object aware of our `this.localStream` tracks (do you remember that we have audio and video track?).
@@ -179,13 +175,13 @@ Later on, we are adding a video element for each of the peers (we want to see a 
 The last thing we do is invoking the method which will update participants list (we want to have the list of all the participants in our room to be nicely displayed) - let's wrap this functionality into another method:
 ```ts
 private updateParticipantsList = (): void => {
-   const participantsNames = this.peers.map((p) => p.metadata.displayName);
+  const participantsNames = this.peers.map((p) => p.metadata.displayName);
 
-   if (this.displayName) {
-      participantsNames.push(this.displayName);
-   }
+  if (this.displayName) {
+    participantsNames.push(this.displayName);
+  }
 
-   setParticipantsList(participantsNames);
+  setParticipantsList(participantsNames);
 };
 ```
 We are simply putting all the peers' display names into the list and later on, we are adding our own name on top of this list. The last thing to do is to inform UI that the participants' list has changed - and we do it by invoking ```setParticipantsList(participantsNames)``` from ```assets/src/room_ui.ts```.
@@ -198,13 +194,13 @@ Seriously speaking - we have split some of these callbacks implementation into m
 #### onJoinError
 ```ts
 onJoinError: (metadata) => {
-   throw `Peer denied.`;
+  throw `Peer denied.`;
 },
 ```
 #### onTrackReady
 ```ts
 onTrackReady: ({ stream, peer, metadata }) => {
-   attachStream(stream!, peer.id);
+  attachStream(stream!, peer.id);
 },
 ```
 #### onTrackAdded
@@ -218,17 +214,17 @@ onTrackRemoved: (ctx) => {},
 #### onPeerJoined
 ```ts
 onPeerJoined: (peer) => {
-   this.peers.push(peer);
-   this.updateParticipantsList();
-   addVideoElement(peer.id, peer.metadata.displayName, false);
+  this.peers.push(peer);
+  this.updateParticipantsList();
+  addVideoElement(peer.id, peer.metadata.displayName, false);
 },
 ```
 #### onPeerLeft
 ```ts
 onPeerLeft: (peer) => {
-   this.peers = this.peers.filter((p) => p.id !== peer.id);
-   removeVideoElement(peer.id);
-   this.updateParticipantsList();
+  this.peers = this.peers.filter((p) => p.id !== peer.id);
+  removeVideoElement(peer.id);
+  this.updateParticipantsList();
 },
 ```
 #### onPeerUpdated
@@ -238,16 +234,16 @@ onPeerUpdated: (ctx) => {},
 
 
 
-Once we are ready with `MembraneWebRTC`'s callbacks implementation, let's specify how to behave when the server sends us a message on the channel. 
+Once we are ready with `MembraneWebRTC`'s callbacks implementation, let's specify how to behave when the server sends us a message on the channel.
 We need to implement an event handler:
 ```ts
 //FILE: assets/src/room.ts
 
 constructor(){
-...
-this.webrtcChannel.on("mediaEvent", (event) =>
-      this.webrtc.receiveMediaEvent(event.data)
-);
+  ...
+  this.webrtcChannel.on("mediaEvent", (event) =>
+        this.webrtc.receiveMediaEvent(event.data)
+  );
 }
 ```
 Once we receive `mediaEvent` from the server (which can be, for instance, a notification that a peer has left), we are simply passing it to the `MembraneWebRTC` object to take care of it.
@@ -260,16 +256,16 @@ Further initialization might take some time. That's why it might be a good idea 
 //FILE: assets/src/room.ts
 
 public join = async () => {
-   try {
-      await this.init();
-      setupDisconnectButton(() => {
-         this.leave();
-         window.location.replace("");
-      });
-      this.webrtc.join({ displayName: this.displayName });
-   } catch (error) {
-      console.error("Error while joining to the room:", error);
-   }
+  try {
+    await this.init();
+    setupDisconnectButton(() => {
+      this.leave();
+      window.location.replace("");
+    });
+    this.webrtc.join({ displayName: this.displayName });
+  } catch (error) {
+    console.error("Error while joining to the room:", error);
+  }
 };
 ```
 
@@ -285,22 +281,22 @@ This is how the implementation of `this.init()` can look like:
 //FILE: assets/src/room.ts
 
 private init = async () => {
-   try {
-      this.localStream = await navigator.mediaDevices.getUserMedia(
-         MEDIA_CONSTRAINTS
-      );
-   } catch (error) {
-      console.error(error);
-      setErrorMessage(
-         "Failed to setup video room, make sure to grant camera and microphone permissions"
-      );
-      throw "error";
-   }
+  try {
+    this.localStream = await navigator.mediaDevices.getUserMedia(
+      MEDIA_CONSTRAINTS
+    );
+  } catch (error) {
+    console.error(error);
+    setErrorMessage(
+      "Failed to setup video room, make sure to grant camera and microphone permissions"
+    );
+    throw "error";
+  }
 
-   addVideoElement(LOCAL_PEER_ID, "Me", true);
-   attachStream(this.localStream!, LOCAL_PEER_ID);
+  addVideoElement(LOCAL_PEER_ID, "Me", true);
+  attachStream(this.localStream!, LOCAL_PEER_ID);
 
-   await this.phoenixChannelPushResult(this.webrtcChannel.join());
+  await this.phoenixChannelPushResult(this.webrtcChannel.join());
 };
 
 ```
@@ -318,11 +314,11 @@ The last thing we do here is that we are waiting for a result of `this.webrtcCha
 //FILE: assets/src/room.ts
 
 private phoenixChannelPushResult = async (push: Push): Promise<any> => {
-   return new Promise((resolve, reject) => {
-      push
-      .receive("ok", (response: any) => resolve(response))
-      .receive("error", (response: any) => reject(response));
-   });
+  return new Promise((resolve, reject) => {
+    push
+    .receive("ok", (response: any) => resolve(response))
+    .receive("error", (response: any) => reject(response));
+  });
 };
 ```
 
@@ -331,13 +327,13 @@ Oh, we would have almost forgotten! We need to define `this.leave()` method:
 //FILE: assets/src/room.ts
 
 private leave = () => {
-   this.webrtc.leave();
-   this.webrtcChannel.leave();
-   this.socket.off(this.webrtcSocketRefs);
-   this.webrtcSocketRefs = [];
+  this.webrtc.leave();
+  this.webrtcChannel.leave();
+  this.socket.off(this.webrtcSocketRefs);
+  this.webrtcSocketRefs = [];
 };
 ```
-What we do here is that we are using methods aimed at leaving for both our MembraneWebRTC object and Phoenix's channel. Then we are calling `this.socket.off(refs)` method ([click here for documentation](https://hexdocs.pm/phoenix/js/#off)) 
+What we do here is that we are using methods aimed at leaving for both our MembraneWebRTC object and Phoenix's channel. Then we are calling `this.socket.off(refs)` method ([click here for documentation](https://hexdocs.pm/phoenix/js/#off))
 \- which means we are unregistering all the callbacks. The last thing we need to do is to empty the references list.
 
 Ok, it seems that we have already defined the process of creating and initializing `Room` class's object.
@@ -351,10 +347,10 @@ import { Room } from "./room";
 let room = new Room();
 room.join()
 ```
-The first thing we do is to import the appropriate class. Then we are creating a new Room's instance (the ```constructor()``` gets called). 
-Later on, we are joining the server (which might take some time as it needs to get access to the user's media - that is why this method is asynchronous). 
-That's it! We have our client defined! In case something does not work properly (or in case we have forgotten to describe some crucial part of code ;) ) 
-feel free to refer to the implementation of the video room's client-side available 
+The first thing we do is to import the appropriate class. Then we are creating a new Room's instance (the ```constructor()``` gets called).
+Later on, we are joining the server (which might take some time as it needs to get access to the user's media - that is why this method is asynchronous).
+That's it! We have our client defined! In case something does not work properly (or in case we have forgotten to describe some crucial part of code ;) )
+feel free to refer to the implementation of the video room's client-side available
 [here](https://github.com/membraneframework/membrane_demo/tree/master/webrtc/videoroom/assets/src).
 
 Now, finally, you should be able to check the fruits of your labor!

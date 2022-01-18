@@ -1,6 +1,6 @@
 ---
 title: 2. Environment preparation
-description: >- 
+description: >-
   Create your very own videoconference room with a little help from the Membrane Framework!
   <div>
   <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
@@ -12,7 +12,7 @@ description: >-
 ## Elixir installation
  I don't think I can describe it any better: [How to install Elixir](https://elixir-lang.org/install.html).
  But do not forget to add the elixir bin to your PATH variable!
- 
+
  Take your time and make yourself comfortable with Elixir. Check if you can run Elixir's interactive terminal and if you can compile Elixir's source files with the Elixir compiler.
  You can also try to create a new Mix project - we will be using [Mix](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html) as the build automation tool all along with the tutorial.
 
@@ -69,7 +69,7 @@ You won't need to install any native dependencies there nor export environmental
 
 If you are using VS Code for your code development, you can make use of the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension. Among the files you have just cloned from the repository there should be a `.devcontainer.json` configuration file placed in the root directory of the project. It contains information about which image from the Docker Hub should be cloned and how the ports should be redirected between the container and the host.
 After the installation of the Remote - Containers extension you will be able to start the container by clicking on the green button in the left-down corner of VS Code windows and the selecting "Reopen in the Container" option.
-This will cause all the files in the project's root directory to be shared between your host OS and the container - therefore any changes made to them on your local machine will be immediately reflected in the container. 
+This will cause all the files in the project's root directory to be shared between your host OS and the container - therefore any changes made to them on your local machine will be immediately reflected in the container.
 At the same time, you will be able to run the project from the inside of the container - with the terminal launched in the VS Code window (`Terminal -> New Terminal`).
 
 If you are not using VS Code, you can still take advantage of the virtualization and use the image provided by us - however, you will need to create the shared filesystem volume and bridge the networks on your own. Here is the command which will make this for you:
@@ -80,7 +80,7 @@ where `<path_to_cloned_templates>` is the **absolute** path to the root director
 After running the command, a container terminal will be attached to your terminal. You will be able to find the project code inside the container in the `/videoroom` directory.
 
 # What do we have here?
- Let's make some reconnaissance. 
+ Let's make some reconnaissance.
  First, let's run the template.
  Before running the template we need to install the dependencies using:
  ```
@@ -97,7 +97,7 @@ After running the command, a container terminal will be attached to your termina
  Play around...but it is not that much to do! We have better inspect what is the structure of our project.
  Does the project structure reassemble you the structure of a Phoenix project? (in fact, it should!). We will go through the directories in our project.
  + **assets/** <br>
- You can find the front end of our application. The most interesting subdirectory here is src/ - we will be putting our typescript files there. For now, the following files should be present there: 
+ You can find the front end of our application. The most interesting subdirectory here is src/ - we will be putting our typescript files there. For now, the following files should be present there:
    + **consts.ts** - as the name suggests, you will find there some constant values - media constrains and our local peer id
    + **index.ts** - this one should be empty. It will act as an initialization point for our application and later on, we will spawn a room object there.
    + **room_ui.ts** - methods which modify DOM are put there. You will find these methods helpful while implementing your room's logic - you will be able to simply call a method in order to put a next video tile among previously present video tiles and this whole process (along with rescaling or moving the tiles so they are nicely put on the screen) will be performed automatically
@@ -106,8 +106,8 @@ After running the command, a container terminal will be attached to your termina
  + **deps/** <br>
  Once you type ```mix deps.get``` all the dependencies listed in mix.lock file will get downloaded and be put into this directory. Once again - this is just how mix works and we do not care about this directory anyhow.
  + **lib/** <br>
- This directory contains the server's logic. As mentioned previously, the Phoenix server implements Model-View-Controller architecture so the structure of this directory will reflect this architecture. 
- The only .ex file in this directory is `videoroom_web.ex` file - it defines the aforementioned parts of the system - **controller** and **view**. Moreover, 
+ This directory contains the server's logic. As mentioned previously, the Phoenix server implements Model-View-Controller architecture so the structure of this directory will reflect this architecture.
+ The only .ex file in this directory is `videoroom_web.ex` file - it defines the aforementioned parts of the system - **controller** and **view**. Moreover,
  it defines ```router``` and ```channel``` - the part of the system which is used for communication. This file is generated automatically with the Phoenix project generator
  and there are not that many situations in which you should manually change it.
    + **videoroom/** <br>

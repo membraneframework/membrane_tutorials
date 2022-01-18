@@ -1,6 +1,6 @@
 ---
 title: Videoroom Tutorial
-description: >- 
+description: >-
   Create your very own videoconference room with a little help from the Membrane Framework!
   <div>
   <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
