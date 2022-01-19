@@ -92,6 +92,8 @@ Mix generator will create some files for us. Lets take a closer look at two of t
 
 ### Our first Pipeline
 
+The pipeline is one of the basic concepts of Membrane. It's a schema of how the data packets are flowing through our application.
+
 #### Pipeline behaviour
 
 Let's start with declaring that we'll be using the `Membrane.Pipeline` behaviour:
