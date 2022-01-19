@@ -33,35 +33,33 @@ git checkout template/start
 In case you find yourself lost along with the tutorial, feel free to check the suggested implementation provided by us, which is available on the `template/end` branch of this repository.
 
 # Install native dependencies
-First, some native dependencies are needed. Here is how you can install them.
-## Mac OS X
-```
-brew install srtp libnice clang-format ffmpeg
-```
-## Ubuntu
-```
-sudo apt-get install libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev libavutil-dev
-```
-
-Later on we you might need to specify some environmental variables. This process might differ among different systems:
-
-## Mac OS with Intel
-```
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
-```
+First, some native dependencies are needed. Here is how you can install them and setup the required environment variables.
 
 ## Mac OS with M1
 ```
+brew install node srtp libnice clang-format ffmpeg
 export C_INCLUDE_PATH=/opt/homebrew/Cellar/libnice/0.1.18/include:/opt/homebrew/Cellar/opus/1.3.1/include:/opt/homebrew/Cellar/openssl@1.1/1.1.1l_1/include
 export LIBRARY_PATH=/opt/homebrew/Cellar/opus/1.3.1/lib
 export PKG_CONFIG_PATH=/opt/homebrew/Cellar/openssl@1.1/1.1.1l_1/lib/pkgconfig/
 ```
 
-## Ubuntu
+## Mac OS with Intel
 ```
+brew install node srtp libnice clang-format ffmpeg
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+```
+
+## Ubuntu
+
+```
+sudo apt-get install npm build-essential pkg-config libssl-dev libopus-dev libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev libavutil-dev
 export PKG_CONFIG_PATH="/usr/local/ssl/lib/pkgconfig"
 ```
 
+If you installed Elixir from ESL repo, make sure the following erlang packages are present
+```
+sudo apt-get install erlang-dev erlang-parsetools erlang-src
+```
 
 # Setting environment with the use of Docker
 Alternatively to the steps described in the section above, you can make use of the docker image we have prepared for the purpose of this tutorial.
@@ -77,6 +75,12 @@ If you are not using VS Code, you can still take advantage of the virtualization
 docker run -p 4000:4000 -it -v <path_to_cloned_templates>:/videoroom membraneframeworklabs/docker_membrane
 ```
 where `<path_to_cloned_templates>` is the **absolute** path to the root directory of the project on your local system.
+
+If you have just cloned the repo and your current directory is the repo's root, you can use `pwd` to get that path:
+```
+docker run -p 4000:4000 -it -v `pwd`:/videoroom membraneframeworklabs/docker_membrane
+```
+
 After running the command, a container terminal will be attached to your terminal. You will be able to find the project code inside the container in the `/videoroom` directory.
 
 # What do we have here?
