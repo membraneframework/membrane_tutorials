@@ -27,6 +27,7 @@
   + STUN
   + TURN
 + DTLS
++ YUV (I420, I422 etc.)
 
 # Membrane Framework
 + Caps
