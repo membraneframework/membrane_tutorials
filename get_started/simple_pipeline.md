@@ -1,4 +1,5 @@
-﻿# Get Started with Membrane
+{% raw %}
+ # Get Started with Membrane
 
 Hello there, we're glad you chose to learn Membrane. We'd like to invite you on a journey around multimedia with us, to show you how to make all that stuff we made work for you. 
 
@@ -244,3 +245,4 @@ Hello.play(pid)
 Our [demo with this tutorial](https://github.com/membraneframework/membrane_demo/tree/master/simple_pipeline) contains a file you can play, or you may want to use some [proper "Hello!" recording](https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6f/Voyager_Golden_Record_greeting_in_English.ogg/Voyager_Golden_Record_greeting_in_English.ogg.mp3).
 
 The specified mp3 file should be played on the default device in your system. Please use mp3 that has no ID3 or ID3v2 tags.
+{% endraw %}
