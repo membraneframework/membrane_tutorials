@@ -82,13 +82,13 @@ Mix generator will create some files for us. Lets take a closer look at two of t
 
 ```elixir
 defp deps do
-[
-  {:membrane_core, "~> 0.7.0"},
-  {:membrane_file_plugin, "~> 0.6.0"},
-  {:membrane_portaudio_plugin, "~> 0.7.0"},
-  {:membrane_ffmpeg_swresample_plugin, "~> 0.7.1"},
-  {:membrane_mp3_mad_plugin, "~> 0.7.0"}
-]
+  [
+    {:membrane_core, "~> 0.7.0"},
+    {:membrane_file_plugin, "~> 0.6.0"},
+    {:membrane_portaudio_plugin, "~> 0.7.0"},
+    {:membrane_ffmpeg_swresample_plugin, "~> 0.7.1"},
+    {:membrane_mp3_mad_plugin, "~> 0.7.0"}
+  ]
 end
 ```	
 ### Our first Pipeline
