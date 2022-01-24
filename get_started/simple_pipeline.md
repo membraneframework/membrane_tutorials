@@ -80,17 +80,17 @@ Mix generator will create some files for us. Lets take a closer look at two of t
 
 + **mix.exs** - It's an entry file for our mix project, a place where we can configure it, and set up our dependencies. We'll do it by adding them into the `deps` function:
 
-  ```elixir
-  defp deps do
-    [
-	  {:membrane_core, "~> 0.7.0"},
-	  {:membrane_file_plugin, "~> 0.6.0"},
-	  {:membrane_portaudio_plugin, "~> 0.7.0"},
-	  {:membrane_ffmpeg_swresample_plugin, "~> 0.7.1"},
-	  {:membrane_mp3_mad_plugin, "~> 0.7.0"}
-    ]
-  end
-
+```elixir
+defp deps do
+[
+  {:membrane_core, "~> 0.7.0"},
+  {:membrane_file_plugin, "~> 0.6.0"},
+  {:membrane_portaudio_plugin, "~> 0.7.0"},
+  {:membrane_ffmpeg_swresample_plugin, "~> 0.7.1"},
+  {:membrane_mp3_mad_plugin, "~> 0.7.0"}
+]
+end
+```	
 ### Our first Pipeline
 
 The pipeline is one of the basic concepts of Membrane. It's a schema of how the data packets are flowing through our application.
