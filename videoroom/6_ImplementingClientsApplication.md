@@ -1,5 +1,5 @@
 ---
-title: 6. Client's application
+title: Client's application
 description: >-
   Create your very own videoconferencing room with a little help from the Membrane Framework!
   <div>
@@ -364,8 +364,3 @@ visit the following page in your browser:
 <br>
 and then join a room with a given name!
 Later on, you can visit your video room's page once again, from another browser's tab or from another browser's window (or even another browser - however the recommended browsers to use are Chrome and Firefox) and join the same room as before - you should start seeing two participants in the same room!
-<br><br>
-[NEXT - Further steps](7_FurtherSteps.md)<br>
-[PREV - Server's room process](5_ImplementingServerRoom.md)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)

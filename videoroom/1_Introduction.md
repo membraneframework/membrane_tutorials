@@ -1,5 +1,5 @@
 ---
-title: 1. Introduction
+title: Introduction
 description: >-
   Create your very own videoconferencing room with a little help from the Membrane Framework!
   <div>
@@ -47,7 +47,4 @@ A peer-to-peer connection can be (and in most cases is) problematic. At the same
 behind some firewalls and NAT!
 
 + [WebRTC architectures](https://medium.com/securemeeting/webrtc-architecture-basics-p2p-sfu-mcu-and-hybrid-approaches-6e7d77a46a66)
-Take a quick glance there and find out what are possible architectures of WebRTC servers, when to use which architecture, and how to build a streaming solution that scales and behaves well. <br><br>
-[NEXT - Environment preparation](2_EnvironmentPreparation.md)<br>
-[List of contents](index.md) <br>
-[List of tutorials](../../index.md)
+Take a quick glance there and find out what are possible architectures of WebRTC servers, when to use which architecture, and how to build a streaming solution that scales and behaves well.

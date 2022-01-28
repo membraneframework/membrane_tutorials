@@ -1,5 +1,5 @@
 ---
-title: 2. Environment preparation
+title: Environment preparation
 description: >-
   Create your very own videoconferencing room with a little help from the Membrane Framework!
   <div>
@@ -126,8 +126,4 @@ After running the command, a container terminal will be attached to your termina
 
  + **priv/static/** <br>
  Here you will find static assets. They can be generated, for instance, from the files contained in assets/ directory (.ts which are in assets/src are converted into .js files put inside priv/static/js). Not interesting at all, despite the fact, that we needed to load /js/room.js script file from here ;)
-<br><br>
-[NEXT - System architecture](3_SystemArchitecture.md)<br>
-[PREV - Introduction](1_Introduction)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)
+ 

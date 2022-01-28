@@ -1,5 +1,5 @@
 ---
-title: 4. Server's communication channels
+title: Server's communication channels
 description: >-
   Create your very own videoconferencing room with a little help from the Membrane Framework!
   <div>
@@ -136,8 +136,3 @@ end
 Note the use of `push` method provided by Phoenix.Channel.
 
 Great job! You have just implemented the server's side of our communication channel. How about adding our server's business logic?
-<br><br>
-[NEXT - Server's room process](5_ImplementingServerRoom.md)<br>
-[PREV - System architecture](3_SystemArchitecture.md)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)

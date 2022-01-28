@@ -1,5 +1,5 @@
 ---
-title: 5. Server's room
+title: Server's room
 description: >-
   Create your very own video conference room with a little help from the Membrane Framework!
   <div>
@@ -181,8 +181,3 @@ First, we find the id of a peer whose channel has died. Then we send a message t
 The last thing we do is to update the state - we remove the mapping (peer_id->peer_channel_pid) from our ```:peer_channels``` map.
 
 After all of this hard work our server is finally ready. But we still need a client application.
-<br><br>
-[NEXT - Client's application](6_ImplementingClientsApplication.md)<br>
-[PREV - Server's communication channels](4_CreatingServersCommunicationChannels.md)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)
