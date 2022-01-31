@@ -138,4 +138,4 @@ defp prepare_frame(frame, timestamp) do
 end
 ```
 
-Otherwise, if the packet is not of 'ending' type (that is - it can be both the 'beggining' frame or some packet in the middle), we are simply updating the state with the processed packet added to the `:frame` buffor. The last thing we do here is redemand.
+Otherwise, if the packet is not of 'ending' type (that is - it can be both the 'beggining' frame or some packet in the middle), we are simply updating the state with the processed packet added to the `:frame` buffor. The last thing we do is to redemand.
