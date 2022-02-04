@@ -15,7 +15,7 @@ end
 ```
 
 Note the caps specification definition there - we expect `Basic.Formats.Packet` of type `:custom_packets` to be sent on the input pad, and the same type of packets to be sent through the output pad.
-In the next step let's specify how to we want the state of our element to look like:
+In the next step let's specify how we want the state of our element to look like:
 ```Elixir
 # FILE: lib/elements/OrderingBuffer.ex
 
@@ -34,7 +34,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We will need to hold a list of ordered packets, as well as a sequence id of the packets, which most recently was sent through the output pad (we need to know if there are some packets missing between the last processed packet and the first packet in our ordered list).
+We will need to hold a list of ordered packets, as well as a sequence id of the packet, which most recently was sent through the output pad (we need to know if there are some packets missing between the last processed packet and the first packet in our ordered list).
 
 Handling demand is quite straightforward:
 ```Elixir
@@ -50,7 +50,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We simply specify the `:demand` action on the `:input` pad once we receive a demand on the `:output` pad.
+We simply send the `:demand` on the `:input` pad once we receive a demand on the `:output` pad. Packets are not aggregated in any way so for each 1 unit of demand we send 1 unit on demand to the `:input` pad.
 
 Now we can go to the main part of the Ordering Buffer implementation - the `handle_process/4` callback:
 ```Elixir
@@ -60,17 +60,17 @@ defmodule Basic.Elements.OrderingBuffer do
   ...
   @impl true
   def handle_process(:input, buffer, _context, state) do
-  packet = unzip_packet(buffer.payload)
-  ordered_packets = [packet | state.ordered_packets] |> Enum.sort()
-  state = Map.put(state, :ordered_packets, ordered_packets)
-  {last_seq_id, _} = Enum.at(ordered_packets, 0)
-  ...
+    packet = unzip_packet(buffer.payload)
+    ordered_packets = [packet | state.ordered_packets] |> Enum.sort()
+    state = Map.put(state, :ordered_packets, ordered_packets)
+    {last_seq_id, _} = Enum.at(ordered_packets, 0)
+    ...
   end
 
   defp unzip_packet(packet) do
-  regex = ~r/^\[seq\:(?<seq_id>\d+)\](?<data>.*)$/
-  %{"data" => data, "seq_id" => seq_id} = Regex.named_captures(regex, packet)
-  {String.to_integer(seq_id), data}
+    regex = ~r/^\[seq\:(?<seq_id>\d+)\](?<data>.*)$/
+    %{"data" => data, "seq_id" => seq_id} = Regex.named_captures(regex, packet)
+    {String.to_integer(seq_id), data}
   end
   ...
 end
