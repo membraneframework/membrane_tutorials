@@ -71,11 +71,11 @@ defmodule DepayloaderTest do
     test "Depayloader should assemble the packets and form a frame (with membrane's testing framework)" do
         inputs = ["[frameid:1s][timestamp:1]Hello! ", "[frameid:1][timestamp:1]How are", "[frameid:1e][timestamp:1] you?"]
         options = %Pipeline.Options{
-        elements: [
-            source: %Source{output: inputs, caps: %Basic.Formats.Packet{type: :custom_packets}},
-            depayloader: %Depayloader{packets_per_frame: 5},
-            sink: Sink
-        ]
+            elements: [
+                source: %Source{output: inputs, caps: %Basic.Formats.Packet{type: :custom_packets}},
+                depayloader: %Depayloader{packets_per_frame: 5},
+                sink: Sink
+            ]
         }
 
         {:ok, pipeline} = Pipeline.start_link(options)
@@ -88,6 +88,68 @@ defmodule DepayloaderTest do
         refute_sink_buffer(pipeline, :sink, _, 0)
         Pipeline.stop_and_terminate(pipeline, blocking?: true)
     end
-
 end
 ```
+
+First, we have defined a `:inputs` list, consisting of the messages which will be wrapped by the `Membrane.Buffer` and used to "feed" our element.
+Later on we have specified the testing pipeline with the `%Membrane.Testing.Pipeline.Options` structure.
+Our testing pipeline consists only of three elements - the source, the sink and the element we are about to test.
+We are specifying these elements by passing options structures, just as in case of the regular pipeline.
+The generic [`Membrane.Testing.Source`](https://hexdocs.pm/membrane_core/Membrane.Testing.Source.html) accepts `:output` field as one of its options - we can pass the list of payloads which will be sent through the `:output` pad of the testing - in our case we are passing the previously defined `:inputs` list.
+It is also important to specify the `:caps` option, because, as you remember, the Source element is responsible for generating the caps. In our case we have specified the caps, which will be accepted by the Depayloader's caps specification. 
+Once the pipeline structure is defined, we can start the pipeline process.
+Just after that we start playing the pipeline.
+And here comes the assertions section - we are taking advantage of some (Membrane specific assertions](https://hexdocs.pm/membrane_core/Membrane.Testing.Assertions.html):
++ first, we are asserting that the stream has started, with the `assert_start_of_stream/2`
++ then we are asserting that the ink has received a buffer of a given form (in our case - we want the sink to receive the buffer with an frame assembled out of the input packets) - with the help of `assert_sink_buffer/3`
++ then we are asserting that `:end_of_stream` has reached the `:sink` - with `assert_end_of_stream/2`
++ the last assertion we made is that the `:sink` hasn't received any buffer withing 2000 miliseconds - and `refute_sink_buffer/4` helps us do it
+
+Finally, we need to stop and terminate our pipeline. It is a good practice to do it in a blocking manner, so that the test returns after the pipeline is terminated.
+
+At the first glance this might look like a little bit of overkill to use the Membrane's testing framework - the amount of code in this particular test has swollen enormously!
+But that is just because the funcionality we are testing is quite simple.
+Keep in mind that in the second test we are making some additional, more complicated assertions - just image if you were about to check if no buffer has reached the `:sink` after the `:end_of_stream` was sent - it wouldn't be that easy, would it?
+With the Membrane's testing framework you can do it in one line only!
+
+Now we can run the tests with a simple Mix task, by typing:
+```
+mix test
+```
+
+If everything works (both the tests and the funcionalities code itself), you should see an information that the test have passed sucessfully, which I hope you do see!
+
+
+# Some special types of tests
+As you remember, Source and Sink elements acts specificaly different than the Filter elements - that is why they are communicating with the 'outer world', i.e. by reading the data from file or saving the result to the file. In order to check if their behavior is desired, we cannot create a testing pipeline with generic Source and Sink, since it is a Source/Sink that we want to test.
+We will need to somehow mock the `outer environment` - let's see how this can be done, based on the example of the Source test:
+
+```Elixir
+#FILE: test/elements/source_test.exs
+
+defmodule SourceTest do
+  use ExUnit.Case, async: false
+  import Mock
+  alias Basic.Elements.Source
+  alias Membrane.Buffer
+
+  doctest Basic.Elements.Source
+
+  @exemplary_content ["First Line", "Second Line"]
+  @exemplary_location "path/to/file"
+  @options %Source{location: @exemplary_location}
+  ....
+
+  test "reads the input file correctly" do
+    with_mock File, read!: fn _ -> "First Line\nSecond Line" end do
+    {{:ok, _}, state} =
+        Source.handle_stopped_to_prepared(nil, %{location: @exemplary_location, content: nil})
+
+    assert state.content == @exemplary_content
+    end
+  end
+```
+
+We take advantage of the [Mock](https://hexdocs.pm/mock/Mock.html) library which is designed to help us substitute the function invocations.
+As you can see in the code snippet above, we have mocked the invocations of the `File.read!` function - inside the scope of `with_mock/2` they are always returning `"First Line\nSecondLine"`.
+That makes our test so much easier since we do not need to create a mock file with some content meant just for testing - the whole test is defined inside one file.
