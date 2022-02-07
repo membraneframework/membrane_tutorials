@@ -4,7 +4,7 @@ In many real-life scenarios, this part would be the only thing you would need to
 # Defining the pipeline
 The pipeline is another behavior introduced by the Membrane Framework. To make the module a pipeline, we need to make it `use Membrane.Pipeline`. That is how we will start our implementation of the pipeline module, in the `lib/pipeline.ex` file:
 ```Elixir
-# FILE: lib/pipeline.ex
+# FILE: lib/Pipeline.ex
 
 defmodule Basic.Pipeline do
 
@@ -16,7 +16,7 @@ end
 You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/1` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them (here)[https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks].
 Please add the following callback signature to our `Basic.Pipeline` module:
 ```Elixir
-# FILE: lib/pipeline.ex
+# FILE: lib/Pipeline.ex
 defmodule Basic.Pipeline do
  ... 
  @impl true
@@ -46,7 +46,7 @@ We will wait for you and once you are ready, we will define our own children and
 
 Let's start with defining what children do we need inside the `handle_init/1` callback! If you have forgotten what structure do we want to achieve please refer to the [2nd chapter](2_SystemArchitecture.md) and recall what elements do we need inside of our pipeline.
 ```Elixir
-# FILE: lib/pipeline.ex
+# FILE: lib/Pipeline.ex
 
 @impl true
 def handle_init(_opts) do
@@ -68,7 +68,7 @@ We have just created the map, which key is in the form of an atom whose name des
 
 Now we have a `children` map which we will use to launch the processes. But the Membrane needs to know how those children elements are connected (and, in fact, how the pipeline is defined!). Therefore let's create a `links` list with the description of the links between the elements:
 ```Elixir
-# FILE: lib/pipeline.ex
+# FILE: lib/Pipeline.ex
 
 def handle_init(_opts) do
  ...
@@ -89,7 +89,7 @@ Each pipeline's "branch" starts with the `link/1` which takes as an argument an 
 Of course, there is also a `via_out/1` function, which is used to point the output pad with the given identifier, but there was no need to use it. 
 In the case of other elements we do not need to explicitly point the desired pads since we are taking advantage of the default pads name - `:input` for the input pads and `:output` for the output ones (see what names we have given to our pads in the elements other than the mixer!). However, we could rewrite the following `links` definitions and explicitly specify the pad names:
 ```Elixir
-# FILE: lib/pipeline.ex
+# FILE: lib/Pipeline.ex
 
 def handle_init(_opts) do
  ...
@@ -106,7 +106,7 @@ end
 
 That's almost it! All we need to do is to return a proper tuple from the `handle_init/1` callback, with the `:spec` action defined:
 ```Elixir
-# FILE: lib/pipeline.ex
+# FILE: lib/Pipeline.ex
 
 def handle_init(_opts) do
  ...
