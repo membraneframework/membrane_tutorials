@@ -2,7 +2,7 @@ The time has come to assemble all the bricks together and create the pipeline!
 This task is really easy since the Membrane Framework provides a sort of DSL (*Domain Specific Language*) which allows you to link the prefabricated components together.
 In many real-life scenarios, this part would be the only thing you would need to do since you can take advantage of plenty of ready components (in form of elements and bins) which are available as a part of the Membrane Framework. For now, we will create the pipeline out of the elements we have prepared during that tutorial!
 # Defining the pipeline
-The pipeline is another behavior introduced by the Membrane Framework. To make the module a pipeline, we need to make it `use Membrane.Pipeline`. That is how we will start our implementation of the pipeline module, in the `lib/pipeline.ex` file:
+The pipeline is another behavior introduced by the Membrane Framework. To make the module a pipeline, we need to make it `use Membrane.Pipeline`. That is how we will start our implementation of the pipeline module, in the `lib/Pipeline.ex` file:
 ```Elixir
 # FILE: lib/Pipeline.ex
 
