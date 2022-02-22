@@ -42,7 +42,7 @@ It's a good practice to provide a type specification for such a custom specifica
 A careful reader might notice, that we are holding only a reference to only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the pipeline and which provide us an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
 
 The logic we gonna implement can be described in the following three steps:
-+ If all the 'active' tracks (in the `:started` state or the ones in the `:finished` state but with the unprocessed buffer in the `Track` structure) - output the one with the lower timestamp. Otherwise do nothing.
++ If all the tracks are in the 'active' state ('active' means - the ones in the `:started` state or the ones in the `:finished` state but with an unprocessed buffer in the `Track` structure) - output the one with the lower timestamp. Otherwise do nothing.
 + If all the tracks are in the `:finished` state and their `:buffer` is empty - send the `:end_of_stream` event.
 + For all the tracks which are in the `:started` state and their buffer is empty - demand on the pad corresponding to that track.
 
@@ -83,7 +83,7 @@ defmodule Basic.Elements.Mixer do
  ...
 end
 ```
-What we do is that we are simply putting the incoming `buffer` into the `Track` structure for the given pad - note, that we are sure that we are not losing any information which is in the `Track`'s buffer before the update. Why can we be sure of that? That's because we will be returning the `:redemand` action. As you might remember from the chapter about the redemands, all the actions returned from the element's callback are taken immediately after the callback returns - that means, they are taken before any other incoming event is served. If we would have put the whole logic of processing the buffer into the `handle_demand/5` callback, we could simply call that callback with the `:redemand` action and be sure that the newly added buffer will be immediately processed before any other buffer comes (that means - before the other `handle_process/4` callback gets called).
+What we do is that we are simply putting the incoming `buffer` into the `Track` structure for the given pad. Note, that we have to be sure that we are not losing any information which is in the `Track`'s buffer before the update. In case there is a buffer on a given `Track`, it has to be processed before another buffer comes. Why can we be sure of that in our implementation? That's because we will be returning the `:redemand` action. As you might remember from the chapter about the redemands, all the actions returned from the element's callback are taken immediately after the callback returns - that means, they are taken before any other incoming event is served. If we would have put the whole logic of processing the buffer into the `handle_demand/5` callback, we could simply call that callback with the `:redemand` action and be sure that the newly added buffer will be immediately processed before any other buffer comes (that means - before the other `handle_process/4` callback gets called).
 Such an approach is powerful since we can also use it in other callback - `handle_end_of_stream/3`, which get's called once the `:end_of_stream` event comes on the given pad.
 ```Elixir
 # FILE: lib/elements/Mixer.ex
@@ -104,7 +104,7 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-What we did here was similar to the logic defined in the `handle_process/4` - we have just updated the state of the track (in that case - by setting its status as `:finished`) and then we called the `handle_demand/5` callback with the `:redemand` actions. The `handle_demand/5` will take care of the fact that the track state has changed.
+What we did here was similar to the logic defined in the `handle_process/4` - we have just updated the state of the track (in that case - by setting its status as `:finished`) and then we called the `handle_demand/5` callback using the `:redemand` actions. The `handle_demand/5` will take care of the fact that the track state has changed.
 There is nothing left to do apart from defining the `handle_demand/5` itself!
 ```Elixir
 # FILE: lib/elements/Mixer.ex
@@ -228,5 +228,5 @@ The last type of actions we need to generate are`:demand` actions. From the [con
 That is how we can fetch the information about the current demand size on the given pad.
 For all the tracks which are not yet `:finished`, do not have the buffer and the demand was not made on behalf of that pad (there is where we are making usage of the context information - `pads[track_id].demand==0`), we are making such a demand for one buffer.
 
-Starting from that moment, our mixer should be capable of mixing the inputs from two sources! In the later part of this tutorial, we will extend the mixer so that it will be able to mix any number of tracks we can desire (and we will be able to change that number during the pipeline runtime).
+Starting from that moment, our mixer should be capable of mixing the inputs from two sources! In the later part of this tutorial, we will extend the mixer so that it will be able to mix any number of tracks.
 

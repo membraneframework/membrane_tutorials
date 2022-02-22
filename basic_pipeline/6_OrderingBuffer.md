@@ -50,7 +50,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We simply send the `:demand` on the `:input` pad once we receive a demand on the `:output` pad. Packets are not aggregated in any way so for each 1 unit of demand we send 1 unit on demand to the `:input` pad.
+We simply send the `:demand` on the `:input` pad once we receive a demand on the `:output` pad. One packet on input corresponds to one packet on output so for each 1 unit of demand we send 1 unit on demand to the `:input` pad.
 
 Now we can go to the main part of the Ordering Buffer implementation - the `handle_process/4` callback:
 ```Elixir
@@ -70,7 +70,7 @@ defmodule Basic.Elements.OrderingBuffer do
   defp unzip_packet(packet) do
     regex = ~r/^\[seq\:(?<seq_id>\d+)\](?<data>.*)$/
     %{"data" => data, "seq_id" => seq_id} = Regex.named_captures(regex, packet)
-    {String.to_integer(seq_id), data}
+    {String.to_integer(seq_id), %Membrane.Buffer{payload: data}}
   end
   ...
 end
@@ -116,7 +116,7 @@ defmodule Basic.Elements.OrderingBuffer do
   ...
     if state.last_processed_seq_id + 1 == last_seq_id do
       reversed_ready_packets_sequence = get_ready_packets_sequence(ordered_packets, [])
-      {last_processed_seq_id, _} = Enum.at(reversed_ready_packets_sequence, 0)
+      [{last_processed_seq_id, _} | _] = reversed_ready_packets_sequence
 
       ordered_packets =
       Enum.slice(
@@ -126,10 +126,7 @@ defmodule Basic.Elements.OrderingBuffer do
 
       state = Map.put(state, :ordered_packets, ordered_packets)
       state = Map.put(state, :last_processed_seq_id, last_processed_seq_id)
-      ready_packets_sequence = Enum.reverse(reversed_ready_packets_sequence)
-      ready_packets_sequence = Enum.map(ready_packets_sequence, fn {_seq_id, data} -> data end)
-
-      buffers = ready_packets_sequence |> Enum.map(fn packet -> %Membrane.Buffer{payload: packet} end)
+      buffers = Enum.reverse(reversed_ready_packets_sequence) |> Enum.map(fn {_seq_id, data} -> data end)
 
       {{:ok, buffer: {:output, buffers}}, state}
     else
@@ -140,7 +137,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last processed packet (we keep that sequence id in the state of the element) or there might be some packets not yet delivered to us, with sequence ids in between the last processed sequence id and the sequence id of a currently processed packet. In case the second situation occurs, there is nothing more we can do.
+We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last processed packet or there might be some packets not yet delivered to us, with sequence ids in between the last processed sequence id and the sequence id of a currently processed packet. In case the second situation occurs, there is nothing more we can do.
 However, in the first situation, we need to get the ready packet's sequence - that means, a consistent batch of packets from the `:ordered_packets`. This can be done in the following way:
 ```Elixir
 # FILE: lib/elements/OrderingBuffer.ex

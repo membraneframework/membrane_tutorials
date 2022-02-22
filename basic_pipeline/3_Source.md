@@ -24,7 +24,7 @@ end
 
 ```
 # Pads and options
-Later on, we will make usage of macros defined in the `Membrane.Source` module:
+Later on, we will make use of macros defined in the `Membrane.Source` module:
 ```Elixir
 # FILE: lib/elements/Source.ex
 
@@ -37,7 +37,7 @@ end
 
 ```
 
-The first macro, `def_options` allows us to define the parameters which are expected to be passed while instantiating the element. The parameters will be passed as an automatically generated structure `%Basic.Elements.Source{}`. In our case, we will have a `:location` field inside of that structure. This parameter is about to be a path to the files which will consist of input packets.
+The first macro, `def_options` allows us to define the parameters which are expected to be passed while instantiating the element. The parameters will be passed as an automatically generated structure `%Basic.Elements.Source{}`. In our case, we will have a `:location` field inside of that structure. This parameter is about to be a path to the files which will contain input packets.
 Later on, while instatiating the Source element, we will be able to write:
 ```Elixir
 %Basic.Elements.Source{location: "input.A.txt"}
@@ -68,7 +68,7 @@ end
 ```
 
 As said before, `handle_init/1` expects a structure with the previously defined parameters to be passed as an argument.
-All we need to do there is to initialize the state - our state will be in a form of a map, and for now on we will put there a `location` (a path to the input file) and the `content`.where we will be holding packets read from the file, which hasn't been sent any further. For now, the content is set to nil as we haven't read anything from the input file yet.
+All we need to do there is to initialize the state - our state will be in a form of a map, and for now on we will put there a `location` (a path to the input file) and the `content`, where we will be holding packets read from the file, which haven't been sent yet. For now, the content is set to nil as we haven't read anything from the input file yet.
 You might also wonder what is the purpose of the `@impl true` specifier, put just above the function signature - this is simply a way to tell the compiler that the function defined below is about to be a callback. If we have misspelled the function name (or provided a wrong arguments list), we will be informed in the compilation time.
 # Playback states
 Before going further you should stop for the moment and read about the [playback states](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:playback_change_t/0) in which the Pipeline (and therefore - its elements) can be. Generally speaking, there are three playback states: **stopped**, **prepared**, and **playing**. The transition between the states can happen automatically or as a result of a user's explicit action.
@@ -98,7 +98,7 @@ end
 ```
 In the case of the first callback, `handle_stopped_to_prepared/2`, what we do is that we are reading the file from the location specified in the options structure (which we have saved in the state of the element).
 Then we split the content of the file to get the particular packets and save the list of those packets in the state of the element.
-An interesting thing here is the action we are returning - the `:caps` action. That means that we want to transmit the information about the supported caps through the `output` pad, to the next element in the pipeline. In the [9th chapter](9_Caps.md) you will find out more about caps and formats and learn why it is required to do so.
+An interesting thing here is the action we are returning - the `:caps` action. That means that we want to transmit the information about the supported caps through the `output` pad, to the next element in the pipeline. In the [4th chapter](4_Caps.md) you will find out more about caps and formats and learn why it is required to do so.
 The second callback, `handle_prepared_to_stopped`, defines the behavior of the Source element while we are stopping the pipeline. What we want to do is to clear the content buffer in the state of our element.
 # Demands
 Before going any further let's stop for a moment and talk about the demands. Do you remember, that the `:output` pad is working in the pulling mode? That means that the succeeding element have to ask the Source element for the data to be sent and our element has to take care of keeping that data in some kind of buffer until it is requested. 
@@ -133,4 +133,4 @@ end
 The first callback's definition matches the situation in which 0 buffers of data are requested - then we simply do nothing. You might wonder why would anybody like to request for 0 buffers - and you will find out soon that it will be us who will do so!
 The second callback's body describes the situation in which some buffers were in fact requested (and therefore the `size` argument is positive). Then we are checking if we have any packets left in the list persisting in the state of the element. If that list is empty, we are sending an `end_of_stream` action, indicating that there will be no more buffers sent through the `:output` pad and that is why there is no point in requesting more buffers.
 However, in case of the `content` list of packets being non-empty, we are taking the head of that list, and storing the remaining tail of the list in the state of the element. Later on, we are defining the actions we want to take - that is, we want to return a buffer with the head packet from the original list. We make use of the [`buffer:` action](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer_t/0), and specify that we want to transmit the [`%Buffer`](https://hexdocs.pm/membrane_core/Membrane.Buffer.html#t:t/0) structure through the `:output` pad. Note the fields available in the `%Buffer` structure - in our case, we make use of only the `:payload` field, which, according to the documentation, can be of `any` type - however, in almost all cases you will need to send binary data within this field. Any structured data (just like timestamps etc.) should be passed in the other fields available in the `%Buffer`, designed especially for that cases.
-However, there is the other action that is taken - the `:redemand` action, queued to take place on the `:output` pad. This action will simply invoke the `handle_demand/4` callback once again, which is helpful when the whole demand cannot be completely fulfilled in the single `handle_demand` invocation we are just processing. The great thing here is that the `size` of the demand will be automatically determined by the element and we do not need to specify it anyhow. Redemanding, in the context of sources, helps use simplify the logic of the `handle_demand` callback since all we need to do in that callback is to supply a single piece of data and in case this is not enough, take a [`:redemand`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:redemand_t/0) action and invoke that callback once again. As you will see later, the process of redemanding is even more powerful in the context of the filter elements, as we will take advantage of the fact that it is synchronous. 
+However, there is the other action that is taken - the `:redemand` action, queued to take place on the `:output` pad. This action will simply invoke the `handle_demand/4` callback once again, which is helpful when the whole demand cannot be completely fulfilled in the single `handle_demand` invocation we are just processing. The great thing here is that the `size` of the demand will be automatically determined by the element and we do not need to specify it anyhow. Redemanding, in the context of sources, helps use simplify the logic of the `handle_demand` callback since all we need to do in that callback is to supply a single piece of data and in case this is not enough, take a [`:redemand`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:redemand_t/0) action and invoke that callback once again. As you will see later, the process of redemanding is even more powerful in the context of the filter elements.

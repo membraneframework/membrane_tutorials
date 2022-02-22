@@ -1,6 +1,6 @@
 The sink is the last element in our pipeline, designed to store the data processed by the pipeline. 
 In contrast to the filter elements, it won't have any output pad - that is why we need to make our element `use Membrane.Sink` and define the input pad only.
-Since we want to parameterize the usage of that element, it will be good to define the options structure, so that we can specify the path to the file where the output should be saved. And we also need to remember, that since the sink will work in the pipeline consisting of the elements with the pull mode typed pads, it is the sink responsibility to demand the buffer - that is why we need a `@how_much_to_demand` parameter, specifying how many buffers should be demanded each time. All of this stuff is done in the code snippet below:
+Since we want to parameterize the usage of that element, it will be good to define the options structure, so that we can specify the path to the file where the output should be saved. This stuff is done in the code snippet below:
 ```Elixir
 #FILE lib/elements/Sink.ex
 
@@ -10,7 +10,6 @@ defmodule Basic.Elements.Sink do
  """
 
  use Membrane.Sink
- @how_much_to_demand 10
 
  def_options(location: [type: :string, description: "Path to the file"])
 
@@ -45,7 +44,7 @@ defmodule Basic.Elements.Sink do
  ...
  @impl true
  def handle_prepared_to_playing(_ctx, state) do
-  {{:ok, demand: {:input, @how_much_to_demand}}, state}
+  {{:ok, demand: {:input, 10}}, state}
  end
  ...
 end
@@ -60,10 +59,10 @@ defmodule Basic.Elements.Sink do
  @impl true
  def handle_write(:input, buffer, _ctx, state) do
   File.write!(state.location, buffer.payload <> "\n", [:append])
-  {{:ok, demand: {:input, @how_much_to_demand}}, state}
+  {{:ok, demand: {:input, 10}}, state}
  end
  ...
 end
 ```
 
-Note, that after the successful writing, we are taking the `:demad` action - and we ask for `@how_much_to_demand` buffers more.
+Note, that after the successful writing, we are taking the `:demad` action - and we ask for some more buffer.

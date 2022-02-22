@@ -12,7 +12,7 @@ Here is where caps come up - they can be defined with the following constraints:
 + data format - in our case, we are having a raw video format
 + some additional constraints - i.e. frame resolution (480p) , framerate (30 fps) etc.
 
-Caps help us find out if the given elements are compatible. Not only we cannot send the data between the pads if the format they are expecting is different - we need to take into consideration some other constraints! We can think of a situation in which the format would be the same (i.e. raw video data), but the element which receives the data performs a much more complex computation on that data than the sender, and therefore cannot digest such a great amount of data as the sender is capable of transmitting. Then their caps wouldn't be compatible, which could be expressed by adding some constraint, i.e. framerate.
+Caps help us find out if the given elements are capable to communicate with each other. Not only we cannot send the data between the pads if the format they are expecting is different - we need to take into consideration some other constraints! We can think of a situation in which the format would be the same (i.e. raw video data), but the element which receives the data performs a much more complex computation on that data than the sender, and therefore cannot digest such a great amount of data as the sender is capable of transmitting. Then their caps wouldn't be compatible, which could be expressed by adding some constraint, i.e. framerate.
 
 Caps help us define a contract between elements and prevent us from connecting incompatible elements. That is why it is always better to define precise caps rather than using caps of type `:any`.
 
