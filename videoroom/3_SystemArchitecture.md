@@ -33,33 +33,38 @@ It would be good for you to know that the Membrane Framework consists of the fol
 
 We will be using one of its plugins - [RTC Engine plugin](https://github.com/membraneframework/membrane_rtc_engine), which has both the server part (written in Elixir)
 and the client's library (written in Javascript). This plugin provides both the implementation of the
-[Selective Forwarding Unit (SFU)](https://github.com/membraneframework/membrane_rtc_engine) and the signaling server logic (with the usage of ICE protocol).
+[Selective Forwarding Unit (RTC)](https://github.com/membraneframework/membrane_rtc_engine) and the signaling server logic (with the usage of ICE protocol).
 
 ## System scheme
 The diagram below describes the desired architecture of the events passing system which is the part of the system we need to provide on our own: <br>
 ![Application Scheme](assets/images/total_scheme.png)
 
-And here is how the **SFU Engine** will relay multimedia streams:<br>
-![SFU scheme](assets/images/SFU_scheme.png)<br>
+And here is how the **RTC Engine** will relay multimedia streams:<br>
+![RTC scheme](assets/images/RTC_scheme.png)<br>
 
-In terms of media streaming, our server will be a Selective Forwarding Unit (SFU).
+In terms of media streaming, our server will be a Selective Forwarding Unit (RTC).
 Why do we want our server to be a Selective Forwarding Unit? The reason is that such a model of streaming data
 among peers allows us to balance between server's and client's bandwidth and limit CPU usage of the server.
-SFU is receiving stream from each of the peers and passes each of these streams to each of the other peers. <br>
+RTC is receiving stream from each of the peers and passes each of these streams to each of the other peers. <br>
 
 ## Server
 As pointed previously, the server will have two responsibilities - the first one is that it will work as a signalling server, broadcasting event messages among the peers.
 The second one is that it will act as a streaming server.
-The Membrane Framework provides Selective Forwarding Unit implementation called `SFU Engine`, which handles both the signaling and streaming.
-In the tutorial we will wrap the `SFU Engine` and provide business logic in order to add video room functionalities.
+A Selective Forwarding Unit implementation in the Membrane Framework can be achieved with `RTC Engine` plugin, which is capable of both the signaling and streaming media.
+In the tutorial we will wrap the `RTC Engine` and provide business logic in order to add video room functionalities.
 
 The server will consist of two components holding the logic and two components needed for communication.
 The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
 
-The "heart" of the server will be `SFU Engine` - it will deal with all the dirty stuff connected with both the signaling and streaming. We will also have a separate `Room` process (one per each of the video rooms) whose responsibility will be to aggregate information about peers in the particular room.
-`SFU Engine` will send event messages (e.g. `:new_peer` or `:sfu_media_event` messages) on which obtainment the `Room` process will react, for instance, by dispatching them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
-Messages coming on the `socket` will be dispatched to the appropriate `channel`. Then the `channel` will send them to the `Room`'s process, which finally will pass them to the `SFU Engine`.
-Media transmission will be done with the use of streaming protocols. The way in which this will be performed is out the scope of this tutorial. The only thing you need to know is that SFU Engine will also take care of it.
+The "heart" of the server will be `RTC Engine` - it will deal with all the dirty stuff connected with both the signaling and streaming. We will also have a separate `Room` process (one per each of the video rooms) which responsibility will be to aggregate information about peers in the particular room.
+`RTC Engine` will send event messages (e.g. `:new_peer` or `:sfu_media_event` messages) on which obtainment the `Room` process will react, for instance, by dispatching them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
+Messages coming on the `socket` will be dispatched to the appropriate `channel`. Then the `channel` will send them to the `Room`'s process, which finally will pass them to the `RTC Engine`. RTC Engine will receive them inside its endpoints, since each peer will have a corresponding endpoint in the RTC Engine.
+
+![RTC Engine](assets/images/modular_rtc.png)
+
+If you want to find out more about the inner architecture of the RTC Engine, please refere [here](https://blog.swmansion.com/modular-rtc-engine-is-our-little-big-revolution-in-video-conferencing-cfde806c5beb).
+
+Media transmission will be done with the use of streaming protocols. The way in which this will be performed is out the scope of this tutorial. The only thing you need to know is that RTC Engine will also take care of it.
 
 ## Client
 Each client's application will have a structure reassembling the structure of the server.
