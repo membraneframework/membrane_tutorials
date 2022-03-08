@@ -17,18 +17,18 @@
 + **WebSocket** is a communications protocol which enables full-duplex communication between client and server in near real-time.
 + (HTTP) **Long Polling** is a technique of keeping an open connection after client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received.
 + Types of elements:
-  + payloader, depayloader
-  + encoder, decoder
-  + encryptor, decryptor
-  + muxer, demuxer
+  + **payloader**, **depayloader**
+  + **encoder** and **decoder** convert media (audio or video) respectively from and to raw format
+  + **encryptor** and **decryptor**
+  + **muxer**, **demuxer**
   + **jitter buffer (ordering buffer)** is an area of memory, which is used to temporarily store incoming data in order to reduce the effect of packets incoming late
-  + mixer
+  + **mixer**
 + container format
-+ ICE
-  + STUN
-  + TURN
-+ DTLS
-+ YUV (I420, I422 etc.)
++ **ICE** is a technique of establishing the most direct connection between two computers, which is used in P2P communication
+  + **STUN**(Session Traversal Utilities for NAT) is a protocol used in interactive communications with hosts hiddent behind a NAT
+  + **TURN**(Traversal Using Relays around NAT) is a protocol utilizing TURN server which relays data between clients
++ **DTLS**(Datagram Transport Layer Security) is a protocol used for providing security to datagram-based applications
++ **YUV** is a color encoding system used for image compression by removing information barely visible to human eye. 
 
 # Membrane Framework
 + Caps
