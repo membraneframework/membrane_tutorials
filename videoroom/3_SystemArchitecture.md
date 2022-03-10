@@ -57,7 +57,7 @@ The server will consist of two components holding the logic and two components n
 The communication will be done with the use of Phoenix sockets and that is why we will need to define the `socket` itself and a `channel` for each of the rooms.
 
 The "heart" of the server will be `RTC Engine` - it will deal with all the dirty stuff connected with both the signaling and streaming. We will also have a separate `Room` process (one per each of the video rooms) whose responsibility will be to aggregate information about peers in the particular room.
-`RTC Engine` will send event messages (e.g. `:new_peer` or `:sfu_media_event` messages) on which obtainment the `Room` process will react, for instance, by dispatching them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
+`RTC Engine` will send event messages (e.g. `:new_peer` or `:sfu_media_event` messages) on which reception the `Room` process will react, for instance, by dispatching them to the appropriate peer's `channel`. `Channel` will then send those messages to the client via the `socket`.
 Messages coming on the `socket` will be dispatched to the appropriate `channel`. Then the `channel` will send them to the `Room`'s process, which finally will pass them to the `RTC Engine`. RTC Engine will receive them inside its endpoints since each peer will have a corresponding endpoint in the RTC Engine, as presented on the diagram below:
 
 ![RTC Engine](assets/images/modular_rtc.png)
