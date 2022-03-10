@@ -104,7 +104,7 @@ def handle_process(_ref, buffer, _ctx, state) do
 end
 ```
 
-Once again we are taking advantage of the `Regex.named_caputes` - I hope the regex definition is clear enough, as it is almost the same thing we did in the previous chapter.
+Once again we are taking advantage of the `Regex.named_caputes` - we hope the regex definition is clear enough, as it is almost the same thing we did in the previous chapter.
 Once we fetch the interesting values of the header's parameters, we can update the `:frame`.
 ```Elixir
 # FILE: lib/elements/Depayloader.ex

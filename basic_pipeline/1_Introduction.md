@@ -13,7 +13,7 @@ cd membrane_getting_started_tutorial
 git checkout template/start
 ```
 As you can see, the template's code is put on the `template/start` branch of the repository.
-In the repository, there is also a `template/end` branch, where you can find the fulfilled template.
+In the repository, there is also a `template/end` branch, where you can find the completed template.
 If you find yourself lost during the tutorial feel free to check the implementation proposed by us, put on this branch.
 
 # Use Case

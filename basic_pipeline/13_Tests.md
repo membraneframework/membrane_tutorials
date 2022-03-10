@@ -1,7 +1,7 @@
 Even not-so-much experienced developers could have noticed that we were missing a really important part of software development - the testing. Don't worry! We are hurrying with the description of the testing framework and good practices which will allow you to write reliable tests for your Membrane system.
 # Do we need testing?
 Testing in terms of software engineering is no less important than functionalities programming.
-I am sure I do not need to persuade you that our pipeline, and especially speaking - its elements -  needs testing. In fact - who wouldn't like to be sure, that changes just done in the functionalities code do not break the desired element's behavior? And all that in the matter of typing simple `mix test` command?
+We are sure we do not need to persuade you that our pipeline, and especially speaking - its elements -  needs testing. In fact - who wouldn't like to be sure, that changes just done in the functionalities code do not break the desired element's behavior? And all that in the matter of typing simple `mix test` command?
 In the scope of this chapter we will implement some unit tests for the elements of our pipeline. They will check the behavior of the elements in isolation.
 We will immediately jump to the code and try to experience the Membrane tests on our own.
 # Our first test
@@ -118,7 +118,7 @@ Now we can run the tests with a simple Mix task, by typing:
 mix test
 ```
 
-If everything works (both the tests and the functionality's code itself), you should see a notification that the test has passed successfully, which I hope you do see!
+If everything works (both the tests and the functionality's code itself), you should see a notification that the test has passed successfully, which we hope you do see!
 
 
 # Some special types of tests

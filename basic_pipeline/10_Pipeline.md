@@ -82,7 +82,7 @@ def handle_init(_opts) do
  ...
 end
 ```
-I hope the syntax is visually descriptive enough to show what is the desired result of that definition. But to make sure everything is clear to you let me tell you something about it.
+We hope the syntax is visually descriptive enough to show what is the desired result of that definition. But to make sure everything is clear to you let me tell you something about it.
 Each pipeline's "branch" starts with the `link/1` which takes as an argument an atom corresponding to a given element. All the further elements in the branch can be accessed with the use of the `to/1` function, expecting an atom that identifies that element to be passed as an argument. Note, that the mentioned atoms must be the same as the ones you have used as keys in the `children` map!
 `|>` operator allows "linking" of the elements accessed in the way described above, via their pads. By default, the elements' link will be using a `:input` pad as the input pad and a `:output` pad as the output pad.
 `via_in/1` allows specifying an input pad with a given name. Since in a mixer there are two input pads (`:first_input` and `:second_input`, defined in `Basic.Elements.Mixer` module with `def_input_pad` and `def_output_pad` macros), we need to distinguish between them while linking the elements. 
