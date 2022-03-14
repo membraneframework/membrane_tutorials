@@ -9,7 +9,7 @@ defmodule Basic.Elements.Mixer do
  """
  use Membrane.Filter
  alias Basic.Formats.Frame
- 
+
  def_input_pad(:first_input, demand_unit: :buffers, caps: {Frame, encoding: :utf8})
 
  def_input_pad(:second_input, demand_unit: :buffers, caps: {Frame, encoding: :utf8})
@@ -112,11 +112,15 @@ There is nothing left to do apart from defining the `handle_demand/5` itself!
 
 defmodule Basic.Elements.Mixer do
  ...
- @impl true
- def handle_demand(:output, size, _unit, ctx, state) when size > 0 do
-  {state, actions} = update_state_and_prepare_actions(state, ctx.pads)
+@impl true
+def handle_demand(:output, size, _unit, ctx, state) when size > 0 do
+  {state, buffer_actions} = output_buffers(state)
+  {state, end_of_stream_actions} = maybe_send_end_of_stream(state)
+  {state, demand_actions} = demand_on_empty_tracks(state, ctx.pads)
+
+  actions = buffer_actions ++ end_of_stream_actions ++ demand_actions
   {{:ok, actions}, state}
- end
+end
 
  @impl true
  def handle_demand(_ref, _size, _unit, _ctx, state), do: {state, []}
@@ -124,28 +128,11 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-We have split that definition into two parts, depending on the demand size. If the demand size is greater than 0, we are calling the `update_state_and_prepare_actions/2` function (to which we have delegated the whole logic concerning the tracks processing). Otherwise, we do nothing.
-```Elixir
-# FILE: lib/elements/Mixer.ex
-
-defmodule Basic.Elements.Mixer do
- ...
- defp update_state_and_prepare_actions(state, pads) do
-  {state, buffer_actions} = output_buffers(state)
-  {state, end_of_stream_actions} = send_end_of_stream(state)
-  {state, demand_actions} = demand_on_empty_tracks(state, pads)
-
-  actions = buffer_actions ++ end_of_stream_actions ++ demand_actions
-  {state, actions}
- end
- ...
-end
-```
-
-The private function `update_state_and_prepare_actions/2` is defined as described in the steps' list above - it aggregates the actions taken in order to:
-+ output the ready buffers
-+ send `:end_of_stream` notification if necessary
-+ demand on empty tracks
+We have split that definition into two parts, depending on the demand size. If the demand size is greater than 0, we need to process the tracks. Otherwise, we do nothing.
+The tracks processing can be split into the following steps:
++ outputing the ready buffers
++ sending `:end_of_stream` notification if necessary
++ demanding on empty tracks
 
 Each of these steps has a corresponding private function.
 ```Elixir
@@ -194,7 +181,7 @@ Now let's focus on preparing `:end_of_stream` action:
 
 defmodule Basic.Elements.Mixer do
  ...
- defp send_end_of_stream(state) do
+ defp maybe_send_end_of_stream(state) do
   end_of_stream_actions =
     if Enum.all?(state.tracks, fn {_, track} -> track.status == :finished end) do
       [end_of_stream: :output]
@@ -206,7 +193,7 @@ defmodule Basic.Elements.Mixer do
  ...
 end
 ```
-This action needs to be sent if both the tracks are in the `:finished` state - since the `send_end_of_stream/1` function gets called after the `output_buffers/1`, we can be sure, that all the buffers which could possibly be on those tracks, despite they are in the `:finished` state, are already processed.
+This action needs to be sent if both the tracks are in the `:finished` state - since the `maybe_send_end_of_stream/1` function gets called after the `output_buffers/1`, we can be sure, that all the buffers which could possibly be on those tracks, despite they are in the `:finished` state, are already processed.
 ```Elixir
 # FILE: lib/elements/Mixer.ex
 
