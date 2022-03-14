@@ -5,6 +5,7 @@ Let's create a new module in the `lib/elements/Depayloader.ex` file:
 # FILE: lib/elements/Depayloader.ex
 
 defmodule Basic.Elements.Depayloader do
+ alias Basic.Formats.{Packet, Frame}
  ...
 end
 ```
@@ -14,7 +15,7 @@ What input data do we expect? Of course in `Basic.Fromat.Packet` format!
 # FILE: lib/elements/Depayloader.ex
 
 defmodule Basic.Elements.Depayloader do
- def_input_pad(:input, demand_unit: :buffers, caps: {Basic.Formats.Packet, type: :custom_packets})
+ def_input_pad(:input, demand_unit: :buffers, caps: {Packet, type: :custom_packets})
  ...
 end
 ```
@@ -26,7 +27,7 @@ We need to specify it while defining the `:output` pad:
 
 defmodule Basic.Elements.Depayloader do
  ...
- def_output_pad(:output, caps: {Basic.Formats.Frame, encoding: :utf8})
+ def_output_pad(:output, caps: {Frame, encoding: :utf8})
  ...
 end
 ```
@@ -70,7 +71,7 @@ As noted in the [chapter dedicated to the caps](4_Caps.md), since we are changin
 
 @impl true
 def handle_caps(_pad, _caps, _context, state) do
- caps = %Basic.Formats.Frame{encoding: :utf8}
+ caps = %Frame{encoding: :utf8}
  {{:ok, caps: {:output, caps}}, state}
 end
 ```

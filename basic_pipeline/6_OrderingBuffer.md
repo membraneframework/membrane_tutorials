@@ -6,10 +6,11 @@ Ordering Buffer will be the first filter we gonna implement - therefore we need 
 
 defmodule Basic.Elements.OrderingBuffer do
   use Membrane.Filter
+  alias Basic.Formats.Packet
 
-  def_input_pad(:input, demand_unit: :buffers, caps: {Basic.Formats.Packet, type: :custom_packets})
+  def_input_pad(:input, demand_unit: :buffers, caps: {Packet, type: :custom_packets})
 
-  def_output_pad(:output, caps: {Basic.Formats.Packet, type: :custom_packets})
+  def_output_pad(:output, caps: {Packet, type: :custom_packets})
   ...
 end
 ```

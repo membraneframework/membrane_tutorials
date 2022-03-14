@@ -8,12 +8,13 @@ defmodule Basic.Elements.Mixer do
  The element responsible for mixing the frames coming from two sources, based on their timestamps.
  """
  use Membrane.Filter
+ alias Basic.Formats.Frame
+ 
+ def_input_pad(:first_input, demand_unit: :buffers, caps: {Frame, encoding: :utf8})
 
- def_input_pad(:first_input, demand_unit: :buffers, caps: {Basic.Formats.Frame, encoding: :utf8})
+ def_input_pad(:second_input, demand_unit: :buffers, caps: {Frame, encoding: :utf8})
 
- def_input_pad(:second_input, demand_unit: :buffers, caps: {Basic.Formats.Frame, encoding: :utf8})
-
- def_output_pad(:output, caps: {Basic.Formats.Frame, encoding: :utf8})
+ def_output_pad(:output, caps: {Frame, encoding: :utf8})
  ...
 end
 ```

@@ -61,23 +61,24 @@ Below we will rewrite the test we have just written, but with the support from t
 #FILE: test/elemets/depayloader_test.exs
 
 defmodule DepayloaderTest do
- ...
- alias Membrane.Buffer
+  ...
+  alias Membrane.Buffer
 
- alias Membrane.Testing.{Source, Sink}
+  alias Membrane.Testing.{Source, Sink}
 
- import Membrane.Testing.Assertions
- alias Membrane.Testing.{Source, Sink, Pipeline}
+  import Membrane.Testing.Assertions
+  alias Membrane.Testing.{Source, Sink, Pipeline}
+  alias Basic.Formats.Packet
 
- test "Depayloader should assemble the packets and form a frame (with membrane's testing framework)" do
-  inputs = ["[frameid:1s][timestamp:1]Hello! ", "[frameid:1][timestamp:1]How are", "[frameid:1e][timestamp:1] you?"]
-  options = %Pipeline.Options{
-    elements: [
-      source: %Source{output: inputs, caps: %Basic.Formats.Packet{type: :custom_packets}},
-      depayloader: %Depayloader{packets_per_frame: 5},
-      sink: Sink
-    ]
-  }
+  test "Depayloader should assemble the packets and form a frame (with membrane's testing framework)" do
+    inputs = ["[frameid:1s][timestamp:1]Hello! ", "[frameid:1][timestamp:1]How are", "[frameid:1e][timestamp:1] you?"]
+    options = %Pipeline.Options{
+      elements: [
+        source: %Source{output: inputs, caps: %Packet{type: :custom_packets}},
+        depayloader: %Depayloader{packets_per_frame: 5},
+        sink: Sink
+      ]
+    }
 
   {:ok, pipeline} = Pipeline.start_link(options)
   Pipeline.play(pipeline)

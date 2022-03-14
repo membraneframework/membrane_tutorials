@@ -19,6 +19,7 @@ Let's start with specifying that our module will implement the `Membrane.Source`
 defmodule Basic.Elements.Source do
  use Membrane.Source
  alias Membrane.Buffer
+ alias Basic.Formats.Packet
  ...
 end
 
@@ -31,7 +32,7 @@ Later on, we will make use of macros defined in the `Membrane.Source` module:
 defmodule Basic.Elements.Source do
  ...
  def_options location: [type: :string, description: "Path to the file"]
- def_output_pad :output, [caps: {Basic.Formats.Packet, type: :custom_packets}, mode: :pull]
+ def_output_pad :output, [caps: {Packet, type: :custom_packets}, mode: :pull]
  ...
 end
 
@@ -84,7 +85,7 @@ defmodule Basic.Elements.Source do
   raw_file_binary = File.read!(state.location)
   content = String.split(raw_file_binary, "\n")
   state = %{state | content: content}
-  {{:ok, [caps: {:output, %Basic.Formats.Packet{type: :custom_packets}}]}, state}
+  {{:ok, [caps: {:output, %Packet{type: :custom_packets}}]}, state}
  end
 
  @impl true
