@@ -116,17 +116,14 @@ defmodule Basic.Elements.OrderingBuffer do
   def handle_process(:input, buffer, _context, state) do
   ...
     if state.last_processed_seq_id + 1 == last_seq_id do
-      reversed_ready_packets_sequence = get_ready_packets_sequence(ordered_packets, [])
+      {reversed_ready_packets_sequence, ordered_packets} = get_ready_packets_sequence(ordered_packets, [])
       [{last_processed_seq_id, _} | _] = reversed_ready_packets_sequence
 
-      ordered_packets =
-      Enum.slice(
-      ordered_packets,
-      Range.new(length(reversed_ready_packets_sequence), length(ordered_packets))
-      )
-
-      state = Map.put(state, :ordered_packets, ordered_packets)
-      state = Map.put(state, :last_processed_seq_id, last_processed_seq_id)
+      state = %{
+        state
+        | ordered_packets: ordered_packets,
+          last_processed_seq_id: last_processed_seq_id
+      }
       buffers = Enum.reverse(reversed_ready_packets_sequence) |> Enum.map(fn {_seq_id, data} -> data end)
 
       {{:ok, buffer: {:output, buffers}}, state}
@@ -145,7 +142,7 @@ However, in the first situation, we need to get the ready packet's sequence - th
 defmodule Basic.Elements.OrderingBuffer do
   ...
   defp get_ready_packets_sequence([], acc) do
-    acc
+    {acc, []}
   end
 
   defp get_ready_packets_sequence(
@@ -154,8 +151,8 @@ defmodule Basic.Elements.OrderingBuffer do
     get_ready_packets_sequence([{second_id, second_data} | rest], [first_seq | acc])
   end
 
-  defp get_ready_packets_sequence([first_seq | _rest], acc) do
-    [first_seq | acc]
+  defp get_ready_packets_sequence([first_seq | rest], acc) do
+    {[first_seq | acc], rest}
   end 
 end
 ```

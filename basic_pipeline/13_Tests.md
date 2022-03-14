@@ -14,7 +14,6 @@ Let's create a `test/elements/depayloader_test.exs` file and put the following c
 
 defmodule DepayloaderTest do
  use ExUnit.Case 
- 
  doctest Basic.Elements.OrderingBuffer
 
  test "Depayloader should assemble the packets and form a frame" do
@@ -36,9 +35,31 @@ defmodule DepayloaderTest do
  
  test "Depayloader should assemble the packets and form a frame" do
   {:ok, state} = Depayloader.handle_init(%Depayloader{packets_per_frame: 5})
-  {:ok, state} = Depayloader.handle_process(:input, %Buffer{payload: "[frameid:1s][timestamp:1]Hello! "}, nil, state)
-  {:ok, state} = Depayloader.handle_process(:input, %Buffer{payload: "[frameid:1][timestamp:1]How are"}, nil, state)
-  {{:ok, actions}, _state} = Depayloader.handle_process(:input, %Buffer{payload: "[frameid:1e][timestamp:1] you?"}, nil, state)
+
+  {:ok, state} =
+    Depayloader.handle_process(
+      :input,
+      %Buffer{payload: "[frameid:1s][timestamp:1]Hello! "},
+      nil,
+      state
+    )
+
+  {:ok, state} =
+    Depayloader.handle_process(
+      :input,
+      %Buffer{payload: "[frameid:1][timestamp:1]How are"},
+      nil,
+      state
+    )
+
+  {{:ok, actions}, _state} =
+    Depayloader.handle_process(
+      :input,
+      %Buffer{payload: "[frameid:1e][timestamp:1] you?"},
+      nil,
+      state
+    )
+
   [buffer: {:output, buffer}] = actions
   assert buffer.payload == "Hello! How are you?"
  end
@@ -71,7 +92,12 @@ defmodule DepayloaderTest do
   alias Basic.Formats.Packet
 
   test "Depayloader should assemble the packets and form a frame (with membrane's testing framework)" do
-    inputs = ["[frameid:1s][timestamp:1]Hello! ", "[frameid:1][timestamp:1]How are", "[frameid:1e][timestamp:1] you?"]
+    inputs = [
+      "[frameid:1s][timestamp:1]Hello! ",
+      "[frameid:1][timestamp:1]How are",
+      "[frameid:1e][timestamp:1] you?"
+    ]
+
     options = %Pipeline.Options{
       elements: [
         source: %Source{output: inputs, caps: %Packet{type: :custom_packets}},
@@ -80,15 +106,15 @@ defmodule DepayloaderTest do
       ]
     }
 
-  {:ok, pipeline} = Pipeline.start_link(options)
-  Pipeline.play(pipeline)
-  assert_start_of_stream(pipeline, :sink)
+    {:ok, pipeline} = Pipeline.start_link(options)
+    Pipeline.play(pipeline)
+    assert_start_of_stream(pipeline, :sink)
 
-  assert_sink_buffer(pipeline,:sink, %Buffer{payload: "Hello! How are you?"})
+    assert_sink_buffer(pipeline, :sink, %Buffer{payload: "Hello! How are you?"})
 
-  assert_end_of_stream(pipeline, :sink)
-  refute_sink_buffer(pipeline, :sink, _, 0)
-  Pipeline.stop_and_terminate(pipeline, blocking?: true)
+    assert_end_of_stream(pipeline, :sink)
+    refute_sink_buffer(pipeline, :sink, _, 0)
+    Pipeline.stop_and_terminate(pipeline, blocking?: true)
  end
 end
 ```
