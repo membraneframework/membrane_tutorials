@@ -113,28 +113,27 @@ Once we fetch the interesting values of the header's parameters, we can update t
 @impl true
 def handle_process(_ref, buffer, _ctx, state) do
  ...
- case type do
- "e" ->
-    actions = prepare_frame(Enum.reverse(frame), timestamp)
-    state = Map.put(state, :frame, [])
-    {{:ok, actions}, state}
+case type do
+   "e" ->
+      frame = prepare_frame(frame)
+      state = Map.put(state, :frame, [])
+      buffer = %Membrane.Buffer{payload: frame, pts: String.to_integer(timestamp)}
+      {{:ok, [buffer: {:output, buffer}]}, state}
 
- _ ->
-    state = Map.put(state, :frame, frame)
-    {{:ok, redemand: :output}, state}
- end
+   _ ->
+      state = Map.put(state, :frame, frame)
+      {:ok, state}
+   end
 end
 ```
 
 Now, depending on the type of frame, we perform different actions. 
-If we have the 'ending' packet, we are making the `:buffer` action with the frame made out of the packets, with the `prepare_frame/2` function, and clear the `:frame` buffer. Here is how can the `prepare_frame/2` function be implemented:
+If we have the 'ending' packet, we are making the `:buffer` action with the frame made out of the packets (that's where `prepare_frame/1` function comes in handy), and clear the `:frame` buffer. Here is how can the `prepare_frame/1` function be implemented:
 ```Elixir
 # FILE: lib/elements/Depayloader.ex
 
-defp prepare_frame(frame, timestamp) do
- frame = frame |> Enum.join("")
- buffer = %Membrane.Buffer{payload: frame, pts: String.to_integer(timestamp)}
- [buffer: {:output, buffer}]
+defp prepare_frame(frame) do
+   frame |> Enum.reverse() |> Enum.join("")
 end
 ```
 
