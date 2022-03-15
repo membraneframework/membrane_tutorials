@@ -47,7 +47,7 @@ where:
 + *packets_per_frame* is a number of packets on which each frame will be dismentled
 
 Based on the input file content, that command will create multiple files, `<input_file_path>.<speaker id>.<input file format>` . For instance: `input.txt` with input from speakers `A` and `B` will be split into `input.A.txt` and `input.B.txt` files.
-The first file will contain the shuffled list of packets made from the odd lines from the input file and the second file will contain a shuffled list of packets made out of the even lines of the input file. That `shuffle` is a way to simulate the imperfectness of the network - in real-life scenario, the order in which the packets are received is not always the same as the order in which they were sent.
+The first file will contain the shuffled list of packets made from the `A` speaker's lines from the input file and the second file will contain a shuffled list of packets made out of the `B` speaker's lines of the input file. That `shuffle` is a way to simulate the imperfectness of the network - in real-life scenario, the order in which the packets are received is not always the same as the order in which they were sent.
 Below you can see the steps which are taken during the input files generation:<br>
 ![Example Input](assets/images/example_input.drawio.png)
 # Task description
