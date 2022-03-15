@@ -135,7 +135,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last processed packet or there might be some packets not yet delivered to us, with sequence ids in between the last processed sequence id and the sequence id of a currently processed packet. In case the second situation occurs, there is nothing more we can do.
+We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last processed packet or there might be some packets not yet delivered to us, with sequence ids in between the last processed sequence id and the sequence id of a currently processed packet. In case the second situation occurs, we should store the packet and wait for the next packets to arrive.
 However, in the first situation, we need to get the ready packet's sequence - that means, a consistent batch of packets from the `:ordered_packets`. This can be done in the following way:
 ```Elixir
 # FILE: lib/elements/OrderingBuffer.ex
