@@ -30,7 +30,7 @@ Here is what each packet looks like:
 ```
 where:
 + sequence_id - the ordering number of the packet (relative to each of the peers). It reflects the position of a particular packet in the packets' stream.
-+ frame_id - the identifier which consists of the number of the frame to which the body of a given packet belongs, optionally followed by a single character **'s'** (meaning that this packet is a **s**tarting packet of a frame) or by **'e'** character (meaning that the packet is the **e**nding packet of the frame). Note that frames are numbered relatively to each peer in that conversation and that frame_id does not describe the global order of the frames in the final file.
++ frame_id - the identifier which consists of the number of the frame to which the body of a given packet belongs, optionally followed by a single **'e'** character (meaning that the packet is the **e**nding packet of the frame). Note that frames are numbered relatively to each peer in that conversation and that frame_id does not describe the global order of the frames in the final file.
 + timestamp - a number indicating a time at which a given sentence was said. Timestamp describes the order of the frames from both peers. 
 + text - the proper body of the packet, in our case - a bunch of characters which could be sent in a single packet.
 
