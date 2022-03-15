@@ -51,7 +51,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We simply send the `:demand` on the `:input` pad once we receive a demand on the `:output` pad. One packet on input corresponds to one packet on output so for each 1 unit of demand we send 1 unit on demand to the `:input` pad.
+We simply send the `:demand` on the `:input` pad once we receive a demand on the `:output` pad. One packet on input corresponds to one packet on output so for each 1 unit of demand we send 1 unit of demand to the `:input` pad.
 
 Now we can go to the main part of the Ordering Buffer implementation - the `handle_process/4` callback:
 ```Elixir
