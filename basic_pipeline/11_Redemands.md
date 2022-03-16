@@ -11,13 +11,12 @@ The whole logic of fetching the data can be put inside the `handle_demand/5` cal
 The redemand mechanism here lets you focus on providing a single buffer in the `handle_demand/5` body - later on, you can simply return the `:redemand` action and that action will invoke the `handle_demand/5` once again, with the updated number of buffers which are expected to be provided. Let's see it in an example - we could have such a `handle_demand/5` definition (and it wouldn't be a mistake!):
 ```Elixir
 @impl true
-def handle_demand(:input, size, unit, context, state) when size>0 do
- buffers = for x <- 1..size do
+def handle_demand(:output, size, _unit, _context, state) do
+ actions = for x <- 1..size do
    payload = Input.get_next() #Input.get_next() is an exemplary function which could be providing data
-   %Membrane.Buffer(payload: payload)
+   {:buffer, %Membrane.Buffer(payload: payload)}
  end
- 
- def handle_demand(:input, size, unit, context, state), do: {:ok, state}
+ {{:ok, actions}, state}
 end
 ```
 
@@ -28,13 +27,12 @@ You would need to take under the consideration all these situations and your cod
 Wouldn't it be better to focus on a single buffer in each `handle_demand/5` call - and let the Membrane Framework automatically update the demand's size? This can be done in the following way:
 ```Elixir
 @impl true
-def handle_demand(:input, size, unit, context, state) when size>0 do
+def handle_demand(:output, _size, unit, context, state) do
  payload = Input.get_next() #Input.get_next() is an exemplary function which could be providing data
- actions = [buffer: %Membrane.Buffer(payload: payload)]
+ actions = [buffer: %Membrane.Buffer(payload: payload), redemand: :output]
  {{:ok, actions}, state}
 end
 
-def handle_demand(:input, size, unit, context, state), do: {:ok, state}
 ```
 
 

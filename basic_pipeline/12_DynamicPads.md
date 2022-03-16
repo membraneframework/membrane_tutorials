@@ -113,7 +113,7 @@ end
 ...
 ```
 
-The crucial thing was to change the plain atom name identifying the pad (like `:first_input) into the [Membrane.Pad.ref/2](https://hexdocs.pm/membrane_core/Membrane.Pad.html#ref/2).
+The crucial thing was to change the plain atom name identifying the pad (like `:first_input`) into the [Membrane.Pad.ref/2](https://hexdocs.pm/membrane_core/Membrane.Pad.html#ref/2).
 The first argument passed to that function is the name of the dynamic pad's set (in our case: `:input`, as we have defined the `:input` dynamic pads set in the Mixer element), and the second argument is a particular pad identifier.
 As you can see, we have created two `:input` pads: `:first` and `:second`. While starting the pipeline, the `handle_pad_added/3` callback will be called twice, once per each dynamic pad created.
 

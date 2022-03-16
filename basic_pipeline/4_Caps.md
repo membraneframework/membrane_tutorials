@@ -43,9 +43,8 @@ Here is how you define a caps specification:
  As you can see, we pass a list of compatible formats, each described with the tuple, consisting of our module name, and the keywords list fulfilling the 
  structure defined in that module. For the format's options, we can use the `range/2` or `one_of/1` specifier, which will modify the way in which the comparison between the caps specification and the actual caps received by the element is performed.
 
-3. Once the caps event will come to the element, the caps sent within that event will be compared to the caps specification we have just defined.
- Caps sent in the event are confronted with each of the elements in the `caps:` list. If it matches even one of the caps formats in the list it means that caps are matching (alternative, OR).
- To match the caps with the particular format (one from the list), the module (first element of the tuple in caps format description) and all the options must match (conjunction, AND). For each option, a value sent within the event is confronted with the specification of the option. The way comparison occurs is dependent on how we defined that option in the specification:
+3. Once the caps event comes to the element's pad, the caps description sent in that event is confronted with each of the formats in the caps specification list of the pad.  If the event's caps description matches even one of the caps formats present in the list it means that caps are matching.
+To match the caps with the particular format (one from the caps specification list), the module (first element of the tuple in caps format description) must be the same and all the options must match. For each option, a value sent within the event is confronted with the specification of the option. The way comparison occurs is dependent on how we defined that option in the specification:
  + We have used `framerate: range(30, 60)`, so will accept the framerate value in the given interval, between 30 and 60 FPS.
  + We have also used `pixel_format: one_of([:I420, :I422]`, and that will accept caps, whose pixel format is either I420 or I422
  + We have used a plain value to specify the `width` and the `height` of a picture - the caps will match if that option will be equal to the value passed in the specification 
