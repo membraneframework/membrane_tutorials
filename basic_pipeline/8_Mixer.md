@@ -20,7 +20,7 @@ end
 ```
 
 Note, that we have defined two input pads: `:first_input` and the `:second_input`. 
-Each of these input pads will have a corresponding incoming track in form of a buffers stream. That is why we might need a structure that would hold the state of such a track so that we would be able to fetch the last buffer which has appeared on the track as well as a mark that no more are we expecting a buffer to show up on the given input pad. Let's do it in the following way, by defining a `Track` inside the mixer module:
+Each of these input pads will have a corresponding incoming track in form of a buffers stream. That is why we might need a structure that would hold the state of such a track so that we would be able to fetch the last buffer which has appeared on the track as well as mark that we are not expecting buffers on a given pad anymore. Let's do it in the following way, by defining a `Track` inside the mixer module:
 
 ```Elixir
 # FILE: lib/elements/Mixer.ex
