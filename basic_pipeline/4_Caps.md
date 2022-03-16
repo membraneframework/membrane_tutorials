@@ -84,7 +84,7 @@ defmodule Source do
 ```
 While returning from the `handle_stopped_to_prepared/2` callback, the element will send the caps described by the `Formats.Raw` structure, through the `:output` pad.
 Will those caps meet the caps specification provided by us? Think about it!
-In fact, they will. The format matches (both in the caps being sent and in the caps specification of the pad, we have `Format.Raw` module). When it comes to the options, we see, that `I420` is in the `one_of` list, acceptable by the caps specification format for `width` equal to 720 and `height` equal to 480, and the `framerate`, equal to 45, is in the `range` between 30 and 45, as defined in the caps specification.
+In fact, they will. The format matches (both in the caps being sent and in the caps specification of the pad, we have `Format.Raw` module). When it comes to the options, we see, that `I420` is in the `one_of` list, acceptable by the caps specification format for `width` equal to 720 and `height` equal to 480, and the `framerate`, equal to 45, is in the `range` between 30 and 60, as defined in the caps specification.
 It means that the caps can be sent through the `:output` pad. 
 Below there is the draft of the filter implementation:
 ```Elixir

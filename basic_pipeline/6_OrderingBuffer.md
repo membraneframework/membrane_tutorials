@@ -27,7 +27,7 @@ defmodule Basic.Elements.OrderingBuffer do
     {:ok,
       %{
       ordered_packets: [],
-      last_processed_seq_id: 0
+      last_sent_seq_id: 0
       }
     }
   end
@@ -35,7 +35,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We will need to hold a list of ordered packets, as well as a sequence id of the packet, which most recently was sent through the output pad (we need to know if there are some packets missing between the last processed packet and the first packet in our ordered list).
+We will need to hold a list of ordered packets, as well as a sequence id of the packet, which most recently was sent through the output pad (we need to know if there are some packets missing between the last sent packet and the first packet in our ordered list).
 
 Handling demand is quite straightforward:
 ```Elixir
@@ -88,6 +88,8 @@ Therefore we have defined the regex description as:
 ```Elixir
 ~r/^\[seq\:(?<seq_id>\d+)\](?<data>.*)$/
 ```
+
+<!---TIP
 + `~r/.../` stands for the `sigil_r/1` [sigil](https://elixir-lang.org/getting-started/sigils.html)
 + `^` describes the beginning of the input
 + `\[` stands for the opening square bracket ('[') at the beginning is required to escape the char since the plain '[' has a special meaning in the regex syntax
@@ -102,7 +104,7 @@ The result of `Regex.named_captures/2` applied to that regex description and the
 ```Elixir
 {"seq_id"=>7, "data"=>"[frameid:2][timestamp:3]data"}
 ```
-
+-->
 Once we unzip the header of the packet in the `handle_process/4` callback, we can put the incoming packet in the `ordered_packets` list and sort that list. Due to the fact, that elements of this list are tuples, whose first element is a sequence id (a value that is unique), the list will be sorted based on the sequence id.
 We also get the sequence id of the first element in the updated `ordered_packets` list.
 
@@ -115,14 +117,14 @@ defmodule Basic.Elements.OrderingBuffer do
   ...
   def handle_process(:input, buffer, _context, state) do
   ...
-    if state.last_processed_seq_id + 1 == last_seq_id do
+    if state.last_sent_seq_id + 1 == last_seq_id do
       {reversed_ready_packets_sequence, ordered_packets} = get_ready_packets_sequence(ordered_packets, [])
-      [{last_processed_seq_id, _} | _] = reversed_ready_packets_sequence
+      [{last_sent_seq_id, _} | _] = reversed_ready_packets_sequence
 
       state = %{
         state
         | ordered_packets: ordered_packets,
-          last_processed_seq_id: last_processed_seq_id
+          last_sent_seq_id: last_sent_seq_id
       }
       buffers = Enum.reverse(reversed_ready_packets_sequence) |> Enum.map(fn {_seq_id, data} -> data end)
 
@@ -135,7 +137,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last processed packet or there might be some packets not yet delivered to us, with sequence ids in between the last processed sequence id and the sequence id of a currently processed packet. In case the second situation occurs, we should store the packet and wait for the next packets to arrive.
+We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last sent packet or there might be some packets not yet delivered to us, with sequence ids in between the last sent sequence id and the sequence id of a currently processed packet. In case the second situation occurs, we should store the packet and wait for the next packets to arrive.
 However, in the first situation, we need to get the ready packet's sequence - that means, a consistent batch of packets from the `:ordered_packets`. This can be done in the following way:
 ```Elixir
 # FILE: lib/elements/OrderingBuffer.ex
@@ -159,8 +161,4 @@ end
 
 Note the order of the definitions, since we are taking advantage of the pattern matching mechanism!
 The algorithm implemented in the snippet above is really simple - we are recursively taking the next packet out of the `:ordered_packets` buffer, up until a moment that the buffer is empty or there is a missing packet (`first_id + 1 == second_id`) between the last taken packet and the next packet in the buffer.
-Once we have a consistent batch of packets, we can update the state (both the`:ordered_packets` and the `:last_processed_seq_id` need to be updated) and output the ready packets by defining the `:buffer` action.
-
-
-
-
+Once we have a consistent batch of packets, we can update the state (both the`:ordered_packets` and the `:last_sent_seq_id` need to be updated) and output the ready packets by defining the `:buffer` action.

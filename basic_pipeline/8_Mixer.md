@@ -28,11 +28,11 @@ Each of these input pads will have a corresponding incoming track in form of a b
 defmodule Basic.Elements.Mixer do
  ...
  defmodule Track do
- @type t :: %__MODULE__{
-  buffer: Membrane.Buffer.t(),
-  status: :started | :finished
- }
- defstruct buffer: nil, status: :started
+  @type t :: %__MODULE__{
+    buffer: Membrane.Buffer.t(),
+    status: :started | :finished
+  }
+  defstruct buffer: nil, status: :started
  end
  ...
 end
@@ -40,7 +40,7 @@ end
 
 As you can see in the code snippet above, the `Track` will consist of the `:buffer` field, holding the very last buffer sent on the corresponding input pad, and the `:status` fields, indicating the status of the track - `:started`, in case we are still expecting some buffers to come (that means - in case `:end_of_stream` event hasn't been sent yet) and `:finished` otherwise.
 It's a good practice to provide a type specification for such a custom specification since it makes the code be more easily reusable as well as can make the compiler warn us about some misspellings (for instance in the status field atoms), which cause some nasty to be spotted errors.
-A careful reader might notice, that we are holding only a reference to only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the pipeline and which provide us an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
+A careful reader might notice, that we are holding only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the pipeline and which provide us an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
 
 The logic we gonna implement can be described in the following three steps:
 + If all the tracks are in the 'active' state ('active' means - the ones in the `:started` state or the ones in the `:finished` state but with an unprocessed buffer in the `Track` structure) - output the one with the lower timestamp. Otherwise do nothing.
@@ -84,8 +84,7 @@ defmodule Basic.Elements.Mixer do
  ...
 end
 ```
-What we do is that we are simply putting the incoming `buffer` into the `Track` structure for the given pad. Note, that we have to be sure that we are not losing any information which is in the `Track`'s buffer before the update. In case there is a buffer on a given `Track`, it has to be processed before another buffer comes. Why can we be sure of that in our implementation? That's because we will be returning the `:redemand` action. As you might remember from the chapter about the redemands, all the actions returned from the element's callback are taken immediately after the callback returns - that means, they are taken before any other incoming event is served. If we would have put the whole logic of processing the buffer into the `handle_demand/5` callback, we could simply call that callback with the `:redemand` action and be sure that the newly added buffer will be immediately processed before any other buffer comes (that means - before the other `handle_process/4` callback gets called).
-Such an approach is powerful since we can also use it in other callback - `handle_end_of_stream/3`, which get's called once the `:end_of_stream` event comes on the given pad.
+What we do is that we are simply putting the incoming `buffer` into the `Track` structure for the given pad. Note, that we have to be sure that we are not losing any information which is in the `Track`'s buffer before the update. In case there is a buffer on a given `Track`, it has to be processed before another buffer comes. Why can we be sure of that in our implementation? That's before we precisely steer the flow of our program and ask for the next buffer after we empty the buffer hold in the state of the element.
 ```Elixir
 # FILE: lib/elements/Mixer.ex
 
@@ -111,25 +110,21 @@ There is nothing left to do apart from defining the `handle_demand/5` itself!
 # FILE: lib/elements/Mixer.ex
 
 defmodule Basic.Elements.Mixer do
- ...
-@impl true
-def handle_demand(:output, size, _unit, ctx, state) when size > 0 do
-  {state, buffer_actions} = output_buffers(state)
-  {state, end_of_stream_actions} = maybe_send_end_of_stream(state)
-  {state, demand_actions} = demand_on_empty_tracks(state, ctx.pads)
+  ...
+  @impl true
+  def handle_demand(:output, _size, _unit, ctx, state) do
+    {state, buffer_actions} = output_buffers(state)
+    {state, end_of_stream_actions} = maybe_send_end_of_stream(state)
+    {state, demand_actions} = demand_on_empty_tracks(state, ctx.pads)
 
-  actions = buffer_actions ++ end_of_stream_actions ++ demand_actions
-  {{:ok, actions}, state}
-end
-
- @impl true
- def handle_demand(_ref, _size, _unit, _ctx, state), do: {state, []}
- ...
+    actions = buffer_actions ++ end_of_stream_actions ++ demand_actions
+    {{:ok, actions}, state}
+  end
+  ...
 end
 ```
 
-We have split that definition into two parts, depending on the demand size. If the demand size is greater than 0, we need to process the tracks. Otherwise, we do nothing.
-The tracks processing can be split into the following steps:
+The tracks processing presented in the code snippet above has been split into the following steps:
 + outputing the ready buffers
 + sending `:end_of_stream` notification if necessary
 + demanding on empty tracks

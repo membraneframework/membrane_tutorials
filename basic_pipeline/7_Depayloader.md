@@ -1,5 +1,6 @@
 Since we have packets put in order by the Ordering Buffer, we can assemble them into the original frames.
-The Depayloader is an element responsible for this task. 
+The Depayloader is an element responsible for this task. Specifically speaking, it unpacks the payload from the packets -
+and that is why it's called 'depayloader'.
 Let's create a new module in the `lib/elements/Depayloader.ex` file:
 ```Elixir
 # FILE: lib/elements/Depayloader.ex
@@ -105,7 +106,7 @@ def handle_process(_ref, buffer, _ctx, state) do
 end
 ```
 
-Once again we are taking advantage of the `Regex.named_caputes` - we hope the regex definition is clear enough, as it is almost the same thing we did in the previous chapter.
+Once again we are taking advantage of the `Regex.named_captures`.
 Once we fetch the interesting values of the header's parameters, we can update the `:frame`.
 ```Elixir
 # FILE: lib/elements/Depayloader.ex

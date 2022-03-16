@@ -19,7 +19,9 @@ If you find yourself lost during the tutorial feel free to check the implementat
 # Use Case
 Imagine that there is a conversation occurring between two peers and the chat is based on a question-answer scheme.
 Each of the peers sends its part of the conversation (that means - the first peer sends questions and the second peers sends the answers to them). We refer to each sentence sent by the peers as a **frame**.
-However, due to network limitations each frame sent by the peers is fragmented since only a few chars can be sent at the same time - that means, a single frame is sent as a sequence of **packets**.
+However, due to network limitations each frame sent by the peers is fragmented since only a few chars can be sent at the same time - that means, a single frame is sent as a sequence of **packets**. 
+In a real network there is a parameter called MTU (*Maximum Transmission Unit*) which is the maximum number of bytes which can be send in a single packet. For the Ethernet II MTU is equal to 1500 bytes. We wanted to simulate the situation, 
+in which the data needs to be fragmented in order to be transmitted - but we decided to choose a small MTU so that this fragmentation is easy to be spotted.
 Each packet consists of the *header* (describing where the particular bunch of characters it transports should be put) and the *body* - aforementioned  bunch of characters.
 Below you can see an exemplary frame sent by one peer to the other. It gets fragmented into multiple packets, which later on are sent via the network (during that process their order will probably get messed). On the second peer's side, the packets get assembled into the original frame.
 ![Example Chat](assets/images/example_chat.drawio.png)
@@ -47,7 +49,7 @@ where:
 + *packets_per_frame* is a number of packets on which each frame will be dismentled
 
 Based on the input file content, that command will create multiple files, `<input_file_path>.<speaker id>.<input file format>` . For instance: `input.txt` with input from speakers `A` and `B` will be split into `input.A.txt` and `input.B.txt` files.
-The first file will contain the shuffled list of packets made from the `A` speaker's lines from the input file and the second file will contain a shuffled list of packets made out of the `B` speaker's lines of the input file. That `shuffle` is a way to simulate the imperfectness of the network - in real-life scenario, the order in which the packets are received is not always the same as the order in which they were sent.
+The first file will contain the shuffled list of packets made from the `A` speaker's lines from the input file and the second file will contain a shuffled list of packets made out of the `B` speaker's lines of the input file. That `shuffle` is a way to simulate the imperfectness of the network - in real-life scenario, the order in which the packets are received is not always the same as the order in which they were sent. [Here](https://www.openmymind.net/How-Unreliable-Is-UDP/) you can read about this phenomen occuring while using UDP. 
 Below you can see the steps which are taken during the input files generation:<br>
 ![Example Input](assets/images/example_input.drawio.png)
 # Task description
