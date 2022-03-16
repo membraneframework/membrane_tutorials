@@ -38,7 +38,7 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-As you can see in the code snippet above, the `Track` will consist of the `:buffer` field, holding the very last buffer sent on the corresponding input pad, and the `:status` fields, indicating the status of the track - `:started`, in case we are still expecting some buffers to come (that means - in case `:end_of_stream` event hasn't been sent yet) and `:finished` otherwise.
+As you can see in the code snippet above, the `Track` will consist of the `:buffer` field, holding the very last buffer received on the corresponding input pad, and the `:status` fields, indicating the status of the track - `:started`, in case we are still expecting some buffers to come (that means - in case `:end_of_stream` event hasn't been received yet) and `:finished` otherwise.
 It's a good practice to provide a type specification for such a custom specification since it makes the code be more easily reusable as well as can make the compiler warn us about some misspellings (for instance in the status field atoms), which cause some nasty to be spotted errors.
 A careful reader might notice, that we are holding only a reference to only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the pipeline and which provide us an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
 
