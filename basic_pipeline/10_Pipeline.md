@@ -51,19 +51,20 @@ Let's start with defining what children do we need inside the `handle_init/1` ca
 @impl true
 def handle_init(_opts) do
  children = %{
-  input1: %Basic.Elements.Source{location: "input1.txt"},
+  input1: %Basic.Elements.Source{location: "input.A.txt"},
   ordering_buffer1: Basic.Elements.OrderingBuffer,
-  depayloader1: %Basic.Elements.Depayloader{expected_number_of_packets_per_frame: 5},
+  depayloader1: %Basic.Elements.Depayloader{packets_per_frame: 5},
 
-  input2: %Basic.Elements.Source{location: "input2.txt"},
+  input2: %Basic.Elements.Source{location: "input.B.txt"},
   ordering_buffer2: Basic.Elements.OrderingBuffer,
-  depayloader2: %Basic.Elements.Depayloader{expected_number_of_packets_per_frame: 5},
+  depayloader2: %Basic.Elements.Depayloader{packets_per_frame: 5},
 
   mixer: Basic.Elements.Mixer,
   output: %Basic.Elements.Sink{location: "output.txt"}
  }
 end
 ```
+Remember to pass the desired file paths in the `:location` option!
 We have just created the map, which key is in the form of an atom whose name describes the particular child, and the value is a particular module built-in structure (with all the required fields passed).
 
 Now we have a `children` map which we will use to launch the processes. But the Membrane needs to know how those children elements are connected (and, in fact, how the pipeline is defined!). Therefore let's create a `links` list with the description of the links between the elements:
@@ -115,3 +116,14 @@ def handle_init(_opts) do
 end
 ```
 
+Our pipeline is ready! Let's try to launch it.
+You can do it by running an `iex` command with the `-S mix` option specified, which will make modules from our mix project available in the terminal.
+Later on you can start the pipeline:
+```Elixir
+{:ok, pid} = Basic.Pipeline.start
+```
+Finally, you can make the pipeline play:
+```Elixir
+Basic.Pipeline.play(pid)
+```
+In the output file (the one specified in the `handle_init/1` callback of the pipeline) you should see the recovered conversation.

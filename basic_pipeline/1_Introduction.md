@@ -1,11 +1,11 @@
 # Introduction
-In this tutorial, we will create our very own Membrane Framework [pipeline]() consisting of our custom [elements]() which will fulfill the multimedia processing task.
+In this tutorial, we will create our very own Membrane Framework consisting of our custom which will fulfill the multimedia processing task.
 Despite the fact that the multimedia processing task we will be facing will be really simple, we will need to deal with some problems occurring in real-life scenarios.
 At the same time, we will make ourselves comfortable with some concepts of multimedia streaming as well as get in touch with the nomenclature used in this field. 
 Prepare for an adventure! 
 # Environment preparation
 In order to be able to proceed with the tutorial, you need to have Elixir installed: [How to install Elixir](https://elixir-lang.org/install.html).
-
+We assume, that you are at least slightly familiar with that language - if that is not true, we would like to strongly encourage you to take a look at the [official Elixir tutorial](https://elixir-lang.org/getting-started/introduction.html).
 Once you are ready with the Elixir, you can get the project template we have prepared for you:
 ```
 git clone https:/github.com/membraneframework/membrane_getting_started_tutorial
@@ -26,7 +26,7 @@ Each packet consists of the *header* (describing where the particular bunch of c
 Below you can see an exemplary frame sent by one peer to the other. It gets fragmented into multiple packets, which later on are sent via the network (during that process their order will probably get messed). On the second peer's side, the packets get assembled into the original frame.
 ![Example Chat](assets/images/example_chat.drawio.png)
 ## Packet format
-Here is what each packet looks like:
+Here is how each packet looks like:
 ```
 [seq:<sequence_id>][frameid:<frame_id>][timestamp:<timestamp>]<text>
 ```
@@ -52,6 +52,9 @@ Based on the input file content, that command will create multiple files, `<inpu
 The first file will contain the shuffled list of packets made from the `A` speaker's lines from the input file and the second file will contain a shuffled list of packets made out of the `B` speaker's lines of the input file. That `shuffle` is a way to simulate the imperfectness of the network - in real-life scenario, the order in which the packets are received is not always the same as the order in which they were sent. [Here](https://www.openmymind.net/How-Unreliable-Is-UDP/) you can read about this phenomen occuring while using UDP. 
 Below you can see the steps which are taken during the input files generation:<br>
 ![Example Input](assets/images/example_input.drawio.png)
+Create a file with your own input conversation occuring between two speakers or use the `input.txt` file where we have provided you such a conversation. Generate the files containing packets, with the use of `mix generate_input` task.
 # Task description
 Your task is to assemble the conversation together - that means, at first you need to reproduce the sentences sent by each of the peers (that means - you need to gather the words sent in packets in the appropriate order). In multimedia processing, we would say that you need to reproduce the *frame* out of the *transport layer packets*. Later on, you need to put those *frames* in the correct order, producing the *raw data stream*.
 The resulting file should be the same as the input file from which you have created two packets list with the use of the `InputFilesGenerator`.
+
+By the end of this chapter you should have generated the files containing packets (i.e. `input.A.txt` and `input.B.txt`).

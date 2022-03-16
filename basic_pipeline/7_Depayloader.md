@@ -40,7 +40,7 @@ We will also need a parameter describing how many packets should we request once
 defmodule Basic.Elements.Depayloader do
  ...
  def_options(
-    expected_number_of_packets_per_frame: [
+    packets_per_frame: [
     type: :integer,
     spec: pos_integer,
     description:
@@ -60,7 +60,7 @@ def handle_init(options) do
 {:ok,
  %{
     frame: [],
-    expected_number_of_packets_per_frame: options.expected_number_of_packets_per_frame
+    packets_per_frame: options.packets_per_frame
  }}
 end
 ```
@@ -77,13 +77,13 @@ def handle_caps(_pad, _caps, _context, state) do
 end
 ```
 
-As in most elements, the `handle_demand/5` implementation is quite easy - what we do is simply to make a demand on our `:input` pad once we receive a demand on the `:output` pad. However, since we are expected to produce a frame (which is formed from a particular number of packets) on the `:output` pad, we need to request a particular number of packets on the `:input` pad - that is why we have defined the `:expected_number_of_packets_per_frame` option and now we will be making usage of it. In case we would have been asked to produce 10 frames, and each frame would have been made out of 5 packets, then we would need to ask for 10\*5 = 50 packets on the `:input`.
+As in most elements, the `handle_demand/5` implementation is quite easy - what we do is simply to make a demand on our `:input` pad once we receive a demand on the `:output` pad. However, since we are expected to produce a frame (which is formed from a particular number of packets) on the `:output` pad, we need to request a particular number of packets on the `:input` pad - that is why we have defined the `:packets_per_frame` option and now we will be making usage of it. In case we would have been asked to produce 10 frames, and each frame would have been made out of 5 packets, then we would need to ask for 10\*5 = 50 packets on the `:input`.
 ```Elixir
 # FILE: lib/elements/Depayloader.ex
 
 @impl true
 def handle_demand(_ref, size, _unit, _ctx, state) do
- {{:ok, demand: {Pad.ref(:input), size * state.expected_number_of_packets_per_frame}}, state}
+ {{:ok, demand: {Pad.ref(:input), size * state.packets_per_frame}}, state}
 end
 ```
 
