@@ -135,7 +135,8 @@ end
 We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last sent packet or there might be some packets not yet delivered to us, with sequence ids in between the last sent sequence id and the sequence id of a currently processed packet. In case the second situation occurs, we should store the packet and wait for the next packets to arrive.
 However, in the first situation, we need to get the ready packet's sequence - that means, a consistent batch of packets from the `:ordered_packets`. This can be done in the following way:
 ###### **`lib/elements/OrderingBuffer.ex`**
-```Elixirdefmodule Basic.Elements.OrderingBuffer do
+```Elixir 
+defmodule Basic.Elements.OrderingBuffer do
   ...
   defp get_ready_packets_sequence([], acc) do
     {acc, []}
