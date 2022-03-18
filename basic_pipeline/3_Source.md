@@ -13,9 +13,8 @@ Take your time and read about the possible actions which can be requested to be 
 As you can judge based on the structure of the project, all the elements will be put in the `lib/elements` directory. Therefore there is a place where `Source.ex` with the `Basic.Elements.Source` module's definition should be placed.
 # What makes our module a Membrane Framework's element?
 Let's start with specifying that our module will implement the `Membrane.Source` behavior as well as alias the modules which will be used later in the module's code:
+###### **`lib/elements/Source.ex`**
 ```Elixir
-# FILE: lib/elements/Source.ex
-
 defmodule Basic.Elements.Source do
  use Membrane.Source
  alias Membrane.Buffer
@@ -26,9 +25,8 @@ end
 ```
 # Pads and options
 Later on, we will make use of macros defined in the `Membrane.Source` module:
+###### **`lib/elements/Source.ex`**
 ```Elixir
-# FILE: lib/elements/Source.ex
-
 defmodule Basic.Elements.Source do
  ...
  def_options location: [type: :string, description: "Path to the file"]
@@ -50,9 +48,8 @@ What's more, we have specified that the `:output` pad will work in the `:pull` m
 You can read more on the pad specification [here](https://hexdocs.pm/membrane_core/Membrane.Pad.html#t:common_spec_options_t/0).
 # Initialization of the element
 Let's define our first callback! Why not start with [`handle_init/1`](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_init/1), which gets called once the element is created?
+###### **`lib/elements/Source.ex`**
 ```Elixir
-# FILE: lib/elements/Source.ex
-
 defmodule Basic.Elements.Source do
  ...
  @impl true
@@ -78,9 +75,8 @@ that the function defined below is about to be a callback. If we have misspelled
 Before going further you should stop for the moment and read about the [playback states](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:playback_change_t/0) in which the Pipeline (and therefore - its elements) can be. Generally speaking, there are three playback states: **stopped**, **prepared**, and **playing**. The transition between the states can happen automatically or as a result of a user's explicit action.
 The callbacks we are about to implement will be called once the transition between playback states occurs.
 
+###### **`lib/elements/Source.ex`**
 ```Elixir
-# FILE: lib/elements/Source.ex
-
 defmodule Basic.Elements.Source do
  ...
  @impl true
