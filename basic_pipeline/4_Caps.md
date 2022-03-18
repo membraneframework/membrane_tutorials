@@ -1,6 +1,6 @@
 # Introduction
 We owe you something...and we would like to pay it back as soon as possible!
-As promised in the [3rd chapter](3_Source.md), we will talk more about the concept of caps - which in fact we have used in the previous chapter, but which weren't described in the sufficient way there.
+As promised in the [3rd chapter](3_Source.md), we will talk more about the concept of caps - which in fact we have used in the previous chapter, but which weren't described sufficiently.
 # What are caps?
 Caps (an abbreviation of the *capabilities*) is a concept allowing us to define what kind of data is flowing through the pad. 
 In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given element.
@@ -113,3 +113,5 @@ end
 ```
 
 When we receive the caps on the input pad, we do not propagate them to our `:output` pad - instead, we send other caps, with reduced quality (width and height options of the format are lower).
+
+We hope by now you have a better understanding of what `caps` are. This knowledge will helpful in the following chapters.
