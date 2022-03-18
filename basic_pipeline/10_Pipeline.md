@@ -28,7 +28,7 @@ end
 ```
 As you can see, we can initialize the pipeline with some options, but in our case, we do not need them.
 
-# Supervisioning and children-parent relationship
+# Supervising and children-parent relationship
 In Elixir's actor model, derived from the Erlang programming language (as well as in many other implementations of the actor system) there is a concept of the actors supervising each other. 
 In case of the actor failing (due to some more or less expected error) it is its supervisor's responsibility to deal with that fact - either by stopping that actor, restarting it, or performing some other action.
 With such a concept in mind, there is possible to create reliable and fault-tolerant actor systems.
@@ -127,3 +127,7 @@ Finally, you can make the pipeline play:
 Basic.Pipeline.play(pid)
 ```
 In the output file (the one specified in the `handle_init/1` callback of the pipeline) you should see the recovered conversation.
+
+In case of any problems you can refer to the code on the `template/end` branch of `membrane_getting_started_tutorial` repository.
+
+Now that our solution is completed we are going to tell you something more about `redemands` mechanism in Membrane, then we will improve the `Mixer` element using dynamic pads and finally we will introduce you to creating tests for Membrane's elements.

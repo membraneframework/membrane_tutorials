@@ -65,4 +65,6 @@ defmodule Basic.Elements.Sink do
 end
 ```
 
-Note, that after the successful writing, we are taking the `:demad` action - and we ask for some more buffer.
+Note, that after the successful writing, we are taking the `:demand` action - and we ask for some more buffer.
+
+With the `Sink` completed, we have implemented all elements of our pipeline. Now let's move to the very last step - defining the actual pipeline using the elements we have created.

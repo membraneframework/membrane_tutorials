@@ -213,3 +213,4 @@ For all the tracks which are not yet `:finished`, do not have the buffer and the
 
 Starting from that moment, our mixer should be capable of mixing the inputs from two sources! In the later part of this tutorial, we will extend the mixer so that it will be able to mix any number of tracks.
 
+Now all that's left to do is to save our stream to file using `Sink`.

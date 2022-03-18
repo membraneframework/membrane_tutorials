@@ -1,6 +1,6 @@
 Once we know what should be done, let's start thinking how should our system look like!
 
-First, let's agree on the naming convention. In the Membrane Framework, there is a concept of the `pipeline` which consists of multiple `elements`. Elements are linked with the use of the `pads`, which can be input pads or output pads.
+First, let's get familiar with some terms. In the Membrane Framework, there is a concept of the `pipeline` which consists of multiple `elements`. Elements are linked with the use of the `pads`, which can be input pads or output pads.
 Depending on what type of pads the particular element is equipped with, we distinguish the following types of elements:
 + Source - element with only output pads, the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
 + Filter - element with both the input pads and the output pads. Its purpose is to get the data via the input pad, transform it and finally transmit the processed data via the output pad.
@@ -23,3 +23,5 @@ Below you can see how the Ordering Buffer is expected to work, once the message 
 + **Depayloader** - responsible for assembling the packets into the frames. Since the depayloader receives the packets in the order of their sequence id (which means - the order in which they were 'sent'), it is capable of separating out the particular frames, basing on the **e** (ending packet of the frame) characters at the end of the frame id. This element also reads the timestamp from the packets' headers and puts it into buffer's 'pts' (*Presentation timestamp*) field.
 + **Mixer** - responsible for mixing the frames received via two input pads. The order in which the frames are mixed is based on their 'pts' (*Presentation timestamp*).
 + **Sink** - this element is responsible for writing the received frames to the file. Since the Mixer takes care of sorting the frames based on the timestamp, Sink can take advantage of the fact that the frames will be ordered and write them to the file in the order they are received.
+
+Now, that you have some high-level understanding of the system we can get down to implementation.

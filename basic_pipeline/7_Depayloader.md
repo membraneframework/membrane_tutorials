@@ -11,7 +11,7 @@ defmodule Basic.Elements.Depayloader do
 end
 ```
 
-What input data do we expect? Of course in `Basic.Fromat.Packet` format!
+What input data do we expect? Of course in `Basic.Format.Packet` format!
 ```Elixir
 # FILE: lib/elements/Depayloader.ex
 
@@ -139,3 +139,6 @@ end
 ```
 
 Otherwise, if the packet is not of the 'ending' type (that is - it can be both the 'beginning' frame or some packet in the middle), we are simply updating the state with the processed packet added to the `:frame` buffer. The last thing we do is to redemand.
+
+With the `Source`, `OrderingBuffer` and `Depayloader` elements ready we are able to read packets from file, order them chronologically and assemble them back into frames.
+In the next chapter we will be dealing with `Mixer` which will merge two message streams in order to create complete conversation.
