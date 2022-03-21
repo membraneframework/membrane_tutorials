@@ -158,4 +158,4 @@ Note the order of the definitions, since we are taking advantage of the pattern 
 The algorithm implemented in the snippet above is really simple - we are recursively taking the next packet out of the `:ordered_packets` buffer, up until a moment that the buffer is empty or there is a missing packet (`first_id + 1 == second_id`) between the last taken packet and the next packet in the buffer.
 Once we have a consistent batch of packets, we can update the state (both the`:ordered_packets` and the `:last_sent_seq_id` need to be updated) and output the ready packets by defining the `:buffer` action.
 
-Now, that the `OrderingBuffer` is ready, let's carry on with the next element in our pipeline - `Depayloader`.
+Now the `OrderingBuffer` element is ready. Before we implement the next element let us introduce you to the concept of redemands.
