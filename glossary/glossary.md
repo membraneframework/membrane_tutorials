@@ -1,33 +1,33 @@
 # Multimedia 
-+ #### *Packet* is a formatted unit of data transmitted over network. In order to send data over network it has to be fragmented into packets, which size is limited by MTU(Maximum Transfer Unit) - usually 1500 bytes.
++ #### *Packet* is a formatted unit of data transmitted over network. In order to send data over network it has to be fragmented into packets, which size is limited by [MTU(Maximum Transfer Unit)](https://en.wikipedia.org/wiki/Maximum_transmission_unit) - 1500 bytes when using [Ethernet](https://en.wikipedia.org/wiki/Ethernet_frame).
 + #### *Frame* is a basic data unit used by media coding formats. In particular one frame can represent a single image in a video.
-+ #### (media)*Track* is equivalent to a single audio or video 
++ #### (media)*Track* is equivalent to a single audio or video stream 
 + #### Web protocols:
-  + #### *UDP*(User Datagram Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication
-  + #### *TCP*(Transmission Control Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication
-  + #### *RTP*(Real-time Transport Protocol) is a network protocol for delivering audio and video over IP networks
+  + #### *UDP*(User Datagram Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication. See [here](https://www.imperva.com/learn/ddos/udp-user-datagram-protocol) for more details.
+  + #### *TCP*(Transmission Control Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
+  + #### *RTP*(Real-time Transport Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header)
   + #### *HTTP*(Hypertext Transfer Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [MPEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
-  + #### (HTTP) *Long Polling* is a technique of keeping an open connection after client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received. 
-  + #### *WebRTC*(Web Real-Time Communication) is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC)
-    + #### *signalling* in WebRTC is a process of discovery, establishing, controlling and terminating a connection between two devices
-  + #### *SDP*(Session Description Protocol) is used for describing  multimedia communication sessions for the purposes of announcement and invitation. It is used in WebRTC signalling for describing a session.
-  + #### *WebSocket* is a communications protocol which enables full-duplex communication between client and server in near real-time 
-  + #### *ICE* is a technique of establishing the most direct connection between two computers, which is used in P2P communication 
-  + #### *STUN*(Session Traversal Utilities for NAT) is a protocol used in interactive communications with hosts hidden behind a NAT
-  + #### *TURN*(Traversal Using Relays around NAT) is a protocol utilizing TURN server which relays data between clients 
-  + #### *DTLS*(Datagram Transport Layer Security) is a protocol used for providing security to datagram-based applications
-+ #### *Container format* is a file format that allows multiple data streams to be embedded into a single file, e.g. MP4 format can contain video, audio and subtitles streams inside of it.
-+ #### *YUV* is a color encoding system which defines one luminance and two chrominance components. By reducing the resolution of chrominance components it is possible to compress an image with miniscule effect on human perception of the image. 
-+ #### *Encoding* is a process of converting media from raw format to encoded format. The main purpose is to reduce media size - raw format is uncompressed and takes up a lot of space.
+  + #### (HTTP) *Long Polling* is a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received. 
+  + #### *WebRTC*(Web Real-Time Communication) is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC). 
+    + #### *signaling* in WebRTC is a process of discovery, establishing, controlling, and terminating a connection between two devices
+  + #### *SDP*([Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt)) is used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in WebRTC signaling process for describing a session.
+  + #### *WebSocket* is an application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, allows creating persistent connections. Today it is supported by most of the web browsers and web servers 
+  + #### *ICE*([Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE)) is a technique of establishing the most direct connection between two computers, which is used in P2P communication 
+  + #### *STUN*(Session Traversal Utilities for NAT) is a protocol used in interactive communications with hosts hidden behind a NAT. Its goal is to find public addresses of the peers that they can use to directly communicate with each other.
+  + #### *TURN*(Traversal Using Relays around NAT) is a protocol utilizing TURN server which relays data between peers in case when direct connection cannot be established. This however comes with an overhead.
+  + #### *DTLS*([Datagram Transport Layer Security](https://developer.mozilla.org/en-US/docs/Glossary/DTLS)) is a protocol used for providing security to datagram-based applications. It is based on TLS and guarantees similiar level of security
++ #### *Container format* is a file format that allows multiple data streams to be embedded into a single file, e.g. MP4 format can contain video, audio, and subtitles streams inside of it.
++ #### *YUV* is a color encoding system that defines one luminance and two chrominance components. By reducing the resolution of chrominance components it is possible to compress an image with miniscule effect on human perception of the image. 
++ #### *Encoding* is a process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space.
 + #### *Decoding* is a process of converting media from encoded format to raw format, i.e. in order to play it on the end device
 + #### *Encryption* is a way of modifying a message, so that only authorized parties are able to interpret it
 + #### *Decryption* is a process of retrieving data from an encrypted message
-+ #### *Muxing*(abbr. from multiplexing) is a method of combining multiple streams into a single container, e.g. muxing video and audio into MP4 container
++ #### *Muxing*(abbr. from multiplexing) is a method of combining multiple streams into a single container, e.g. muxing video and audio into an MP4 container
 + #### *Demuxing*(abbr. from demultiplexing) is a method of separating streams from one combined container, e.g. retrieving audio and video from MP4
 + #### Server's architecture:
-  + #### *SFU*(Selective Forwarding Unit) is a video conferencing architecture which consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants
-  + #### *MCU*(Multipoint Control Unit) is a architecture consisting of a single server, which receives incoming streams from all participants, [multiplexes](/glossary/glossary#Muxing) the streams and sends them to each of the participants
-  + #### *P2P*(Peer to Peer) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU 
+  + #### *SFU*(Selective Forwarding Unit) is a video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants
+  + #### *MCU*(Multipoint Control Unit) is an architecture consisting of a single server, which receives incoming streams from all participants, multiplexes the streams, and sends them to each of the participants
+  + #### *P2P*(Peer to Peer) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU
 
 
 # Membrane Framework 
@@ -44,10 +44,10 @@
   + #### *Encoder* and *Decoder* are responsible for [encoding](/glossary/glossary#encoding) and [decoding](/glossary/glossary#decoding)
   + #### *Encryptor* and *Decryptor* are responsible for [encryption](/glossary/glossary#encryption) and [decryption](/glossary/glossary#decryption)
   + #### *Muxer* and *Demuxer* are responsible for [muxing](/glossary/glossary#muxing) and [demuxing](/glossary/glossary#demuxing)
-  + *mixer* 
-  + #### *Jitter buffer / Ordering buffer* is an element responsible for ordering packets incoming from network as their order can be disrupted during transmission due to network unreliability.
+  + #### *Mixer* is responsible for mixing multiple streams each coming from different 
+  + #### *Jitter buffer / Ordering buffer* is an element responsible for ordering packets incoming from the network as their order can be disrupted during transmission due to network unreliability.
 + #### *Demands mechanism*
-  + #### *Redemands* is Membrane's mechanism which manages size of demand and lets programmer handle just one buffer at a time
+  + #### *Redemands* in Membrane is an element's action that lets the programmer handle just one buffer at a time. When redemanding, handle_demand callback is synchronously called
 
 
 # *General Elixir/Erlang concepts* 
