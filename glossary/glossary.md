@@ -5,20 +5,20 @@
 + #### Web protocols:
   + #### *UDP*(User Datagram Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication. See [here](https://www.imperva.com/learn/ddos/udp-user-datagram-protocol) for more details.
   + #### *TCP*(Transmission Control Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
-  + #### *RTP*(Real-time Transport Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header).
+  + #### *RTP*(Real-time Transport Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [`SRTP`](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](/glossary/glossary#webrtc).
   + #### *HTTP*(Hypertext Transfer Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [MPEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
   + #### (HTTP) *Long Polling* is a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received. 
   + #### *WebRTC*(Web Real-Time Communication) is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC). WebRTC implements three APIs: **MediaStream** used for acquiring media from the browser, **RTCPeerConnection** handling stable and efficient communication of streaming data between peers, and **RTCDataChannel** enabling a peer-to-peer exchange of arbitrary data with low latency and high throughput. Learn more about WebRTC [here](https://www.html5rocks.com/en/tutorials/webrtc/basics/).
     + #### *Signaling* in WebRTC is a process of discovery, establishing, controlling, and terminating a connection between two devices.
   + #### *SDP*([Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt)) is used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
-  + #### *WebSocket* is an application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, allows creating persistent connections. Today it is supported by most web browsers and web servers. 
-  + #### *ICE*([Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE)) is a technique of establishing the most direct connection between two computers, which is used in P2P communication. 
+  + #### *WebSocket* is an application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP allows to create persistent connections. Today it is supported by most web browsers and web servers.
+  + #### *ICE*([Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE)) is a technique for establishing the most direct connection between two computers, which is used in P2P communication. 
   + #### *STUN*(Session Traversal Utilities for NAT) is a protocol used in interactive communications with hosts hidden behind a NAT. Its goal is to find public addresses of the peers that they can use to directly communicate with each other.
   + #### *TURN*(Traversal Using Relays around NAT) is a protocol utilizing TURN server which relays data between peers in case when direct connection cannot be established. However, this comes with an overhead, since all the media must be sent through this server.
-  + #### *DTLS*([Datagram Transport Layer Security](https://developer.mozilla.org/en-US/docs/Glossary/DTLS)) is a protocol used for providing security to datagram-based applications. It is based on TLS and guarantees a similar level of security. DTLS can be used a.o. with [UDP](/glossary/glossary#UDP) and [STUN](/glossary/glossary#STUN).
+  + #### *DTLS*([Datagram Transport Layer Security](https://developer.mozilla.org/en-US/docs/Glossary/DTLS)) is a protocol used for providing security to datagram-based applications. It is based on TLS and guarantees a similar level of security. All of the WebRTC related protocols are required to encrypt their communications using DTLS, this includes [SCTP](https://developer.mozilla.org/en-US/docs/Glossary/SCTP), [SRTP](/glossary/glossary#RTP) and [STUN](/glossary/glossary#STUN).
 + #### *Container format* is a file format that allows multiple data streams to be embedded into a single file, e.g. MP4 format can contain video, audio, and subtitles streams inside of it.
-+ #### *YUV* is a color encoding system that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of chrominance components it is possible to compress an image with miniscule effect on human perception of the image. 
-+ #### *Encoding* is a process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space.
++ #### *YUV* is a color encoding system that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with minuscule effect on human perception of the image. 
++ #### *Encoding* is a process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space. Examples of encoded formats are [MP3](https://en.wikipedia.org/wiki/MP3) and [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio and [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) and [MPEG4](https://en.wikipedia.org/wiki/MPEG-4_Part_2) for video.
 + #### *Decoding* is a process of converting media from encoded format to raw format, e.g. in order to play it on the end device.
 + #### *Encryption* is a way of modifying a message, so that only authorized parties are able to interpret it.
 + #### *Decryption* is a process of retrieving data from an encrypted message.
@@ -31,9 +31,10 @@
 
 
 # Membrane Framework 
-+ #### *Pad* is an input or output of an element. Output pads of one element are connected to input pads of another element.
++ #### *Pad* is an input or output of an [elements](/glossary/glossary#element) or a [bin](/glossary/glossary#bin). Output pads of one element are connected to input pads of another element.
 + #### *Caps*(abbr. from capabilities) define [pads](/glossary/glossary#pad) specification, allowing us to determine whether two elements are compatible with each other. 
-+ #### *Pipeline* is a chain of linked [elements](/glossary/glossary#element) which together accomplish some media processing task.
++ #### *Pipeline* is a chain of linked [elements](/glossary/glossary#element) or [bins](/glossary/glossary#bin) which together accomplish some media processing task.
++ #### *Bin* is a container for elements, which allows for creating reusable groups of [elements](/glossary/glossary#element).
 + #### *Buffer* is a fundamental structure in Membrane used to send data between elements.
 + #### *Element* is the most basic entity responsible for processing multimedia. Each element is created to solve one problem. Elements can be divided into three categories:
   + #### *Source* is an element with only output pads, the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
@@ -48,7 +49,6 @@
   + #### *Jitter buffer / Ordering buffer* is an element responsible for ordering packets incoming from the network as their order can be disrupted during transmission due to network unreliability.
 + #### *Demands mechanism*
   + #### *Redemands* in Membrane is an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called.
-
 
 # *General Elixir/Erlang concepts* 
 + #### OTP Behavior
