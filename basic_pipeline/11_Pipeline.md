@@ -131,4 +131,7 @@ In the output file (the one specified in the `handle_init/1` callback of the pip
 
 In case of any problems you can refer to the code on the `template/end` branch of `membrane_basic_pipeline_tutorial` repository.
 
-Now that our solution is completed we are going to tell you something more about `redemands` mechanism in Membrane, then we will improve the `Mixer` element using dynamic pads and finally we will introduce you to creating tests for Membrane's elements.
+$~$
+Now our solution is completed. You have acquired a basic understanding of Membrane, and you can implement a simple pipeline using elements.
+
+If you wish to extend your knowledge of Membrane's concepts we encourage you to read the [extension to this tutorial](/basic_pipeline_extension/).
