@@ -1,7 +1,14 @@
+# Tests
+
 Even not-so-much experienced developers could have noticed that we were missing a really important part of software development - the testing. Don't worry! We are hurrying with the description of the testing framework and good practices which will allow you to write reliable tests for your Membrane system.
+
 # Do we need testing?
+
 Testing in terms of software engineering is no less important than functionalities programming.
 We are sure we do not need to persuade you that our pipeline, and especially its elements need testing. In fact - who wouldn't like to be sure, that changes just made in the functionalities code do not break the desired element's behavior? And all that in the matter of typing simple `mix test` command?
+
+If you used the test provided for the pipeline element's you probably know all that.
+
 In the scope of this chapter we will implement some unit tests for the elements of our pipeline. They will check the behavior of the elements in isolation.
 We will immediately jump to the code and try to experience the Membrane tests on our own.
 # Our first test
@@ -9,9 +16,9 @@ Elixir comes with a great tool for testing - [ExUnit](https://hexdocs.pm/ex_unit
 If you have never written tests in ExUnit, feel free to stop for a moment and read about how the tests are constructed - however, ExUnit deals with tests in such a clear way that probably you will be able to see what's going on by just looking at the code snippets in the further part of this tutorial.
 We need to specify, that we will be writing only unit tests - that means, we will write tests checking the behavior of a single element, isolated from the other elements in the pipeline.
 Let's create a `test/elements/depayloader_test.exs` file and put the following code inside it:
-```Elixir
-#FILE: test/elements/depayloader_test.exs
 
+###### `test/elements/depayloader_test.exs`
+```Elixir
 defmodule DepayloaderTest do
  use ExUnit.Case 
  doctest Basic.Elements.Depayloader
@@ -25,9 +32,9 @@ This way we are defining a testing module with the use of the ExUnit, as well as
 The `doctest` macro checks if the given module has proper documentation (typespecs, module description etc.).
 
 We have decided to show the process of writing tests based on the depayloader - since the behavior of this element is well described and can be easily checked. Let's recall what is the responsibility of the depayloader - this element is receiving ordered packets and is about to form frames out of them. Let's check if it is doing it properly!
-```Elixir
-#FILE: test/elements/depayloader_test.exs
 
+###### `test/elements/depayloader_test.exs`
+```Elixir
 defmodule DepayloaderTest do
  ...
  alias Basic.Elements.Depayloader
@@ -78,9 +85,9 @@ However, Membrane's Core behavior is much more complicated - if we were using so
 Such an approach scales terribly - and that is why we want to avoid it. Membrane Core's developers have given us support for testing the elements which allow us to have a simple pipeline consisting of a generic source and sink, as well as our element.
 Such a pipeline behaves just like any other pipeline in a regular working Membrane system - however, we are also given a bunch of helpful tools (like assertion macros) to check if our element has a desired business logic implemented in its behavior.
 Below we will rewrite the test we have just written, but with the support from the Membrane Framework:
-```Elixir
-#FILE: test/elemets/depayloader_test.exs
 
+###### `test/elements/depayloader_test.exs`
+```Elixir
 defmodule DepayloaderTest do
   ...
   alias Membrane.Buffer
@@ -152,9 +159,8 @@ If everything works (both the tests and the functionality's code itself), you sh
 As you remember, Source and Sink elements act specifically different than the Filter elements - that is why they are communicating with the 'outer world', i.e. by reading the data from a file or saving the result to the file. In order to check if their behavior is desired, we cannot create a testing pipeline with generic Source and Sink, since it is a Source/Sink that we want to test.
 We will need to somehow mock the `outer environment` - let's see how this can be done, based on the example of the Source test:
 
+###### `test/elements/source_test.exs`
 ```Elixir
-#FILE: test/elements/source_test.exs
-
 defmodule SourceTest do
  use ExUnit.Case, async: false
  import Mock
