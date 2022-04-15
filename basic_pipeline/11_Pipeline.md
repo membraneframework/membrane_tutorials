@@ -44,7 +44,7 @@ It consists of:
 Please stop for a moment and read about the [`Membrane.ParentSpec`](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html). 
 We will wait for you and once you are ready, we will define our own children and links ;)
 
-Let's start with defining what children we need inside the `handle_init/1` callback! If you have forgotten what structure we want to achieve please refer to the [2nd chapter](02.0_SystemArchitecture.md) and recall what elements we need inside of our pipeline.
+Let's start with defining what children we need inside the `handle_init/1` callback! If you have forgotten what structure we want to achieve please refer to the [2nd chapter](02_SystemArchitecture.md) and recall what elements we need inside of our pipeline.
 ```Elixir
 # FILE: lib/Pipeline.ex
 

@@ -31,4 +31,4 @@ Before advancing you can test the `Source` element, using the tests provided in 
 ```
 mix test test/elements/source_test.exs
 ```
-In case of errors, you may go back to the [Source chapter](/basic_pipeline/03.0_Source.md) or take a look how [Source](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/blob/template/end/lib/elements/Source.ex) and [formats](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/tree/template/end/lib/formats) should look like.
+In case of errors, you may go back to the [Source chapter](/basic_pipeline/03_Source.md) or take a look how [Source](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/blob/template/end/lib/elements/Source.ex) and [formats](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/tree/template/end/lib/formats) should look like.

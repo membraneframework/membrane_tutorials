@@ -1,5 +1,5 @@
 In this chapter we will deal with the next element in our pipeline - the Ordering Buffer.
-As stated in the [chapter about the system architecture](02.0_SystemArchitecture.md), this element is responsible for ordering the incoming packets, based on their sequence id.
+As stated in the [chapter about the system architecture](02_SystemArchitecture.md), this element is responsible for ordering the incoming packets, based on their sequence id.
 Because Ordering Buffer is a filtering element, we need to specify both the input and the output pads:
 ###### **`lib/elements/OrderingBuffer.ex`**
 ```Elixir
@@ -32,7 +32,7 @@ defmodule Basic.Elements.OrderingBuffer do
   ...
 end
 ```
-If you don't remember what is the purpose of the Ordering Buffer, please refer to the [2nd chapter](02.0_SystemArchitecture.md).
+If you don't remember what is the purpose of the Ordering Buffer, please refer to the [2nd chapter](02_SystemArchitecture.md).
 We will need to hold a list of ordered packets, as well as a sequence id of the packet, which most recently was sent through the output pad (we need to know if there are some packets missing between the last sent packet and the first packet in our ordered list).
 
 Handling demand is quite straightforward:
