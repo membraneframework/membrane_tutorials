@@ -1,16 +1,16 @@
 # Tests
 
-Even not-so-much experienced developers could have noticed that we were missing a really important part of software development - the testing. Don't worry! We are hurrying with the description of the testing framework and good practices which will allow you to write reliable tests for your Membrane system.
+When creating elements for the basic pipeline you used the provided tests.
+In this chapter we will explain in detail how they work, and give you with some good practices which will allow you to write reliable tests for your Membrane system.
 
 # Do we need testing?
 
 Testing in terms of software engineering is no less important than functionalities programming.
 We are sure we do not need to persuade you that our pipeline, and especially its elements need testing. In fact - who wouldn't like to be sure, that changes just made in the functionalities code do not break the desired element's behavior? And all that in the matter of typing simple `mix test` command?
 
-If you used the test provided for the pipeline element's you probably know all that.
-
 In the scope of this chapter we will implement some unit tests for the elements of our pipeline. They will check the behavior of the elements in isolation.
 We will immediately jump to the code and try to experience the Membrane tests on our own.
+
 # Our first test
 Elixir comes with a great tool for testing - [ExUnit](https://hexdocs.pm/ex_unit/ExUnit.html).
 If you have never written tests in ExUnit, feel free to stop for a moment and read about how the tests are constructed - however, ExUnit deals with tests in such a clear way that probably you will be able to see what's going on by just looking at the code snippets in the further part of this tutorial.
@@ -188,7 +188,7 @@ We take advantage of the [Mock](https://hexdocs.pm/mock/Mock.html) library which
 As you can see in the code snippet above, we have mocked the invocations of the `File.read!` function - inside the scope of `with_mock/2` they are always returning `"First Line\nSecondLine"`.
 That makes our test so much easier since we do not need to create a mock file with some content meant just for testing - the whole test is defined inside one file.
 
-Would you be able to write some more tests for the other pipeline's elements? Or perhaps you could try to extend the tests for the element we have just checked in action?
+Would you be able to write some more tests for the other pipeline's elements yourself? Or perhaps you could try to extend the tests for the element we have just checked in action?
 Give it a try, as it is a great exercise that will not only examine if you are familiar with testing the Membrane's system but also - do you understand functionalities of the elements and what is the element generic behavior!
 
-On the `template/end` branch of [our repository](https://github.com/membraneframework/membrane_basic_pipeline_tutorial), in the `tests/` directory, you will find tests for other elements of the pipeline. Feel free to take inspiration from them while writing your own elements!
+When writing your tests for other elements feel free to take inspiration from the ones we provided in the `test/` directory. You can find them [here](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/tree/template/end/test).
