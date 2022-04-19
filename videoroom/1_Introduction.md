@@ -9,8 +9,10 @@ description: >-
 github.repository_url: https://github.com/membraneframework/membrane_mp4_plugin
 ---
 
-The scope of this tutorial covers the process of creating your own video room with the use of the Membrane framework.
 # Introduction
+The scope of this tutorial covers the process of creating your own video room with the use of the Membrane framework.
+
+## What are we doing here?
 It hasn't been that long ago when video rooms have become quite a common tool used in many fields of our life. We use them when we want to have an impression of meeting our beloved ones in the manner as they were sitting just next to us. We use them at work, to synchronize our work progress and exchange information between us and our colleagues.
 Taking advantage of recent technological improvements and state-of-the-art tools introduced in the field of data transmission, video streaming
 has become accessible to everyone at the scale not known previously.

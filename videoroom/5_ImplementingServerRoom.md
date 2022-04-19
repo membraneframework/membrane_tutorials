@@ -7,6 +7,7 @@ description: >-
  <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
  </div>
 ---
+# Server's room
 ## Let's create The Room! ;)
 We are still missing probably the most important part - the heart of our application - the implementation of the room.
 The room should dispatch messages sent from RTC Engine to appropriate peer channels - and at the same time, it should direct all the messages sent to it via peer channel to the RTC Engine.
