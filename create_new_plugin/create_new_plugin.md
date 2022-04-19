@@ -1,10 +1,10 @@
-# Creating your own plugin
+# Create your own plugin
 
 During the development of Membrane Framework we aim at designing fewer, but higher quality plugins. However, we also kept extendability and reusability in mind. That's why it is easy for developers like you to create their own custom plugin, which satisfies their needs.
 
 In this short guide we provide you with an overview of how to create your own Membrane plugin and how to integrate it into your project.
 
-# Membrane plugin template
+## Membrane plugin template
 
 To create a new plugin, we recommend using the [template](https://github.com/membraneframework/membrane_template_plugin) that has been made for this very purpose and which will be the base of your plugin.
 It defines necessary dependencies as well as other project specs, e.g. formatting, and guarantees you compliance with other Membrane components.
