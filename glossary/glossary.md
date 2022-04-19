@@ -1,8 +1,8 @@
-## Multimedia 
+# Multimedia 
 + <a name="packet"></a> **Packet** is a formatted unit of data transmitted over network. In order to send data over network it has to be fragmented into packets, which size is limited by [MTU(Maximum Transfer Unit)](https://en.wikipedia.org/wiki/Maximum_transmission_unit) - 1500 bytes when using [Ethernet](https://en.wikipedia.org/wiki/Ethernet_frame).
 + <a name="frame"></a> **Frame** can refer to either [network frame](https://en.wikipedia.org/wiki/Frame_(networking)) or **media frame**, which is a basic data unit used by media coding formats. In particular one media frame can represent a single image in a video.
 + <a name="media_track"></a> (media)**Track** is equivalent to a single audio or video stream.
-+ ### Web protocols:
++ ## Web protocols:
   + <a name="udp"></a> **UDP**(User Datagram Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication. See [here](https://www.imperva.com/learn/ddos/udp-user-datagram-protocol) for more details.
   + <a name="tcp"></a> **TCP**(Transmission Control Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
   + <a name="rtp"></a> **RTP**(Real-time Transport Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [SRTP](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](#webrtc).
@@ -25,14 +25,13 @@
 + <a name="decryption"></a> **Decryption** is a process of retrieving data from an encrypted message.
 + <a name="muxing"></a> **Muxing**(abbr. from multiplexing) is a method of combining multiple streams into a single container, e.g. muxing video and audio into an MP4 container.
 + <a name="demuxing"></a> **Demuxing**(abbr. from demultiplexing) is a method of separating streams from one combined container, e.g. retrieving audio and video from MP4.
-+ ### Server's architecture 
++ ## Server's architecture 
 ([here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started)
   + <a name="sfu"></a> **SFU**([Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server)) is a video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
   + <a name="mcu"></a> **MCU**([Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server)) is an architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
   + <a name="p2p"></a> **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh)) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
 
-
-## Membrane Framework 
+# Membrane Framework 
 + <a name="pad"></a> **Pad** is an input or output of an [elements](#element) or a [bin](#bin). Output pads of one element are connected to input pads of another element or bin.
 + <a name="caps"></a> **Caps**(abbr. from capabilities) define [pads](#pad) specification, allowing us to determine whether two elements are compatible with each other. 
 + <a name="pipeline"></a> **Pipeline** is a chain of linked [elements](#element) or [bins](#bin) which together accomplish some media processing task.
@@ -42,18 +41,18 @@
   + <a name="source"></a> **Source** is an element with only output pads, the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
   + <a name="filter"></a> **Filter** is an element with both input and output pads, which is responsible for transforming data.
   + <a name="sink"></a> **Sink** is an element with only input [pads](#pads), the last element of a pipeline. It might be responsible, i.e. for writing the output to the file or playing the incoming media stream.
-+ ### Types of elements:
++ ## Types of elements:
   + <a name="payloader"></a> **Payloader** and *Depayloader* are responsible for respectively dividing frames into [packets](#packet) and assembling packets back into frames.
   + <a name="encoder"></a> **Encoder** and *Decoder* are responsible for [encoding](#encoding) and [decoding](#decoding).
   + <a name="encryptor"></a> **Encryptor** and *Decryptor* are responsible for [encryption](#encryption) and [decryption](#decryption).
   + <a name="muxer"></a> **Muxer** and *Demuxer* are responsible for [muxing](#muxing) and [demuxing](#demuxing).
   + <a name="mixer"></a> **Mixer** is responsible for mixing multiple media streams into a single stream. Unlike multiplexing, mixing is an irreversible operation.
   + <a name="jitter_buffer"></a> **Jitter buffer** / **Ordering buffer** is an element responsible for ordering packets incoming from the network as their order can be disrupted during transmission due to network unreliability.
-+ ### *Demands mechanism*
++ ## *Demands mechanism*
   + <a name="redemands"></a> **Redemands** in Membrane is an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called.
 
-## *General Elixir/Erlang concepts* 
-+ ### OTP Behavior
+# *General Elixir/Erlang concepts* 
++ ## OTP Behavior
   + <a name="gen_server"></a> [**GenServer**](https://elixir-lang.org/getting-started/mix-otp/genserver.html) abstracts client/server interaction.
 + <a name="phoenix"></a> [**Phoenix**](https://phoenixframework.org/) is a web development framework written in Elixir.
 + <a name="elixir_mix"></a> [**Mix**](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html) is a build tool for creating and managing Elixir projects.
