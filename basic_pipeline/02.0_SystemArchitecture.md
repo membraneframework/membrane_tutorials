@@ -1,3 +1,4 @@
+# System architecture
 Once we know what should be done, let's start thinking how should our system look like!
 
 First, let's get familiar with some terms. In the Membrane Framework, there is a concept of the `pipeline` which consists of multiple `elements`. Elements are linked with the use of the `pads`, which can be input pads or output pads.
@@ -11,11 +12,11 @@ One might wonder when does the event of the buffers being sent occurs - well, it
 If the pad works in the *pull* mode, the buffer is sent when it is demanded by the succeeding element in the pipeline.
 Otherwise, the pad works in the *push* mode, which means that it is pushing the buffers once they are ready, independently from the fact if the following elements want (and are capable of processing) it.
 In our pipeline, all the pads will work in the *pull* mode, which inducts a flow control by a [backpressure](https://medium.com/@jayphelps/backpressure-explained-the-flow-of-data-through-software-2350b3e77ce7) mechanism.
-# Scheme
+## Scheme
 ![Pipeline scheme](assets/images/basic_pipeline.png) <br>
 As you can see, our pipeline will consist of two twin branches, one per each of the peers. The branches will be merged with the `Mixer` element and the result produced by this element will be put in the file with the `Sink` elements. 
 Here you can find the description of the particular elements of the system.
-# Elements description
+## Elements description
 + **Source** - that element is responsible for reading the list of packets from the file. 
 + **Ordering Buffer** - this element is responsible for reordering the packets based on their sequence id. The most important part of this element is the buffer, within which there is a place for all the packets, identified by the packet's sequence id. Once the new packet is received, it is placed in the proper place in the buffer, depending on the sequence id. If there is a consistent part of packets "at the bottom of the buffer" (which means - packets with the subsequent sequence ids, which haven't already been sent yet), then this part is sent via the output pad. That is how we make sure that the next element will receive elements sorted by the sequence id. 
 Below you can see how the Ordering Buffer is expected to work, once the message "How are you doing?" will be sent in the four packets, each with one word, and received in the following order: (are, you, how, doing?) <br>
