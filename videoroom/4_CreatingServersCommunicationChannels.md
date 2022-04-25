@@ -8,7 +8,9 @@ description: >-
  </div>
 ---
 
-# I know you have been waiting for that moment - let's start coding!
+# Server's communication channels
+I know you have been waiting for that moment - let's start coding!
+
 ## Let's prepare the server's endpoint
 Do you still remember about Phoenix's sockets? Hopefully, since we will make use of them in a moment! We want to provide a communication channel between our client's application and our server.
 Sockets fit just in a place - but be aware, that it is not the only possible option. Neither WebRTC nor Membrane Framework expects you to use any particular means of communication between

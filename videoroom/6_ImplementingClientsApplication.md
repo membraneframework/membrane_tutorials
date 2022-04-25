@@ -7,6 +7,7 @@ description: >-
   <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
   </div>
 ---
+# Client's application
 ## Let's implement the client's endpoint!
 We will put the whole logic into `assets/src/room.ts`. Methods responsible for handling UI are already in `assets/src/room_ui.ts`, let's import them:
 ```ts
@@ -135,8 +136,6 @@ constructor(){
 According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of the RTC engine client by the mean of passing the proper callbacks during the construction.
 
 We will go through the callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called ```callbacks``` before initializing ```this.webrtc``` object.
-
-
 
 ### Callbacks
 #### onSendMediaEvent

@@ -1,3 +1,4 @@
+# Glossary
 ## Multimedia 
 + <a name="packet"></a> **Packet** is a formatted unit of data transmitted over network. In order to send data over network it has to be fragmented into packets, which size is limited by [MTU(Maximum Transfer Unit)](https://en.wikipedia.org/wiki/Maximum_transmission_unit) - 1500 bytes when using [Ethernet](https://en.wikipedia.org/wiki/Ethernet_frame).
 + <a name="frame"></a> **Frame** can refer to either [network frame](https://en.wikipedia.org/wiki/Frame_(networking)) or **media frame**, which is a basic data unit used by media coding formats. In particular one media frame can represent a single image in a video.
@@ -30,7 +31,6 @@
   + <a name="sfu"></a> **SFU**([Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server)) is a video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
   + <a name="mcu"></a> **MCU**([Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server)) is an architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
   + <a name="p2p"></a> **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh)) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
-
 
 ## Membrane Framework 
 + <a name="pad"></a> **Pad** is an input or output of an [elements](#element) or a [bin](#bin). Output pads of one element are connected to input pads of another element or bin.
