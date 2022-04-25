@@ -3,7 +3,7 @@ In this tutorial, we will create our very own Membrane Framework consisting of o
 Despite the fact that the multimedia processing task we will be facing will be really simple, we will need to deal with some problems occurring in real-life scenarios.
 At the same time, we will make ourselves comfortable with some concepts of multimedia streaming as well as get in touch with the nomenclature used in this field. 
 Prepare for an adventure! 
-# Environment preparation
+## Environment preparation
 In order to be able to proceed with the tutorial, you need to have Elixir installed: [How to install Elixir](https://elixir-lang.org/install.html).
 We assume, that you are at least slightly familiar with that language - if that is not true, we would like to strongly encourage you to take a look at the [official Elixir tutorial](https://elixir-lang.org/getting-started/introduction.html).
 Once you are ready with the Elixir, you can get the project template we have prepared for you:
@@ -17,7 +17,7 @@ As you can see, the template's code is put on the `template/start` branch of the
 In the repository, there is also a `template/end` branch, where you can find the completed template.
 If you find yourself lost during the tutorial feel free to check the implementation proposed by us, put on this branch.
 
-# Use Case
+## Use Case
 Imagine that there is a conversation occurring between two peers and the chat is based on a question-answer scheme.
 Each of the peers sends its part of the conversation (that means - the first peer sends questions and the second peers sends the answers to them). We refer to each sentence sent by the peers as a **frame**.
 However, due to network limitations each frame sent by the peers is fragmented since only a few chars can be sent at the same time - that means, a single frame is sent as a sequence of **packets**. 
@@ -26,7 +26,7 @@ in which the data needs to be fragmented in order to be transmitted - but we dec
 Each packet consists of the *header* (describing where the particular bunch of characters it transports should be put) and the *body* - aforementioned  bunch of characters.
 Below you can see an exemplary frame sent by one peer to the other. It gets fragmented into multiple packets, which later on are sent via the network (during that process their order will probably get messed). On the second peer's side, the packets get assembled into the original frame.
 ![Example Chat](assets/images/example_chat.drawio.png)
-## Packet format
+### Packet format
 Here is how each packet looks like:
 ```
 [seq:<sequence_id>][frameid:<frame_id>][timestamp:<timestamp>]<text>
@@ -37,7 +37,7 @@ where:
 + timestamp - a number indicating a time at which a given sentence was said. Timestamp describes the order of the frames from both peers. 
 + text - the proper body of the packet, in our case - a bunch of characters which could be sent in a single packet.
 
-## Packets generator
+### Packets generator
 We have equipped you with the tool which produces the packets in the format described previously, based on the input conversation. You can use it as a mix task, by typing:
 ```
 mix generate_input --packetsPerFrame <packets_per_frame> <input_file_path>
@@ -55,7 +55,7 @@ Below you can see the steps which are taken during the input files generation:<b
 ![Example Input](assets/images/example_input.drawio.png)
 Create a file with your own input conversation occurring between two speakers or use the `input.txt` file where we have provided you such a conversation. Generate the files containing packets, with the use of `mix generate_input` task.
 
-# Task description
+## Task description
 By the end of this chapter you should have generated the files containing packets (i.e. `input.A.txt` and `input.B.txt`).
 
 Your task is to assemble the conversation together from those packets. In the first step you will reproduce the sentences sent by each of the peers by gathering the words sent in packets in the appropriate order. In multimedia processing, we would say that you need to reproduce the *frame* out of the *transport layer packets*. Later on you need to put those *frames* in the correct order, producing the *raw data stream*.
