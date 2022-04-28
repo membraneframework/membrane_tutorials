@@ -1,7 +1,8 @@
 {% raw %}
+
 # Get Started with Membrane
 
-Hello there, we're glad you chose to learn Membrane. We'd like to invite you on a journey around multimedia with us, to show you how to make all that stuff we made work for you. 
+Hello there, we're glad you chose to learn Membrane. We'd like to invite you on a journey around multimedia with us, to show you how to make all that stuff we made work for you.
 
 Lets start with some old-fashioned "Hello world!"
 
@@ -38,15 +39,16 @@ defmodule Hello do
   end
 end
 ```
+
 That might not look too simple for now but don't worry, there'll be a lot of new things you're going to encounter, and we'll be introducing you to some of them, or giving hints about how and where to learn more.
 
 > #### Elixir
+>
 > Membrane is written in Elixir. It's an awesome programming language of the functional paradigm with great fault tolerance and process management, which made it the best choice for Membrane.
 > If you're not familiar with it, you can use [this cheatsheet](https://devhints.io/elixir) for quick look-up.
 > We encourage you also to take a [deep look into Elixir](https://elixir-lang.org/getting-started/introduction.html) and learn how to use it to take full advantage of all it's awesomeness. We believe you'll fall in love with Elixir too!
 >
 > To play and work with Membrane you'll need to have the Elixir environment installed on your system. You'll find instructions for how to do it depending on your operating system [here](https://elixir-lang.org/install.html).
-
 
 The code above is one of the simplest examples of Membrane usage. It plays an mp3 file through your device's `portaudio`. Let's make it work.
 
@@ -55,10 +57,13 @@ The code above is one of the simplest examples of Membrane usage. It plays an mp
 First we need to get all the libraries that Membrane needs to operate in our case. You can read about them more if you'd like, but for now we'll just jump to installation:
 
 ##### Linux
+
 ```bash
 $ apt install clang-format portaudio19-dev ffmpeg libavutil-dev libswresample-dev libmad0-dev
 ```
+
 ##### Mac
+
 ```bash
 $ brew install clang-format portaudio ffmpeg libmad pkg-config
 ```
@@ -68,6 +73,7 @@ Alternatively, you can use our docker image that already contains all libraries 
 ## Creating a Project
 
 By installing Elixir you'll get a bunch of useful tools. One of them is [Mix](https://hexdocs.pm/mix/Mix.html). As you can read in its documentation preface:
+
 > Mix is a build tool that provides tasks for creating, compiling, and testing Elixir projects, managing its dependencies, and more.
 
 Lets use it to create a project for our first Membrane adventure:
@@ -78,7 +84,7 @@ $ mix new hello --module Hello
 
 Mix generator will create some files for us. Lets take a closer look at two of them:
 
-+ **mix.exs** - It's an entry file for our mix project, a place where we can configure it, and set up our dependencies. We'll do it by adding them into the `deps` function:
+- **mix.exs** - It's an entry file for our mix project, a place where we can configure it, and set up our dependencies. We'll do it by adding them into the `deps` function:
 
 ```elixir
 defp deps do
@@ -90,7 +96,8 @@ defp deps do
     {:membrane_mp3_mad_plugin, "~> 0.7.0"}
   ]
 end
-```	
+```
+
 ## Our first Pipeline
 
 The pipeline is one of the basic concepts of Membrane. It's a schema of how the data packets are flowing through our application.
@@ -109,6 +116,7 @@ end
 
 Using this behaviour means we are treating our module as a Membrane Pipeline, so we will have access to functions defined in the `Membrane.Pipeline` module, and we can implement some of it's callbacks.
 Let's implement the first callback: `handle_init/1`. As you can see in [the documentation](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/1) `handle_init` takes one argument which can be of any type - it's a way to pass some arguments needed for the pipeline to start. As our app's one and only purpose is to play an mp3 file we can assume that the only value we need to pass into the pipeline is a path for a file we want to play:
+
 ```elixir
 defmodule Hello do
 
@@ -125,16 +133,16 @@ The main purpose of the `handle_init` callback is to prepare our pipeline. Prepa
 Pipeline's callbacks are expected to return status, an optional list of actions to be taken, and an updated state in which the pipeline will be after that callback. The action can be of one of the following [types](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:t/0).
 Since we want to spawn children processes and link them, we will use the [`spec_t()`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0) action which is described with the use of `Membrane.ParentSpec` structure.
 
->If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring GenServer and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
+> If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring GenServer and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
 
 ### Elements
 
 The elements we'd like to use to play our mp3 will be:
 
- - `Membrane.File.Source` - the Source module form Membrane file plugin that will read a file.
- - `Membrane.MP3.MAD.Decoder` - an mp3 decoder based on [MAD](https://www.underbit.com/products/mad/)
- - `Membrane.FFmpeg.SWResample.Converter` - a converter based on [FFmpeg SWResample](https://ffmpeg.org/doxygen/trunk/group__lswr.html#details). We'll be needing it to resample our raw audio stream from 24 to 16 bits.
- - `Membrane.Portaudio.Sink` - A Sink module that will be playing our music with [Portaudio](http://www.portaudio.com)
+- `Membrane.File.Source` - the Source module form Membrane file plugin that will read a file.
+- `Membrane.MP3.MAD.Decoder` - an mp3 decoder based on [MAD](https://www.underbit.com/products/mad/)
+- `Membrane.FFmpeg.SWResample.Converter` - a converter based on [FFmpeg SWResample](https://ffmpeg.org/doxygen/trunk/group__lswr.html#details). We'll be needing it to resample our raw audio stream from 24 to 16 bits.
+- `Membrane.Portaudio.Sink` - A Sink module that will be playing our music with [Portaudio](http://www.portaudio.com)
 
 > As you can see all the elements we're using are not part of `membrane_core`, but can be found in separate plugins. You can find a list of packages provided by the Membrane Team [here](https://membraneframework.org/guide/v0.7/packages.html). There you can also learn how to write your own Element.
 
@@ -159,7 +167,7 @@ The keys in the `children` keyword list (`file`, `decoder`, `converter`, `portau
 
 ### Linking elements
 
-Now we should link them in the proper order. Each Membrane Element can be one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output pads. That means only a Source element start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipelines (it will not send any data to subsequent elements), and Filters can be in the middle (they receive, process and send data further). In our case the links declaration will look like this: 
+Now we should link them in the proper order. Each Membrane Element can be one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output pads. That means only a Source element start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipelines (it will not send any data to subsequent elements), and Filters can be in the middle (they receive, process and send data further). In our case the links declaration will look like this:
 
 ```elixir
 links = [
@@ -187,6 +195,7 @@ At the end of the callback we need to return a proper tuple from `handle_init`. 
 ```elixir
 {{:ok, spec: spec}, %{}}
 ```
+
 We're passing empty map for state, as we don't need anything to be stored as state.
 
 After that the full module will look like this:
@@ -234,10 +243,13 @@ $ iex -S mix
 ```
 
 First, create a pipeline process:
+
 ```elixir
 {:ok, pid}  =  Hello.start_link("/path/to/mp3")
 ```
+
 Then, let it play:
+
 ```elixir
 Hello.play(pid)
 ```
@@ -247,4 +259,3 @@ Our [demo with this tutorial](https://github.com/membraneframework/membrane_demo
 The specified mp3 file should be played on the default device in your system. Please use mp3 that has no ID3 or ID3v2 tags. <br><br>
 [List of tutorials](../../index.md)
 {% endraw %}
-

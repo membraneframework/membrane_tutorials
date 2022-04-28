@@ -12,11 +12,12 @@ As you can see, we have `Source` -> `Ordering Buffer` -> `Depayloader` chain, wh
 We can encapsulate these elements inside `Bin`.
 ![Pipeline scheme using bin](/basic_pipeline_extension/assets/images/basic_pipeline_bin.png) <br>
 
-Notice that there is no direct connection between `Depayloader` and `Mixer`. We have to explicitly link the `Depayloader` with `Bin`'s output pads and then we will connect the output pads to `Mixer`'s input pads. 
+Notice that there is no direct connection between `Depayloader` and `Mixer`. We have to explicitly link the `Depayloader` with `Bin`'s output pads and then we will connect the output pads to `Mixer`'s input pads.
 
 Let's define the bin's output pads and its elements.
 
 ###### **`lib/Bin.ex`**
+
 ```Elixir
 defmodule Basic.Bin do
   use Membrane.Bin
@@ -39,7 +40,7 @@ defmodule Basic.Bin do
 
     spec = %ParentSpec{children: children, links: links}
 
-    {{:ok, spec: spec}, %{}}
+    { {:ok, spec: spec}, %{} }
   end
 end
 ```
@@ -50,6 +51,7 @@ Notice that the last link is between `depayloader` and the bin's output pads. In
 Although the bin is already functional, to make it reusable we have to parametrize it with the input filename. That's why we will define options for the bin, which we will use in the `source` element.
 
 ###### **`lib/Bin.ex`**
+
 ```Elixir
 defmodule Basic.Bin do
   use Membrane.Bin
@@ -76,7 +78,9 @@ end
 # Modifying pipeline using bin
 
 Using the bin we created, we can replace the elements in the pipeline.
+
 ###### **`lib/Pipeline.ex`**
+
 ```Elixir
 defmodule Basic.Pipeline do
   @moduledoc """
@@ -101,7 +105,7 @@ defmodule Basic.Pipeline do
 
     spec = %ParentSpec{children: children, links: links}
 
-    {{:ok, spec: spec}, %{}}
+    { {:ok, spec: spec}, %{} }
   end
 end
 ```

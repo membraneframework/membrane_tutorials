@@ -1,7 +1,10 @@
 # Mixer
-Here comes the mixer - an element responsible for mixing two streams of frames, coming from two different sources. 
+
+Here comes the mixer - an element responsible for mixing two streams of frames, coming from two different sources.
 Once again we start with defining the initialization options and the pads of both types:
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  @moduledoc """
@@ -19,10 +22,11 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-Note, that we have defined two input pads: `:first_input` and the `:second_input`. 
+Note, that we have defined two input pads: `:first_input` and the `:second_input`.
 Each of these input pads will have a corresponding incoming track in form of a buffers stream. We need a structure that will hold the state of the track. Let's create it by defining a `Track` inside the mixer module:
 
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  ...
@@ -42,12 +46,15 @@ It's a good practice to provide a type specification for such a custom struct si
 A careful reader might notice, that we are holding only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the pipeline and which provide us an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
 
 The logic we're going to implement can be described in the following three steps:
-+ If all the tracks are in the 'active' state ('active' means - the ones in the `:started` state or the ones in the `:finished` state but with an unprocessed buffer in the `Track` structure) - output the one with the lower timestamp. Otherwise do nothing.
-+ If all the tracks are in the `:finished` state and their `:buffer` is empty - send the `:end_of_stream` event.
-+ For all the tracks which are in the `:started` state and their buffer is empty - demand on the pad corresponding to that track.
+
+- If all the tracks are in the 'active' state ('active' means - the ones in the `:started` state or the ones in the `:finished` state but with an unprocessed buffer in the `Track` structure) - output the one with the lower timestamp. Otherwise do nothing.
+- If all the tracks are in the `:finished` state and their `:buffer` is empty - send the `:end_of_stream` event.
+- For all the tracks which are in the `:started` state and their buffer is empty - demand on the pad corresponding to that track.
 
 The next step in our element implementation is quite an obvious one:
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  ...
@@ -55,16 +62,19 @@ defmodule Basic.Elements.Mixer do
  def handle_init(_options) do
   {:ok,
   %{
-    tracks: %{first_input: %Track{}, second_input: %Track{}}
-  }}
+    tracks: %{first_input: %Track{}, second_input: %Track{} }
+  } }
  end
  ...
 end
 ```
+
 We have provided an `handle_init/1` callback, which does not expect any options to be passed. We are simply setting up the structure of the element state.
 As mentioned previously, we will have a `Track` structure for each of the input pads.
 Following on the callbacks implementation, let's continue with `handle_process/4` implementation:
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  ...
@@ -76,13 +86,16 @@ defmodule Basic.Elements.Mixer do
     end)
 
   state = %{state | tracks: tracks}
-  {{:ok, [{:redemand, :output}]}, state}
+  { {:ok, [{:redemand, :output}]}, state}
  end
  ...
 end
 ```
+
 What we do is that we are simply putting the incoming `buffer` into the `Track` structure for the given pad. Note, that we have to be sure that we are not losing any information which is in the `Track`'s buffer before the update. In case there is a buffer on a given `Track`, it has to be processed before another buffer comes. Why can we be sure of that in our implementation? That's before we precisely steer the flow of our program and ask for the next buffer after we empty the buffer hold in the state of the element.
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  ...
@@ -94,7 +107,7 @@ defmodule Basic.Elements.Mixer do
     end)
 
   state = %{state | tracks: tracks}
-  {{:ok, [{:redemand, :output}]}, state}
+  { {:ok, [{:redemand, :output}]}, state}
  end
  ...
 end
@@ -102,7 +115,9 @@ end
 
 What we did here was similar to the logic defined in the `handle_process/4` - we have just updated the state of the track (in that case - by setting its status as `:finished`) and then we called the `handle_demand/5` callback using the `:redemand` actions. The `handle_demand/5` will take care of the fact that the track state has changed.
 There is nothing left to do apart from defining the `handle_demand/5` itself!
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
   ...
@@ -113,26 +128,29 @@ defmodule Basic.Elements.Mixer do
     {state, demand_actions} = get_demand_actions(state, ctx.pads)
 
     actions = buffer_actions ++ end_of_stream_actions ++ demand_actions
-    {{:ok, actions}, state}
+    { {:ok, actions}, state}
   end
   ...
 end
 ```
 
 The tracks processing presented in the code snippet above has been split into the following steps:
-+ outputing the ready buffers
-+ sending `:end_of_stream` notification if necessary
-+ demanding on empty tracks
+
+- outputing the ready buffers
+- sending `:end_of_stream` notification if necessary
+- demanding on empty tracks
 
 Each of these steps has a corresponding private function.
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  ...
  defp get_output_buffers_actions(state) do
   {buffers, tracks} = prepare_buffers(state.tracks)
   state = %{state | tracks: tracks}
-  buffer_actions = Enum.map(buffers, fn buffer -> {:buffer, {:output, buffer}} end)
+  buffer_actions = Enum.map(buffers, fn buffer -> {:buffer, {:output, buffer} } end)
   {state, buffer_actions}
  end
 
@@ -162,10 +180,12 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-In order to output the buffers, we need to fetch the desired buffers - that is what we do with the `prepare_buffers/1` function. Later on, we are simply creating the `:buffer` action, basing on the list of buffers to be output. 
+In order to output the buffers, we need to fetch the desired buffers - that is what we do with the `prepare_buffers/1` function. Later on, we are simply creating the `:buffer` action, basing on the list of buffers to be output.
 In the `prepare_bufers/1` we get all the active tracks (by 'active' we mean that there is still an unprocessed buffer in the `Track` structure - independent of the status of that track). If all the active tracks have the buffers we can output the one with the lowest presentation timestamp and recursively call the `prepare_buffers/1` (in case there are some buffers that still need to be output - this can happen in a 'corner case' of processing the buffer from the track in the `:finished` state). Surely, we also need to update the state so that to remove the processed buffers.
 Now let's focus on preparing `:end_of_stream` action:
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  ...
@@ -181,8 +201,11 @@ defmodule Basic.Elements.Mixer do
  ...
 end
 ```
+
 This action needs to be sent if both the tracks are in the `:finished` state - since the `maybe_send_end_of_stream/1` function gets called after the `get_output_buffers_actions/1`, we can be sure, that all the buffers which could possibly be on those tracks, despite they are in the `:finished` state, are already processed.
+
 ###### **`lib/elements/Mixer.ex`**
+
 ```Elixir
 defmodule Basic.Elements.Mixer do
  ...
@@ -192,18 +215,20 @@ defmodule Basic.Elements.Mixer do
     |> Enum.filter(fn {track_id, track} ->
       track.status != :finished and track.buffer == nil and pads[track_id].demand == 0
     end)
-    |> Enum.map(fn {track_id, _} -> {:demand, {Pad.ref(track_id), 1}} end)
+    |> Enum.map(fn {track_id, _} -> {:demand, {Pad.ref(track_id), 1} } end)
 
   {state, actions}
  end
  ...
 end
 ```
+
 The last type of actions we need to generate are `:demand` actions. From the [context](https://hexdocs.pm/membrane_core/Membrane.Element.CallbackContext.Demand.html#t:t/0) passed as one of the arguments in the `handle_demand/5` callback, we have passed the `context.pads`.
 That is how we can fetch the information about the current demand size on the given pad.
 For all the tracks which are not yet `:finished`, do not have the buffer and the demand was not made on behalf of that pad (there is where we are making usage of the context information - `pads[track_id].demand==0`), we are making such a demand for one buffer.
 
 Test the `Mixer`:
+
 ```
 mix test test/elements/mixer_test.exs
 ```

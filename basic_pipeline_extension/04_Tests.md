@@ -19,6 +19,7 @@ We need to specify, that we will be writing only unit tests - that means, we wil
 Let's create a `test/elements/depayloader_test.exs` file and put the following code inside it:
 
 ###### **`test/elements/depayloader_test.exs`**
+
 ```Elixir
 defmodule DepayloaderTest do
  use ExUnit.Case 
@@ -29,12 +30,14 @@ defmodule DepayloaderTest do
  end
 end
 ```
-This way we are defining a testing module with the use of the ExUnit, as well as a single test (we will put the test logic inside the inner `do...end` scope). 
+
+This way we are defining a testing module with the use of the ExUnit, as well as a single test (we will put the test logic inside the inner `do...end` scope).
 The `doctest` macro checks if the given module has proper documentation (typespecs, module description etc.).
 
 We have decided to show the process of writing tests based on the depayloader - since the behavior of this element is well described and can be easily checked. Let's recall what is the responsibility of the depayloader - this element is receiving ordered packets and is about to form frames out of them. Let's check if it is doing it properly!
 
 ###### **`test/elements/depayloader_test.exs`**
+
 ```Elixir
 defmodule DepayloaderTest do
  ...
@@ -60,7 +63,7 @@ defmodule DepayloaderTest do
       state
     )
 
-  {{:ok, actions}, _state} =
+  { {:ok, actions}, _state} =
     Depayloader.handle_process(
       :input,
       %Buffer{payload: "[frameid:1e][timestamp:1] you?"},
@@ -75,12 +78,13 @@ end
 ```
 
 We have been explicitly calling the callbacks defined in the `Depayloader` module, with the appropriate arguments.
-First, we have initialized the state by calling the `handle_init/1` callback, later on, we have made the depayloader `handle_process/4` some buffers (note that we had to explicitly pass the `%Membrane.Buffer{}` structure as the argument of the function invocation as well as keep track of the state, which gets updated after each call). 
+First, we have initialized the state by calling the `handle_init/1` callback, later on, we have made the depayloader `handle_process/4` some buffers (note that we had to explicitly pass the `%Membrane.Buffer{}` structure as the argument of the function invocation as well as keep track of the state, which gets updated after each call).
 Finally, after the last buffer is processed (the last buffer is the buffer whose `frameid` should contain the `e` letter meaning that that is the packet that is ending a given frame), we are expecting the action to be returned - and this action should be a `:buffer` actions, transmitting the buffer with the complete frame through the `:output` pad. We also assert (using the ExUnit's [`assert`](https://hexdocs.pm/ex_unit/ExUnit.Assertions.html#assert/1) macro) the value hold in the buffer's payload (It should be a complete sentence).
-If no action was returned from the last `handle_process/4`, the pattern wouldn't match to the `{{:ok, actions}, _state}`, and the test would fail.
+If no action was returned from the last `handle_process/4`, the pattern wouldn't match to the `{ {:ok, actions}, _state}`, and the test would fail.
 If the assertion on the output buffer's payload wouldn't be true - the test would also fail.
 
 ## The Membrane's support for tests
+
 The test written above is quite simple. Probably you have noticed that what we did there was "simulating" the behavior of the Membrane's Core, in a limited, but satisfying our needs, way. During the pipeline run, it is Membrane's responsibility to invoke the callbacks and pass the updated version of the state as the argument.
 However, Membrane's Core behavior is much more complicated - if we were using some more complex mechanism (i.e. redemands), possibly we would need to simulate that behavior in a more detailed way - finally ending with the Membrane's Core in our test module.
 Such an approach scales terribly - and that is why we want to avoid it. Membrane Core's developers have given us support for testing the elements which allow us to have a simple pipeline consisting of a generic source and sink, as well as our element.
@@ -88,6 +92,7 @@ Such a pipeline behaves just like any other pipeline in a regular working Membra
 Below we will rewrite the test we have just written, but with the support from the Membrane Framework:
 
 ###### **`test/elements/depayloader_test.exs`**
+
 ```Elixir
 defmodule DepayloaderTest do
   ...
@@ -108,7 +113,7 @@ defmodule DepayloaderTest do
 
     options = %Pipeline.Options{
       elements: [
-        source: %Source{output: inputs, caps: %Packet{type: :custom_packets}},
+        source: %Source{output: inputs, caps: %Packet{type: :custom_packets} },
         depayloader: %Depayloader{packets_per_frame: 5},
         sink: Sink
       ]
@@ -132,14 +137,15 @@ Later on, we have specified the testing pipeline with the `%Membrane.Testing.Pip
 Our testing pipeline consists only of three elements - the source, the sink, and the element we are about to test.
 We are specifying these elements by passing options structures, just as in the case of the regular pipeline.
 The generic [`Membrane.Testing.Source`](https://hexdocs.pm/membrane_core/Membrane.Testing.Source.html) accepts `:output` field as one of its options - we can pass the list of payloads which will be sent through the `:output` pad of the testing - in our case we are passing the previously defined `:inputs` list.
-It is also important to specify the `:caps` option, because, as you remember, the Source element is responsible for generating the caps. In our case, we have specified the caps, which will be accepted by the Depayloader's caps specification. 
+It is also important to specify the `:caps` option, because, as you remember, the Source element is responsible for generating the caps. In our case, we have specified the caps, which will be accepted by the Depayloader's caps specification.
 Once the pipeline structure is defined, we can start the pipeline process.
 Just after that, we start playing the pipeline.
-And here comes the assertions section - we are taking advantage of some (Membrane specific assertions](https://hexdocs.pm/membrane_core/Membrane.Testing.Assertions.html):
-+ first, we are asserting that the stream has started, with the `assert_start_of_stream/2`
-+ then we are asserting that the ink has received a buffer of a given form (in our case - we want the sink to receive the buffer with a frame assembled out of the input packets) - with the help of `assert_sink_buffer/3`
-+ then we are asserting that `:end_of_stream` has reached the `:sink` - with `assert_end_of_stream/2`
-+ the last assertion we made is that the `:sink` hasn't received any buffer within 2000 milliseconds - and `refute_sink_buffer/4` helps us do it
+And here comes the assertions section - we are taking advantage of some (Membrane specific assertions\](https://hexdocs.pm/membrane_core/Membrane.Testing.Assertions.html):
+
+- first, we are asserting that the stream has started, with the `assert_start_of_stream/2`
+- then we are asserting that the ink has received a buffer of a given form (in our case - we want the sink to receive the buffer with a frame assembled out of the input packets) - with the help of `assert_sink_buffer/3`
+- then we are asserting that `:end_of_stream` has reached the `:sink` - with `assert_end_of_stream/2`
+- the last assertion we made is that the `:sink` hasn't received any buffer within 2000 milliseconds - and `refute_sink_buffer/4` helps us do it
 
 Finally, we need to stop and terminate our pipeline. It is a good practice to do it in a blocking manner so that the test returns after the pipeline is terminated.
 
@@ -149,18 +155,20 @@ Keep in mind that in the second test we are making some additional, more complic
 With the Membrane's testing framework you can do it in one line only!
 
 Now we can run the tests with a simple Mix task, by typing:
+
 ```
 mix test
 ```
 
 If everything works (both the tests and the functionality's code itself), you should see a notification that the test has passed successfully, which we hope you do see!
 
-
 ## Some special types of tests
+
 As you remember, Source and Sink elements act specifically different than the Filter elements - that is why they are communicating with the 'outer world', i.e. by reading the data from a file or saving the result to the file. In order to check if their behavior is desired, we cannot create a testing pipeline with generic Source and Sink, since it is a Source/Sink that we want to test.
 We will need to somehow mock the `outer environment` - let's see how this can be done, based on the example of the Source test:
 
 ###### **`test/elements/source_test.exs`**
+
 ```Elixir
 defmodule SourceTest do
  use ExUnit.Case, async: false
@@ -177,7 +185,7 @@ defmodule SourceTest do
 
  test "reads the input file correctly" do
   with_mock File, read!: fn _ -> "First Line\nSecond Line" end do
-    {{:ok, _}, state} =
+    { {:ok, _}, state} =
     Source.handle_stopped_to_prepared(nil, %{location: @exemplary_location, content: nil})
 
     assert state.content == @exemplary_content
