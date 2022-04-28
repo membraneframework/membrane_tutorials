@@ -46,10 +46,10 @@ It consists of:
 Please stop for a moment and read about the [`Membrane.ParentSpec`](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html). 
 We will wait for you and once you are ready, we will define our own children and links ;)
 
-Let's start with defining what children we need inside the `handle_init/1` callback! If you have forgotten what structure we want to achieve please refer to the [2nd chapter](02.0_SystemArchitecture.md) and recall what elements we need inside of our pipeline.
+Let's start with defining what children we need inside the `handle_init/1` callback! If you have forgotten what structure we want to achieve please refer to the [2nd chapter](02_SystemArchitecture.md) and recall what elements we need inside of our pipeline.
+
 ###### **`lib/Pipeline.ex`**
 ```Elixir
-
 
 @impl true
 def handle_init(_opts) do
@@ -71,6 +71,7 @@ Remember to pass the desired file paths in the `:location` option!
 We have just created the map, which keys are in the form of atoms that describe each of the children and the values are particular module built-in structures (with all the required fields passed).
 
 Now we have a `children` map which we will use to launch the processes. But the Membrane needs to know how those children elements are connected (and, in fact, how the pipeline is defined!). Therefore let's create a `links` list with the description of the links between the elements:
+
 ###### **`lib/Pipeline.ex`**
 ```Elixir
 
@@ -134,4 +135,7 @@ In the output file (the one specified in the `handle_init/1` callback of the pip
 
 In case of any problems you can refer to the code on the `template/end` branch of `membrane_basic_pipeline_tutorial` repository.
 
-Now that our solution is completed we are going to tell you something more about `redemands` mechanism in Membrane, then we will improve the `Mixer` element using dynamic pads and finally we will introduce you to creating tests for Membrane's elements.
+$~$
+Now our solution is completed. You have acquired a basic understanding of Membrane, and you can implement a simple pipeline using elements.
+
+If you wish to extend your knowledge of Membrane's concepts we encourage you to read the [extension to this tutorial](/basic_pipeline_extension/).

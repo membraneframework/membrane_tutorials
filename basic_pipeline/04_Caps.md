@@ -1,6 +1,7 @@
 # Caps
 We owe you something...and we would like to pay it back as soon as possible!
-As promised in the [3rd chapter](03.0_Source.md), we will talk more about the concept of caps - which in fact we have used in the previous chapter, but which weren't described sufficiently.
+As promised in the [3rd chapter](03_Source.md), we will talk more about the concept of caps - which in fact we have used in the previous chapter, but which weren't described sufficiently.
+
 ## What are caps?
 Caps (an abbreviation of the *capabilities*) is a concept allowing us to define what kind of data is flowing through the pad. 
 In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given element.

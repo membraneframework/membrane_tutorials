@@ -1,12 +1,11 @@
-# Dynamic pads
-The solution we have implemented along the tutorial is complete. 
-However, it has at least one downside - it is definitely not easily extendable.
+# Dynamic Pads
+
+The solution we have implemented along the tutorial has at least one downside - it is definitely not easily extendable.
 What if we needed to support mixing streams coming from three different speakers in the conversation?
 Well, we would need to add another input pad in the Mixer, for instance - `:third_input` pad, and then update our Pipeline definition:
 
 ###### **`lib/Pipeline.ex`**
 ```Elixir
-
 @impl true
 def handle_init(_opts) do
  children = %{
@@ -37,9 +36,9 @@ Well, the idea is quite simple! Instead of specifying a single pad with a predef
 ## The Mixer revisited
 Let's try to use dynamic pads for the input in the Mixer!
 The very first thing we need to do is to use the `def_input_pads` appropriately.
+
 ###### **`lib/elements/Mixer.ex`**
 ```Elixir
-
 ...
 def_input_pad(:input, demand_unit: :buffers, availability: :on_request, caps: {Basic.Formats.Frame, encoding: :utf8})
 ...
@@ -48,9 +47,9 @@ def_input_pad(:input, demand_unit: :buffers, availability: :on_request, caps: {B
 We have added the [`availability: :on_request` option](https://hexdocs.pm/membrane_core/Membrane.Pad.html#t:availability_t/0), which allows us to define the set of dynamic pads, identified as `:input`.
 
 No more do we have the `:first_input` and the `:second_input` pads defined, so we do not have the tracks corresponding to them either! Let's update the `handle_init/1` callback:
+
 ###### **`lib/elements/Mixer.ex`**
 ```Elixir
-
 ...
 @impl true
 def handle_init(_options) do
@@ -62,6 +61,7 @@ end
 ```
 Tracks map is initially empty since there are no corresponding pads.
 The next thing we need to do is to implement the `handle_pad_added/3` callback, which will be called once the pipeline starts, with some links pointing to dynamic pads:
+
 ###### **`lib/elements/Mixer.ex`**
 ```Elixir
 
@@ -82,7 +82,6 @@ Below you can find the updated version of the pipeline's `handle_init/1` callbac
 
 ###### **`lib/Pipeline.ex`**
 ```Elixir
-
 ...
 @impl true
 def handle_init(_opts) do
@@ -119,6 +118,8 @@ The first argument passed to that function is the name of the dynamic pad's set 
 As you can see, we have created two `:input` pads: `:first` and `:second`. While starting the pipeline, the `handle_pad_added/3` callback will be called twice, once per each dynamic pad created.
 
 ## Further actions
-As an exercise, you can try to modify the `lib/Pipeline.ex` file so that to define there a pipeline consisting of three parallel branches, being mixed in a single Mixer. Later on, you can check if the pipeline works as expected, by generating the input files out of the conversation in which participate three speakers.
+As an exercise, you can try to modify the `lib/Pipeline.ex` file and define a pipeline consisting of three parallel branches, being mixed in a single Mixer. Later on, you can check if the pipeline works as expected, by generating the input files out of the conversation in which participate three speakers.
 
 The proposed solution can be found on the [dynamic_pads branch of the template repository](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/tree/dynamic_pads).
+
+If you combine the approach taken in the chapter about [Bin](/basic_pipeline_extension/01_Bin.md) you can simplify this solution by reducing the size of the link defitions inside the pipeline.

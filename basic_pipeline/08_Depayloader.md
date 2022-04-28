@@ -64,7 +64,7 @@ end
 ```
 Within the state, we will also hold a (potentially not complete) `:frame` - a list of packets, which form a particular frame. We will aggregate the packets in the `:frame` until the moment the frame is complete.
 
-As noted in the [chapter dedicated to the caps](03.1_Caps.md), since we are changing the type of data within the element, we cannot rely on the default implementation of the `handle_caps/4` callback. We need to explicitly send the updated version of caps:
+As noted in the [chapter dedicated to the caps](03_Caps.md), since we are changing the type of data within the element, we cannot rely on the default implementation of the `handle_caps/4` callback. We need to explicitly send the updated version of caps:
 ###### **`lib/elements/Depayloader.ex`**
 ```Elixir
 @impl true
