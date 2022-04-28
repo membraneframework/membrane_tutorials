@@ -60,7 +60,7 @@ defmodule DepayloaderTest do
       state
     )
 
-  {{:ok, actions}, _state} =
+  { {:ok, actions}, _state} =
     Depayloader.handle_process(
       :input,
       %Buffer{payload: "[frameid:1e][timestamp:1] you?"},
@@ -77,7 +77,7 @@ end
 We have been explicitly calling the callbacks defined in the `Depayloader` module, with the appropriate arguments.
 First, we have initialized the state by calling the `handle_init/1` callback, later on, we have made the depayloader `handle_process/4` some buffers (note that we had to explicitly pass the `%Membrane.Buffer{}` structure as the argument of the function invocation as well as keep track of the state, which gets updated after each call). 
 Finally, after the last buffer is processed (the last buffer is the buffer whose `frameid` should contain the `e` letter meaning that that is the packet that is ending a given frame), we are expecting the action to be returned - and this action should be a `:buffer` actions, transmitting the buffer with the complete frame through the `:output` pad. We also assert (using the ExUnit's [`assert`](https://hexdocs.pm/ex_unit/ExUnit.Assertions.html#assert/1) macro) the value hold in the buffer's payload (It should be a complete sentence).
-If no action was returned from the last `handle_process/4`, the pattern wouldn't match to the `{{:ok, actions}, _state}`, and the test would fail.
+If no action was returned from the last `handle_process/4`, the pattern wouldn't match to the `{ {:ok, actions}, _state}`, and the test would fail.
 If the assertion on the output buffer's payload wouldn't be true - the test would also fail.
 
 ## The Membrane's support for tests
@@ -108,7 +108,7 @@ defmodule DepayloaderTest do
 
     options = %Pipeline.Options{
       elements: [
-        source: %Source{output: inputs, caps: %Packet{type: :custom_packets}},
+        source: %Source{output: inputs, caps: %Packet{type: :custom_packets} },
         depayloader: %Depayloader{packets_per_frame: 5},
         sink: Sink
       ]
@@ -177,7 +177,7 @@ defmodule SourceTest do
 
  test "reads the input file correctly" do
   with_mock File, read!: fn _ -> "First Line\nSecond Line" end do
-    {{:ok, _}, state} =
+    { {:ok, _}, state} =
     Source.handle_stopped_to_prepared(nil, %{location: @exemplary_location, content: nil})
 
     assert state.content == @exemplary_content

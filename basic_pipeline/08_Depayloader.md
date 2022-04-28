@@ -59,7 +59,7 @@ def handle_init(options) do
  %{
     frame: [],
     packets_per_frame: options.packets_per_frame
- }}
+ } }
 end
 ```
 Within the state, we will also hold a (potentially not complete) `:frame` - a list of packets, which form a particular frame. We will aggregate the packets in the `:frame` until the moment the frame is complete.
@@ -70,7 +70,7 @@ As noted in the [chapter dedicated to the caps](03_Caps.md), since we are changi
 @impl true
 def handle_caps(_pad, _caps, _context, state) do
  caps = %Frame{encoding: :utf8}
- {{:ok, caps: {:output, caps}}, state}
+ { {:ok, caps: {:output, caps} }, state}
 end
 ```
 
@@ -79,7 +79,7 @@ As in most elements, the `handle_demand/5` implementation is quite easy - what w
 ```Elixir
 @impl true
 def handle_demand(_ref, size, _unit, _ctx, state) do
- {{:ok, demand: {Pad.ref(:input), size * state.packets_per_frame}}, state}
+ { {:ok, demand: {Pad.ref(:input), size * state.packets_per_frame} }, state}
 end
 ```
 
@@ -113,7 +113,7 @@ case type do
       frame = prepare_frame(frame)
       state = Map.put(state, :frame, [])
       buffer = %Membrane.Buffer{payload: frame, pts: String.to_integer(timestamp)}
-      {{:ok, [buffer: {:output, buffer}]}, state}
+      { {:ok, [buffer: {:output, buffer}]}, state}
 
    _ ->
       state = Map.put(state, :frame, frame)

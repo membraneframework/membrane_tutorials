@@ -17,7 +17,7 @@ def handle_demand(:output, size, _unit, _context, state) do
    payload = Input.get_next() #Input.get_next() is an exemplary function which could be providing data
    {:buffer, %Membrane.Buffer(payload: payload)}
  end
- {{:ok, actions}, state}
+ { {:ok, actions}, state}
 end
 ```
 
@@ -31,7 +31,7 @@ Wouldn't it be better to focus on a single buffer in each `handle_demand/5` call
 def handle_demand(:output, _size, unit, context, state) do
  payload = Input.get_next() #Input.get_next() is an exemplary function which could be providing data
  actions = [buffer: %Membrane.Buffer(payload: payload), redemand: :output]
- {{:ok, actions}, state}
+ { {:ok, actions}, state}
 end
 
 ```

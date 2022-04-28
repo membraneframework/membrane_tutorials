@@ -44,7 +44,7 @@ defmodule Basic.Elements.OrderingBuffer do
  ...
  @impl true
  def handle_demand(_ref, size, _unit, _ctx, state) do
-  {{:ok, demand: {Pad.ref(:input), size}}, state}
+  { {:ok, demand: {Pad.ref(:input), size} }, state}
  end
  ...
 end
@@ -70,7 +70,7 @@ defmodule Basic.Elements.OrderingBuffer do
   defp unzip_packet(packet) do
     regex = ~r/^\[seq\:(?<seq_id>\d+)\](?<data>.*)$/
     %{"data" => data, "seq_id" => seq_id} = Regex.named_captures(regex, packet)
-    {String.to_integer(seq_id), %Membrane.Buffer{payload: data}}
+    {String.to_integer(seq_id), %Membrane.Buffer{payload: data} }
   end
   ...
 end
@@ -126,9 +126,9 @@ defmodule Basic.Elements.OrderingBuffer do
       }
       buffers = Enum.reverse(reversed_ready_packets_sequence) |> Enum.map(fn {_seq_id, data} -> data end)
 
-      {{:ok, buffer: {:output, buffers}}, state}
+      { {:ok, buffer: {:output, buffers} }, state}
     else
-      {{:ok, redemand: :output}, state}
+      { {:ok, redemand: :output}, state}
     end
   end
   ...

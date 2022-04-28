@@ -55,8 +55,8 @@ defmodule Basic.Elements.Mixer do
  def handle_init(_options) do
   {:ok,
   %{
-    tracks: %{first_input: %Track{}, second_input: %Track{}}
-  }}
+    tracks: %{first_input: %Track{}, second_input: %Track{} }
+  } }
  end
  ...
 end
@@ -76,7 +76,7 @@ defmodule Basic.Elements.Mixer do
     end)
 
   state = %{state | tracks: tracks}
-  {{:ok, [{:redemand, :output}]}, state}
+  { {:ok, [{:redemand, :output}]}, state}
  end
  ...
 end
@@ -94,7 +94,7 @@ defmodule Basic.Elements.Mixer do
     end)
 
   state = %{state | tracks: tracks}
-  {{:ok, [{:redemand, :output}]}, state}
+  { {:ok, [{:redemand, :output}]}, state}
  end
  ...
 end
@@ -113,7 +113,7 @@ defmodule Basic.Elements.Mixer do
     {state, demand_actions} = get_demand_actions(state, ctx.pads)
 
     actions = buffer_actions ++ end_of_stream_actions ++ demand_actions
-    {{:ok, actions}, state}
+    { {:ok, actions}, state}
   end
   ...
 end
@@ -132,7 +132,7 @@ defmodule Basic.Elements.Mixer do
  defp get_output_buffers_actions(state) do
   {buffers, tracks} = prepare_buffers(state.tracks)
   state = %{state | tracks: tracks}
-  buffer_actions = Enum.map(buffers, fn buffer -> {:buffer, {:output, buffer}} end)
+  buffer_actions = Enum.map(buffers, fn buffer -> {:buffer, {:output, buffer} } end)
   {state, buffer_actions}
  end
 
@@ -192,7 +192,7 @@ defmodule Basic.Elements.Mixer do
     |> Enum.filter(fn {track_id, track} ->
       track.status != :finished and track.buffer == nil and pads[track_id].demand == 0
     end)
-    |> Enum.map(fn {track_id, _} -> {:demand, {Pad.ref(track_id), 1}} end)
+    |> Enum.map(fn {track_id, _} -> {:demand, {Pad.ref(track_id), 1} } end)
 
   {state, actions}
  end

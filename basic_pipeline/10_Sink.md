@@ -30,7 +30,7 @@ defmodule Basic.Elements.Sink do
   {:ok,
   %{
     location: options.location
-  }}
+  } }
  end
  ...
 end
@@ -45,7 +45,7 @@ defmodule Basic.Elements.Sink do
  ...
  @impl true
  def handle_prepared_to_playing(_ctx, state) do
-  {{:ok, demand: {:input, 10}}, state}
+  { {:ok, demand: {:input, 10} }, state}
  end
  ...
 end
@@ -60,7 +60,7 @@ defmodule Basic.Elements.Sink do
  @impl true
  def handle_write(:input, buffer, _ctx, state) do
   File.write!(state.location, buffer.payload <> "\n", [:append])
-  {{:ok, demand: {:input, 10}}, state}
+  { {:ok, demand: {:input, 10} }, state}
  end
 end
 ```

@@ -108,7 +108,7 @@ def handle_init(_opts) do
 
  spec = %ParentSpec{children: children, links: links}
 
- {{:ok, spec: spec}, %{}}
+ { {:ok, spec: spec}, %{} }
 end
 ...
 ```

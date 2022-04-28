@@ -79,7 +79,7 @@ defmodule Source do
  ...
  def handle_stopped_to_prepared(_ctx, state) do
  ...
-   {{:ok, [caps: {:output, %Formats.Raw{pixel_format: I420, framerate: 45, width: 720, height: 300}}]}, state}
+   { {:ok, [caps: {:output, %Formats.Raw{pixel_format: I420, framerate: 45, width: 720, height: 300} }]}, state}
  end
 ```
 While returning from the `handle_stopped_to_prepared/2` callback, the element will send the caps described by the `Formats.Raw` structure, through the `:output` pad.
@@ -107,7 +107,7 @@ defmodule Filter do
  ...
  def handle_caps(_pad, _caps, _context, state) do
  ...
-   {{:ok, [caps: {:output, %Formats.Raw{pixel_format: I420, framerate: 60, width: 480, height:300}}]}, state}
+   { {:ok, [caps: {:output, %Formats.Raw{pixel_format: I420, framerate: 60, width: 480, height:300} }]}, state}
  end
 
 end

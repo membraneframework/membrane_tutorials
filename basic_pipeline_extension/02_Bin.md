@@ -39,7 +39,7 @@ defmodule Basic.Bin do
 
     spec = %ParentSpec{children: children, links: links}
 
-    {{:ok, spec: spec}, %{}}
+    { {:ok, spec: spec}, %{} }
   end
 end
 ```
@@ -101,7 +101,7 @@ defmodule Basic.Pipeline do
 
     spec = %ParentSpec{children: children, links: links}
 
-    {{:ok, spec: spec}, %{}}
+    { {:ok, spec: spec}, %{} }
   end
 end
 ```

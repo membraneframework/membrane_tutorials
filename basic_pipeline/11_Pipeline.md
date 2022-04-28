@@ -116,7 +116,7 @@ That's almost it! All we need to do is to return a proper tuple from the `handle
 def handle_init(_opts) do
  ...
  spec = %ParentSpec{children: children, links: links}
- {{:ok, spec: spec}, %{}}
+ { {:ok, spec: spec}, %{} }
 end
 ```
 
