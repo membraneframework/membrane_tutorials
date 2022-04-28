@@ -1,7 +1,8 @@
-# Introduction
+# Caps
 We owe you something...and we would like to pay it back as soon as possible!
 As promised in the [3rd chapter](03_Source.md), we will talk more about the concept of caps - which in fact we have used in the previous chapter, but which weren't described sufficiently.
-# What are caps?
+
+## What are caps?
 Caps (an abbreviation of the *capabilities*) is a concept allowing us to define what kind of data is flowing through the pad. 
 In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given element.
 
@@ -16,7 +17,7 @@ Caps help us find out if the given elements are capable to communicate with each
 
 Caps help us define a contract between elements and prevent us from connecting incompatible elements. That is why it is always better to define precise caps rather than using caps of type `:any`.
 
-# When the caps are compatible?
+## When the caps are compatible?
 A comparison between caps is made when the pads are connected. Due to freedom in defining the type, the comparison is not that straightforward. It would be good for a responsible Membrane's element architect to be aware of how the caps are compared. You can refer to the implementation of the caps matcher, available [here](https://github.com/membraneframework/membrane_core/blob/82d6162e3df94cd9abc508c58bc0267367b02d58/lib/membrane/caps/matcher.ex#L124)...or follow on this chapter, and learn it by an example.
 Here is how you define a caps specification:
 1. First you need to specify the format module
@@ -60,7 +61,7 @@ For all the filter elements, `handle_caps/4` has a default implementation, which
 However, if your filter is changing the format of data being sent, it should override the implementation of that callback to prevent caps flying through it, and send the proper caps via the output pads. 
 
 For the source element, it is necessary to send the caps as in each pipeline the source is the first element - caps wouldn't flow through the pipeline if the source element wouldn't have sent them. Sending can be done in the `handle_stopped_to_prepared/2` callback.
-# Example
+## Example
 Imagine a pipeline, which starts with the source producing a video, which is then passed to the filter, responsible for reducing the quality of that video if it is too high.
 For the source element, we should have the `:output` pads caps which would allow us to send video in the higher and in the lower quality. The same caps should be specified on the input of the filter element. However, the caps on the output of the filter should accept only video in the lower quality.
 Here is the definition of the source element:
