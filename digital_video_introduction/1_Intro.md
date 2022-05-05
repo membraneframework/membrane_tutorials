@@ -1,5 +1,3 @@
-# Digital Video Introduction
-
 This tutorial is essential for anyone who wants not only create multimedia applications, but also who wants to understand concepts of digital video processing and streaming
 <br/>
 Admittedly, it's not us who created this tutorial but we found it containing all the aspects we wanted to write about, so we're glad we can share it with you here.
