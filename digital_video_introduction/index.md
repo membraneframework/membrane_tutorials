@@ -5,3 +5,7 @@ description: >-
 part: 3
 graphicPath: assets/images/tutorial_graphic.svg
 ---
+
+| number | title                      | file       |
+| ------ | -------------------------- | ---------- |
+| 1      | Digital Video Introduction | 1_Intro.md |

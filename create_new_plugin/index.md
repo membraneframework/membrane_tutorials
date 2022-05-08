@@ -5,3 +5,7 @@ description: >-
 part: 4
 graphicPath: assets/images/tutorial_graphic.svg
 ---
+
+| number | title             | file                 |
+| ------ | ----------------- | -------------------- |
+| 1      | Create New Plugin | create_new_plugin.md |
