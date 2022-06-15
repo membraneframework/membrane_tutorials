@@ -38,7 +38,7 @@ Humans perceive sounds in the range of 16Hz - 21kHz.
 
 In modern times the frequency of 440Hz corresponding to the tone A was chosen as the reference point for music. An octave consists of 12 half-tones evenly spaced on a logarithmic scale such that going up one octave corresponds to a doubling of the soundwave frequency. 
 
-Here's a wave and the same wave with double the frequency
+Here are two waves - one with double the frequency of the other one
 
 ![waves with doubled frequency](assets/sinx_and_sin2x-pi.png "waves with doubled frequency")
 
