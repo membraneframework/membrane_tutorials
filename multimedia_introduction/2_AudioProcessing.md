@@ -30,7 +30,7 @@ Here's a handy table:
 
  The loudest possible sound on earth is about 191dB which corresponds to a pressure variation of 1 atmosphere. Going higher produces shockwaves :D
 
-#### A higher frequency of vibration produces sounds with a higher pitch
+#### A higher frequency vibration corresponds to sound with a higher pitch
 
 Humans perceive sounds in the range of 16Hz - 21kHz. 
 
