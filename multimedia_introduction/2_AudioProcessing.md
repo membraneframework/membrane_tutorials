@@ -42,7 +42,7 @@ Here are two waves - one with double the frequency of the other one
 
 ![waves with doubled frequency](assets/sinx_and_sin2x-pi.png "waves with doubled frequency")
 
-As such waves constructively interfere, we perceive consonance between the same tones in different octaves.
+As such waves constructively interfere, we perceive consonance between the same tones in different octaves
 
 ![constructive interference](assets/sinx+sin2x-pi.png "constructive interference")
 
