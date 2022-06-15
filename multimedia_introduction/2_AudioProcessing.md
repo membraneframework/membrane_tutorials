@@ -61,7 +61,7 @@ Notice that to capture a sound with a given frequency we need a sampling rate th
 
 (It's actually more complicated and involves some [math](https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem))
 
-As most human speech is below 4kHz an `8kHz` sampling rate is usually used to register it (that is the cas, for instance, in GSM). `44.1kHz` or `48kHz` is used for standard quality audio as this is sufficient to cover the human hearing range and `96kHz` is used for high-quality audio.
+As most human speech is below 4kHz an `8kHz` sampling rate is usually used to register it (that is the case, for instance, in GSM). `44.1kHz` or `48kHz` is used for standard quality audio as this is sufficient to cover the human hearing range and `96kHz` is used for high-quality audio.
 
 When it comes to sampling, a problem called 'aliasing' occurs. 
 Imagine, that you are about to sample with `f_s` frequency. If so, you cannot distinguish between the harmonic signal of frequency `f_0` from the signal of frequency (`f_0+k*f_s`), where k is a integer.
