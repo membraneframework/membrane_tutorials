@@ -2,7 +2,7 @@
 
 ## Physics and humans
 
-Sounds propagate through the air in the form of waves of alternating high and low pressure.
+Sound propagates through the air in the form of waves of alternating high and low pressure.
 
 Here's an animation of air particles wiggling around
 ![wiggle wiggle](assets/spherical_pressure_waves.gif "source: https://en.wikipedia.org/wiki/File:Spherical_pressure_waves.gif")
