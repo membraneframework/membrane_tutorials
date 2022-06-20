@@ -24,4 +24,8 @@ Technically speaking we could...but surprisingly it wouldn't be the easiest solu
 In contrast, the solution described above has a plenty of advantages - the streamer needs to create a single connection with RTMP server, and then the multimedia can be shared with the use of a regular HTTP server which is designed to serve multiple clients.
 
 ## A brief description of the technology we will use
-As stated previously, we will use the preexisting protocols. You might find reading about them beneficial, and that is why we provide you with some links to a brief description about 
+As stated previously, we will use the preexisting protocols. You might find reading about them beneficial, and that is why we provide you with some links to a brief description about technology we will be using:
+* [How does RTMP work?](https://blog.stackpath.com/rtmp/) - if you are insterested in how the connection in RTMP is estabilished, take your time and read this short description!
+* [What is RTMP and why should we care about it?](https://www.wowza.com/blog/rtmp-streaming-real-time-messaging-protocol) - here you can find another short description of RTMP, with the focus layed on the history of the protocol and comparison with other available protocols. Whatsmore, there is a comprehensive explanaition why do we need to transcode RTMP to some HTTP based protocol, just like HLS - which is the use case in our tutorial.
+* [HLS behind the scenes](https://www.toptal.com/apple/introduction-to-http-live-streaming-hls) - dig into the ideas which stand behind the HLS, one of the most common HTTP-based streaming protocols.
+* [Have you heard about CMAF?](https://www.wowza.com/blog/what-is-cmaf) - if you haven't make sure to read what is the purpouse of having a `Common Media Application Format`!
