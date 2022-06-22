@@ -8,7 +8,10 @@
   - <a name="tcp"></a> **TCP**(Transmission Control Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
   - <a name="rtp"></a> **RTP**(Real-time Transport Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [SRTP](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](#webrtc).
   - <a name="http"></a> **HTTP**(Hypertext Transfer Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [MPEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
+    <<<<<<< HEAD
+  - # <a name="long-polling"></a> **(HTTP) Long Polling** is a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received.
   - <a name="long-polling"></a> **(HTTP) Long Polling** is a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received.
+    > > > > > > > main
   - <a name="webrtc"></a> **WebRTC**(Web Real-Time Communication) is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC). WebRTC implements three APIs: **MediaStream** used for acquiring media from the browser, **RTCPeerConnection** handling stable and efficient communication of streaming data between peers, and **RTCDataChannel** enabling a peer-to-peer exchange of arbitrary data with low latency and high throughput. Learn more about WebRTC [here](https://www.html5rocks.com/en/tutorials/webrtc/basics/).
     - <a name="signaling"></a> **Signaling** in WebRTC is a process of discovery, establishing, controlling, and terminating a connection between two devices.
   - <a name="sdp"></a> **SDP**([Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt)) is used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
@@ -27,10 +30,18 @@
 - <a name="muxing"></a> **Muxing**(abbr. from multiplexing) is a method of combining multiple streams into a single container, e.g. muxing video and audio into an MP4 container.
 - <a name="demuxing"></a> **Demuxing**(abbr. from demultiplexing) is a method of separating streams from one combined container, e.g. retrieving audio and video from MP4.
 - ### Server's architecture
+  <<<<<<< HEAD
   ([here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started)
   - <a name="sfu"></a> **SFU**([Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server)) is a video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
   - <a name="mcu"></a> **MCU**([Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server)) is an architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
-  - <a name="p2p"></a> **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh)) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
+  - # <a name="p2p"></a> **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh)) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
+
+([here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started)
+
+- <a name="sfu"></a> **SFU**([Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server)) is a video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
+- <a name="mcu"></a> **MCU**([Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server)) is an architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
+- <a name="p2p"></a> **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh)) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
+  > > > > > > > main
 
 ## Membrane Framework
 
@@ -44,6 +55,7 @@
   - <a name="filter"></a> **Filter** is an element with both input and output pads, which is responsible for transforming data.
   - <a name="sink"></a> **Sink** is an element with only input [pads](#pads), the last element of a pipeline. It might be responsible, i.e. for writing the output to the file or playing the incoming media stream.
 - ### Types of elements:
+  <<<<<<< HEAD
   - <a name="payloader"></a> **Payloader** and _Depayloader_ are responsible for respectively dividing frames into [packets](#packet) and assembling packets back into frames.
   - <a name="encoder"></a> **Encoder** and _Decoder_ are responsible for [encoding](#encoding) and [decoding](#decoding).
   - <a name="encryptor"></a> **Encryptor** and _Decryptor_ are responsible for [encryption](#encryption) and [decryption](#decryption).
@@ -54,6 +66,21 @@
   - <a name="redemands"></a> **Redemands** in Membrane is an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called.
 
 ## _General Elixir/Erlang concepts_
+
+=======
+
+- <a name="payloader"></a> **Payloader** and _Depayloader_ are responsible for respectively dividing frames into [packets](#packet) and assembling packets back into frames.
+- <a name="encoder"></a> **Encoder** and _Decoder_ are responsible for [encoding](#encoding) and [decoding](#decoding).
+- <a name="encryptor"></a> **Encryptor** and _Decryptor_ are responsible for [encryption](#encryption) and [decryption](#decryption).
+- <a name="muxer"></a> **Muxer** and _Demuxer_ are responsible for [muxing](#muxing) and [demuxing](#demuxing).
+- <a name="mixer"></a> **Mixer** is responsible for mixing multiple media streams into a single stream. Unlike multiplexing, mixing is an irreversible operation.
+- <a name="jitter_buffer"></a> **Jitter buffer** / **Ordering buffer** is an element responsible for ordering packets incoming from the network as their order can be disrupted during transmission due to network unreliability.
+- ### _Demands mechanism_
+  - <a name="redemands"></a> **Redemands** in Membrane is an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called.
+
+## _General Elixir/Erlang concepts_
+
+> > > > > > > main
 
 - ### OTP Behavior
   - <a name="gen_server"></a> [**GenServer**](https://elixir-lang.org/getting-started/mix-otp/genserver.html) abstracts client/server interaction.

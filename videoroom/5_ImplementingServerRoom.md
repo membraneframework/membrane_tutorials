@@ -1,12 +1,15 @@
 ---
 title: Server's room
 description: >-
-  Create your very own video conference room with a little help from the Membrane Framework!
-  <div>
-  <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-  <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-  </div>
+Create your very own video conference room with a little help from the Membrane Framework!
+
+<div>
+<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
+<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
+</div>
 ---
+
+# Server's room
 
 ## Let's create The Room! ;)
 
@@ -18,15 +21,15 @@ Let's start by creating `lib/videoroom/room.ex` file with a declaration of Video
 #FILE: lib/videoroom/room.ex
 
 defmodule Videoroom.Room do
- @moduledoc false
+@moduledoc false
 
- use GenServer
- alias Membrane.RTC.Engine
- alias Membrane.RTC.Engine.Message
- alias Membrane.RTC.Engine.Endpoint.WebRTC
- require Membrane.Logger
+use GenServer
+alias Membrane.RTC.Engine
+alias Membrane.RTC.Engine.Message
+alias Membrane.RTC.Engine.Endpoint.WebRTC
+require Membrane.Logger
 
- #we will put something here ;)
+#we will put something here ;)
 end
 ```
 

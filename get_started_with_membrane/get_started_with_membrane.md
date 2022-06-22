@@ -50,7 +50,7 @@ That might not look too simple for now but don't worry, there'll be a lot of new
 
 The code above is one of the simplest examples of Membrane usage. It plays an mp3 file through your device's `portaudio`. Let's make it work.
 
-### Prerequisites
+## Prerequisites
 
 First we need to get all the libraries that Membrane needs to operate in our case. You can read about them more if you'd like, but for now we'll just jump to installation:
 
@@ -68,7 +68,7 @@ $ brew install clang-format portaudio ffmpeg libmad pkg-config
 
 Alternatively, you can use our docker image that already contains all libraries you need to smoothly run any membrane code. You can read more about how to do it [here](https://tutorials.membraneframework.org/tutorials/videoroom/2_EnvironmentPreparation.html#setting-environment-with-the-use-of-docker).
 
-### Creating a Project
+## Creating a Project
 
 By installing Elixir you'll get a bunch of useful tools. One of them is [Mix](https://hexdocs.pm/mix/Mix.html). As you can read in its documentation preface:
 
@@ -96,11 +96,19 @@ defp deps do
 end
 ```
 
+<<<<<<< HEAD:get_started/simple_pipeline.md
+
 ### Our first Pipeline
+
+=======
+
+## Our first Pipeline
+
+> > > > > > > main:get_started_with_membrane/get_started_with_membrane.md
 
 The pipeline is one of the basic concepts of Membrane. It's a schema of how the data packets are flowing through our application.
 
-#### Pipeline behaviour
+### Pipeline behaviour
 
 Let's start with declaring that we'll be using the `Membrane.Pipeline` behaviour:
 
@@ -133,7 +141,7 @@ Since we want to spawn children processes and link them, we will use the [`spec_
 
 > If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring GenServer and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
 
-#### Elements
+### Elements
 
 The elements we'd like to use to play our mp3 will be:
 
@@ -163,7 +171,7 @@ children = %{
 
 The keys in the `children` keyword list (`file`, `decoder`, `converter`, `portaudio`) are just convenient names we gave our elements to refer to them later. We're going to need them for linking.
 
-#### Linking elements
+### Linking elements
 
 Now we should link them in the proper order. Each Membrane Element can be one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output pads. That means only a Source element start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipelines (it will not send any data to subsequent elements), and Filters can be in the middle (they receive, process and send data further). In our case the links declaration will look like this:
 
@@ -178,7 +186,7 @@ links = [
 
 The file Source reads bytes from our mp3 file and sends them to decoder. Decoder, after decoding, sends them to converter. Converter, after conversion sends them to our portaudio sink, which receives them and plays music through Portaudio 🎶
 
-#### Parent Spec
+### Parent Spec
 
 Last but not least we need group our elements and links together into a proper structure:
 
@@ -232,7 +240,7 @@ defmodule Hello do
 end
 ```
 
-### Running a pipeline
+## Running a pipeline
 
 You can start your pipeline from any place in the code but it's convenient to use Elixir's interactive console:
 

@@ -1,14 +1,17 @@
 ---
 title: Server's communication channels
 description: >-
-  Create your very own videoconferencing room with a little help from the Membrane Framework!
-  <div>
-  <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-  <br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-  </div>
+Create your very own videoconferencing room with a little help from the Membrane Framework!
+
+<div>
+<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
+<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
+</div>
 ---
 
-# I know you have been waiting for that moment - let's start coding!
+# Server's communication channels
+
+I know you have been waiting for that moment - let's start coding!
 
 ## Let's prepare the server's endpoint
 
@@ -34,11 +37,17 @@ end
 ```
 
 What happens here? Well, it is just a definition of our custom Phoenix socket. Starting from the top, we are:
+<<<<<<< HEAD
+
+- saying, that this module is a `Phoenix.Socket` and we want to be able to override Phoenix's socket functions (['use' documentation](https://elixir-lang.org/getting-started/alias-require-and-import.html#use)) - `use Phoenix.Socket`
+- # declaring our channel - `channel("room:*", VideoRoomWeb.PeerChannel)` . We are saying, that all messages pointing to `"room:*"` topic should be directed to `VideoRoomWeb.PeerChannel` module (no worries, we will declare this module later). Notice the use of a wildcard sign `*` in the definition - effectively speaking, we will be heading all requests whose topic start with `"room:"` to the aforementioned channel - that is, both the message with "room:WhereTheHellAmI" topic and "room:WhatANiceCosyRoom" topic will be directed to `VideoRoomWeb.PeerChannel` (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
+
+  > > > > > > > main
 
 - saying, that this module is a `Phoenix.Socket` and we want to be able to override Phoenix's socket functions (['use' documentation](https://elixir-lang.org/getting-started/alias-require-and-import.html#use)) - `use Phoenix.Socket`
 - declaring our channel - `channel("room:*", VideoRoomWeb.PeerChannel)` . We are saying, that all messages pointing to `"room:*"` topic should be directed to `VideoRoomWeb.PeerChannel` module (no worries, we will declare this module later). Notice the use of a wildcard sign `*` in the definition - effectively speaking, we will be heading all requests whose topic start with `"room:"` to the aforementioned channel - that is, both the message with "room:WhereTheHellAmI" topic and "room:WhatANiceCosyRoom" topic will be directed to `VideoRoomWeb.PeerChannel` (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
 
-The rest is an implementation of `Phoenix.Socket` interface \- you can read about it [here](https://hexdocs.pm/phoenix/Phoenix.Socket.html#callbacks).
+The rest is an implementation of `Phoenix.Socket` interface - you can read about it [here](https://hexdocs.pm/phoenix/Phoenix.Socket.html#callbacks).
 
 ### How does the server know that we are using the socket?
 
@@ -165,3 +174,12 @@ end
 Note the use of `push` method provided by Phoenix.Channel.
 
 Great job! You have just implemented the server's side of our communication channel. How about adding our server's business logic?
+<<<<<<< HEAD
+=======
+<br><br>
+[NEXT - Server's room process](5_ImplementingServerRoom.md)<br>
+[PREV - System architecture](3_SystemArchitecture.md)<br>
+[List of contents](index.md)<br>
+[List of tutorials](../../index.md)
+
+> > > > > > > main
