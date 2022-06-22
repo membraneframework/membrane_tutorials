@@ -1,6 +1,6 @@
 ---
 title: Glossary
-part: 5
+part: 6
 graphicPath: assets/images/Illo_glossary.png
 ---
 
