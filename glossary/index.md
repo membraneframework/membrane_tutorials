@@ -1,5 +1,6 @@
 ---
 title: Glossary
+description: Set of terms we're using in our tutorials youy might whant to learn more about.
 part: 6
 graphicPath: assets/images/Illo_glossary.png
 ---

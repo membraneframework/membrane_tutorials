@@ -1,6 +1,6 @@
 ---
-title: Videoroom Tutorial
-description: Create your very own videoconferencing room with a little help from the Membrane Framework!
+title: Videoconferencing with Membrane
+description: Create your very own videoconferencing room with a little help from the Membrane!
 part: 5
 graphicPath: assets/images/Illo_videoroom.png
 ---

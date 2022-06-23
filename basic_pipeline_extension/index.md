@@ -1,7 +1,7 @@
 ---
-title: Basic Pipeline Extension ??
+title: How to set up a pipeline pt 2
 description: >-
-  ??
+  Additional features you might find usefull while setting up your pipelines
 part: 3
 graphicPath: assets/images/Illo_basic pipeline extension.png
 ---

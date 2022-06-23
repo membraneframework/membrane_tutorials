@@ -1,7 +1,7 @@
 ---
-title: How to set up basic pipeline
+title: How to set up a pipeline pt 1
 description: >-
-  ??
+  See how pipeline works in Membrane and learn how to set it up for you
 part: 2
 graphicPath: assets/images/Illo_basic pipeline.png
 ---
