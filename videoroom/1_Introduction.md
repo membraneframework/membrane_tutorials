@@ -10,8 +10,6 @@ Create your very own videoconferencing room with a little help from the Membrane
 github.repository_url: https://github.com/membraneframework/membrane_mp4_plugin
 ---
 
-# Introduction
-
 The scope of this tutorial covers the process of creating your own video room with the use of the Membrane framework.
 
 ## What are we doing here?
@@ -57,7 +55,4 @@ Since media streaming is quite a complex topic it would be great for you to know
   behind some firewalls and NAT!
 
 - [WebRTC architectures](https://medium.com/securemeeting/webrtc-architecture-basics-p2p-sfu-mcu-and-hybrid-approaches-6e7d77a46a66)
-  Take a quick glance there and find out what are possible architectures of WebRTC servers, when to use which architecture, and how to build a streaming solution that scales and behaves well. <br><br>
-  [NEXT - Environment preparation](2_EnvironmentPreparation.md)<br>
-  [List of contents](index.md) <br>
-  [List of tutorials](../../index.md)
+  Take a quick glance there and find out what are possible architectures of WebRTC servers, when to use which architecture, and how to build a streaming solution that scales and behaves well.

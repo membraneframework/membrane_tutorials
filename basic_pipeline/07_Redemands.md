@@ -1,5 +1,3 @@
-# Redemands
-
 Redemanding is a very convenient mechanism that helps you, the Membrane Developer, stick to the DRY (Don't Repeat Yourself) rule.
 Generally speaking, it can be used in two situations:
 

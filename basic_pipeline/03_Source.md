@@ -1,5 +1,3 @@
-# Source
-
 Let's get to the code!
 We will start where all the pipelines start - with the `Source` element.
 Since this will be the first element we implement, we need to find out something more about how the Membrane Framework's elements should be implemented and some concepts associated with them.
@@ -18,7 +16,7 @@ As you can judge based on the structure of the project, all the elements will be
 
 Let's start with specifying that our module will implement the `Membrane.Source` behavior as well as alias the modules which will be used later in the module's code:
 
-###### **`lib/elements/Source.ex`**
+**_`lib/elements/Source.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Source do
@@ -34,7 +32,7 @@ end
 
 Later on, we will make use of [macros](https://elixir-lang.org/getting-started/meta/macros.html) defined in the `Membrane.Source` module:
 
-###### **`lib/elements/Source.ex`**
+**_`lib/elements/Source.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Source do
@@ -63,7 +61,7 @@ You can read more on the pad specification [here](https://hexdocs.pm/membrane_co
 
 Let's define our first callback! Why not start with [`handle_init/1`](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_init/1), which gets called once the element is created?
 
-###### **`lib/elements/Source.ex`**
+**_`lib/elements/Source.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Source do
@@ -94,7 +92,7 @@ All we need to do there is to initialize the state - our state will be in a form
 Before going further you should stop for the moment and read about the [playback states](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:playback_change_t/0) in which the Pipeline (and therefore - its elements) can be. Generally speaking, there are three playback states: **stopped**, **prepared**, and **playing**. The transition between the states can happen automatically or as a result of a user's explicit action.
 The callbacks we are about to implement will be called once the transition between playback states occurs.
 
-###### **`lib/elements/Source.ex`**
+**_`lib/elements/Source.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Source do
@@ -127,7 +125,7 @@ The second callback, `handle_prepared_to_stopped`, defines the behavior of the S
 Before going any further let's stop for a moment and talk about the demands. Do you remember, that the `:output` pad is working in the pulling mode? That means that the succeeding element have to ask the Source element for the data to be sent and our element has to take care of keeping that data in some kind of buffer until it is requested.
 Once the succeeding element requests for the data, the `handle_demand/4` callback will be invoked - therefore it would be good for us to define it:
 
-###### **`lib/elements/Source.ex`**
+**_`lib/elements/Source.ex`_**
 ```Elixir
 defmodule Basic.Elements.Source do
  ...

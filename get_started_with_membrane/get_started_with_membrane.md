@@ -40,7 +40,7 @@ end
 
 That might not look too simple for now but don't worry, there'll be a lot of new things you're going to encounter, and we'll be introducing you to some of them, or giving hints about how and where to learn more.
 
-> #### Elixir
+> **Elixir**
 >
 > Membrane is written in Elixir. It's an awesome programming language of the functional paradigm with great fault tolerance and process management, which made it the best choice for Membrane.
 > If you're not familiar with it, you can use [this cheatsheet](https://devhints.io/elixir) for quick look-up.
@@ -54,13 +54,13 @@ The code above is one of the simplest examples of Membrane usage. It plays an mp
 
 First we need to get all the libraries that Membrane needs to operate in our case. You can read about them more if you'd like, but for now we'll just jump to installation:
 
-##### Linux
+### Linux
 
 ```bash
 $ apt install clang-format portaudio19-dev ffmpeg libavutil-dev libswresample-dev libmad0-dev
 ```
 
-##### Mac
+### Mac
 
 ```bash
 $ brew install clang-format portaudio ffmpeg libmad pkg-config
@@ -96,15 +96,7 @@ defp deps do
 end
 ```
 
-<<<<<<< HEAD:get_started/simple_pipeline.md
-
-### Our first Pipeline
-
-=======
-
 ## Our first Pipeline
-
-> > > > > > > main:get_started_with_membrane/get_started_with_membrane.md
 
 The pipeline is one of the basic concepts of Membrane. It's a schema of how the data packets are flowing through our application.
 

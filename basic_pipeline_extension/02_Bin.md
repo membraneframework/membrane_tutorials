@@ -1,10 +1,8 @@
-# Bin
-
 A Membrane's bin is a container for elements, which allows for creating reusable groups of elements.
 Bin is similar to a pipeline in that it consists of linked elements. Such bin can then be placed inside a pipeline and linked with other entities - elements or bins. Bins can also be nested within one another.
 Bin also has another advantage - it manages its children, for instance by dynamically spawning or replacing them as the stream changes.
 
-# Enclosing pipeline elements inside a bin
+## Enclosing pipeline elements inside a bin
 
 As you can see, we have `Source` -> `Ordering Buffer` -> `Depayloader` chain, which is duplicated.
 ![Pipeline scheme](/basic_pipeline_extension/assets/images/basic_pipeline.png) <br>
@@ -16,7 +14,7 @@ Notice that there is no direct connection between `Depayloader` and `Mixer`. We 
 
 Let's define the bin's output pads and its elements.
 
-###### **`lib/Bin.ex`**
+**_`lib/Bin.ex`_**
 
 ```Elixir
 defmodule Basic.Bin do
@@ -50,7 +48,7 @@ Notice that the last link is between `depayloader` and the bin's output pads. In
 
 Although the bin is already functional, to make it reusable we have to parametrize it with the input filename. That's why we will define options for the bin, which we will use in the `source` element.
 
-###### **`lib/Bin.ex`**
+**_`lib/Bin.ex`_**
 
 ```Elixir
 defmodule Basic.Bin do
@@ -75,11 +73,12 @@ defmodule Basic.Bin do
 end
 ```
 
-# Modifying pipeline using bin
+## Modifying pipeline using bin
 
 Using the bin we created, we can replace the elements in the pipeline.
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
+
 
 ```Elixir
 defmodule Basic.Pipeline do

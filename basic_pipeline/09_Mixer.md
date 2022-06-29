@@ -1,9 +1,7 @@
-# Mixer
-
 Here comes the mixer - an element responsible for mixing two streams of frames, coming from two different sources.
 Once again we start with defining the initialization options and the pads of both types:
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -25,7 +23,7 @@ end
 Note, that we have defined two input pads: `:first_input` and the `:second_input`.
 Each of these input pads will have a corresponding incoming track in form of a buffers stream. We need a structure that will hold the state of the track. Let's create it by defining a `Track` inside the mixer module:
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -53,7 +51,7 @@ The logic we're going to implement can be described in the following three steps
 
 The next step in our element implementation is quite an obvious one:
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -73,7 +71,7 @@ We have provided an `handle_init/1` callback, which does not expect any options 
 As mentioned previously, we will have a `Track` structure for each of the input pads.
 Following on the callbacks implementation, let's continue with `handle_process/4` implementation:
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -94,7 +92,7 @@ end
 
 What we do is that we are simply putting the incoming `buffer` into the `Track` structure for the given pad. Note, that we have to be sure that we are not losing any information which is in the `Track`'s buffer before the update. In case there is a buffer on a given `Track`, it has to be processed before another buffer comes. Why can we be sure of that in our implementation? That's before we precisely steer the flow of our program and ask for the next buffer after we empty the buffer hold in the state of the element.
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -116,7 +114,7 @@ end
 What we did here was similar to the logic defined in the `handle_process/4` - we have just updated the state of the track (in that case - by setting its status as `:finished`) and then we called the `handle_demand/5` callback using the `:redemand` actions. The `handle_demand/5` will take care of the fact that the track state has changed.
 There is nothing left to do apart from defining the `handle_demand/5` itself!
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -142,7 +140,7 @@ The tracks processing presented in the code snippet above has been split into th
 
 Each of these steps has a corresponding private function.
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -184,7 +182,7 @@ In order to output the buffers, we need to fetch the desired buffers - that is w
 In the `prepare_bufers/1` we get all the active tracks (by 'active' we mean that there is still an unprocessed buffer in the `Track` structure - independent of the status of that track). If all the active tracks have the buffers we can output the one with the lowest presentation timestamp and recursively call the `prepare_buffers/1` (in case there are some buffers that still need to be output - this can happen in a 'corner case' of processing the buffer from the track in the `:finished` state). Surely, we also need to update the state so that to remove the processed buffers.
 Now let's focus on preparing `:end_of_stream` action:
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do
@@ -204,7 +202,7 @@ end
 
 This action needs to be sent if both the tracks are in the `:finished` state - since the `maybe_send_end_of_stream/1` function gets called after the `get_output_buffers_actions/1`, we can be sure, that all the buffers which could possibly be on those tracks, despite they are in the `:finished` state, are already processed.
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.Mixer do

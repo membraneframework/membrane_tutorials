@@ -1,5 +1,3 @@
-# Introduction
-
 In this tutorial, we will create our very own Membrane Framework consisting of our custom which will fulfill the multimedia processing task.
 Despite the fact that the multimedia processing task we will be facing will be really simple, we will need to deal with some problems occurring in real-life scenarios.
 At the same time, we will make ourselves comfortable with some concepts of multimedia streaming as well as get in touch with the nomenclature used in this field.

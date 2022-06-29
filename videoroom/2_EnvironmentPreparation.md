@@ -9,8 +9,6 @@ Create your very own videoconferencing room with a little help from the Membrane
 </div>
 ---
 
-# Environment preparation
-
 ## Elixir installation
 
 I don't think I can describe it any better: [How to install Elixir](https://elixir-lang.org/install.html).
@@ -150,8 +148,3 @@ Does the project structure reassemble you the structure of a Phoenix project? (i
 
 - **priv/static/** <br>
   Here you will find static assets. They can be generated, for instance, from the files contained in assets/ directory (.ts which are in assets/src are converted into .js files put inside priv/static/js). Not interesting at all, despite the fact, that we needed to load /js/room.js script file from here ;)
-  <br><br>
-  [NEXT - System architecture](3_SystemArchitecture.md)<br>
-  [PREV - Introduction](1_Introduction)<br>
-  [List of contents](index.md)<br>
-  [List of tutorials](../../index.md)

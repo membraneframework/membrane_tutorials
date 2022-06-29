@@ -1,10 +1,8 @@
-# Formats
-
 Since we have already discussed what caps are and how to use them, let's make use of them in our project!
 The first thing to do is to define modules responsible for describing the formats used in our pipeline.
 We will put them in a separate directory - `lib/formats`. Let's start with the format describing the packets:
 
-###### **`lib/formats/PacketFormat.ex`**
+**_`lib/formats/PacketFormat.ex`_**
 
 ```Elixir
 defmodule Basic.Formats.Packet do
@@ -19,7 +17,7 @@ The definition of the module is not complicated, as you can see in the code snip
 
 In our pipeline we will also send another type of data - frames. Let's define a format for them:
 
-###### **`lib/formats/FrameFormat.ex`**
+**_`lib/formats/FrameFormat.ex`_**
 
 ```Elixir
 defmodule Basic.Formats.Frame do

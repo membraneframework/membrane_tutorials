@@ -9,7 +9,6 @@ Create your very own videoconferencing room with a little help from the Membrane
 </div>
 ---
 
-# Further steps
 We can share with you inspiration for further improvements!
 ## Voice activation detection
 Wouldn't it be great to have a feature that would somehow mark a person who is currently speaking in the room? That's where voice activation detection (VAD) joins the game!

@@ -9,7 +9,6 @@ Create your very own videoconferencing room with a little help from the Membrane
 </div>
 ---
 
-# Client's application
 ## Let's implement the client's endpoint!
 We will put the whole logic into `assets/src/room.ts`. Methods responsible for handling UI are already in `assets/src/room_ui.ts`, let's import them:
 ```ts
@@ -55,8 +54,8 @@ import { parse } from "query-string";
 
 Once we are ready with the imports, it might be worth to somehow wrap our room's client logic into a class - so at the very beginning let's simply define `Room` class:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
 
 export class Room {
 
@@ -93,9 +92,8 @@ export class Room {
 
 Let's start with the constructor that will initialize the member fields:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 constructor(){
   this.socket = new Socket("/socket");
   this.socket.connect();
@@ -112,9 +110,8 @@ Later on, we are retrieving the display name from the URL (the user has set it i
 Then we are connecting to the Phoenix's channel on the topic `room:<room name>`. The room name is fetched from the UI.
 Following on the constructor implementation:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 constructor(){
   ...
   const socketErrorCallbackRef = this.socket.onError(this.leave);
@@ -132,9 +129,8 @@ Where will we be unregistering the callbacks? Inside `this.leave()` method!
 
 Now let's get back to the constructor. Let's initialize a MembraneWebRTC object!
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 constructor(){
   ...
   this.webrtc = new MembraneWebRTC({callbacks: callbacks});
@@ -267,9 +263,8 @@ onPeerUpdated: (ctx) => {},
 Once we are ready with `MembraneWebRTC`'s callbacks implementation, let's specify how to behave when the server sends us a message on the channel.
 We need to implement an event handler:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 constructor(){
   ...
   this.webrtcChannel.on("mediaEvent", (event) =>
@@ -284,9 +279,8 @@ Now we have the `Room`'s constructor defined! But we cannot say that all the ope
 
 Further initialization might take some time. That's why it might be a good idea to define an asynchronous method `join()`:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 public join = async () => {
   try {
     await this.init();
@@ -309,9 +303,8 @@ Let's provide the implementation of `this.init()` used in the `this.join()` meth
 As noticed previously, this method will initialize the user's media stream handlers.
 This is how the implementation of `this.init()` can look like:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 private init = async () => {
   try {
     this.localStream = await navigator.mediaDevices.getUserMedia(
@@ -343,9 +336,8 @@ We specify that we want our local stream to be displayed in the video element wi
 The last thing we do here is that we are waiting for a result of `this.webrtcChannel.join()` method (calling this method will invoke `VideoRoomWeb.PeerChannel.join()` function on the server side).
 `this.phoenixChannelPushResult` is simply wrapping this result:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 private phoenixChannelPushResult = async (push: Push): Promise<any> => {
   return new Promise((resolve, reject) => {
     push
@@ -357,9 +349,8 @@ private phoenixChannelPushResult = async (push: Push): Promise<any> => {
 
 Oh, we would have almost forgotten! We need to define `this.leave()` method:
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/room.ts
-
 private leave = () => {
   this.webrtc.leave();
   this.webrtcChannel.leave();
@@ -375,9 +366,8 @@ Ok, it seems that we have already defined the process of creating and initializi
 Why not create this object! Go to `assets/src/index.ts` file (do you remember that this is the file which is loaded in template .eex file for our room's template?)
 Until now this file is probably empty. Let's create `Room` instance there!
 
+**_`assets/src/room.ts`_**
 ```ts
-//FILE: assets/src/index.ts
-
 import { Room } from "./room";
 
 let room = new Room();
@@ -397,7 +387,7 @@ Please run:
 mix phx.server
 ```
 
-visit the following page in your browser:
+Then, visit the following page in your browser:
 <br>
 [http://localhost:4000](http://localhost:4000)
 <br>

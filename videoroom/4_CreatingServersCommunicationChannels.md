@@ -9,8 +9,6 @@ Create your very own videoconferencing room with a little help from the Membrane
 </div>
 ---
 
-# Server's communication channels
-
 I know you have been waiting for that moment - let's start coding!
 
 ## Let's prepare the server's endpoint
@@ -37,12 +35,6 @@ end
 ```
 
 What happens here? Well, it is just a definition of our custom Phoenix socket. Starting from the top, we are:
-<<<<<<< HEAD
-
-- saying, that this module is a `Phoenix.Socket` and we want to be able to override Phoenix's socket functions (['use' documentation](https://elixir-lang.org/getting-started/alias-require-and-import.html#use)) - `use Phoenix.Socket`
-- # declaring our channel - `channel("room:*", VideoRoomWeb.PeerChannel)` . We are saying, that all messages pointing to `"room:*"` topic should be directed to `VideoRoomWeb.PeerChannel` module (no worries, we will declare this module later). Notice the use of a wildcard sign `*` in the definition - effectively speaking, we will be heading all requests whose topic start with `"room:"` to the aforementioned channel - that is, both the message with "room:WhereTheHellAmI" topic and "room:WhatANiceCosyRoom" topic will be directed to `VideoRoomWeb.PeerChannel` (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
-
-  > > > > > > > main
 
 - saying, that this module is a `Phoenix.Socket` and we want to be able to override Phoenix's socket functions (['use' documentation](https://elixir-lang.org/getting-started/alias-require-and-import.html#use)) - `use Phoenix.Socket`
 - declaring our channel - `channel("room:*", VideoRoomWeb.PeerChannel)` . We are saying, that all messages pointing to `"room:*"` topic should be directed to `VideoRoomWeb.PeerChannel` module (no worries, we will declare this module later). Notice the use of a wildcard sign `*` in the definition - effectively speaking, we will be heading all requests whose topic start with `"room:"` to the aforementioned channel - that is, both the message with "room:WhereTheHellAmI" topic and "room:WhatANiceCosyRoom" topic will be directed to `VideoRoomWeb.PeerChannel` (what's more, we will be able to recover the part of the message hidden by a wildcard sign so that we will be able to distinguish between room names!)
@@ -149,9 +141,8 @@ room's identifier, room's PID, and peer's identifier to the map of socket's assi
 Our channel acts as a communication channel between the Room process on the backend and the client application on the frontend. The responsibility of the channel is to simply forward all `:media_event` messages from the room to the client and all `mediaEvent` messages from the client to the Room process.
 The first one is done by implementing `handle_info/2` callback as shown below:
 
+**_`lib/videoroom_web/peer_channel.ex`_**
 ```elixir
-#FILE: lib/videoroom_web/peer_channel.ex
-
 @impl true
 def handle_info({:media_event, event}, socket) do
  push(socket, "mediaEvent", %{data: event})
@@ -161,9 +152,9 @@ end
 
 The second one is done by providing the following implementation of `handle_in/3`:
 
-```elixir
-#FILE: lib/videoroom_web/peer_channel.ex
+**_`lib/videoroom_web/peer_channel.ex`_**
 
+```elixir
 @impl true
 def handle_in("mediaEvent", %{"data" => event}, socket) do
  send(socket.assigns.room_pid, {:media_event, socket.assigns.peer_id, event})
@@ -174,12 +165,3 @@ end
 Note the use of `push` method provided by Phoenix.Channel.
 
 Great job! You have just implemented the server's side of our communication channel. How about adding our server's business logic?
-<<<<<<< HEAD
-=======
-<br><br>
-[NEXT - Server's room process](5_ImplementingServerRoom.md)<br>
-[PREV - System architecture](3_SystemArchitecture.md)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)
-
-> > > > > > > main

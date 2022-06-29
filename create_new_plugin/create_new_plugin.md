@@ -11,7 +11,7 @@ You can start creating a plugin by making your copy of the template. Go to the [
 
 If you haven't already, we suggest you read [basic pipeline tutorial](/basic_pipeline/01.0_Introduction.md) to get familiar with Membrane's plugin structure. In any case, as you might have guessed the code of your plugin will go into `/lib` directory and the tests belong in the `/test` directory.
 
-# Utilizing your plugin in a project
+## Utilizing your plugin in a project
 
 When your plugin is ready for being integrated into another project you can simply add it as a dependency in `mix.exs` as described [here](https://hexdocs.pm/mix/Mix.Tasks.Deps.html). Here's what it can look like:
 

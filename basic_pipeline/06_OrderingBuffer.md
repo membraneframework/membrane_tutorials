@@ -1,10 +1,8 @@
-# Ordering Buffer
-
 In this chapter we will deal with the next element in our pipeline - the Ordering Buffer.
 As stated in the [chapter about the system architecture](02_SystemArchitecture.md), this element is responsible for ordering the incoming packets, based on their sequence id.
 Because Ordering Buffer is a filtering element, we need to specify both the input and the output pads:
 
-###### **`lib/elements/OrderingBuffer.ex`**
+**_`lib/elements/OrderingBuffer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.OrderingBuffer do
@@ -21,7 +19,7 @@ end
 Note the caps specification definition there - we expect `Basic.Formats.Packet` of type `:custom_packets` to be sent on the input pad, and the same type of packets to be sent through the output pad.
 In the next step let's specify how we want the state of our element to look like:
 
-###### **`lib/elements/OrderingBuffer.ex`**
+**_`lib/elements/OrderingBuffer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.OrderingBuffer do
@@ -44,7 +42,7 @@ We will need to hold a list of ordered packets, as well as a sequence id of the 
 
 Handling demand is quite straightforward:
 
-###### **`lib/elements/OrderingBuffer.ex`**
+**_`lib/elements/OrderingBuffer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.OrderingBuffer do
@@ -62,7 +60,7 @@ We simply send the `:demand` on the `:input` pad once we receive a demand on the
 Now we can go to the main part of the Ordering Buffer implementation - the `handle_process/4` callback.
 The purpose of this callback is to process the incoming buffer. It gets called once a new buffer is available and waiting to be processed.
 
-###### **`lib/elements/OrderingBuffer.ex`**
+**_`lib/elements/OrderingBuffer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.OrderingBuffer do
@@ -123,7 +121,7 @@ We also get the sequence id of the first element in the updated `ordered_packets
 
 Here comes the rest of the `handle_process/4` definition:
 
-###### **`lib/elements/OrderingBuffer.ex`**
+**_`lib/elements/OrderingBuffer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.OrderingBuffer do
@@ -153,7 +151,7 @@ end
 We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last sent packet or there might be some packets not yet delivered to us, with sequence ids in between the last sent sequence id and the sequence id of a currently processed packet. In the second case, we should store the packet and wait for the next packets to arrive. We will accomplish that using `redemands` mechanism, which will be explained in detail in the next chapter.
 However, in the first situation, we need to get the ready packet's sequence - that means, a consistent batch of packets from the `:ordered_packets`. This can be done in the following way:
 
-###### **`lib/elements/OrderingBuffer.ex`**
+**_`lib/elements/OrderingBuffer.ex`_**
 
 ```Elixir
 defmodule Basic.Elements.OrderingBuffer do

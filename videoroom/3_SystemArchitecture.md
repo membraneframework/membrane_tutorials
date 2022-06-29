@@ -1,7 +1,6 @@
 ---
 title: System architecture
 description: >-
-<<<<<<< HEAD
   Create your very own videoconferencing room with a little help from the Membrane Framework!
   <div>
   <br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
@@ -9,22 +8,9 @@ description: >-
   </div>
 ---
 
-# Planning is always a good idea
 
-=======
-Create your very own videoconferencing room with a little help from the Membrane Framework!
-
-<div>
-<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-</div>
----
-
-# System architecture
-
-> > > > > > > main
-> > > > > > > Hang on for a moment! I know that after slipping through the tons of the documentation you are really eager to start coding, but let's think for a moment before taking any actions. What do we want our application to look like?
-> > > > > > > Can we somehow decompose our application?
+Hang on for a moment! I know that after slipping through the tons of the documentation you are really eager to start coding, but let's think for a moment before taking any actions. What do we want our application to look like?
+Can we somehow decompose our application?
 
 Sure we can - as in each web application we have two independent subsystems:
 
