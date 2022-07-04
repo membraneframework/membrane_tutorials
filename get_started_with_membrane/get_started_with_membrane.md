@@ -31,7 +31,7 @@ defmodule Hello do
 
 	spec = %ParentSpec{children: children, links: links}
 
-	{{:ok, spec: spec}, %{}}
+	{ {:ok, spec: spec}, %{} }
   end
 end
 ```
@@ -189,7 +189,7 @@ spec = %ParentSpec{children: children, links: links}
 At the end of the callback we need to return a proper tuple from `handle_init`. We can choose from options described [here](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#t:callback_return_t/0-return-values). They are common for all callbacks, but as we're initialising a pipeline we need to choose one wich declares [actions to take within the pipeline](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html). Our action will be [`spec`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0):
 
 ```elixir
-{{:ok, spec: spec}, %{}}
+{ {:ok, spec: spec}, %{} }
 ```
 
 We're passing empty map for state, as we don't need anything to be stored as state.
@@ -225,7 +225,7 @@ defmodule Hello do
 
 	spec = %ParentSpec{children: children, links: links}
 
-	{{:ok, spec: spec}, %{}}
+	{ {:ok, spec: spec}, %{} }
   end
 end
 ```
