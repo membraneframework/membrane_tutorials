@@ -1,15 +1,3 @@
----
-title: Introduction
-description: >-
-Create your very own videoconferencing room with a little help from the Membrane Framework!
-
-<div>
-<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-</div>
-github.repository_url: https://github.com/membraneframework/membrane_mp4_plugin
----
-
 The scope of this tutorial covers the process of creating your own video room with the use of the Membrane framework.
 
 ## What are we doing here?

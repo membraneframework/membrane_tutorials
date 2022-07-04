@@ -1,14 +1,3 @@
----
-title: Further steps
-description: >-
-Create your very own videoconferencing room with a little help from the Membrane Framework!
-
-<div>
-<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-</div>
----
-
 We can share with you inspiration for further improvements!
 ## Voice activation detection
 Wouldn't it be great to have a feature that would somehow mark a person who is currently speaking in the room? That's where voice activation detection (VAD) joins the game!

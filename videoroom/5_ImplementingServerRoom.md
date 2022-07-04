@@ -1,13 +1,3 @@
----
-title: Server's room
-description: >-
-Create your very own video conference room with a little help from the Membrane Framework!
-
-<div>
-<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-</div>
----
 ## Let's create The Room! ;)
 
 We are still missing probably the most important part - the heart of our application - the implementation of the room.
