@@ -1,15 +1,3 @@
----
-title: 3. System architecture
-description: >-
-Create your very own videoconferencing room with a little help from the Membrane Framework!
-
-<div>
-<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-</div>
----
-
-# System architecture
 Hang on for a moment! I know that after slipping through the tons of the documentation you are really eager to start coding, but let's think for a moment before taking any actions. What do we want our application to look like?
 Can we somehow decompose our application?
 
@@ -86,8 +74,3 @@ In the `Room` instance, the client will receive messages sent from the server on
 At the same time, `MembraneWebRTC` object will be able to change the `Room`'s state by invoking the callbacks provided during the construction of this object. These callbacks as well as the `Room` object itself will be able to update the user's interface.
 
 Be aware that `MembraneWebRTC` object will also take care of the incoming media stream.
-<br><br>
-[NEXT - Server's communication channels](4_CreatingServersCommunicationChannels.md)<br>
-[PREV - Environment preparation](2_EnvironmentPreparation)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)

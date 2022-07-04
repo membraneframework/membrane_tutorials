@@ -1,16 +1,3 @@
----
-title: 4. Server's communication channels
-description: >-
-Create your very own videoconferencing room with a little help from the Membrane Framework!
-
-<div>
-<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-</div>
----
-
-# Server's communication channels
-
 I know you have been waiting for that moment - let's start coding!
 
 ## Let's prepare the server's endpoint
@@ -24,9 +11,8 @@ the server and the client - they just want you to communicate.
 Socket's declaration is already present in our template. Take a quick glance at the `lib/videoroom_web/user_socket.ex` file.
 You will find the following code there:
 
+**_`lib/videoroom_web/user_socket.ex`_**
 ```elixir
-#FILE: lib/videoroom_web/user_socket.ex
-
 defmodule VideoRoomWeb.UserSocket do
  use Phoenix.Socket
 
@@ -47,9 +33,8 @@ The rest is an implementation of `Phoenix.Socket` interface - you can read about
 
 That's quite easy - we defined the usage of our socket in `lib/videoroom_web/endpoint.ex`, inside the `VideoRoomWeb.Endpoint` module:
 
+**_`lib/videoroom_web/endpoint.ex`_**
 ```elixir
-#FILE: lib/videoroom_web/endpoint.ex
-
 defmodule VideoRoomWeb.Endpoint do
  ...
  socket("/socket", VideoRoomWeb.UserSocket,
@@ -67,9 +52,8 @@ In this piece of code we are simply saying, that we are defining socket-type end
 
 It is in `lib/videoroom_web/peer_channel.ex` file! However, for now on, this file is only declaring the `VideoRoomWeb.PeerChannel` module, but does not provide any implementation.
 
+**_`lib/videoroom_web/peer_channel.ex`_**
 ```elixir
-#FILE: lib/videoroom_web/peer_channel.ex
-
 defmodule VideoRoomWeb.PeerChannel do
  use Phoenix.Channel
 
@@ -82,9 +66,8 @@ The module will handle messages sent and received on the previously created sock
 
 Let's implement our first callback!
 
+**_`lib/videoroom_web/peer_channel.ex`_**
 ```elixir
-#FILE: lib/videoroom_web/peer_channel.ex
-
 @impl true
 def join("room:" <> room_id, _params, socket) do
  case :global.whereis_name(room_id) do
@@ -143,9 +126,8 @@ room's identifier, room's PID, and peer's identifier to the map of socket's assi
 Our channel acts as a communication channel between the Room process on the backend and the client application on the frontend. The responsibility of the channel is to simply forward all `:media_event` messages from the room to the client and all `mediaEvent` messages from the client to the Room process.
 The first one is done by implementing `handle_info/2` callback as shown below:
 
+**_`lib/videoroom_web/peer_channel.ex`_**
 ```elixir
-#FILE: lib/videoroom_web/peer_channel.ex
-
 @impl true
 def handle_info({:media_event, event}, socket) do
  push(socket, "mediaEvent", %{data: event})
@@ -155,9 +137,9 @@ end
 
 The second one is done by providing the following implementation of `handle_in/3`:
 
-```elixir
-#FILE: lib/videoroom_web/peer_channel.ex
+**_`lib/videoroom_web/peer_channel.ex`_**
 
+```elixir
 @impl true
 def handle_in("mediaEvent", %{"data" => event}, socket) do
  send(socket.assigns.room_pid, {:media_event, socket.assigns.peer_id, event})
@@ -168,8 +150,3 @@ end
 Note the use of `push` method provided by Phoenix.Channel.
 
 Great job! You have just implemented the server's side of our communication channel. How about adding our server's business logic?
-<br><br>
-[NEXT - Server's room process](5_ImplementingServerRoom.md)<br>
-[PREV - System architecture](3_SystemArchitecture.md)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)

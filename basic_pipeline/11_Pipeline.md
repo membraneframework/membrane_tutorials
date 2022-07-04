@@ -1,5 +1,3 @@
-# Pipeline
-
 The time has come to assemble all the bricks together and create the pipeline!
 This task is really easy since the Membrane Framework provides a sort of DSL (*Domain Specific Language*) which allows you to link the prefabricated components together.
 In many real-life scenarios, this part would be the only thing you would need to do since you can take advantage of plenty of ready components (in form of elements and bins) which are available as a part of the Membrane Framework. For now, we will create the pipeline out of the elements we have created during that tutorial!
@@ -8,7 +6,7 @@ In many real-life scenarios, this part would be the only thing you would need to
 
 The pipeline is another behavior introduced by the Membrane Framework. To make the module a pipeline, we need to make it `use Membrane.Pipeline`. That is how we will start our implementation of the pipeline module, in the `lib/Pipeline.ex` file:
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 
@@ -22,7 +20,7 @@ end
 You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/1` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them (here)\[https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks\].
 Please add the following callback signature to our `Basic.Pipeline` module:
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 
@@ -58,7 +56,7 @@ We will wait for you and once you are ready, we will define our own children and
 
 Let's start with defining what children we need inside the `handle_init/1` callback! If you have forgotten what structure we want to achieve please refer to the [2nd chapter](02_SystemArchitecture.md) and recall what elements we need inside of our pipeline.
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 
@@ -84,7 +82,7 @@ We have just created the map, which keys are in the form of atoms that describe 
 
 Now we have a `children` map which we will use to launch the processes. But the Membrane needs to know how those children elements are connected (and, in fact, how the pipeline is defined!). Therefore let's create a `links` list with the description of the links between the elements:
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 
@@ -108,7 +106,7 @@ Each pipeline's "branch" starts with the `link/1` which takes as an argument an 
 Of course, there is also a `via_out/1` function, which is used to point the output pad with the given identifier, but there was no need to use it.
 In the case of other elements we do not need to explicitly point the desired pads since we are taking advantage of the default pads name - `:input` for the input pads and `:output` for the output ones (see what names we have given to our pads in the elements other than the mixer!). However, we could rewrite the following `links` definitions and explicitly specify the pad names:
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 
@@ -127,7 +125,7 @@ end
 
 That's almost it! All we need to do is to return a proper tuple from the `handle_init/1` callback, with the `:spec` action defined:
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 
@@ -141,7 +139,7 @@ end
 Our pipeline is ready! Let's try to launch it.
 We will do so by starting the pipeline, and then playing it. For the ease of use we will do it in a script.
 
-##### `lib/start.exs`
+**_`lib/start.exs`_**
 
 ```Elixir
 {:ok, pid} = Basic.Pipeline.start()

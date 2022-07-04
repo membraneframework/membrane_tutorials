@@ -1,7 +1,3 @@
-{% raw %}
-
-# Get Started with Membrane
-
 Hello there, we're glad you chose to learn Membrane. We'd like to invite you on a journey around multimedia with us, to show you how to make all that stuff we made work for you.
 
 Lets start with some old-fashioned "Hello world!"
@@ -42,7 +38,7 @@ end
 
 That might not look too simple for now but don't worry, there'll be a lot of new things you're going to encounter, and we'll be introducing you to some of them, or giving hints about how and where to learn more.
 
-> #### Elixir
+> **Elixir**
 >
 > Membrane is written in Elixir. It's an awesome programming language of the functional paradigm with great fault tolerance and process management, which made it the best choice for Membrane.
 > If you're not familiar with it, you can use [this cheatsheet](https://devhints.io/elixir) for quick look-up.
@@ -56,13 +52,13 @@ The code above is one of the simplest examples of Membrane usage. It plays an mp
 
 First we need to get all the libraries that Membrane needs to operate in our case. You can read about them more if you'd like, but for now we'll just jump to installation:
 
-##### Linux
+### Linux
 
 ```bash
 $ apt install clang-format portaudio19-dev ffmpeg libavutil-dev libswresample-dev libmad0-dev
 ```
 
-##### Mac
+### Mac
 
 ```bash
 $ brew install clang-format portaudio ffmpeg libmad pkg-config
@@ -110,7 +106,7 @@ Let's start with declaring that we'll be using the `Membrane.Pipeline` behaviour
 defmodule Hello do
 
   use Membrane.Pipeline
-  
+
 end
 ```
 
@@ -125,7 +121,7 @@ defmodule Hello do
   @impl true
   def handle_init(path_to_mp3) do
   end
-  
+
 end
 ```
 
@@ -190,7 +186,7 @@ The structure here is `Membrane.ParentSpec` [docs](https://hexdocs.pm/membrane_c
 spec = %ParentSpec{children: children, links: links}
 ```
 
-At the end of the callback we need to return a proper tuple from `handle_init`. We can choose  from options described [here](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#t:callback_return_t/0-return-values). They are common for all callbacks, but as we're initialising a pipeline we need to choose one wich declares [actions to take within the pipeline](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html). Our action will be [`spec`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0):
+At the end of the callback we need to return a proper tuple from `handle_init`. We can choose from options described [here](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#t:callback_return_t/0-return-values). They are common for all callbacks, but as we're initialising a pipeline we need to choose one wich declares [actions to take within the pipeline](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html). Our action will be [`spec`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0):
 
 ```elixir
 {{:ok, spec: spec}, %{}}
@@ -256,6 +252,4 @@ Hello.play(pid)
 
 Our [demo with this tutorial](https://github.com/membraneframework/membrane_demo/tree/master/simple_pipeline) contains a file you can play, or you may want to use some [proper "Hello!" recording](https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6f/Voyager_Golden_Record_greeting_in_English.ogg/Voyager_Golden_Record_greeting_in_English.ogg.mp3).
 
-The specified mp3 file should be played on the default device in your system. Please use mp3 that has no ID3 or ID3v2 tags. <br><br>
-[List of tutorials](../../index.md)
-{% endraw %}
+The specified mp3 file should be played on the default device in your system. Please use mp3 that has no ID3 or ID3v2 tags.

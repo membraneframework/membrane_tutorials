@@ -1,22 +1,11 @@
----
-title: 5. Server's room
-description: >-
-Create your very own video conference room with a little help from the Membrane Framework!
-
-<div>
-<br> <b>Page:</b> <a style="color: white" href=https://www.membraneframework.org/>Membrane Framework</a>
-<br> <b>Forum:</b> <a style="color: white" href=https://elixirforum.com/c/elixir-framework-forums/membrane-forum/104/>Membrane Forum</a>
-</div>
----
-
-# Server's room
 ## Let's create The Room! ;)
+
 We are still missing probably the most important part - the heart of our application - the implementation of the room.
 The room should dispatch messages sent from RTC Engine to appropriate peer channels - and at the same time, it should direct all the messages sent to it via peer channel to the RTC Engine.
 Let's start by creating `lib/videoroom/room.ex` file with a declaration of Videoroom.Room module:
-```elixir
-#FILE: lib/videoroom/room.ex
 
+**_`lib/videoroom/room.ex`_**
+```elixir
 defmodule Videoroom.Room do
 @moduledoc false
 
@@ -28,15 +17,14 @@ require Membrane.Logger
 
 #we will put something here ;)
 end
+```
 
-````
 We will be using OTP's [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) to describe the behavior of this module.
 
-
 Let's start by adding wrappers for GenServer's `start` and `start_link` functions:
-```elixir
-#FILE: lib/videoroom/room.ex
 
+**_`lib/videoroom/room.ex`_**
+```elixir
 def start(init_arg, opts) do
  GenServer.start(__MODULE__, init_arg, opts)
 end
@@ -44,13 +32,12 @@ end
 def start_link(opts) do
  GenServer.start_link(__MODULE__, [], opts)
 end
-````
+```
 
 Then we are providing the implementation of `init/1` callback:
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def init(room_id) do
  Membrane.Logger.info("Spawning room proces: #{inspect(self())}")
@@ -86,9 +73,8 @@ What's next? We need to handle the callbacks to properly react to the incoming e
 We won't implement handling all of these messages - only the ones which are crucial to set up the connection between peers, start the process of media streaming and take proper actions when participants disconnect. After finishing the reading of this tutorial you can try to implement handling of other messages (for instance those connected with voice activation detection - `:vad_notification`).
 Let's start with handling messages sent to us by RTC.
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def handle_info(%Message.MediaEvent{to: :broadcast, data: data}, state) do
  for {_peer_id, pid} <- state.peer_channels, do: send(pid, {:media_event, data})
@@ -101,9 +87,8 @@ Here comes the first one - once we receive `%Message.MediaEvent{}` from the RTC 
 
 Here comes the next method:
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def handle_info(%Message.MediaEvent{to: to, data: data}, state) do
  if state.peer_channels[to] != nil do
@@ -119,9 +104,8 @@ The only difference is that the event is about to be sent to a particular user -
 
 There we go with another message sent by RTC engine:
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def handle_info(%Message.NewPeer{rtc_engine: rtc_engine, peer: peer}, state) do
  Membrane.Logger.info("New peer: #{inspect(peer)}. Accepting.")
@@ -175,9 +159,8 @@ Finally, we accept the peer and add his endpoint to the RTC Engine.
 Here comes the next callback!
 Once we receive `%Message.PeerLeft{}` message from RTC we simply ignore that fact (we could of course remove the peer_id from the (peer_id->peer_channel_pid) mapping...but do we need to?):
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def handle_info(%Message.PeerLeft{peer: peer}, state) do
  Membrane.Logger.info("Peer #{inspect(peer.id)} left RTC Engine")
@@ -189,9 +172,8 @@ end
 In case RTC Engine wants to communicate with the client during the signaling process, we know how to react - we are simply passing the message to the appropriate `PeerChannel`.
 How about messages coming from the client, via the `PeerChannel`? We need to pass them to the RTC Engine!
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def handle_info({:media_event, _from, _event} = msg, state) do
  Engine.receive_media_event(state.rtc_engine, msg)
@@ -202,9 +184,8 @@ end
 Again - no magic tricks there. We are receiving `:media_event` - we are sending it to our RTC engine process.
 And here come the callback for a `:add_peer_channel` message:
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def handle_info({:add_peer_channel, peer_channel_pid, peer_id}, state) do
  state = put_in(state, [:peer_channels, peer_id], peer_channel_pid)
@@ -218,9 +199,8 @@ the state updated this way. Meanwhile, we also start monitoring the process with
 
 We are almost done! We are monitoring all the peer channels processes. Once they die, we receive `:DOWN` message. Let's handle this event!
 
+**_`lib/videoroom/room.ex`_**
 ```elixir
-#FILE: lib/videoroom/room.ex
-
 @impl true
 def handle_info({:DOWN, _ref, :process, pid, _reason}, state) do
  {peer_id, _peer_channel_id} = state.peer_channels
@@ -235,9 +215,4 @@ end
 First, we find the id of a peer whose channel has died. Then we send a message to the RTC engine telling it to remove peer with given peer_id.
 The last thing we do is to update the state - we remove the mapping (peer_id->peer_channel_pid) from our `:peer_channels` map.
 
-After all of this hard work, our server is finally ready. But we still need a client application.
-<br><br>
-[NEXT - Client's application](6_ImplementingClientsApplication.md)<br>
-[PREV - Server's communication channels](4_CreatingServersCommunicationChannels.md)<br>
-[List of contents](index.md)<br>
-[List of tutorials](../../index.md)
+After all of this hard work our server is finally ready. But we still need a client application.

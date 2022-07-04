@@ -1,10 +1,8 @@
-# Dynamic Pads
-
 The solution we have implemented along the tutorial has at least one downside - it is definitely not easily extendable.
 What if we needed to support mixing streams coming from three different speakers in the conversation?
 Well, we would need to add another input pad in the Mixer, for instance - `:third_input` pad, and then update our Pipeline definition:
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 @impl true
@@ -41,7 +39,7 @@ Well, the idea is quite simple! Instead of specifying a single pad with a predef
 Let's try to use dynamic pads for the input in the Mixer!
 The very first thing we need to do is to use the `def_input_pads` appropriately.
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 ...
@@ -53,7 +51,7 @@ We have added the [`availability: :on_request` option](https://hexdocs.pm/membra
 
 No more do we have the `:first_input` and the `:second_input` pads defined, so we do not have the tracks corresponding to them either! Let's update the `handle_init/1` callback:
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 ...
@@ -69,7 +67,7 @@ end
 Tracks map is initially empty since there are no corresponding pads.
 The next thing we need to do is to implement the `handle_pad_added/3` callback, which will be called once the pipeline starts, with some links pointing to dynamic pads:
 
-###### **`lib/elements/Mixer.ex`**
+**_`lib/elements/Mixer.ex`_**
 
 ```Elixir
 
@@ -89,7 +87,7 @@ That's it! Since we have already designed the Mixer in a way it is capable of se
 
 Below you can find the updated version of the pipeline's `handle_init/1` callback:
 
-###### **`lib/Pipeline.ex`**
+**_`lib/Pipeline.ex`_**
 
 ```Elixir
 ...
