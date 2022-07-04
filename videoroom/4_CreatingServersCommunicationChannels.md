@@ -11,7 +11,7 @@ the server and the client - they just want you to communicate.
 Socket's declaration is already present in our template. Take a quick glance at the `lib/videoroom_web/user_socket.ex` file.
 You will find the following code there:
 
-**_ `lib/videoroom_web/user_socket.ex` _**
+**_`lib/videoroom_web/user_socket.ex`_**
 ```elixir
 defmodule VideoRoomWeb.UserSocket do
  use Phoenix.Socket
@@ -33,7 +33,7 @@ The rest is an implementation of `Phoenix.Socket` interface - you can read about
 
 That's quite easy - we defined the usage of our socket in `lib/videoroom_web/endpoint.ex`, inside the `VideoRoomWeb.Endpoint` module:
 
-**_ `lib/videoroom_web/endpoint.ex` _**
+**_`lib/videoroom_web/endpoint.ex`_**
 ```elixir
 defmodule VideoRoomWeb.Endpoint do
  ...
@@ -52,7 +52,7 @@ In this piece of code we are simply saying, that we are defining socket-type end
 
 It is in `lib/videoroom_web/peer_channel.ex` file! However, for now on, this file is only declaring the `VideoRoomWeb.PeerChannel` module, but does not provide any implementation.
 
-**_ `lib/videoroom_web/peer_channel.ex` _**
+**_`lib/videoroom_web/peer_channel.ex`_**
 ```elixir
 defmodule VideoRoomWeb.PeerChannel do
  use Phoenix.Channel
@@ -66,7 +66,7 @@ The module will handle messages sent and received on the previously created sock
 
 Let's implement our first callback!
 
-**_ `lib/videoroom_web/peer_channel.ex` _**
+**_`lib/videoroom_web/peer_channel.ex`_**
 ```elixir
 @impl true
 def join("room:" <> room_id, _params, socket) do
