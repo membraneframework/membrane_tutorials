@@ -1,36 +1,36 @@
 ## Let's implement the client's endpoint!
 We will put the whole logic into `assets/src/room.ts`. Methods responsible for handling UI are already in `assets/src/room_ui.ts`, let's import them:
-```ts
-//FILE: assets/src/room.ts
 
+**_ `assets/src/room.ts` _**
+```ts
 import {
-addVideoElement,
-getRoomId,
-removeVideoElement,
-setErrorMessage,
-setParticipantsList,
-attachStream,
-setupDisconnectButton,
+  addVideoElement,
+  getRoomId,
+  removeVideoElement,
+  setErrorMessage,
+  setParticipantsList,
+  attachStream,
+  setupDisconnectButton,
 } from "./room_ui";
 
-````
+```
+
 We have basically imported all the methods defined in `room_ui.ts`. For more details on how these methods work and what is their interface please refer to the source file.
 Take a look at our `assets/package.json` file which defines outer dependencies for our project. We have put there the following dependency:
-```JSON
-//FILE: assets/package.json
 
+**_ `assets/package.json` _**
+```JSON
 "dependencies": {
   "membrane_rtc_engine": "file:../deps/membrane_rtc_engine/",
   ...
 }
-````
+```
 
 which is a client library provided by the RTC engine plugin from the Membrane Framework.
 Let's import some constructs from this library (their name should be self-explanatory and you can read about them in [the official Membrane's RTC engine documentation](https://hexdocs.pm/membrane_rtc_engine/js/index.html) along with some other dependencies which we will need later:
 
+**_ `assets/src/room.ts` _**
 ```ts
-//FILE: assets/src/room.ts
-
 import {MEDIA_CONSTRAINTS, LOCAL_PEER_ID} from './consts';
 import {
   MembraneWebRTC,
