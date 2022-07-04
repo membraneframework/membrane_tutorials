@@ -8,4 +8,4 @@ graphicPath: assets/images/Illo_get started.png
 
 | number | title           | file               |
 | ------ | --------------- | ------------------ |
-| 1      | Simple Pipeline | simple_pipeline.md |
+| 1      | Get Started with Membrane | get_started_with_membrane.md |
