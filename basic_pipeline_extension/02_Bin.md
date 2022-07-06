@@ -109,4 +109,4 @@ defmodule Basic.Pipeline do
 end
 ```
 
-Combining the usage of the bin and [dynamic pads](/basic_pipeline_extension/02_DynamicPads) will result in an even cleaner and more scalable solution.
+Combining the usage of the bin and [dynamic pads](3) will result in an even cleaner and more scalable solution.
