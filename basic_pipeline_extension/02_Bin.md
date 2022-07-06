@@ -5,10 +5,10 @@ Bin also has another advantage - it manages its children, for instance by dynami
 ## Enclosing pipeline elements inside a bin
 
 As you can see, we have `Source` -> `Ordering Buffer` -> `Depayloader` chain, which is duplicated.
-![Pipeline scheme](/basic_pipeline_extension/assets/images/basic_pipeline.png) <br>
+![Pipeline scheme](assets/images/basic_pipeline.png) <br>
 
 We can encapsulate these elements inside `Bin`.
-![Pipeline scheme using bin](/basic_pipeline_extension/assets/images/basic_pipeline_bin.png) <br>
+![Pipeline scheme using bin](assets/images/basic_pipeline_bin.png) <br>
 
 Notice that there is no direct connection between `Depayloader` and `Mixer`. We have to explicitly link the `Depayloader` with `Bin`'s output pads and then we will connect the output pads to `Mixer`'s input pads.
 
@@ -43,7 +43,7 @@ defmodule Basic.Bin do
 end
 ```
 
-The output pads of the bin are matching the one we [defined for depayloader](/basic_pipeline/08_Depayloader.md#libelementsdepayloaderex-2).
+The output pads of the bin are matching the one we [defined for depayloader](8#libelementsdepayloaderex-2).
 Notice that the last link is between `depayloader` and the bin's output pads. In general, if we wanted to receive data in a bin we would have to define input pads and the first link would be `link_bin_input()` which would link the input pads with the first element in the bin.
 
 Although the bin is already functional, to make it reusable we have to parametrize it with the input filename. That's why we will define options for the bin, which we will use in the `source` element.
