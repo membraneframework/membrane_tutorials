@@ -43,7 +43,7 @@ defmodule Basic.Bin do
 end
 ```
 
-The output pads of the bin are matching the one we [defined for depayloader](8#libelementsdepayloaderex-2).
+The output pads of the bin are matching the one we [defined for depayloader](../learn/basic_pipeline/8#libelementsdepayloaderex-2).
 Notice that the last link is between `depayloader` and the bin's output pads. In general, if we wanted to receive data in a bin we would have to define input pads and the first link would be `link_bin_input()` which would link the input pads with the first element in the bin.
 
 Although the bin is already functional, to make it reusable we have to parametrize it with the input filename. That's why we will define options for the bin, which we will use in the `source` element.

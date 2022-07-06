@@ -4,6 +4,6 @@ The chapters are loosely related, so feel free to read them in any order you wan
 
 **Table of contents**
 
-- [Bin](2) - how to create a reusable group of elements
-- [Dynamic Pads](3) - a more flexible way to define element's pads
-- [Tests](4) - creating unit tests for the elements
+- [Bin](2#) - how to create a reusable group of elements
+- [Dynamic Pads](3#) - a more flexible way to define element's pads
+- [Tests](4#) - creating unit tests for the elements
