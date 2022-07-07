@@ -10,7 +10,7 @@ We assume, that you are at least slightly familiar with that language - if that 
 Once you are ready with the Elixir, you can get the project template we have prepared for you:
 
 ```
-git clone https:/github.com/membraneframework/membrane_basic_pipeline_tutorial
+git clone https://github.com/membraneframework/membrane_basic_pipeline_tutorial
 cd membrane_basic_pipeline_tutorial
 git checkout template/start
 mix deps.get
