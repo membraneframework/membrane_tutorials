@@ -5,10 +5,10 @@ Bin also has another advantage - it manages its children, for instance by dynami
 ## Enclosing pipeline elements inside a bin
 
 As you can see, we have `Source` -> `Ordering Buffer` -> `Depayloader` chain, which is duplicated.
-![Pipeline scheme](/basic_pipeline_extension/assets/images/basic_pipeline.png) <br>
+![Pipeline scheme](assets/images/basic_pipeline.png) <br>
 
 We can encapsulate these elements inside `Bin`.
-![Pipeline scheme using bin](/basic_pipeline_extension/assets/images/basic_pipeline_bin.png) <br>
+![Pipeline scheme using bin](assets/images/basic_pipeline_bin.png) <br>
 
 Notice that there is no direct connection between `Depayloader` and `Mixer`. We have to explicitly link the `Depayloader` with `Bin`'s output pads and then we will connect the output pads to `Mixer`'s input pads.
 

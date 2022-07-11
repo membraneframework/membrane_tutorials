@@ -9,7 +9,7 @@ It defines necessary dependencies as well as other project specs, e.g. formattin
 
 You can start creating a plugin by making your copy of the template. Go to the [github repo](https://github.com/membraneframework/membrane_template_plugin) and select `Use this template`. Then choose an appropriate name for the project.
 
-If you haven't already, we suggest you read [basic pipeline tutorial](/basic_pipeline/01.0_Introduction.md) to get familiar with Membrane's plugin structure. In any case, as you might have guessed the code of your plugin will go into `/lib` directory and the tests belong in the `/test` directory.
+If you haven't already, we suggest you read [basic pipeline tutorial](/basic_pipeline/create_new_plugin.md) to get familiar with Membrane's plugin structure. In any case, as you might have guessed the code of your plugin will go into `/lib` directory and the tests belong in the `/test` directory.
 
 ## Utilizing your plugin in a project
 
