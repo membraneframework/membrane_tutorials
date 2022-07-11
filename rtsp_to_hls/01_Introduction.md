@@ -1,5 +1,7 @@
 In this tutorial we will demonstrate the demo of [RTSP to HLS transcoder](https://github.com/membraneframework/membrane_demo/tree/master/rtsp_to_hls).
 
+# Introduction
+
 ## What does "RTSP to HLS" even mean
 
 `RTSP` stands for Real Time Streaming Protocol - it is used for establishing and controlling multimedia streams.
@@ -11,7 +13,7 @@ Today RTSP is often used by IP cameras e.g. for surveillance or for purposes suc
 It is widely supported on playback devices and de-facto standard when it comes to delivering media.
 HLS supports adaptive bitrate, allowing for dynamically adjusting video quality according to available bandwidth.
 
-You can get an idea of what RTSP is reading [this post](https://antmedia.io/rtsp-explained-what-is-rtsp-how-it-works/#rtsp_requests).
+You can get an idea of what RTSP is reading [this post](https://antmedia.io/rtsp-explained-what-is-rtsp-how-it-works).
 
 HLS is described in detail [here](https://www.dacast.com/blog/hls-streaming-protocol/).
 
@@ -33,3 +35,13 @@ Due to its features HLS is the obvious option as it allows for easy playback and
 ### HLS:
 - [cloudflare](https://www.cloudflare.com/en-gb/learning/video/what-is-http-live-streaming/)
 - [dacast](https://www.dacast.com/blog/hls-streaming-protocol/)
+
+
+# Architecture
+
+Now let's discuss how the architecture of our solution will look like.
+
+The main component of the transcoder will be the pipeline, in which the RTP stream will be converted into an HLS.
+Wait, what? What is RTP is supposed to mean? It just a typo, you meant RT**S**P? Well... the answer is no!
+As described briefly in the [previously mentioned RTSP resource], RTSP is only responsible for controlling the media stream, the data itself is transmitted using [RTP (Real-time Transport Protocol)] protocol.
+In short, it is a protocol capable of transmitting live audio and video over the internet. It also requires [RTCP] (RTP Control Protocol) to be used in conjunction with it, which is responsible for monitoring the transmission statistics, QoS and synchronization of multiple streams.
