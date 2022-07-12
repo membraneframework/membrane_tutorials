@@ -1,3 +1,5 @@
+# Sink
+
 The sink is the last element in our pipeline, designed to store the data processed by the pipeline.
 In contrast to the filter elements, it won't have any output pad - that is why we need to make our element `use Membrane.Sink` and define the input pad only.
 Since we want to parameterize the usage of that element, it will be good to define the options structure, so that we can specify the path to the file where the output should be saved. This stuff is done in the code snippet below:

@@ -1,3 +1,5 @@
+# Ordering Buffer
+
 In this chapter we will deal with the next element in our pipeline - the Ordering Buffer.
 As stated in the [chapter about the system architecture](02_SystemArchitecture.md), this element is responsible for ordering the incoming packets, based on their sequence id.
 Because Ordering Buffer is a filtering element, we need to specify both the input and the output pads:

@@ -1,3 +1,5 @@
+# Tests
+
 When creating elements for the basic pipeline you used the provided tests.
 In this chapter we will explain in detail how they work, and give you with some good practices which will allow you to write reliable tests for your Membrane system.
 

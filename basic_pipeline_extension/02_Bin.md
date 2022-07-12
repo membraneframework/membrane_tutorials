@@ -1,3 +1,5 @@
+# Bin
+
 A Membrane's bin is a container for elements, which allows for creating reusable groups of elements.
 Bin is similar to a pipeline in that it consists of linked elements. Such bin can then be placed inside a pipeline and linked with other entities - elements or bins. Bins can also be nested within one another.
 Bin also has another advantage - it manages its children, for instance by dynamically spawning or replacing them as the stream changes.

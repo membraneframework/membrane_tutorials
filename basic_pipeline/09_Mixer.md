@@ -1,3 +1,5 @@
+# Mixer
+
 Here comes the mixer - an element responsible for mixing two streams of frames, coming from two different sources.
 Once again we start with defining the initialization options and the pads of both types:
 
