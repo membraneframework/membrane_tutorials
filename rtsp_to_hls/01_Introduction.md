@@ -2,28 +2,38 @@ In this tutorial we will demonstrate the demo of [RTSP to HLS transcoder](https:
 
 # Introduction
 
-## What does "RTSP to HLS" even mean
+## Use case
 
-`RTSP` stands for Real Time Streaming Protocol - it is used for establishing and controlling multimedia streams.
+In our scenario we have a surveillance camera, which is providing a video stream. Say, that we would like to stream this video to multiple viewers, for them to be easily accessible in the web browser. 
 
-Today RTSP is often used by IP cameras e.g. for surveillance or for purposes such as videoconferencing. However, it isn't supported on playback devices, that's why we need to convert an RTSP stream to some other format which will be digestible by users.
+## Our solution
 
-`HLS` stands for HTTP Live Streaming, a protocol used for delivering media streams to majority of playback devices, such as web browsers and mobile devices.
+First of all, the vast majority of surveillance cameras use [RTSP]() for transmitting data so we have no choice but to use RTSP for receiving the stream from the camera.
 
-It is widely supported on playback devices and de-facto standard when it comes to delivering media.
-HLS supports adaptive bitrate, allowing for dynamically adjusting video quality according to available bandwidth.
+You might wonder, why don't we just play the RTSP stream and finish here. Technically it is possible - if you have [VLC](https://wiki.videolan.org/Documentation:Installing_VLC) or [ffmpeg](https://ffmpeg.org/download.html) installed you can play our sample RTSP stream by running respectively
 
-You can get an idea of what RTSP is reading [this post](https://antmedia.io/rtsp-explained-what-is-rtsp-how-it-works).
+```console
+vlc rtsp://rtsp.membrane.work/testsrc.264
+```
+or
+```console
+ffplay rtsp://rtsp.membrane.work/testsrc.264
+```
 
-HLS is described in detail [here](https://www.dacast.com/blog/hls-streaming-protocol/).
+However, this solution is very inconvenient for the user, as it requires installing a media player capable of handling an RTSP stream. It is also quite demanding for the RTSP server, which is providing the stream for the clients, each connection requires opening two ports for the media transmission.
 
-## Why
+That's why we're going to convert the stream to [HLS](), which we will be able to easily play on most web browsers.
+It's going to be less resource-demanding as well.
 
-A very common use-case for RTSP to HLS transcoder is when we want to play the video streamed by some surveillance cameras. For example, during an online meeting we would like to show live stream from a surveillance camera as a background, to add more context to what is being discussed.
+## What technology we will use 
 
-As most surveillance cameras do use RTSP for transmitting the data, we have to convert it to a format which will allow us to play it back.  
+`RTSP` stands for Real Time Streaming Protocol - it is used for establishing and controlling multimedia streams. You can get an idea of what RTSP is reading [this post](https://antmedia.io/rtsp-explained-what-is-rtsp-how-it-works).
 
-Due to its features HLS is the obvious option as it allows for easy playback and relatively low latency.
+`RTP`
+
+`RTCP`
+
+`HLS` stands for HTTP Live Streaming, a protocol used for delivering media streams to majority of playback devices, such as web browsers and mobile devices. HLS is described in detail [here](https://www.dacast.com/blog/hls-streaming-protocol/).
 
 ## Resources
 
