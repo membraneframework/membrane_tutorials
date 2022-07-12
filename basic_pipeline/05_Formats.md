@@ -1,3 +1,5 @@
+# Formats
+
 Since we have already discussed what caps are and how to use them, let's make use of them in our project!
 The first thing to do is to define modules responsible for describing the formats used in our pipeline.
 We will put them in a separate directory - `lib/formats`. Let's start with the format describing the packets:

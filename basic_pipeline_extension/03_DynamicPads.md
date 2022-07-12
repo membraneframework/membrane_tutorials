@@ -1,3 +1,5 @@
+# Dynamic Pads
+
 The solution we have implemented along the tutorial has at least one downside - it is definitely not easily extendable.
 What if we needed to support mixing streams coming from three different speakers in the conversation?
 Well, we would need to add another input pad in the Mixer, for instance - `:third_input` pad, and then update our Pipeline definition:
