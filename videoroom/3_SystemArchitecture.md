@@ -19,7 +19,7 @@ That is why we will be using the framework that provides some level of abstracti
 
 ## What does Membrane framework do?
 
-Seek at the root! [Membrane documentation](https://membraneframework.org/guide/v0.7/introduction.html)
+Seek at the root! [Membrane documentation](https://membrane.stream/guide/v0.7/introduction.html)
 
 ## Membrane framework structure
 
