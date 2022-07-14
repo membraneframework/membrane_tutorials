@@ -5,10 +5,7 @@ description: >-
 part: 7
 graphicPath: assets/images/Illo_ digital video introduction.png
 ---
-<<<<<<< HEAD
-=======
 
 | number | title                      | file         |
 | ------ | -------------------------- | ------------ |
 | 1      | Digital Video Introduction | 1_preface.md |
->>>>>>> sd
