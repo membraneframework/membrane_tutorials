@@ -8,4 +8,4 @@ graphicPath: assets/images/Illo_ digital video introduction.png
 
 | number | title                      | file         |
 | ------ | -------------------------- | ------------ |
-| 1      | Digital Video Introduction | 1_preface.md |
+| 1      | Preface                    | 1_preface.md |
