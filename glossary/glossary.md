@@ -1,18 +1,28 @@
 ## Multimedia
 
-- ##### **Packet**
-  It is a formatted unit of data transmitted over network. In order to send data over network it has to be fragmented into packets, which size is limited by [MTU(Maximum Transfer Unit)](https://en.wikipedia.org/wiki/Maximum_transmission_unit) - 1500 bytes when using [Ethernet](https://en.wikipedia.org/wiki/Ethernet_frame).
-- <a name="frame"></a> **Frame** can refer to either [network frame](<https://en.wikipedia.org/wiki/Frame_(networking)>) or **media frame**, which is a basic data unit used by media coding formats. In particular one media frame can represent a single image in a video.
-- <a name="media_track"></a> (media)**Track** is equivalent to a single audio or video stream.
+  - #### **Packet**
+    It is a formatted unit of data transmitted over network. In order to send data over network it has to be fragmented into packets, which size is limited by [MTU(Maximum Transfer Unit)](https://en.wikipedia.org/wiki/Maximum_transmission_unit) - 1500 bytes when using [Ethernet](https://en.wikipedia.org/wiki/Ethernet_frame).
+  - #### **Frame**
+    Frame can refer to either [network frame](<https://en.wikipedia.org/wiki/Frame_(networking)>) or **media frame**, which is a basic data unit used by media coding formats. In particular one media frame can represent a single image in a video.
+  - #### **Track**
+    Media track is equivalent to a single audio or video stream.
 - ### Web protocols:
-  - <a name="udp"></a> **UDP**(User Datagram Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication. See [here](https://www.imperva.com/learn/ddos/udp-user-datagram-protocol) for more details.
-  - <a name="tcp"></a> **TCP**(Transmission Control Protocol) is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
-  - <a name="rtp"></a> **RTP**(Real-time Transport Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [SRTP](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](#webrtc).
-  - <a name="http"></a> **HTTP**(Hypertext Transfer Protocol) is an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [M§PEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
-  - <a name="long-polling"></a> **(HTTP) Long Polling** is a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received.
-  - <a name="webrtc"></a> **WebRTC**(Web Real-Time Communication) is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC). WebRTC implements three APIs: **MediaStream** used for acquiring media from the browser, **RTCPeerConnection** handling stable and efficient communication of streaming data between peers, and **RTCDataChannel** enabling a peer-to-peer exchange of arbitrary data with low latency and high throughput. Learn more about WebRTC [here](https://www.html5rocks.com/en/tutorials/webrtc/basics/).
-  - <a name="signaling"></a> **Signaling** in WebRTC is a process of discovery, establishing, controlling, and terminating a connection between two devices.
-  - <a name="sdp"></a> **SDP**([Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt)) is used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
+  - #### **UDP (User Datagram Protocol)##
+    UDP is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication. See [here](https://www.imperva.com/learn/ddos/udp-user-datagram-protocol) for more details.
+  - #### **TCP (Transmission Control Protocol)**
+    TCP is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
+  - #### **RTP (Real-time Transport Protocol)**
+    It's an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [SRTP](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](#webrtc).
+  - #### **HTTP (Hypertext Transfer Protocol)**
+    It's an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [M§PEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
+  - #### **Long Polling** 
+    HTTP Long Pollingis a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received.
+  - #### **WebRTC (Web Real-Time Communication)**
+    WebRTC is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC). WebRTC implements three APIs: **MediaStream** used for acquiring media from the browser, **RTCPeerConnection** handling stable and efficient communication of streaming data between peers, and **RTCDataChannel** enabling a peer-to-peer exchange of arbitrary data with low latency and high throughput. Learn more about WebRTC [here](https://www.html5rocks.com/en/tutorials/webrtc/basics/).
+  - #### **Signaling**
+    In WebRTC it's a process of discovery, establishing, controlling, and terminating a connection between two devices.
+  - #### **SDP ([Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt))**
+    It's used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
   - <a name="websocket"></a> **WebSocket** is an application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, allows to create persistent connections. Today it is supported by most web browsers and web servers.
   - <a name="ice"></a> **ICE**([Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE)) is a technique for establishing the most direct connection between two computers, which is used in P2P communication.
   - <a name="stun"></a> **STUN**(Session Traversal Utilities for NAT) is a protocol used in interactive communications with hosts hidden behind a NAT. Its goal is to find public addresses of the peers that they can use to directly communicate with each other.
