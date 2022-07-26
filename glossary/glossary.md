@@ -61,27 +61,46 @@
     [Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh). An architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
 ## Membrane Framework
 
-- <a name="pad"></a> **Pad** is an input or output of an [elements](#element) or a [bin](#bin). Output pads of one element are connected to input pads of another element or bin.
-- <a name="caps"></a> **Caps**(abbr. from capabilities) define [pads](#pad) specification, allowing us to determine whether two elements are compatible with each other.
-- <a name="pipeline"></a> **Pipeline** is a chain of linked [elements](#element) or [bins](#bin) which together accomplish some media processing task.
-- <a name="bin"></a> **Bin** is a container for elements, which allows for creating reusable groups of [elements](#element). Bin can incorporate elements and other bins as well.
-- <a name="buffer"></a> **Buffer** is a fundamental structure in Membrane used to send data between elements.
-- <a name="element"></a> **Element** is the most basic entity responsible for processing multimedia. Each element is created to solve one problem. Elements can be divided into three categories:
-  - <a name="source"></a> **Source** is an element with only output pads, the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
-  - <a name="filter"></a> **Filter** is an element with both input and output pads, which is responsible for transforming data.
-  - <a name="sink"></a> **Sink** is an element with only input [pads](#pads), the last element of a pipeline. It might be responsible, i.e. for writing the output to the file or playing the incoming media stream.
+- #### **Pad**
+  An input or output of an [elements](#element) or a [bin](#bin). Output pads of one element are connected to input pads of another element or bin.
+- #### **Caps**
+  Abbr. from capabilities. They define [pads](#pad) specification, allowing us to determine whether two elements are compatible with each other.
+- #### **Pipeline**
+  A chain of linked [elements](#element) or [bins](#bin) which together accomplish some media processing task.
+- #### **Bin**
+  A container for elements, which allows for creating reusable groups of [elements](#element). Bin can incorporate elements and other bins as well.
+- #### **Buffer**
+  A fundamental structure in Membrane used to send data between elements.
+- #### **Element** 
+  The most basic entity responsible for processing multimedia. Each element is created to solve one problem. Elements can be divided into three categories:
+  - #### **Source** 
+    An element with only output pads, the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
+  - #### **Filter**
+    An element with both input and output pads, which is responsible for transforming data.
+  - #### **Sink** 
+    An element with only input [pads](#pads), the last element of a pipeline. It might be responsible, i.e. for writing the output to the file or playing the incoming media stream.
 - ### Types of elements:
-  - <a name="payloader"></a> **Payloader** and _Depayloader_ are responsible for respectively dividing frames into [packets](#packet) and assembling packets back into frames.
-  - <a name="encoder"></a> **Encoder** and _Decoder_ are responsible for [encoding](#encoding) and [decoding](#decoding).
-  - <a name="encryptor"></a> **Encryptor** and _Decryptor_ are responsible for [encryption](#encryption) and [decryption](#decryption).
-  - <a name="muxer"></a> **Muxer** and _Demuxer_ are responsible for [muxing](#muxing) and [demuxing](#demuxing).
-  - <a name="mixer"></a> **Mixer** is responsible for mixing multiple media streams into a single stream. Unlike multiplexing, mixing is an irreversible operation.
-  - <a name="jitter_buffer"></a> **Jitter buffer** / **Ordering buffer** is an element responsible for ordering packets incoming from the network as their order can be disrupted during transmission due to network unreliability.
+  - #### **Payloader** and **Depayloader**
+    Elements responsible for respectively dividing frames into [packets](#packet) and assembling packets back into frames.
+  - #### **Encoder** and **Decoder**
+    Elements responsible for [encoding](#encoding) and [decoding](#decoding).
+  - #### **Encryptor** and **Decryptor**
+    Elements responsible for [encryption](#encryption) and [decryption](#decryption).
+  - #### **Muxer** and **Demuxer**
+    Elements responsible for [muxing](#muxing) and [demuxing](#demuxing).
+  - #### **Mixer**
+    An element responsible for mixing multiple media streams into a single stream. Unlike multiplexing, mixing is an irreversible operation.
+  - #### **Jitter buffer** / **Ordering buffer**
+    An element responsible for ordering packets incoming from the network as their order can be disrupted during transmission due to network unreliability.
 - ### Demands mechanism
-  - <a name="redemands"></a> **Redemands** in Membrane is an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called.
+  - #### **Redemands**
+    In Membrane it's an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called.
 
 ## General Elixir/Erlang concepts
 - ### OTP Behavior
-  - <a name="gen_server"></a> [**GenServer**](https://elixir-lang.org/getting-started/mix-otp/genserver.html) abstracts client/server interaction.
-- <a name="phoenix"></a> [**Phoenix**](https://phoenixframework.org/) is a web development framework written in Elixir.
-- <a name="elixir_mix"></a> [**Mix**](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html) is a build tool for creating and managing Elixir projects.
+  - #### [**GenServer**](https://elixir-lang.org/getting-started/mix-otp/genserver.html)
+    Elixir bahaviour abstracts client/server interaction.
+  - #### [**Phoenix**](https://phoenixframework.org/) 
+    The web development framework written in Elixir.
+  - #### [**Mix**](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html)
+    A build tool for creating and managing Elixir projects.
