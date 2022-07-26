@@ -7,34 +7,34 @@
   - #### **Track**
     Media track is equivalent to a single audio or video stream.
 - ### Web protocols:
-  - #### **UDP (User Datagram Protocol)##
-    UDP is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication. See [here](https://www.imperva.com/learn/ddos/udp-user-datagram-protocol) for more details.
-  - #### **TCP (Transmission Control Protocol)**
-    TCP is a [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
-  - #### **RTP (Real-time Transport Protocol)**
-    It's an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [SRTP](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](#webrtc).
-  - #### **HTTP (Hypertext Transfer Protocol)**
-    It's an [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [M§PEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
+  - #### **UDP**
+    User Datagram Protocol. A [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connectionless communication. See [here](https://www.imperva.com/learn/ddos/udp-user-datagram-protocol) for more details.
+  - #### **TCP**
+    Transmission Control Protocol. A [transport layer](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) protocol using connection-oriented communication. See [this explanation](https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp) on how TCP works.
+  - #### **RTP**
+    Real-time Transport Protocol. An [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [SRTP](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](#webrtc).
+  - #### **HTTP**
+    Hypertext Transfer Protocol. An [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [M§PEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
   - #### **Long Polling** 
     HTTP Long Pollingis a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received.
-  - #### **WebRTC (Web Real-Time Communication)**
-    WebRTC is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC). WebRTC implements three APIs: **MediaStream** used for acquiring media from the browser, **RTCPeerConnection** handling stable and efficient communication of streaming data between peers, and **RTCDataChannel** enabling a peer-to-peer exchange of arbitrary data with low latency and high throughput. Learn more about WebRTC [here](https://www.html5rocks.com/en/tutorials/webrtc/basics/).
+  - #### **WebRTC**
+    WebRTC (Web Real-Time Communication) is a free and open-source project providing web browsers and mobile applications with real-time communication (RTC). WebRTC implements three APIs: **MediaStream** used for acquiring media from the browser, **RTCPeerConnection** handling stable and efficient communication of streaming data between peers, and **RTCDataChannel** enabling a peer-to-peer exchange of arbitrary data with low latency and high throughput. Learn more about WebRTC [here](https://www.html5rocks.com/en/tutorials/webrtc/basics/).
   - #### **Signaling**
     In WebRTC it's a process of discovery, establishing, controlling, and terminating a connection between two devices.
-  - #### **SDP ([Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt))**
-    A protocol used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
+  - #### **SDP**
+    [Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt). A protocol used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
   - #### **WebSocket**
     An application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, allows to create persistent connections. Today it is supported by most web browsers and web servers.
-  - #### **ICE ([Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE))**
-    It's a technique for establishing the most direct connection between two computers, which is used in P2P communication.
-  - #### **STUN (Session Traversal Utilities for NAT)**
-    Protocol used in interactive communications with hosts hidden behind a NAT. Its goal is to find public addresses of the peers that they can use to directly communicate with each other.
-  - #### **TURN (Traversal Using Relays around NAT)**
-    Protocol utilizing TURN server which relays data between peers in case when direct connection cannot be established. However, this comes with an overhead since all the media must be sent through this server.
-  - #### **DTLS ([Datagram Transport Layer Security](https://developer.mozilla.org/en-US/docs/Glossary/DTLS))**
-    Protocol used for providing security to datagram-based applications. It is based on TLS and guarantees a similar level of security. All of the WebRTC related protocols are required to encrypt their communications using DTLS, this includes [SCTP](https://developer.mozilla.org/en-US/docs/Glossary/SCTP), [SRTP](#RTP) and [STUN](#STUN).
-- #### **NAT** ([Network address translation](https://developer.mozilla.org/en-US/docs/Glossary/NAT))
-  A technique of sharing one public IP address by multiple computers.
+  - #### **ICE**
+    [Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE). It's a technique for establishing the most direct connection between two computers, which is used in P2P communication.
+  - #### **STUN**
+    Session Traversal Utilities for NAT. Protocol used in interactive communications with hosts hidden behind a NAT. Its goal is to find public addresses of the peers that they can use to directly communicate with each other.
+  - #### **TURN**
+    Traversal Using Relays around NAT. Protocol utilizing TURN server which relays data between peers in case when direct connection cannot be established. However, this comes with an overhead since all the media must be sent through this server.
+  - #### **DTLS**
+    [Datagram Transport Layer Security](https://developer.mozilla.org/en-US/docs/Glossary/DTLS). Protocol used for providing security to datagram-based applications. It is based on TLS and guarantees a similar level of security. All of the WebRTC related protocols are required to encrypt their communications using DTLS, this includes [SCTP](https://developer.mozilla.org/en-US/docs/Glossary/SCTP), [SRTP](#RTP) and [STUN](#STUN).
+- #### **NAT**
+  [Network address translation](https://developer.mozilla.org/en-US/docs/Glossary/NAT). A technique of sharing one public IP address by multiple computers.
 - #### **Container format**
   A file format that allows multiple data streams to be embedded into a single file, e.g. MP4 format can contain video, audio, and subtitles streams inside of it.
 - #### **YUV**
@@ -47,17 +47,18 @@
   A way of modifying a message, so that only authorized parties are able to interpret it.
 - #### **Decryption**
   A process of retrieving data from an encrypted message.
-- #### **Muxing** (abbr. from multiplexing)
-  A method of combining multiple streams into a single container, e.g. muxing video and audio into an MP4 container.
-- #### **Demuxing**(abbr. from demultiplexing)
-  A method of separating streams from one combined container, e.g. retrieving audio and video from MP4.
-- ### Server's architecture ([here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started)
-  - #### **SFU**([Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server))
-    A video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
-  - #### **MCU**([Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server)) 
-    An architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
-  - #### **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh))
-    An architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
+- #### **Muxing**
+  Abbr. from multiplexing. A method of combining multiple streams into a single container, e.g. muxing video and audio into an MP4 container.
+- #### **Demuxing**
+  Abbr. from demultiplexing. A method of separating streams from one combined container, e.g. retrieving audio and video from MP4.
+- ### Server's architecture
+  [here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started
+  - #### **SFU**
+    [Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server). A video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
+  - #### **MCU** 
+    [Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server). An architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
+  - #### **P2P**
+    [Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh). An architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
 ## Membrane Framework
 
 - <a name="pad"></a> **Pad** is an input or output of an [elements](#element) or a [bin](#bin). Output pads of one element are connected to input pads of another element or bin.
