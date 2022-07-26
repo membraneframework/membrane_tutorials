@@ -133,4 +133,4 @@ As an exercise, you can try to modify the `lib/Pipeline.ex` file and define a pi
 
 The proposed solution can be found on the [dynamic_pads branch of the template repository](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/tree/dynamic_pads).
 
-If you combine the approach taken in the chapter about [Bin](/basic_pipeline_extension/01_Bin.md) you can simplify this solution by reducing the size of the link defitions inside the pipeline.
+If you combine the approach taken in the chapter about [Bin](/basic_pipeline_extension/02_Bin.md) you can simplify this solution by reducing the size of the link defitions inside the pipeline.
