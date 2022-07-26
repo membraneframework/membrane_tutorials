@@ -22,25 +22,42 @@
   - #### **Signaling**
     In WebRTC it's a process of discovery, establishing, controlling, and terminating a connection between two devices.
   - #### **SDP ([Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt))**
-    It's used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
-  - <a name="websocket"></a> **WebSocket** is an application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, allows to create persistent connections. Today it is supported by most web browsers and web servers.
-  - <a name="ice"></a> **ICE**([Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE)) is a technique for establishing the most direct connection between two computers, which is used in P2P communication.
-  - <a name="stun"></a> **STUN**(Session Traversal Utilities for NAT) is a protocol used in interactive communications with hosts hidden behind a NAT. Its goal is to find public addresses of the peers that they can use to directly communicate with each other.
-  - <a name="turn"></a> **TURN**(Traversal Using Relays around NAT) is a protocol utilizing TURN server which relays data between peers in case when direct connection cannot be established. However, this comes with an overhead since all the media must be sent through this server.
-  - <a name="dtls"></a> **DTLS**([Datagram Transport Layer Security](https://developer.mozilla.org/en-US/docs/Glossary/DTLS)) is a protocol used for providing security to datagram-based applications. It is based on TLS and guarantees a similar level of security. All of the WebRTC related protocols are required to encrypt their communications using DTLS, this includes [SCTP](https://developer.mozilla.org/en-US/docs/Glossary/SCTP), [SRTP](#RTP) and [STUN](#STUN).
-- <a name="nat"></a> **NAT**([Network address translation](https://developer.mozilla.org/en-US/docs/Glossary/NAT)) is a technique of sharing one public IP address by multiple computers.
-- <a name="container_format"></a> **Container format** is a file format that allows multiple data streams to be embedded into a single file, e.g. MP4 format can contain video, audio, and subtitles streams inside of it.
-- <a name="yuv"></a> **YUV** is a color encoding system that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with minuscule effect on human perception of the image.
-- <a name="encoding"></a> **Encoding** is a process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space. Examples of encoded formats are [MP3](https://en.wikipedia.org/wiki/MP3) and [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio and [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) and [MPEG4](https://en.wikipedia.org/wiki/MPEG-4_Part_2) for video.
-- <a name="decoding"></a> **Decoding** is a process of converting media from encoded format to raw format, e.g. in order to play it on the end device.
-- <a name="encryption"></a> **Encryption** is a way of modifying a message, so that only authorized parties are able to interpret it.
-- <a name="decryption"></a> **Decryption** is a process of retrieving data from an encrypted message.
-- <a name="muxing"></a> **Muxing**(abbr. from multiplexing) is a method of combining multiple streams into a single container, e.g. muxing video and audio into an MP4 container.
-- <a name="demuxing"></a> **Demuxing**(abbr. from demultiplexing) is a method of separating streams from one combined container, e.g. retrieving audio and video from MP4.
+    A protocol used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
+  - #### **WebSocket**
+    An application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, allows to create persistent connections. Today it is supported by most web browsers and web servers.
+  - #### **ICE ([Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE))**
+    It's a technique for establishing the most direct connection between two computers, which is used in P2P communication.
+  - #### **STUN (Session Traversal Utilities for NAT)**
+    Protocol used in interactive communications with hosts hidden behind a NAT. Its goal is to find public addresses of the peers that they can use to directly communicate with each other.
+  - #### **TURN (Traversal Using Relays around NAT)**
+    Protocol utilizing TURN server which relays data between peers in case when direct connection cannot be established. However, this comes with an overhead since all the media must be sent through this server.
+  - #### **DTLS ([Datagram Transport Layer Security](https://developer.mozilla.org/en-US/docs/Glossary/DTLS))**
+    Protocol used for providing security to datagram-based applications. It is based on TLS and guarantees a similar level of security. All of the WebRTC related protocols are required to encrypt their communications using DTLS, this includes [SCTP](https://developer.mozilla.org/en-US/docs/Glossary/SCTP), [SRTP](#RTP) and [STUN](#STUN).
+- #### **NAT** ([Network address translation](https://developer.mozilla.org/en-US/docs/Glossary/NAT))
+  A technique of sharing one public IP address by multiple computers.
+- #### **Container format**
+  A file format that allows multiple data streams to be embedded into a single file, e.g. MP4 format can contain video, audio, and subtitles streams inside of it.
+- #### **YUV**
+  A color encoding system that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with minuscule effect on human perception of the image.
+- #### **Encoding**
+  A process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space. Examples of encoded formats are [MP3](https://en.wikipedia.org/wiki/MP3) and [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio and [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) and [MPEG4](https://en.wikipedia.org/wiki/MPEG-4_Part_2) for video.
+- #### **Decoding**
+  A process of converting media from encoded format to raw format, e.g. in order to play it on the end device.
+- #### **Encryption**
+  A way of modifying a message, so that only authorized parties are able to interpret it.
+- #### **Decryption**
+  A process of retrieving data from an encrypted message.
+- #### **Muxing** (abbr. from multiplexing)
+  A method of combining multiple streams into a single container, e.g. muxing video and audio into an MP4 container.
+- #### **Demuxing**(abbr. from demultiplexing)
+  A method of separating streams from one combined container, e.g. retrieving audio and video from MP4.
 - ### Server's architecture ([here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started)
-  - <a name="sfu"></a> **SFU**([Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server)) is a video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
-  - <a name="mcu"></a> **MCU**([Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server)) is an architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
-  - <a name="p2p"></a> **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh)) is an architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
+  - #### **SFU**([Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server))
+    A video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
+  - #### **MCU**([Multipoint Control Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#23-mcumulti-point-control-unit-server)) 
+    An architecture consisting of a single server, which receives incoming streams from all participants, mixes the streams, and sends them to each of the participants.
+  - #### **P2P**([Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh))
+    An architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
 ## Membrane Framework
 
 - <a name="pad"></a> **Pad** is an input or output of an [elements](#element) or a [bin](#bin). Output pads of one element are connected to input pads of another element or bin.
