@@ -24,7 +24,7 @@ If you find yourself lost during the tutorial feel free to check the implementat
 
 Imagine that there is a conversation occurring between two peers and the chat is based on a question-answer scheme.
 Each of the peers sends its part of the conversation (that means - the first peer sends questions and the second peers sends the answers to them). We refer to each sentence sent by the peers as a **frame**.
-However, due to network limitations each frame sent by the peers is fragmented since only a few chars can be sent at the same time - that means, a single frame is sent as a sequence of **packets**.
+However, due to network limitations each frame sent by the peers is fragmented since only a few chars can be sent at the same time - that means, a single frame is sent as a sequence of [**packets**](../glossary/glossary.md#packet).
 In a real network there is a parameter called MTU (*Maximum Transmission Unit*) which is the maximum number of bytes which can be send in a single packet. For the Ethernet II MTU is equal to 1500 bytes. We wanted to simulate the situation,
 in which the data needs to be fragmented in order to be transmitted - but we decided to choose a small MTU so that this fragmentation is easy to be spotted.
 Each packet consists of the *header* (describing where the particular bunch of characters it transports should be put) and the *body* - aforementioned  bunch of characters.
