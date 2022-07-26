@@ -28,4 +28,4 @@ Finally, we add our custom script, which decorates the video player element with
 provided by the `hls.js` library.
 The `videoSrc` is a URL of the manifest file of the HLS playlist. As described in the previous chapter, the files from playlist are available
 at `/video/<filename>`.
-If the HLS is supported by the client's browser, we create an object of type `Hls` (that class is a part of the `hls.js` library), set it's source manifest file and a DOM element which acts as a video player. For more options which can be specified for the player, see the [documentation]().
+If the HLS is supported by the client's browser, we create an object of type `Hls` (that class is a part of the `hls.js` library), set it's source manifest file and a DOM element which acts as a video player. For more options which can be specified for the player, see the [documentation](https://github.com/video-dev/hls.js/blob/master/docs/API.md).
