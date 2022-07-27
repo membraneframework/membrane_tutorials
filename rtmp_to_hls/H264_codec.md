@@ -69,22 +69,20 @@ There are different types of both VCL and Non-VCL units - for more information o
 > As you can see, NALus of different types has appeard, just like:
 > * SPS - *Sequence Parameter Set*, a Non-VCL NALu, with a set of parameters which rarely change, applicable to the series of consecutive coded video pictures, called the **coded video sequence**. Each coded video sequence can be decoded independently of any other coded video sequence.
 > * PPS - *Picture parameter Set* - a set of parameters which are applicable to some pictures from the coded video sequence. Furthermore, inside a PPS NALu there is a reference to SPS. 
-> * SEI - *Supplemental Enhancement Information* - some additional information that enhance the usability of the decoded video, i.e. timing information
+> * SEI - *Supplemental Enhancement Information* - some additional information that enhance the usability of the decoded video, i.e. timing information.
 > * IDR - *Instantaneous Decoding Refresh*, a VCL unit containing the I-frame (known also as `intra frame`) - a picture which can be decoded without knowledge of any other frame, in contrast to P-frames and B-frames, which might need previously presented frames or frames that need to be presented in the future. As you might guess, I-frames size is much greater than P-frame or B-frame size - that is because the whole information about the content of the picture need to be encoded in such a frame.
 > * NON_IDR - *Non Instantaneous Decoding Refresh* - a VCL unit containing a P-frame or B-frame or parts of such a non-key frame. Note the size of a Non-IDR NALu (1536 B), compared to the size of IDR NALu (8284 B).
 
-The sequence of NALus of a special form creates a **Access Unit**.
-Each access unit hold a single picture of the video. Sometimes, for the convenience of the decoding, the access units are separated with the use of another Non-VCL NALu, called *AUD* (**Access Unit Delimeter**).
+The sequence of NALus of a special form creates a **Access Unit**. 
+Each access unit hold a single picture of the video.
+When such a picture is the key frame, we refer to it as a **IDR Access Unit**. Otherwise, we call it **Non-IDR Access Unit**. Ofcourse, the IDR Access Units are much bigger then Non-IDR Access Unit when it comes to their binary size.
+Sometimes, for the convenience of the decoding, the access units are separated with the use of another Non-VCL NALu, called *AUD* (**Access Unit Delimeter**).
 Below you can find a diagram showing the structure of an access unit:
-[Access Unit structure](assets/au_structure.png)
-
+![Access Unit structure](assets/au_structure.png)
+The access unit consists of the **primary coded picture** - a set of macroblocks representing the picture, and optionally of the **redundant coded picture** - the set of macroblocks which hold the redundant information about the given areas on the picture.
 A parser needs to be aware that some of the NALus are optional are might not appear in the stream.
-
 
 The existence of a coded video sequence is determined by the presence of an IDR NALu in the first access unit. Each coded video sequence can be decoded independently of the other coded video sequences. 
 
 As a summary we would like to present an diagram showing an exemplary NALus stream, along with the structures we can distinguish in that stream:
-[H264 NALus stream](assets/h264_structure.png)
-
-The first NALu is the SPS NALu, followed by two PPS NALus. As shown, the PPS NALus hold a reference to the SPS. Then come the SEI, which contains some more specific metada.
-After the metadata, there is an IDR NALu. It's existence determines the coded video sequence. All the NALus
+![H264 NALus stream](assets/h264_structure.png)
