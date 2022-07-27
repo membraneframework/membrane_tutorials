@@ -40,7 +40,7 @@ There are different types of both VCL and Non-VCL units - for more information o
 >
 > You should see the following response:
 >
-> ```
+> ```Elixir
 >   {[
 >       %{
 >           metadata: %{h264: %{new_access_unit: %{key_frame?: true}, type: :sps}},
