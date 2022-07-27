@@ -3,6 +3,7 @@ In this really short chapter, we will take a look at how one can play the video 
 In our demo, we are taking advantage of the HLS.js player.
 With such a tool onboard, the creation of the player is simple as that:
 **_`lib/rtmp_to_hls_web/templates/page/index.html.heex`_**
+
 ```js
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
@@ -24,7 +25,7 @@ With such a tool onboard, the creation of the player is simple as that:
 
 First, we load a `hls.js` script.
 Then, in the DOM we add a div holding a video element of a class `Player`.
-Finally, we add our custom script, which decorates the video player element with the functionalities 
+Finally, we add our custom script, which decorates the video player element with the functionalities
 provided by the `hls.js` library.
 The `videoSrc` is a URL of the manifest file of the HLS playlist. As described in the previous chapter, the files from the playlist are available
 at `/video/<filename>`.
