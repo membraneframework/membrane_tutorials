@@ -98,9 +98,9 @@
 
 ## General Elixir/Erlang concepts
 - ### OTP Behavior
-  - #### [**GenServer**](https://elixir-lang.org/getting-started/mix-otp/genserver.html)
-    Elixir bahaviour abstracts client/server interaction.
-  - #### [**Phoenix**](https://phoenixframework.org/) 
-    The web development framework written in Elixir.
-  - #### [**Mix**](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html)
-    A build tool for creating and managing Elixir projects.
+  - #### **GenServer**
+    Elixir bahaviour abstracts client/server interaction. [https://elixir-lang.org/getting-started/mix-otp/genserver.html](https://elixir-lang.org/getting-started/mix-otp/genserver.html)
+  - #### **Phoenix** 
+    The web development framework written in Elixir. [https://phoenixframework.org/](https://phoenixframework.org/)
+  - #### **Mix**
+    A build tool for creating and managing Elixir projects. [https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html)

@@ -2,7 +2,7 @@
 
 The time has come to assemble all the bricks together and create the pipeline!
 This task is really easy since the Membrane Framework provides a sort of DSL (*Domain Specific Language*) which allows you to link the prefabricated components together.
-In many real-life scenarios, this part would be the only thing you would need to do since you can take advantage of plenty of ready components (in form of elements and bins) which are available as a part of the Membrane Framework. For now, we will create the pipeline out of the elements we have created during that tutorial!
+In many real-life scenarios, this part would be the only thing you would need to do since you can take advantage of plenty of ready components (in form of [elements](../glossary/glossary.md/#element) and [bins](../glossary/glossary.md#bin)) which are available as a part of the Membrane Framework. For now, we will create the pipeline out of the elements we have created during that tutorial!
 
 ## Defining the pipeline
 
@@ -103,8 +103,8 @@ end
 
 We hope the syntax is visually descriptive enough to show what is the desired result of that definition.  Just to be sure let us go through it bit-by-bit.
 Each pipeline's "branch" starts with the `link/1` which takes as an argument an atom corresponding to a given element. All the further elements in the branch can be accessed with the use of the `to/1` function, expecting an atom that identifies that element to be passed as an argument. Note, that the mentioned atoms must be the same as the ones you have used as keys in the `children` map!
-`|>` operator allows "linking" of the elements accessed in the way described above, via their pads. By default, the elements' link will be using an `:input` pad as the input pad and an `:output` pad as the output pad.
-`via_in/1` allows specifying an input pad with a given name. Since in a mixer there are two input pads (`:first_input` and `:second_input`, defined in `Basic.Elements.Mixer` module with `def_input_pad` and `def_output_pad` macros), we need to distinguish between them while linking the elements.
+`|>` operator allows "linking" of the elements accessed in the way described above, via their [pads](../glossary/glossary.md#pad). By default, the elements' link will be using an `:input` pad as the input pad and an `:output` pad as the output pad.
+`via_in/1` allows specifying an input pad with a given name. Since in a [mixer](../glossary/glossary.md#mixer) there are two input pads (`:first_input` and `:second_input`, defined in `Basic.Elements.Mixer` module with `def_input_pad` and `def_output_pad` macros), we need to distinguish between them while linking the elements.
 Of course, there is also a `via_out/1` function, which is used to point the output pad with the given identifier, but there was no need to use it.
 In the case of other elements we do not need to explicitly point the desired pads since we are taking advantage of the default pads name - `:input` for the input pads and `:output` for the output ones (see what names we have given to our pads in the elements other than the mixer!). However, we could rewrite the following `links` definitions and explicitly specify the pad names:
 

@@ -5,8 +5,8 @@ As promised in the [3rd chapter](03_Source.md), we will talk more about the conc
 
 ## What are caps?
 
-Caps (an abbreviation of the *capabilities*) is a concept allowing us to define what kind of data is flowing through the pad.
-In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given element.
+Caps (an abbreviation of the *capabilities*) is a concept allowing us to define what kind of data is flowing through the [pad](../glossary/glossary.md#pad).
+In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given [element](../glossary/glossary.md/#element).
 
 We believe that an example might speak here louder than a plain definition, so we will try to describe the caps with the real-life scenario example.
 Let's say that we are connecting two elements that process the video multimedia.
@@ -14,7 +14,7 @@ The link is made between the pads which are working on raw video data.
 Here is where caps come up - they can be defined with the following constraints:
 
 - data format - in our case, we are having a raw video format
-- some additional constraints - i.e. frame resolution (480p) , framerate (30 fps) etc.
+- some additional constraints - i.e. [frame](../glossary/glossary.md#frame) resolution (480p) , framerate (30 fps) etc.
 
 Caps help us find out if the given elements are capable to communicate with each other. Not only we cannot send the data between the pads if the format they are expecting is different - we need to take into consideration some other constraints! We can think of a situation in which the format would be the same (i.e. raw video data), but the element which receives the data performs a much more complex computation on that data than the sender, and therefore cannot digest such a great amount of data as the sender is capable of transmitting. Then their caps wouldn't be compatible, which could be expressed by adding some constraint, i.e. framerate.
 
@@ -70,10 +70,10 @@ An element can send caps as one of the [actions](https://hexdocs.pm/membrane_cor
 
 Another thing is that we can specify the behavior of an element when it receives the caps with the use of [`handle_caps/4` callback](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_caps/4).
 
-For all the filter elements, `handle_caps/4` has a default implementation, which is relaying the received caps on all the output pads of that filter.
+For all the [filter elements](../glossary/glossary.md#filter), `handle_caps/4` has a default implementation, which is relaying the received caps on all the output pads of that filter.
 However, if your filter is changing the format of data being sent, it should override the implementation of that callback to prevent caps flying through it, and send the proper caps via the output pads.
 
-For the source element, it is necessary to send the caps as in each pipeline the source is the first element - caps wouldn't flow through the pipeline if the source element wouldn't have sent them. Sending can be done in the `handle_stopped_to_prepared/2` callback.
+For the [source element](../glossary/glossary.md#source), it is necessary to send the caps as in each [pipeline](../glossary/glossary.md#pipeline) the source is the first element - caps wouldn't flow through the pipeline if the source element wouldn't have sent them. Sending can be done in the `handle_stopped_to_prepared/2` callback.
 
 ## Example
 

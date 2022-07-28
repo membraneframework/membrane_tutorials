@@ -96,7 +96,7 @@ end
 
 ## Our first Pipeline
 
-The pipeline is one of the basic concepts of Membrane. It's a schema of how the data packets are flowing through our application.
+The [pipeline](../glossary/glossary.md#pipeline) is one of the basic concepts of Membrane. It's a schema of how the data [packets](../glossary/glossary.md#packet) are flowing through our application.
 
 ### Pipeline behaviour
 
@@ -125,11 +125,11 @@ defmodule Hello do
 end
 ```
 
-The main purpose of the `handle_init` callback is to prepare our pipeline. Preparing means that we need to specify all its elements as children and set up links between those children to describe the order in which data will flow through the pipeline.
+The main purpose of the `handle_init` callback is to prepare our pipeline. Preparing means that we need to specify all its [elements](../glossary/glossary.md/#element) as children and set up links between those children to describe the order in which data will flow through the pipeline.
 Pipeline's callbacks are expected to return status, an optional list of actions to be taken, and an updated state in which the pipeline will be after that callback. The action can be of one of the following [types](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:t/0).
 Since we want to spawn children processes and link them, we will use the [`spec_t()`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0) action which is described with the use of `Membrane.ParentSpec` structure.
 
-> If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring GenServer and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
+> If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring [GenServer](../glossary/glossary.md#genserver) and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
 
 ### Elements
 
@@ -163,7 +163,7 @@ The keys in the `children` keyword list (`file`, `decoder`, `converter`, `portau
 
 ### Linking elements
 
-Now we should link them in the proper order. Each Membrane Element can be one of three types: Source, Sink or Filter. The main difference is that Source provides only output pads, Sink only input and Filter both input and output pads. That means only a Source element start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipelines (it will not send any data to subsequent elements), and Filters can be in the middle (they receive, process and send data further). In our case the links declaration will look like this:
+Now we should link them in the proper order. Each Membrane Element can be one of three types: Source, Sink or Filter. The main difference is that Source provides only output [pads](../glossary/glossary.md#pad), Sink only input and Filter both input and output pads. That means only a Source element start pipelines (it's not prepared to receive any data from other elements), Sink can only end pipelines (it will not send any data to subsequent elements), and Filters can be in the middle (they receive, process and send data further). In our case the links declaration will look like this:
 
 ```elixir
 links = [
@@ -174,7 +174,7 @@ links = [
 ]
 ```
 
-The file Source reads bytes from our mp3 file and sends them to decoder. Decoder, after decoding, sends them to converter. Converter, after conversion sends them to our portaudio sink, which receives them and plays music through Portaudio 🎶
+The file Source reads bytes from our mp3 file and sends them to [decoder](../glossary/glossary.md#encoder-and-decoder). Decoder, after decoding, sends them to converter. Converter, after conversion sends them to our portaudio sink, which receives them and plays music through Portaudio 🎶
 
 ### Parent Spec
 

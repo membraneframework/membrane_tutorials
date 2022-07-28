@@ -1,6 +1,6 @@
 # Depeyloader
 
-Since we have packets put in order by the Ordering Buffer, we can assemble them into the original frames.
+Since we have [packets](../glossary/glossary.md#packet) put in order by the [Ordering Buffer](../glossary/glossary.md#jitter-buffer--ordering-buffer), we can assemble them into the original [frames](../glossary/glossary.md#frame).
 The Depayloader is an element responsible for this task. Specifically speaking, it unpacks the payload from the packets -
 and that is why it's called 'depayloader'.
 Let's create a new module in the `lib/elements/Depayloader.ex` file:
@@ -161,5 +161,5 @@ Test the `Depayloader`:
 mix test test/elements/depayloader_test.exs
 ```
 
-With the `Source`, `OrderingBuffer` and `Depayloader` elements ready we are able to read packets from file, order them based on their sequence id and assemble them back into frames.
-In the next chapter we will be dealing with `Mixer` which will merge two message streams in order to create complete conversation.
+With the [`Source`](../glossary/glossary.md#source), [`OrderingBuffer`](../glossary/glossary.md#jitter-buffer--ordering-buffer) and [`Depayloader`](../glossary/glossary.md#payloader-and-depayloader) elements ready we are able to read packets from file, order them based on their sequence id and assemble them back into frames.
+In the next chapter we will be dealing with [`Mixer`](../glossary/glossary.md#mixer) which will merge two message streams in order to create complete conversation.

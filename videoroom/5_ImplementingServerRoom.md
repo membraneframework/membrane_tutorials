@@ -169,7 +169,7 @@ end
 
 ```
 
-In case RTC Engine wants to communicate with the client during the signaling process, we know how to react - we are simply passing the message to the appropriate `PeerChannel`.
+In case RTC Engine wants to communicate with the client during the [signaling](../glossary/glossary.md#signaling) process, we know how to react - we are simply passing the message to the appropriate `PeerChannel`.
 How about messages coming from the client, via the `PeerChannel`? We need to pass them to the RTC Engine!
 
 **_`lib/videoroom/room.ex`_**

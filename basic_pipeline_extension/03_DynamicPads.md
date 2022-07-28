@@ -2,7 +2,7 @@
 
 The solution we have implemented along the tutorial has at least one downside - it is definitely not easily extendable.
 What if we needed to support mixing streams coming from three different speakers in the conversation?
-Well, we would need to add another input pad in the Mixer, for instance - `:third_input` pad, and then update our Pipeline definition:
+Well, we would need to add another input [pad](../glossary/glossary.md#pad) in the [Mixer](../glossary/glossary.md#mixer), for instance - `:third_input` pad, and then update our [pipeline](../glossary/glossary.md#pipeline) definition:
 
 **_`lib/Pipeline.ex`_**
 
@@ -34,7 +34,7 @@ The Membrane Framework comes with a solution for this sort of problem - and the 
 
 ## What is the idea behind the dynamic pads?
 
-Well, the idea is quite simple! Instead of specifying a single pad with a predefined name (*static pad*) as we did in all the modules before, we specify, that we want **a set of pads** of a given type. Initially, that set will be empty, but with each link created in the parent's child specification, the element will be informed, that the pad of a given type was added - and therefore it will be able to invoke the `handle_pad_added/3` callback.
+Well, the idea is quite simple! Instead of specifying a single pad with a predefined name (*static pad*) as we did in all the modules before, we specify, that we want **a set of pads** of a given type. Initially, that set will be empty, but with each link created in the parent's child specification, the [element](../glossary/glossary.md/#element) will be informed, that the pad of a given type was added - and therefore it will be able to invoke the `handle_pad_added/3` callback.
 
 ## The Mixer revisited
 
@@ -51,7 +51,7 @@ def_input_pad(:input, demand_unit: :buffers, availability: :on_request, caps: {B
 
 We have added the [`availability: :on_request` option](https://hexdocs.pm/membrane_core/Membrane.Pad.html#t:availability_t/0), which allows us to define the set of dynamic pads, identified as `:input`.
 
-No more do we have the `:first_input` and the `:second_input` pads defined, so we do not have the tracks corresponding to them either! Let's update the `handle_init/1` callback:
+No more do we have the `:first_input` and the `:second_input` pads defined, so we do not have the [tracks](../glossary/glossary.md#track) corresponding to them either! Let's update the `handle_init/1` callback:
 
 **_`lib/elements/Mixer.ex`_**
 

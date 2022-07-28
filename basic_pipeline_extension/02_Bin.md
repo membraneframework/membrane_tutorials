@@ -1,18 +1,18 @@
 # Bin
 
-A Membrane's bin is a container for elements, which allows for creating reusable groups of elements.
-Bin is similar to a pipeline in that it consists of linked elements. Such bin can then be placed inside a pipeline and linked with other entities - elements or bins. Bins can also be nested within one another.
+A Membrane's bin is a container for [elements](../glossary/glossary.md/#element), which allows for creating reusable groups of elements.
+Bin is similar to a [pipeline](../glossary/glossary.md#pipeline) in that it consists of linked elements. Such bin can then be placed inside a pipeline and linked with other entities - elements or bins. Bins can also be nested within one another.
 Bin also has another advantage - it manages its children, for instance by dynamically spawning or replacing them as the stream changes.
 
 ## Enclosing pipeline elements inside a bin
 
-As you can see, we have `Source` -> `Ordering Buffer` -> `Depayloader` chain, which is duplicated.
+As you can see, we have [`Source`](../glossary/glossary.md#source) -> [`Ordering Buffer`](../glossary/glossary.md#jitter-buffer--ordering-buffer) -> [`Depayloader`](../glossary/glossary.md#payloader-and-depayloader) chain, which is duplicated.
 ![Pipeline scheme](assets/images/basic_pipeline.png) <br>
 
 We can encapsulate these elements inside `Bin`.
 ![Pipeline scheme using bin](assets/images/basic_pipeline_bin.png) <br>
 
-Notice that there is no direct connection between `Depayloader` and `Mixer`. We have to explicitly link the `Depayloader` with `Bin`'s output pads and then we will connect the output pads to `Mixer`'s input pads.
+Notice that there is no direct connection between `Depayloader` and [`Mixer`](../glossary/glossary.md#mixer). We have to explicitly link the `Depayloader` with `Bin`'s output [pads](../glossary/glossary.md#pad) and then we will connect the output pads to `Mixer`'s input pads.
 
 Let's define the bin's output pads and its elements.
 
