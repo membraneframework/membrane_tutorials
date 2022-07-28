@@ -94,7 +94,7 @@ constructor(){
 }
 ```
 
-What happens at the beginning of the constructor? We are creating a new Phoenix Socket with `/socket` path (must be the same as we have defined on the server-side!) and right after that, we are starting a connection.
+What happens at the beginning of the constructor? We are creating a new [Phoenix](../glossary/glossary.md#phoenix) Socket with `/socket` path (must be the same as we have defined on the server-side!) and right after that, we are starting a connection.
 Later on, we are retrieving the display name from the URL (the user has set it in the UI while joining the room and it was passed to the next view as the URL param).
 Then we are connecting to the Phoenix's channel on the topic `room:<room name>`. The room name is fetched from the UI.
 Following on the constructor implementation:
@@ -141,7 +141,7 @@ onSendMediaEvent: (mediaEvent: SerializedMediaEvent) => {
 },
 ```
 
-If `mediaEvent` from our client Membrane Library appears (this event can be one of many types - for instance it can be message containing information about an ICE candidate in a form of SDP attribute)
+If `mediaEvent` from our client Membrane Library appears (this event can be one of many types - for instance it can be message containing information about an [ICE](../glossary/glossary.md#ice) candidate in a form of [SDP](../glossary/glossary.md#sdp) attribute)
 we need to pass it to the server. That is why we are making use of our Phoenix channel which has a second endpoint on the server-side - and we are simply pushing data through that channel. The form of the event pushed: `("mediaEvent", { data: mediaEvent })` is the one we are expecting on the server-side - recall the implementation of `VideoRoomWeb.PeerChannel.handle_in("mediaEvent", %{"data" => event}, socket)`
 
 #### onConnectionError
