@@ -61,7 +61,7 @@ Messages coming on the `socket` will be dispatched to the appropriate `channel`.
 
 ![RTC Engine](assets/images/modular_rtc.png)
 
-Note that the scheme is simplified and does not show [elements](../glossary/glossary.md/#element) (i.e. channels) that are in between the RTC Engine and the peers' browsers
+Note that the scheme is simplified and does not show [elements](../glossary/glossary.md#element) (i.e. channels) that are in between the RTC Engine and the peers' browsers
 If you want to find out more about the inner architecture of the RTC Engine, please refer [here](https://blog.swmansion.com/modular-rtc-engine-is-our-little-big-revolution-in-video-conferencing-cfde806c5beb).
 
 Media transmission will be done with the use of streaming protocols. How this will be performed is out of the scope of this tutorial. The only thing you need to know is that RTC Engine will also take care of it.

@@ -1,6 +1,6 @@
 # Ordering Buffer
 
-In this chapter we will deal with the next [element](../glossary/glossary.md/#element) in our [pipeline](../glossary/glossary.md#pipeline) - the [Ordering Buffer](../glossary/glossary.md#jitter-buffer--ordering-buffer).
+In this chapter we will deal with the next [element](../glossary/glossary.md#element) in our [pipeline](../glossary/glossary.md#pipeline) - the [Ordering Buffer](../glossary/glossary.md#jitter-buffer--ordering-buffer).
 As stated in the [chapter about the system architecture](02_SystemArchitecture.md), this element is responsible for ordering the incoming [packets](../glossary/glossary.md#packet), based on their sequence id.
 Because Ordering Buffer is a filtering element, we need to specify both the input and the output [pads](../glossary/glossary.md#pad):
 

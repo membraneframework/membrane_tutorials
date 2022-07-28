@@ -1,6 +1,6 @@
 # Sink
 
-The sink is the last [element](../glossary/glossary.md/#element) in our [pipeline](../glossary/glossary.md#pipeline), designed to store the data processed by the pipeline.
+The sink is the last [element](../glossary/glossary.md#element) in our [pipeline](../glossary/glossary.md#pipeline), designed to store the data processed by the pipeline.
 In contrast to the [filter elements](../glossary/glossary.md#filter), it won't have any output [pad](../glossary/glossary.md#pad) - that is why we need to make our element `use Membrane.Sink` and define the input pad only.
 Since we want to parameterize the usage of that element, it will be good to define the options structure, so that we can specify the path to the file where the output should be saved. This stuff is done in the code snippet below:
 

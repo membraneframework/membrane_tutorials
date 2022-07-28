@@ -4,6 +4,6 @@ The chapters are loosely related, so feel free to read them in any order you wan
 
 **Table of contents**
 
-- [Bin](../basic_pipeline_extension/02_Bin.md) - how to create a reusable group of [elements](../glossary/glossary.md/#element)
+- [Bin](../basic_pipeline_extension/02_Bin.md) - how to create a reusable group of [elements](../glossary/glossary.md#element)
 - [Dynamic Pads](../basic_pipeline_extension/03_DynamicPads.md) - a more flexible way to define element's [pads](../glossary/glossary.md#pad)
 - [Tests](../basic_pipeline_extension/04_Tests.md) - creating unit tests for the elements

@@ -6,7 +6,7 @@ As promised in the [3rd chapter](03_Source.md), we will talk more about the conc
 ## What are caps?
 
 Caps (an abbreviation of the *capabilities*) is a concept allowing us to define what kind of data is flowing through the [pad](../glossary/glossary.md#pad).
-In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given [element](../glossary/glossary.md/#element).
+In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given [element](../glossary/glossary.md#element).
 
 We believe that an example might speak here louder than a plain definition, so we will try to describe the caps with the real-life scenario example.
 Let's say that we are connecting two elements that process the video multimedia.

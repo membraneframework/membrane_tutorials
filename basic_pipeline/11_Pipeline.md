@@ -2,7 +2,7 @@
 
 The time has come to assemble all the bricks together and create the pipeline!
 This task is really easy since the Membrane Framework provides a sort of DSL (*Domain Specific Language*) which allows you to link the prefabricated components together.
-In many real-life scenarios, this part would be the only thing you would need to do since you can take advantage of plenty of ready components (in form of [elements](../glossary/glossary.md/#element) and [bins](../glossary/glossary.md#bin)) which are available as a part of the Membrane Framework. For now, we will create the pipeline out of the elements we have created during that tutorial!
+In many real-life scenarios, this part would be the only thing you would need to do since you can take advantage of plenty of ready components (in form of [elements](../glossary/glossary.md#element) and [bins](../glossary/glossary.md#bin)) which are available as a part of the Membrane Framework. For now, we will create the pipeline out of the elements we have created during that tutorial!
 
 ## Defining the pipeline
 

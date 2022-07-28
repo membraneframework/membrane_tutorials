@@ -2,7 +2,7 @@
 
 Once we know what should be done, let's start thinking how should our system look like!
 
-First, let's get familiar with some terms. In the Membrane Framework, there is a concept of the [`pipeline`](../glossary/glossary.md#pipeline) which consists of multiple [`elements`](../glossary/glossary.md/#element). Elements are linked with the use of the [`pads`](../glossary/glossary.md#pad), which can be input pads or output pads.
+First, let's get familiar with some terms. In the Membrane Framework, there is a concept of the [`pipeline`](../glossary/glossary.md#pipeline) which consists of multiple [`elements`](../glossary/glossary.md#element). Elements are linked with the use of the [`pads`](../glossary/glossary.md#pad), which can be input pads or output pads.
 Depending on what type of pads the particular element is equipped with, we distinguish the following types of elements:
 
 - Source - element with only output pads, the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.

@@ -15,7 +15,7 @@ We will immediately jump to the code and try to experience the Membrane tests on
 
 Elixir comes with a great tool for testing - [ExUnit](https://hexdocs.pm/ex_unit/ExUnit.html).
 If you have never written tests in ExUnit, feel free to stop for a moment and read about how the tests are constructed - however, ExUnit deals with tests in such a clear way that probably you will be able to see what's going on by just looking at the code snippets in the further part of this tutorial.
-We need to specify, that we will be writing only unit tests - that means, we will write tests checking the behavior of a single [element](../glossary/glossary.md/#element), isolated from the other elements in the pipeline.
+We need to specify, that we will be writing only unit tests - that means, we will write tests checking the behavior of a single [element](../glossary/glossary.md#element), isolated from the other elements in the pipeline.
 Let's create a `test/elements/depayloader_test.exs` file and put the following code inside it:
 
 **_`test/elements/depayloader_test.exs`_**

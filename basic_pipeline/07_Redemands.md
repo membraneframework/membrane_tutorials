@@ -6,7 +6,7 @@ Generally speaking, it can be used in two situations:
 - in the [source elements](../glossary/glossary.md#source)
 - in the [filter elements](../glossary/glossary.md#filter)
 
-To comprehensively understand the concept behind redemanding, you need to be aware of the typical control flow which occurs in the Membrane's [elements](../glossary/glossary.md/#element) - which you could have seen in the elements we have already defined.
+To comprehensively understand the concept behind redemanding, you need to be aware of the typical control flow which occurs in the Membrane's [elements](../glossary/glossary.md#element) - which you could have seen in the elements we have already defined.
 
 ## In Source elements
 

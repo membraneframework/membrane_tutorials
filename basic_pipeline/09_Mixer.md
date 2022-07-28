@@ -1,6 +1,6 @@
 # Mixer
 
-Here comes the mixer - an [element](../glossary/glossary.md/#element) responsible for mixing two streams of [frames](../glossary/glossary.md#frame), coming from two different sources.
+Here comes the mixer - an [element](../glossary/glossary.md#element) responsible for mixing two streams of [frames](../glossary/glossary.md#frame), coming from two different sources.
 Once again we start with defining the initialization options and the pads of both types:
 
 **_`lib/elements/Mixer.ex`_**

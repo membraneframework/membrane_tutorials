@@ -34,7 +34,7 @@ The Membrane Framework comes with a solution for this sort of problem - and the 
 
 ## What is the idea behind the dynamic pads?
 
-Well, the idea is quite simple! Instead of specifying a single pad with a predefined name (*static pad*) as we did in all the modules before, we specify, that we want **a set of pads** of a given type. Initially, that set will be empty, but with each link created in the parent's child specification, the [element](../glossary/glossary.md/#element) will be informed, that the pad of a given type was added - and therefore it will be able to invoke the `handle_pad_added/3` callback.
+Well, the idea is quite simple! Instead of specifying a single pad with a predefined name (*static pad*) as we did in all the modules before, we specify, that we want **a set of pads** of a given type. Initially, that set will be empty, but with each link created in the parent's child specification, the [element](../glossary/glossary.md#element) will be informed, that the pad of a given type was added - and therefore it will be able to invoke the `handle_pad_added/3` callback.
 
 ## The Mixer revisited
 

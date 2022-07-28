@@ -1,7 +1,7 @@
 # Source
 
 Let's get to the code!
-We will start where all the [pipelines](../glossary/glossary.md#pipeline) start - with the `Source` [element](../glossary/glossary.md/#element).
+We will start where all the [pipelines](../glossary/glossary.md#pipeline) start - with the `Source` [element](../glossary/glossary.md#element).
 Since this will be the first element we implement, we need to find out something more about how the Membrane Framework's elements should be implemented and some concepts associated with them.
 The first thing you need to be aware of is that `Membrane. Element` describes a specific behavior, based on the OTP [GenServer's](../glossary/glossary.md#genserver) behavior.
 Our process keeps a state which is updated in callbacks.
