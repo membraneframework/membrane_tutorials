@@ -1,14 +1,19 @@
-In this tutorial we will demonstrate the demo of [RTSP to HLS transcoder](https://github.com/membraneframework/membrane_demo/tree/master/rtsp_to_hls).
+In this tutorial we demonstrate the [RTSP to HLS](https://github.com/membraneframework/membrane_demo/tree/master/rtsp_to_hls) demo.
 
 # Introduction
 
 ## Use case
 
-In our scenario we have a surveillance camera, which is providing a video stream. Say, that we would like to stream this video to multiple viewers, for them to be easily accessible in the web browser. 
+Suppose that we have a surveillance camera, which is providing us with a video stream. We would like to stream this video to multiple viewers, for them to be easily accessible in the web browser. 
+
+Unfortunately for us, we cannot stream and display RTSP to a web browser - that's why we need to convert it to another format - in our case it's going to be HLS.
+In this tutorial you will learn how the RTSP to HLS converter works.
+
+In this tutorial we will explain how the RTSP to HLS converter using Membrane works.
 
 ## Our solution
 
-First of all, the vast majority of surveillance cameras use [RTSP]() for transmitting data so we have no choice but to use RTSP for receiving the stream from the camera.
+First of all, the vast majority of surveillance cameras use RTSP for transmitting data so we have no choice but to use RTSP for receiving the stream from the camera.
 
 You might wonder, why don't we just play the RTSP stream and finish here. Technically it is possible - if you have [VLC](https://wiki.videolan.org/Documentation:Installing_VLC) or [ffmpeg](https://ffmpeg.org/download.html) installed you can play our sample RTSP stream by running respectively
 
@@ -27,31 +32,11 @@ It's going to be less resource-demanding as well.
 
 ## What technology we will use 
 
-`RTSP` stands for Real Time Streaming Protocol - it is used for establishing and controlling multimedia streams. You can get an idea of what RTSP is reading [this post](https://antmedia.io/rtsp-explained-what-is-rtsp-how-it-works).
+Our solution will rely on a couple of media protocols. We will obviously use RTSP and HLS, but also RTP and RTCP which work together with RTSP. 
 
-`RTP`
+[Real Time Streaming Protocol (RTSP)](https://antmedia.io/rtsp-explained-what-is-rtsp-how-it-works)
+is used for establishing and controlling multimedia streams.
 
-`RTCP`
+[Real-time Transport Protocol (RTP) and RTP Control Protocol (RTCP)](https://www.techtarget.com/searchnetworking/definition/Real-Time-Transport-Protocol) are protocols used for delivering audio and video over internet. While the RTP transports the data, the RTCP is responsible for QoS and synchronization of multiple streams.
 
-`HLS` stands for HTTP Live Streaming, a protocol used for delivering media streams to majority of playback devices, such as web browsers and mobile devices. HLS is described in detail [here](https://www.dacast.com/blog/hls-streaming-protocol/).
-
-## Resources
-
-### RTSP:
-- [Wowza](https://www.wowza.com/blog/rtsp-the-real-time-streaming-protocol-explained)
-- [TechTarget](https://www.techtarget.com/searchvirtualdesktop/definition/Real-Time-Streaming-Protocol-RTSP)
-- [Antmedia](https://antmedia.io/rtsp-explained-what-is-rtsp-how-it-works/)
-
-### HLS:
-- [cloudflare](https://www.cloudflare.com/en-gb/learning/video/what-is-http-live-streaming/)
-- [dacast](https://www.dacast.com/blog/hls-streaming-protocol/)
-
-
-# Architecture
-
-Now let's discuss how the architecture of our solution will look like.
-
-The main component of the transcoder will be the pipeline, in which the RTP stream will be converted into an HLS.
-Wait, what? What is RTP is supposed to mean? It just a typo, you meant RT**S**P? Well... the answer is no!
-As described briefly in the [previously mentioned RTSP resource], RTSP is only responsible for controlling the media stream, the data itself is transmitted using [RTP (Real-time Transport Protocol)] protocol.
-In short, it is a protocol capable of transmitting live audio and video over the internet. It also requires [RTCP] (RTP Control Protocol) to be used in conjunction with it, which is responsible for monitoring the transmission statistics, QoS and synchronization of multiple streams.
+[HTTP Live Streaming (HLS)](https://www.toptal.com/apple/introduction-to-http-live-streaming-hls) is a protocol used for delivering media streams to majority of playback devices, such as web browsers and mobile devices.
