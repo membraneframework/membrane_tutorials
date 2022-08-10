@@ -1,6 +1,6 @@
-In the tutorial we won't explain how to implement the solution from ground up - instead we will run the existing code from [Membrane demos](https://github.com/membraneframework/membrane_demo).
+In the tutorial we won't explain how to implement the solution from the ground up - instead, we will run the existing code from [Membrane demos](https://github.com/membraneframework/membrane_demo).
 
-In order to run the RTSP to HLS converter first clone the demos repo:
+To run the RTSP to HLS converter first clone the demos repo:
 ```console
 git clone https://github.com/membraneframework/membrane_demo.git
 ```
@@ -32,7 +32,7 @@ We need to give a few arguments to the pipeline:
 @rtp_port 20000
 ```
 
-The `@output_path` attribute defines storage directory for hls files and the `@rtp_port` defines on which port we will be expecting the rtp stream, once the RTSP connection is established.
+The `@output_path` attribute defines the storage directory for hls files and the `@rtp_port` defines on which port we will be expecting the rtp stream, once the RTSP connection is established.
 
 The `@rtsp_stream_url` attribute contains the address of the stream, which we will be converting. It is a sample stream prepared for the purpose of the demo. 
 
@@ -47,7 +47,7 @@ The pipeline will start playing, after a couple of seconds the HLS files should 
 python3 -m http.server 8000
 ```
 
-Then we can play the stream using ffmpeg:
+Then we can play the stream using [ffmpeg](https://ffmpeg.org/):
 ```console
 ffplay http://YOUR_MACHINE_IP:8000
 ```
