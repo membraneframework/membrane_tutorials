@@ -47,7 +47,7 @@ The pipeline will start playing, after a couple of seconds the HLS files should 
 python3 -m http.server 8000
 ```
 
-Then we can play the stream using [ffmpeg](https://ffmpeg.org/):
+Then we can play the stream using [ffmpeg](https://ffmpeg.org/), by pointing to the location of the manifest file:
 ```console
-ffplay http://YOUR_MACHINE_IP:8000
+ffplay http://YOUR_MACHINE_IP:8000/rtsp_to_hls/hls_output/index.m3u8
 ```

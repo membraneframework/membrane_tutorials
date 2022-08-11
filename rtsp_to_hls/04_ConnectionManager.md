@@ -4,6 +4,7 @@ The `ConnectionManager` module will use the [`Connection`](https://hexdocs.pm/co
 
 First of all we are defining the `ConnectionStatus` struct, which we will use to keep the state of the ConnectionManager:
 
+##### lib/connection_manager.ex
 ```elixir
 defmodule ConnectionStatus do
   @moduledoc false
@@ -35,6 +36,7 @@ The `keep_alive` is a process which repeatedly sends a dummy message to the RTSP
 
 Let's take a look at the `connect/2` callback, which is called immediately after the `init/1`:
 
+##### lib/connection_manager.ex
 ```elixir
 def connect(_info, %ConnectionStatus{} = connection_status) do
   rtsp_session = start_rtsp_session(connection_status)
