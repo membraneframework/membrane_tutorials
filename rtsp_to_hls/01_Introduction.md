@@ -5,6 +5,7 @@ In this tutorial, we would like to show you how to use Membrane Framework to mak
 
 ## Prerequisites
 In this tutorial we assume, that you have some experience with Elixir, otherwise we recommend you have a [quick tour of the language](https://elixir-lang.org/getting-started/introduction.html).
+Having first experience with Membrane Framework will help you in this tutorial, so we encourage you check out the [Getting started with Membrane](https://membrane.stream/learn/get_started_with_membrane) tutorial.
 It would be best if you had some basic understanding of the protocols used, if you don't have yet, just take a look at the resources at the bottom of this chapter!
 
 ## Use case

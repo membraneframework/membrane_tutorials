@@ -49,8 +49,6 @@ Only after we receive the `:new_rtp_stream` notification we add the rest of the 
 ```elixir
 @impl true
 def handle_notification({:new_rtp_stream, ssrc, 96, _extensions}, :rtp, _ctx, state) do
-  Logger.debug(":new_rtp_stream")
-
   actions =
     if Map.has_key?(state, :rtp_started) do
       []
@@ -87,5 +85,5 @@ def handle_notification({:new_rtp_stream, ssrc, 96, _extensions}, :rtp, _ctx, st
 end
 ```
 
-First we check, if the stream hasn't started yet. That's because if we are restarting the pipeline there might be a previous RTP still being send, so we might receive the `:new_rtp_stream` notification twice - once for the old and then for the new stream. We want to ignore any notification after the first one, as we want only a single copy of each element.
+First we check, if the stream hasn't started yet. That's because if we are restarting the pipeline there might be a previous RTP stream still being sent, so we might receive the `:new_rtp_stream` notification twice - once for the old and then for the new stream. We want to ignore any notification after the first one, as we want only a single copy of each media processing element.
 Notice the sps and pps being passed to the H264 parser - they are necessary for decoding the stream.
