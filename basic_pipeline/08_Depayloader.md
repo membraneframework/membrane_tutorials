@@ -1,6 +1,6 @@
 # Depeyloader
 
-Since we have [packets](../glossary/glossary.md#packet) put in order by the [Ordering Buffer](../glossary/glossary.md#jitter-buffer--ordering-buffer), we can assemble them into the original [frames](../glossary/glossary.md#frame).
+Since we have [packets](../glossary/glossary.md#packet) put in order by the [Ordering Buffer](../basic_pipeline/06_OrderingBuffer.md), we can assemble them into the original [frames](../glossary/glossary.md#frame).
 The Depayloader is an element responsible for this task. Specifically speaking, it unpacks the payload from the packets -
 and that is why it's called 'depayloader'.
 Let's create a new module in the `lib/elements/Depayloader.ex` file:

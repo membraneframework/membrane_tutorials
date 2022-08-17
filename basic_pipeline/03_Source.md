@@ -3,7 +3,7 @@
 Let's get to the code!
 We will start where all the [pipelines](../glossary/glossary.md#pipeline) start - with the `Source` [element](../glossary/glossary.md#element).
 Since this will be the first element we implement, we need to find out something more about how the Membrane Framework's elements should be implemented and some concepts associated with them.
-The first thing you need to be aware of is that `Membrane. Element` describes a specific behavior, based on the OTP [GenServer's](../glossary/glossary.md#genserver) behavior.
+The first thing you need to be aware of is that `Membrane. Element` describes a specific behavior, based on the OTP [GenServer's](https://elixir-lang.org/getting-started/mix-otp/genserver.html) behavior.
 Our process keeps a state which is updated in callbacks.
 We only need to provide an implementation of some callbacks in order to make our element act in the desired way.
 The set of callbacks that can be implemented depends on the type of the elements and we will get familiar with them during the implementation of these elements.

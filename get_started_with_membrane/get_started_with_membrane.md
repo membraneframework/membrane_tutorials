@@ -96,7 +96,7 @@ end
 
 ## Our first Pipeline
 
-The [pipeline](../glossary/glossary.md#pipeline) is one of the basic concepts of Membrane. It's a schema of how the data [packets](../glossary/glossary.md#packet) are flowing through our application.
+The [pipeline](../glossary/glossary.md#pipeline) is one of the basic concepts of Membrane. It's a schema of how the data packets are flowing through our application.
 
 ### Pipeline behaviour
 
@@ -129,7 +129,7 @@ The main purpose of the `handle_init` callback is to prepare our pipeline. Prepa
 Pipeline's callbacks are expected to return status, an optional list of actions to be taken, and an updated state in which the pipeline will be after that callback. The action can be of one of the following [types](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:t/0).
 Since we want to spawn children processes and link them, we will use the [`spec_t()`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0) action which is described with the use of `Membrane.ParentSpec` structure.
 
-> If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring [GenServer](../glossary/glossary.md#genserver) and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
+> If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
 
 ### Elements
 
