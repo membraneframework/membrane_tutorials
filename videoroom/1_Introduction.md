@@ -24,7 +24,7 @@ Since media streaming is quite a complex topic it would be great for you to know
   Phoenix, while being a great tool that allows creating a complex application in a considerably easy manner, requires its user to follow a bunch of good practices and use some helpful project patterns. The most important one is the MVC (Model-View-Controller) pattern, which affects the structure of project directories. The tutorial attached there provides a great introduction to Phoenix application creation and will allow you to understand the structure of our template project.
 
 - [How do Phoenix sockets work and the difference between endpoint and socket/channel?](https://hexdocs.pm/phoenix/channels.html)
-  When we think about building a web application the very first thing which comes to our mind is HTTP.
+  When we think about building a web application the very first thing which comes to our mind is [HTTP](../glossary/glossary.md#http).
   Surely, Phoenix allows us to send HTTP requests from the client application to the server - however, there is an optional way to communicate
   which can also be used in Phoenix application - [sockets](https://datatracker.ietf.org/doc/html/rfc6455).
   Sockets, in contrast to plain HTTP requests, are persistent and allow bidirectional communication, while HTTP requests are stateless and work in request -> reply mode.
@@ -35,12 +35,12 @@ Since media streaming is quite a complex topic it would be great for you to know
 
 - [WebRTC Connectivity (signaling, ICE etc.)](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity)
   One does not simply connect and send media! First, peers need to get in touch with each other (with a little help from a publicly available server),
-  as well as exchange some information about themselves. This short tutorial will give you an outlook on how this process (called 'signaling') can be performed!
+  as well as exchange some information about themselves. This short tutorial will give you an outlook on how this process (called '[signaling](../glossary/glossary.md#signaling)') can be performed!
 
 - [Why do we need STUN/TURN servers?](https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/)
   A peer-to-peer connection can be (and in most cases is) problematic. At the same time, it is also demanded - we don't want to have our media pass through some server
   (both due to the throughput limitations and privacy issues). While reading this tutorial you will find some tricks which allow you to connect your beloved peer hidden
-  behind some firewalls and NAT!
+  behind some firewalls and [NAT](../glossary/glossary.md#nat)!
 
 - [WebRTC architectures](https://medium.com/securemeeting/webrtc-architecture-basics-p2p-sfu-mcu-and-hybrid-approaches-6e7d77a46a66)
   Take a quick glance there and find out what are possible architectures of WebRTC servers, when to use which architecture, and how to build a streaming solution that scales and behaves well.

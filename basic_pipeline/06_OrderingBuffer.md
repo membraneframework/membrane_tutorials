@@ -1,8 +1,8 @@
 # Ordering Buffer
 
-In this chapter we will deal with the next element in our pipeline - the Ordering Buffer.
-As stated in the [chapter about the system architecture](02_SystemArchitecture.md), this element is responsible for ordering the incoming packets, based on their sequence id.
-Because Ordering Buffer is a filtering element, we need to specify both the input and the output pads:
+In this chapter we will deal with the next [element](../glossary/glossary.md#element) in our [pipeline](../glossary/glossary.md#pipeline) - the [Ordering Buffer](../glossary/glossary.md#jitter-buffer--ordering-buffer).
+As stated in the [chapter about the system architecture](02_SystemArchitecture.md), this element is responsible for ordering the incoming [packets](../glossary/glossary.md#packet), based on their sequence id.
+Because Ordering Buffer is a filtering element, we need to specify both the input and the output [pads](../glossary/glossary.md#pad):
 
 **_`lib/elements/OrderingBuffer.ex`_**
 
@@ -150,7 +150,7 @@ defmodule Basic.Elements.OrderingBuffer do
 end
 ```
 
-We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last sent packet or there might be some packets not yet delivered to us, with sequence ids in between the last sent sequence id and the sequence id of a currently processed packet. In the second case, we should store the packet and wait for the next packets to arrive. We will accomplish that using `redemands` mechanism, which will be explained in detail in the next chapter.
+We need to distinguish between two situations: the currently processed packet can have a sequence id which is subsequent to the sequence id of the last sent packet or there might be some packets not yet delivered to us, with sequence ids in between the last sent sequence id and the sequence id of a currently processed packet. In the second case, we should store the packet and wait for the next packets to arrive. We will accomplish that using [`redemands` mechanism](../glossary/glossary.md#redemands), which will be explained in detail in the next chapter.
 However, in the first situation, we need to get the ready packet's sequence - that means, a consistent batch of packets from the `:ordered_packets`. This can be done in the following way:
 
 **_`lib/elements/OrderingBuffer.ex`_**

@@ -1,6 +1,6 @@
 # Mixer
 
-Here comes the mixer - an element responsible for mixing two streams of frames, coming from two different sources.
+Here comes the mixer - an [element](../glossary/glossary.md#element) responsible for mixing two streams of [frames](../glossary/glossary.md#frame), coming from two different sources.
 Once again we start with defining the initialization options and the pads of both types:
 
 **_`lib/elements/Mixer.ex`_**
@@ -22,8 +22,8 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-Note, that we have defined two input pads: `:first_input` and the `:second_input`.
-Each of these input pads will have a corresponding incoming track in form of a buffers stream. We need a structure that will hold the state of the track. Let's create it by defining a `Track` inside the mixer module:
+Note, that we have defined two input [pads](../glossary/glossary.md#pad): `:first_input` and the `:second_input`.
+Each of these input pads will have a corresponding incoming [track](../glossary/glossary.md#track) in form of a [buffers](../glossary/glossary.md#buffer) stream. We need a structure that will hold the state of the track. Let's create it by defining a `Track` inside the mixer module:
 
 **_`lib/elements/Mixer.ex`_**
 
@@ -43,7 +43,7 @@ end
 
 As you can see in the code snippet above, the `Track` will consist of the `:buffer` field, holding the very last buffer received on the corresponding input pad, and the `:status` fields, indicating the status of the track - `:started`, in case we are still expecting some buffers to come (that means - in case `:end_of_stream` event hasn't been received yet) and `:finished` otherwise.
 It's a good practice to provide a type specification for such a custom struct since it makes the code easier to reuse and lets the compiler warn us about some misspellings (for instance in the status field atoms), which cause some nasty to be spotted errors.
-A careful reader might notice, that we are holding only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the pipeline and which provide us an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
+A careful reader might notice, that we are holding only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the [pipeline](../glossary/glossary.md#pipeline) and which provide us an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
 
 The logic we're going to implement can be described in the following three steps:
 
@@ -235,4 +235,4 @@ mix test test/elements/mixer_test.exs
 
 Starting from that moment, our mixer should be capable of mixing the inputs from two sources! In the following part of this tutorial, we will extend the mixer so that it will be able to mix any number of tracks.
 
-Now all that's left to do is to save our stream to file using `Sink`.
+Now all that's left to do is to save our stream to file using [`Sink`](../glossary/glossary.md#sink).

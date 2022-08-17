@@ -2,7 +2,7 @@
 
 Since we have already discussed what caps are and how to use them, let's make use of them in our project!
 The first thing to do is to define modules responsible for describing the formats used in our pipeline.
-We will put them in a separate directory - `lib/formats`. Let's start with the format describing the packets:
+We will put them in a separate directory - `lib/formats`. Let's start with the format describing the [packets](../glossary/glossary.md#packet):
 
 **_`lib/formats/PacketFormat.ex`_**
 
@@ -17,7 +17,7 @@ end
 
 The definition of the module is not complicated, as you can see in the code snippet above - we are only defining a structure within that module, with a `:type` parameter, which default value is `:custom_packtes`.
 
-In our pipeline we will also send another type of data - frames. Let's define a format for them:
+In our [pipeline](../glossary/glossary.md#pipeline) we will also send another type of data - [frames](../glossary/glossary.md#frame). Let's define a format for them:
 
 **_`lib/formats/FrameFormat.ex`_**
 
@@ -34,7 +34,7 @@ Same as in the case of the previous format - we are defining a structure with a 
 
 That's it! Format modules are really simple - the more complicated thing is to make use of them - which we will do in the subsequent chapters while defining the caps!
 
-Before advancing you can test the `Source` element, using the tests provided in `/test` directory.
+Before advancing you can test the `Source` [element](../glossary/glossary.md/#source), using the tests provided in `/test` directory.
 
 ```
 mix test test/elements/source_test.exs

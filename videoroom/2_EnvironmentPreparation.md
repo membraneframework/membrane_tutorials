@@ -93,7 +93,7 @@ mix deps.get
 npm ci --prefix=assets
 ```
 
-Then you can simply run the Phoenix server with the following command:
+Then you can simply run the [Phoenix](../glossary/glossary.md#phoenix) server with the following command:
 
 ```
 mix phx.server
