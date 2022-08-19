@@ -79,7 +79,7 @@ There are different types of both VCL and Non-VCL units - for more information o
 > - IDR - *Instantaneous Decoding Refresh*, a VCL unit containing the I-frame (known also as `intra frame`) - a picture that can be decoded without knowledge of any other frame, in contrast to P-frames and B-frames, which might need previously presented frames or frames that need to be presented in the future. As you might guess, the I-frames size is much greater than P-frame or B-frame size - that is because the whole information about the content of the picture needs to be encoded in such a frame.
 > - NON_IDR - *Non-Instantaneous Decoding Refresh* - a VCL unit containing a P-frame or B-frame or parts of such a non-key frame. Note the size of a Non-IDR NALu (1536 B), compared to the size of IDR NALu (8284 B).
 
-The sequence of NALus of a special form creates a **Access Unit**.
+The sequence of NALus of a special form creates an **Access Unit**.
 Each access unit holds a single picture of the video.
 When such a picture is the keyframe, we refer to it as a **IDR Access Unit**. Otherwise, we call it **Non-IDR Access Unit**. Of course, the IDR Access Units are much bigger than Non-IDR Access Units when it comes to their binary size.
 Sometimes, for the convenience of the decoding, the access units are separated with the use of another Non-VCL NALu, called *AUD* (**Access Unit Delimeter**).

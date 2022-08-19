@@ -12,13 +12,13 @@ which is invoked once the pipeline is initialized.
  def handle_init(_opts) do
  ...
  children: %{
- src: %Membrane.RTMP.SourceBin{port: 9009},
- sink: %Membrane.HTTPAdaptiveStream.SinkBin{
- manifest_module: Membrane.HTTPAdaptiveStream.HLS,
- target_window_duration: 20 |> Membrane.Time.seconds(),
- muxer_segment_duration: 8 |> Membrane.Time.seconds(),
- storage: %Membrane.HTTPAdaptiveStream.Storages.FileStorage{directory: "output"}
- }
+     src: %Membrane.RTMP.SourceBin{port: 9009},
+     sink: %Membrane.HTTPAdaptiveStream.SinkBin{
+         manifest_module: Membrane.HTTPAdaptiveStream.HLS,
+         target_window_duration: 20 |> Membrane.Time.seconds(),
+         muxer_segment_duration: 8 |> Membrane.Time.seconds(),
+         storage: %Membrane.HTTPAdaptiveStream.Storages.FileStorage{directory: "output"}
+     }
  },
  ...
  end
@@ -33,7 +33,7 @@ First, we define the list of children. The following children are defined:
 - `:muxer_segment_duration` - the maximal duration of a segment. Each segment of each track shouldn't exceed that value. In our case, we have decided to limit the length of each segment to 8 seconds.
 - `:storage` - the sink element, the module responsible for writing down the HLS playlist and manifest files. In our case, we use a pre-implemented `Membrane.HTTPAdaptiveStream.FileStorage` module, designed to write the files to the local filesystem. We configure it so that the directory where the files will be put in the `output/` directory (make sure that that directory exists as the storage module won't create it itself).
 
-The fact that the configuration of a pipeline, which performs relatively complex processing, consists of just two elements, proves the power of [bins](basic_pipeline_extension/2). Feel free to stop for a moment and read about them if you haven't done it yet.
+The fact that the configuration of a pipeline, which performs relatively complex processing, consists of just two elements, proves the power of [bins](/basic_pipeline_extension/02_Bin.md). Feel free to stop for a moment and read about them if you haven't done it yet.
 
 After providing the children's specifications, we are ready to connect the pads between these children. Take a look at that part of the code:
 **_`lib/rtmp_to_hls/pipeline.ex`_**
@@ -43,14 +43,14 @@ After providing the children's specifications, we are ready to connect the pads 
  def handle_init(_opts) do
  ...
  links: [
- link(:src)
- |> via_out(:audio)
- |> via_in(Pad.ref(:input, :audio), options: [encoding: :AAC])
- |> to(:sink),
- link(:src)
- |> via_out(:video)
- |> via_in(Pad.ref(:input, :video), options: [encoding: :H264])
- |> to(:sink)
+     link(:src)
+     |> via_out(:audio)
+     |> via_in(Pad.ref(:input, :audio), options: [encoding: :AAC])
+     |> to(:sink),
+     link(:src)
+     |> via_out(:video)
+     |> via_in(Pad.ref(:input, :video), options: [encoding: :H264])
+     |> to(:sink)
  ]
  ...
  end
@@ -102,13 +102,12 @@ The Phoenix Framework provides tools to achieve that - take a look at the `RtmpT
 **_`lib/rtmp_to_hls_web/router.ex`_**
 
 ```Elixir
-    scope "/", RtmpToHlsWeb do
+scope "/", RtmpToHlsWeb do
     pipe_through :browser
 
     get "/", PageController, :index
     get "/video/:filename", HlsController, :index
  end
-```
 
 We are directing HTTP requests on `/video/:filename` to the HlsController, whose implementation is shown below:
 **_`lib/rtmp_to_hls_web/controllers/hls_controller.ex`_**

@@ -16,7 +16,7 @@ The following bins will be used in our solution:
 - RTMP Source Bin
 - HLS Sink Bin
 
-Each of these bins consists of some subunits, responsible for completing an atomic multimedia processing task - i.e. parsing or payloading the incoming stream.
+Each of these bins consists of some subunits (in Membrane we refer to them as _elements_), responsible for completing an atomic multimedia processing task - i.e. parsing or payloading the incoming stream.
 
 Let's take a quick walk through the whole processing line and describe more specifically what its given parts are meant to do.
 
