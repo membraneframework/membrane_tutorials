@@ -13,8 +13,8 @@ Below you can find the desired flow of data in our application server:
 As you can see, the server architecture consists of two bigger processing units - in Membrane Framework we refer to such units as 'bins'.
 The following bins will be used in our solution:
 
-- RTMP Source Bin
-- HLS Sink Bin
+- RTMP Source Bin - responsible for receiving RTMP stream
+- HLS Sink Bin - responsible for "packing" the data into the container format
 
 Each of these bins consists of some subunits (in Membrane we refer to them as _elements_), responsible for completing an atomic multimedia processing task - i.e. parsing or payloading the incoming stream.
 

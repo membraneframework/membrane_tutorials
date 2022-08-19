@@ -19,7 +19,7 @@ When it comes to the web player, we will use an existing solution - the [HLS.js]
 ## Why one would need such a solution?
 
 You might wonder why one would need to convert an RTMP stream into an HLS stream at all - couldn't we simply make the streamer broadcast its multimedia with the RTMP to all the viewers?
-Technically speaking we could...but surprisingly it wouldn't be the easiest solution, since each of the viewers would need to act as an RTMP server. And definitely, it wouldn't be a solution that would scale - since RTMP is based on TCP, there is no way to broadcast the stream, and therefore the streamer would need to perform a three-way handshake with each of the viewers.
+Technically speaking we could...but surprisingly it wouldn't be the easiest solution, since each of the viewers would need to act as an RTMP server. And definitely, it wouldn't be a solution that would scale - RTMP is based on TCP which implies, that there is no broadcast mechanism. It would be the streamer who would need to keep the direct connection to each of the viewers.
 In contrast, the solution described above has plenty of advantages - the streamer needs to create a single connection with the RTMP server, and then the multimedia can be shared with the use of a regular HTTP server which is designed to serve multiple clients.
 
 ## A brief description of the technology we will use

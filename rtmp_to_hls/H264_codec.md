@@ -13,7 +13,8 @@ Each slice (which in fact is a part of a video picture), can be packed into a si
 - Non-VCL NALus - which stands for "Non-video coding layer" NALus
 
 There are different types of both VCL and Non-VCL units - for more information on them you can refer [here](https://yumichan.net/video-processing/video-compression/introduction-to-h264-nal-unit/)
-
+> **Parse H264 stream on your own!**
+> 
 > With the use of Membrane Framework, you can inspect the types of NALus in your h264 file. To do so, you need to clone the H264 parser repository with:
 >
 > ```
