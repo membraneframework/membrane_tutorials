@@ -27,7 +27,6 @@ defmodule Basic.Elements.Source do
  alias Basic.Formats.Packet
  ...
 end
-
 ```
 
 ## Pads and options
@@ -43,7 +42,6 @@ defmodule Basic.Elements.Source do
  def_output_pad :output, [caps: {Packet, type: :custom_packets}, mode: :pull]
  ...
 end
-
 ```
 
 The first macro, `def_options` allows us to define the parameters which are expected to be passed while instantiating the element. The parameters will be passed as an automatically generated structure `%Basic.Elements.Source{}`. In our case, we will have a `:location` field inside of that structure. This parameter is about to be a path to the files which will contain input [packets](../glossary/glossary.md#packet).
@@ -114,7 +112,6 @@ defmodule Basic.Elements.Source do
  end
  ...
 end
-
 ```
 
 In the case of the first callback, `handle_stopped_to_prepared/2`, what we do is that we are reading the file from the location specified in the options structure (which we have saved in the state of the element).
@@ -147,7 +144,6 @@ defmodule Basic.Elements.Source do
  end
  ...
 end
-
 ```
 
 The callback's body describes the situation in which some buffers were requested. Then we are checking if we have any packets left in the list persisting in the state of the element. If that list is empty, we are sending an `end_of_stream` action, indicating that there will be no more buffers sent through the `:output` pad and that is why there is no point in requesting more buffers.
