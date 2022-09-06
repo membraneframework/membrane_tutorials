@@ -17,7 +17,8 @@ Depending on what type of pads the particular element is equipped with, we disti
 
 ## Scheme
 
-![Pipeline scheme](assets/images/basic_pipeline.png) <br>
+![Pipeline scheme](assets/images/basic_pipeline.png)
+
 As you can see, our pipeline will consist of two twin branches, one per each of the peers. The branches will be merged with the `Mixer` element and the result produced by this element will be put in the file with the `Sink` elements.
 Here you can find the description of the particular elements of the system.
 
