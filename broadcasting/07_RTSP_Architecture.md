@@ -5,7 +5,7 @@ Now let's discuss how the architecture of our solution will look like.
 The main component will be the pipeline, which will ingest RTP stream and convert it to HLS.
 We will also use a Connection Manager, which will be responsible for establishing an RTSP connection with the server.
 
-![image](assets/architecture.drawio.png)
+![image](assets/rtsp_architecture.drawio.png)
 
 When initializing, the pipeline will start a Connection Manager which starts an RTSP connection with the server. Once the connection is fully established, the pipeline will be notified.
 
@@ -25,7 +25,7 @@ Now we can start the stream using `PLAY` method.
 
 The pipeline consists of a couple elements, each of them performing a specific media processing task.
 
-![image](assets/pipeline.drawio.png)
+![image](assets/rtsp_pipeline.drawio.png)
 
 We have already used the, `H264 Parser`, `MP4 H264 Payloader`, `CMAF Muxer` and `HLS Sink` elements in the RTMP pipeline, take a look at the [RTMP to HLS architecture](02_RTMP_to_HLS_architecture) chapter for details of the purpose of those elements.
 
