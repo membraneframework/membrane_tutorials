@@ -1,9 +1,8 @@
 # Architecture
 
 Now let's discuss how the architecture of our solution will look like.
-
-The main component will be the pipeline, which will ingest RTP stream and convert it to HLS.
-We will also use a Connection Manager, which will be responsible for establishing an RTSP connection with the server.
+It will be a little different from the RTMP to HLS architecture.
+The main component will be the pipeline, which will ingest RTP stream and convert it to HLS. Beyond that we will also need a Connection Manager, which will be responsible for establishing an RTSP connection with the server.
 
 ![image](assets/rtsp_architecture.drawio.png)
 
@@ -23,7 +22,7 @@ Now we can start the stream using `PLAY` method.
 
 ## Pipeline
 
-The pipeline consists of a couple elements, each of them performing a specific media processing task.
+The pipeline consists of a couple elements, each of them performing a specific media processing task. You can definitely notice some similarities to the pipeline described in the [RTMP architecture](02_RTMP_SystemArchitecture.md). However, we will only be processing video so only the video processing elements will be necessary.
 
 ![image](assets/rtsp_pipeline.drawio.png)
 
