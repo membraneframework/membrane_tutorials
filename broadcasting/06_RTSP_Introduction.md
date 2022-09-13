@@ -1,6 +1,6 @@
 # Introduction
 
-Being one of the oldest video transmission protocols, RTSP isn't so popular today anymore. However, there are still areas where it is still in use, primarily by surveillance cameras.
+Other than RTMP, another protocol which is sometimes used for streaming media to the server is RTSP. It isn't so popular today anymore, however, there are still areas where it is still in use, primarily by surveillance cameras.
 In the next couple chapters, we would like to show you a modification of the current RTMP to HLS converter, that will allow us to convert an RTSP stream instead.
 
 ## Use case
@@ -11,7 +11,7 @@ Note, that we want this solution to be scalable as the number of users can be qu
 
 ## Solution
 
-The reasons for converting RTSP to HLS are very similar to the ones we explained with RTMP. RTSP is very rarely supported on playback devices, has problems with traversing firewalls and proxies and doesn't support adaptive bitrate.
+The reasons for converting RTSP to HLS are very similar to the ones we explained with RTMP, as RTSP comes with similar shortcomings as RTMP. RTSP is very rarely supported on playback devices, has problems with traversing firewalls and proxies and doesn't support adaptive bitrate.
 
 ## What technology we will use
 

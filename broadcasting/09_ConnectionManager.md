@@ -30,8 +30,8 @@ defmodule ConnectionStatus do
 end
 ```
 
-It holds the `rtsp_session`, which is the pid of a process started with `Membrane.RTSP.start/1`. The `Membrane.RTSP` allows us to execute RTSP client commands. You can read more about  [here](https://hexdocs.pm/membrane_rtsp/readme.html).
-The `pipeline` field is the pid of the pipeline, we will need it to notify the pipeline, that the RTSP connection is ready together with `pipeline_options`, which contain necessary information about the stream.
+It holds the `rtsp_session`, which is the pid of a process started with `Membrane.RTSP.start/1`. The `Membrane.RTSP` allows us to execute RTSP client commands. You can read more about it [here](https://hexdocs.pm/membrane_rtsp/readme.html).
+The `pipeline` field is the pid of the pipeline, we will need it to notify the pipeline, that the RTSP connection is ready. In such notification we send `pipeline_options`, which contain necessary information about the stream.
 The `keep_alive` is a process which repeatedly pings the RTSP server, in order to keep the connection alive and prevent a timeout.
 
 Let's take a look at the `connect/2` callback, which is called immediately after the `init/1`:
