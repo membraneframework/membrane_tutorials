@@ -1,10 +1,10 @@
-As explained in the [Architecture chapter](02_Architecture.md), the pipeline will consist of a couple of elements, that will be processing the RTP stream.
+As explained in the [Architecture chapter](07_RTSP_Architecture.md), the pipeline will consist of a couple of elements, that will be processing the RTP stream.
 
 The flow of the pipeline will consist of three steps. First, when the pipeline is initialized we will start the Connection Manager, which will set up the RTP stream via the RTSP.
-Once that is finished, we will initialize the first elements in the pipeline - the `UDP Source` and `RTP SessionBin`, which will allows us to receive RTP packets and process them.
-When the SessionBin detects that the RTP stream has been started it will notify the pipeline with the `:new_rtp_stream` notification we will add the remaining elements to the pipeline, allowing for the whole conversion process to take place.
+Once that is finished, we will set up two initial elements in the pipeline - the `UDP Source` and `RTP SessionBin`, which will allow us to receive RTP packets and process them.
+When the SessionBin detects that the RTP stream has been started, it will notify the pipeline with the `:new_rtp_stream` notification. Later on, we will add the remaining elements to the pipeline, allowing for the whole conversion process to take place.
 
-Those steps will take place respectively in the `handle_init/1`, `handle_other/3` and `handle_notification/4` callbacks.
+Those steps take place, respectively, in the: `handle_init/1`, `handle_other/3` and `handle_notification/4` callbacks. While the `handle_init/1` is rather intuitive, we will describe in detail what's happening in the other callbacks.
 
 Let us explain what's going on in the `handle_other` callback:
 
