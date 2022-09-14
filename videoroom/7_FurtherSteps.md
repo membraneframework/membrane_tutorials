@@ -14,10 +14,10 @@ Hopefully, you will find the diagram placed below helpful as it describes the fl
 
 It's not necessary for each peer to hear everything...
 Why not allow users of our video room to mute themselves when they want to?
-This simple feature has nothing to do with the server-side of our system. Everything you need to do in order to disable the voice stream being sent can be found in (WebRTC MediaStreamTrack API documentation)\[https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack\]. You need to find a way to disable and reenable the audio [track](../glossary/glossary.md#track) from your local media stream and then add a button that would set you in a "muted" or "unmuted" state. The expected result is shown below:
+This simple feature has nothing to do with the server-side of our system. Everything you need to do in order to disable the voice stream being sent can be found in (WebRTC MediaStreamTrack API documentation)[https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack]. You need to find a way to disable and reenable the audio [track](../glossary/glossary.md#track) from your local media stream and then add a button that would set you in a "muted" or "unmuted" state. The expected result is shown below:
 ![Mute example](assets/records/mute.webp "mute example")
 
 You can also conduct some experiments on how to disable the video track (so that the user can turn off and on camera while being in the room).
-Our suggested implementation of these two features is available at the [template repository](https://github.com/membrane_framework/membrane_videoroom_tutorial/), on `template/additional_features` branch.
+Our suggested implementation of these two features is available at the [template repository](https://github.com/membraneframework/membrane_videoroom_tutorial/), on `template/additional_features` branch.
 
 Here our journey ends! I modestly hope that you have enjoyed the tutorial and have fetched out of it that much interesting information and skills as possible. Or maybe you have even found yourself passionate about media streaming? Goodbye and have a great time playing with the tool you have just created!

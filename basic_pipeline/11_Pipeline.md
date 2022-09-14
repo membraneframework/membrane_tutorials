@@ -19,7 +19,7 @@ defmodule Basic.Pipeline do
 end
 ```
 
-You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/1` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them (here)\[https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks\].
+You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/1` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them (here)[https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks].
 Please add the following callback signature to our `Basic.Pipeline` module:
 
 **_`lib/Pipeline.ex`_**
@@ -155,7 +155,6 @@ In the output file (the one specified in the `handle_init/1` callback of the pip
 
 In case of any problems you can refer to the code on the `template/end` branch of `membrane_basic_pipeline_tutorial` repository.
 
-$~$
 Now our solution is completed. You have acquired a basic understanding of Membrane, and you can implement a simple pipeline using elements.
 
-If you wish to extend your knowledge of Membrane's concepts we encourage you to read the [extension to this tutorial](/basic_pipeline_extension/).
+If you wish to extend your knowledge of Membrane's concepts we encourage you to read the [extension to this tutorial](../basic_pipeline_extension/basic_pipeline_extension/01_Introduction.md).

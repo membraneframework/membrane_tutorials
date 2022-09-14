@@ -64,7 +64,7 @@ $ apt install clang-format portaudio19-dev ffmpeg libavutil-dev libswresample-de
 $ brew install clang-format portaudio ffmpeg libmad pkg-config
 ```
 
-Alternatively, you can use our docker image that already contains all libraries you need to smoothly run any membrane code. You can read more about how to do it [here](https://tutorials.membraneframework.org/tutorials/videoroom/2_EnvironmentPreparation.html#setting-environment-with-the-use-of-docker).
+Alternatively, you can use our docker image that already contains all libraries you need to smoothly run any membrane code. You can read more about how to do it [here](../videoroom/2_EnvironmentPreparation.md).
 
 ## Creating a Project
 
@@ -129,18 +129,18 @@ The main purpose of the `handle_init` callback is to prepare our pipeline. Prepa
 Pipeline's callbacks are expected to return status, an optional list of actions to be taken, and an updated state in which the pipeline will be after that callback. The action can be of one of the following [types](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:t/0).
 Since we want to spawn children processes and link them, we will use the [`spec_t()`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0) action which is described with the use of `Membrane.ParentSpec` structure.
 
-> If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html)
+> If the concept of callbacks and behaviours is new to you, you should probably take some time to read about OTP in Elixir (especially the part starring [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) and Supervisor). You can find the proper guide [here](https://elixir-lang.org/getting-started/mix-otp/agent.html).
 
 ### Elements
 
 The elements we'd like to use to play our mp3 will be:
 
 - `Membrane.File.Source` - the Source module form Membrane file plugin that will read a file.
-- `Membrane.MP3.MAD.Decoder` - an mp3 decoder based on [MAD](https://www.underbit.com/products/mad/)
+- `Membrane.MP3.MAD.Decoder` - an mp3 decoder based on [MAD](https://www.underbit.com/products/mad/).
 - `Membrane.FFmpeg.SWResample.Converter` - a converter based on [FFmpeg SWResample](https://ffmpeg.org/doxygen/trunk/group__lswr.html#details). We'll be needing it to resample our raw audio stream from 24 to 16 bits.
-- `Membrane.Portaudio.Sink` - A Sink module that will be playing our music with [Portaudio](http://www.portaudio.com)
+- `Membrane.Portaudio.Sink` - A Sink module that will be playing our music with [Portaudio](http://www.portaudio.com).
 
-> As you can see all the elements we're using are not part of `membrane_core`, but can be found in separate plugins. You can find a list of packages provided by the Membrane Team [here](https://membraneframework.org/guide/v0.7/packages.html). There you can also learn how to write your own Element.
+> As you can see all the elements we're using are not part of `membrane_core`, but can be found in separate plugins. You can find a list of packages provided by the Membrane Team [here](https://membrane.stream/guide/v0.7/packages.html). There you can also learn how to write your own Element.
 
 The full children declaration for our player will look like this:
 
