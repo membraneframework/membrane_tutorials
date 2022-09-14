@@ -113,7 +113,7 @@ constructor(){
 
 This structure might look a little bit ambiguous. What we are storing in `this.webrtcSocketRefs`? Well, we are storing references...to the callbacks we have just defined.
 We have passed what method should be invoked in case our Phoenix socket is closed or has experienced an error of some type - that is, `this.leave()` method. We will define this method later.
-However, we want to keep track of those callbacks so that we will be able to turn them off ("unregister " those callbacks).
+However, we want to keep track of those callbacks so that we will be able to turn them off ("unregister" those callbacks).
 Where will we be unregistering the callbacks? Inside `this.leave()` method!
 
 Now let's get back to the constructor. Let's initialize a MembraneWebRTC object!
