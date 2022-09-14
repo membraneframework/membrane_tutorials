@@ -27,7 +27,7 @@ Take a look at our `assets/package.json` file which defines outer dependencies f
 ```
 
 which is a client library provided by the RTC engine plugin from the Membrane Framework.
-Let's import some constructs from this library (their name should be self-explanatory and you can read about them in the official Membrane's RTC engine documentation along with some other dependencies which we will need later:
+Let's import some constructs from this library (their name should be self-explanatory and you can read about them in [the official Membrane's RTC engine documentation](https://docs.membrane.stream/membrane-webrtc-js) along with some other dependencies which we will need later:
 
 **_`assets/src/room.ts`_**
 ```ts
@@ -127,7 +127,7 @@ constructor(){
 }
 ```
 
-According to MembraneWebRTC [documentation](https://hexdocs.pm/membrane_rtc_engine/js/interfaces/callbacks.html) we need to specify the behavior of the RTC engine client by the mean of passing the proper callbacks during the construction.
+According to MembraneWebRTC [documentation](https://docs.membrane.stream/membrane-webrtc-js/interfaces/callbacks.html) we need to specify the behavior of the RTC engine client by the mean of passing the proper callbacks during the construction.
 
 We will go through the callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called `callbacks` before initializing `this.webrtc` object.
 
@@ -191,7 +191,7 @@ private updateParticipantsList = (): void => {
 
 We are simply putting all the peers' display names into the list and later on, we are adding our own name on top of this list. The last thing to do is to inform UI that the participants' list has changed - and we do it by invoking `setParticipantsList(participantsNames)` from `assets/src/room_ui.ts`.
 
-How about you trying to implement the rest of the callbacks on your own? Please refer to the [documentation](<>) and think where you can use methods from `./assets/src/room_ui.ts`.
+How about you trying to implement the rest of the callbacks on your own? Please refer to the [documentation](https://docs.membrane.stream/membrane-webrtc-js/interfaces/callbacks.html) and think where you can use methods from `./assets/src/room_ui.ts`.
 Below you will find the expected result (callback implementation) for each of the methods - it might not be the best implementation...but this is the implementation you can afford!
 Seriously speaking - we have split some of these callbacks implementation into multiple functions, according to some good practices and we consider it to be a little bit...cleaner ;)
 
