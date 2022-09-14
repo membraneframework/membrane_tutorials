@@ -27,7 +27,7 @@ Take a look at our `assets/package.json` file which defines outer dependencies f
 ```
 
 which is a client library provided by the RTC engine plugin from the Membrane Framework.
-Let's import some constructs from this library (their name should be self-explanatory and you can read about them in [the official Membrane's RTC engine documentation](https://tutorials.membraneframework.org/membrane-webrtc-js/)) along with some other dependencies which we will need later:
+Let's import some constructs from this library (their name should be self-explanatory and you can read about them in the official Membrane's RTC engine documentation along with some other dependencies which we will need later:
 
 **_`assets/src/room.ts`_**
 ```ts

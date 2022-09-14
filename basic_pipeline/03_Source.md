@@ -119,7 +119,7 @@ end
 
 In the case of the first callback, `handle_stopped_to_prepared/2`, what we do is that we are reading the file from the location specified in the options structure (which we have saved in the state of the element).
 Then we split the content of the file to get the particular packets and save the list of those packets in the state of the element.
-An interesting thing here is the action we are returning - the `:caps` action. That means that we want to transmit the information about the supported [caps](../glossary/glossary.md#caps) through the `output` pad, to the next element in the pipeline. In the [chapter 4](/04_Caps.md) you will find out more about caps and formats and learn why it is required to do so.
+An interesting thing here is the action we are returning - the `:caps` action. That means that we want to transmit the information about the supported [caps](../glossary/glossary.md#caps) through the `output` pad, to the next element in the pipeline. In the [chapter 4](../basic_pipeline/04_Caps.md) you will find out more about caps and formats and learn why it is required to do so.
 The second callback, `handle_prepared_to_stopped`, defines the behavior of the Source element while we are stopping the pipeline. What we want to do is to clear the content buffer in the state of our element.
 
 ## Demands

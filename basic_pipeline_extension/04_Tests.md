@@ -140,7 +140,7 @@ The generic [`Membrane.Testing.Source`](https://hexdocs.pm/membrane_core/Membran
 It is also important to specify the `:caps` option, because, as you remember, the Source element is responsible for generating the [caps](../glossary/glossary.md#caps). In our case, we have specified the caps, which will be accepted by the Depayloader's caps specification.
 Once the pipeline structure is defined, we can start the pipeline process.
 Just after that, we start playing the pipeline.
-And here comes the assertions section - we are taking advantage of some (Membrane specific assertions\](https://hexdocs.pm/membrane_core/Membrane.Testing.Assertions.html):
+And here comes the assertions section - we are taking advantage of some (Membrane specific assertions](https://hexdocs.pm/membrane_core/Membrane.Testing.Assertions.html):
 
 - first, we are asserting that the stream has started, with the `assert_start_of_stream/2`
 - then we are asserting that the ink has received a buffer of a given form (in our case - we want the sink to receive the buffer with a frame assembled out of the input packets) - with the help of `assert_sink_buffer/3`

@@ -14,7 +14,7 @@ graphicPath: assets/images/Illo_basic pipeline.png
 | 4      | Caps                | 04_Caps.md               |
 | 5      | Formats             | 05_Formats.md            |
 | 6      | Ordering Buffer     | 06_OrderingBuffer.md     |
-| 7      | Reminders           | 07_Redemands.md          |
+| 7      | Redemands           | 07_Redemands.md          |
 | 8      | Depayloader         | 08_Depayloader.md        |
 | 9      | Mixer               | 09_Mixer.md              |
 | 10     | Sink                | 10_Sink.md               |
