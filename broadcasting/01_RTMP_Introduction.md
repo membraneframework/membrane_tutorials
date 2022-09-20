@@ -1,7 +1,3 @@
-We are glad you have decided to continue your journey into the oceans of multimedia with us!
-In this tutorial you will be able to see the Membrane in action - as we will prepare a solution responsible for converting
-the incoming RTMP stream into an HLS stream, ready to be easily served on the internet.
-
 ## What do we want to achieve?
 
 Imagine that we need to build a video streaming platform. That means - we want a particular system user, the streamer, to stream its multimedia on a server, where it will be available for other participants - the viewers.
