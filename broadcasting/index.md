@@ -3,7 +3,6 @@ title: Membrane broadcasting tutorial
 description: >-
   Create your own media broadcasting solution!
 part: 8
-graphicPath: ../assets/images/Illo_fallback.png
 ---
 
 | number | title                            | file                             |
