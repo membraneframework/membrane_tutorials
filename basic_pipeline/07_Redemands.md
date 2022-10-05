@@ -37,7 +37,6 @@ def handle_demand(:output, _size, unit, context, state) do
  actions = [buffer: %Membrane.Buffer(payload: payload), redemand: :output]
  { {:ok, actions}, state}
 end
-
 ```
 
 ## In Filter elements

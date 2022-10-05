@@ -5,6 +5,7 @@ The room should dispatch messages sent from RTC Engine to appropriate peer chann
 Let's start by creating `lib/videoroom/room.ex` file with a declaration of Videoroom.Room module:
 
 **_`lib/videoroom/room.ex`_**
+
 ```elixir
 defmodule Videoroom.Room do
 @moduledoc false
@@ -24,6 +25,7 @@ We will be using OTP's [GenServer](https://elixir-lang.org/getting-started/mix-o
 Let's start by adding wrappers for GenServer's `start` and `start_link` functions:
 
 **_`lib/videoroom/room.ex`_**
+
 ```elixir
 def start(init_arg, opts) do
  GenServer.start(__MODULE__, init_arg, opts)
@@ -37,6 +39,7 @@ end
 Then we are providing the implementation of `init/1` callback:
 
 **_`lib/videoroom/room.ex`_**
+
 ```elixir
 @impl true
 def init(room_id) do
@@ -166,7 +169,6 @@ def handle_info(%Message.PeerLeft{peer: peer}, state) do
  Membrane.Logger.info("Peer #{inspect(peer.id)} left RTC Engine")
  {:noreply, state}
 end
-
 ```
 
 In case RTC Engine wants to communicate with the client during the [signaling](../glossary/glossary.md#signaling) process, we know how to react - we are simply passing the message to the appropriate `PeerChannel`.

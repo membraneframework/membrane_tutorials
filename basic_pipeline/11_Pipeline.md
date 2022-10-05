@@ -27,13 +27,12 @@ Please add the following callback signature to our `Basic.Pipeline` module:
 ```Elixir
 
 defmodule Basic.Pipeline do
- ... 
+ ...
  @impl true
  def handle_init(_opts) do
 
  end
 end
-
 ```
 
 As you can see, we can initialize the pipeline with some options, but in our case, we do not need them.
