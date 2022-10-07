@@ -5,7 +5,7 @@ As promised in the [3rd chapter](03_Source.md), we will talk more about the conc
 
 ## What are caps?
 
-Caps (an abbreviation of the *capabilities*) is a concept allowing us to define what kind of data is flowing through the [pad](../glossary/glossary.md#pad).
+Caps (an abbreviation of the _capabilities_) is a concept allowing us to define what kind of data is flowing through the [pad](../glossary/glossary.md#pad).
 In the Membrane Framework's nomenclature, we say, that we define a caps specification for a given [element](../glossary/glossary.md#element).
 
 We believe that an example might speak here louder than a plain definition, so we will try to describe the caps with the real-life scenario example.
@@ -22,7 +22,7 @@ Caps help us define a contract between elements and prevent us from connecting i
 
 ## When the caps are compatible?
 
-A comparison between caps is made when the pads are connected. Due to freedom in defining the type, the comparison is not that straightforward. It would be good for a responsible Membrane's element architect to be aware of how the caps are compared. You can refer to the implementation of the caps matcher, available [here](https://github.com/membraneframework/membrane_core/blob/82d6162e3df94cd9abc508c58bc0267367b02d58/lib/membrane/caps/matcher.ex#L124)...or follow on this chapter, and learn it by an example.
+A comparison between caps is made when the pads are connected. Due to freedom in defining the type, the comparison is not that straightforward. It would be good for a responsible Membrane's element architect to be aware of how the caps are compared. You can refer to the implementation of the caps matcher, available [here](https://github.com/membraneframework/membrane_core/blob/82d6162e3df94cd9abc508c58bc0267367b02d58/lib/membrane/caps/matcher.ex#L124)... or follow on this chapter, and learn it by an example.
 Here is how you define a caps specification:
 
 1. First you need to specify the format module
@@ -43,8 +43,8 @@ Module name defines the type of the caps, however it is possible to pass some ot
 2. We specify the pad of the element with the format we have just defined, using the `:caps` option. For the purpose of an example, let it be the `:input` pad:
 
 ```Elixir
-def_input_pad(:input, 
-  demand_unit: :buffers, 
+def_input_pad(:input,
+  demand_unit: :buffers,
   caps: [
      {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
      {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 720, height: 480}
@@ -55,7 +55,7 @@ def_input_pad(:input,
 As you can see, we pass a list of compatible formats, each described with the tuple, consisting of our module name, and the keywords list fulfilling the
 structure defined in that module. For the format's options, we can use the `range/2` or `one_of/1` specifier, which will modify the way in which the comparison between the caps specification and the actual caps received by the element is performed.
 
-3. Once the caps event comes to the element's pad, the caps description sent in that event is confronted with each of the formats in the caps specification list of the pad.  If the event's caps description matches even one of the caps formats present in the list it means that caps are matching.
+3. Once the caps event comes to the element's pad, the caps description sent in that event is confronted with each of the formats in the caps specification list of the pad. If the event's caps description matches even one of the caps formats present in the list it means that caps are matching.
    To match the caps with the particular format (one from the caps specification list), the module (first element of the tuple in caps format description) must be the same and all the options must match. For each option, a value sent within the event is confronted with the specification of the option. The way comparison occurs is dependent on how we defined that option in the specification:
 
 - We have used `framerate: range(30, 60)`, so will accept the framerate value in the given interval, between 30 and 60 FPS.
@@ -85,8 +85,8 @@ Here is the definition of the source element:
 # Source element
 
 defmodule Source do
- def_output_pad(:output, 
-   demand_unit: :buffers, 
+ def_output_pad(:output,
+   demand_unit: :buffers,
    caps: [
       {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
       {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 720, height: 480}
@@ -109,16 +109,16 @@ Below there is the draft of the filter implementation:
 # Filter
 
 defmodule Filter do
- def_input_pad(:input, 
-   demand_unit: :buffers, 
+ def_input_pad(:input,
+   demand_unit: :buffers,
    caps: [
       {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
       {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 720, height: 480}
    ]
  )
 
- def_output_pad(:output, 
-   demand_unit: :buffers, 
+ def_output_pad(:output,
+   demand_unit: :buffers,
    caps: {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
  )
 
