@@ -108,6 +108,7 @@ scope "/", RtmpToHlsWeb do
     get "/", PageController, :index
     get "/video/:filename", HlsController, :index
  end
+ ```
 
 We are directing HTTP requests on `/video/:filename` to the HlsController, whose implementation is shown below:
 **_`lib/rtmp_to_hls_web/controllers/hls_controller.ex`_**

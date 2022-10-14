@@ -180,7 +180,7 @@ Once we have a consistent batch of packets, we can update the state (both the`:o
 
 Test the `OrderingBuffer`:
 
-```
+```console
 mix test test/elements/ordering_buffer_test.exs
 ```
 

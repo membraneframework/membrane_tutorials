@@ -229,7 +229,7 @@ For all the tracks which are not yet `:finished`, do not have the buffer and the
 
 Test the `Mixer`:
 
-```
+```console
 mix test test/elements/mixer_test.exs
 ```
 

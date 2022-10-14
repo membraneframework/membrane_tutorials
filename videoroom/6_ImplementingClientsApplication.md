@@ -372,7 +372,7 @@ feel free to refer to the implementation of the video room's client-side availab
 Now, finally, you should be able to check the fruits of your labor!
 Please run:
 
-```
+```bash
 mix phx.server
 ```
 

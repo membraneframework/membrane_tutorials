@@ -8,20 +8,20 @@ use cases of Membrane in real-life scenarios.
 
 In order to run the demo, you need to clone the Membrane demos repository first:
 
-```
+```console
 git clone https://github.com/membraneframework/membrane_demo
 cd membrane_demo/rtmp_to_hls
 ```
 
 Once in the project directory, you need to get the dependencies of the project:
 
-```
+```console
 mix deps.get
 ```
 
 Finally, you can run the application with the following command:
 
-```
+```console
 mix phx.server
 ```
 

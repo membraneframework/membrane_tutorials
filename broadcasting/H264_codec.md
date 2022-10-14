@@ -17,13 +17,13 @@ There are different types of both VCL and Non-VCL units - for more information o
 > 
 > With the use of Membrane Framework, you can inspect the types of NALus in your h264 file. To do so, you need to clone the H264 parser repository with:
 >
-> ```
+> ```console
 >   git clone https://github.com/membraneframework/membrane_h264_ffmepg_plugin
 > ```
 >
 > Later on, inside the repository's directory, you can launch the Elixir's interactive shell, with compiled modules from the repository's mix project, by typing:
 >
-> ```
+> ```console
 >   iex -S mix
 > ```
 >
