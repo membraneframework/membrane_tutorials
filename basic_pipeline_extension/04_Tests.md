@@ -156,7 +156,7 @@ With the Membrane's testing framework you can do it in one line only!
 
 Now we can run the tests with a simple [mix](../glossary/glossary.md#mix) task, by typing:
 
-```
+```console
 mix test
 ```
 

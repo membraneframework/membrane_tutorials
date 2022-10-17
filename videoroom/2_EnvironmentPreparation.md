@@ -29,7 +29,7 @@ First, some native dependencies are needed. Here is how you can install them and
 
 ### Mac OS with M1
 
-```
+```bash
 brew install node srtp libnice clang-format ffmpeg
 export C_INCLUDE_PATH=/opt/homebrew/Cellar/libnice/0.1.18/include:/opt/homebrew/Cellar/opus/1.3.1/include:/opt/homebrew/Cellar/openssl@1.1/1.1.1l_1/include
 export LIBRARY_PATH=/opt/homebrew/Cellar/opus/1.3.1/lib
@@ -38,21 +38,21 @@ export PKG_CONFIG_PATH=/opt/homebrew/Cellar/openssl@1.1/1.1.1l_1/lib/pkgconfig/
 
 ### Mac OS with Intel
 
-```
+```bash
 brew install node srtp libnice clang-format ffmpeg
 export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 ```
 
 ### Ubuntu
 
-```
+```bash
 sudo apt-get install npm build-essential pkg-config libssl-dev libopus-dev libsrtp2-dev libnice-dev libavcodec-dev libavformat-dev libavutil-dev
 export PKG_CONFIG_PATH="/usr/local/ssl/lib/pkgconfig"
 ```
 
 If you installed Elixir from ESL repo, make sure the following erlang packages are present
 
-```
+```bash
 sudo apt-get install erlang-dev erlang-parsetools erlang-src
 ```
 
@@ -68,7 +68,7 @@ At the same time, you will be able to run the project from the inside of the con
 
 If you are not using VS Code, you can still take advantage of the virtualization and use the image provided by us - however, you will need to create the shared filesystem volume and bridge the networks on your own. Here is the command which will make this for you:
 
-```
+```bash
 docker run -p 4000:4000 -it -v <path_to_cloned_templates>:/videoroom membraneframeworklabs/docker_membrane
 ```
 
@@ -76,7 +76,7 @@ where `<path_to_cloned_templates>` is the **absolute** path to the root director
 
 If you have just cloned the repo and your current directory is the repo's root, you can use `pwd` to get that path:
 
-```
+```bash
 docker run -p 4000:4000 -it -v `pwd`:/videoroom membraneframeworklabs/docker_membrane
 ```
 
@@ -88,14 +88,14 @@ Let's make some reconnaissance.
 First, let's run the template.
 Before running the template we need to install the dependencies using:
 
-```
+```bash
 mix deps.get
 npm ci --prefix=assets
 ```
 
 Then you can simply run the [Phoenix](../glossary/glossary.md#phoenix) server with the following command:
 
-```
+```bash
 mix phx.server
 ```
 

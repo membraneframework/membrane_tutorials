@@ -157,7 +157,7 @@ Otherwise, if the packet is not of the 'ending' type (that is - it can be both t
 
 Test the `Depayloader`:
 
-```
+```console
 mix test test/elements/depayloader_test.exs
 ```
 

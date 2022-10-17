@@ -9,7 +9,7 @@ In order to be able to proceed with the tutorial, you need to have Elixir instal
 We assume, that you are at least slightly familiar with that language - if that is not true, we would like to strongly encourage you to take a look at the [official Elixir tutorial](https://elixir-lang.org/getting-started/introduction.html).
 Once you are ready with the Elixir, you can get the project template we have prepared for you:
 
-```
+```console
 git clone https://github.com/membraneframework/membrane_basic_pipeline_tutorial
 cd membrane_basic_pipeline_tutorial
 git checkout template/start
@@ -35,7 +35,7 @@ Below you can see an exemplary frame sent by one peer to the other. It gets frag
 
 Here is how each packet looks like:
 
-```
+```Elixir
 [seq:<sequence_id>][frameid:<frame_id>][timestamp:<timestamp>]<text>
 ```
 
@@ -50,7 +50,7 @@ where:
 
 We have equipped you with the tool which produces the packets in the format described previously, based on the input conversation. You can use it as a [mix](../glossary/glossary.md#mix) task, by typing:
 
-```
+```console
 mix generate_input --packetsPerFrame <packets_per_frame> <input_file_path>
 ```
 

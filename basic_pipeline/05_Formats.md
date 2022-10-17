@@ -36,7 +36,7 @@ That's it! Format modules are really simple - the more complicated thing is to m
 
 Before advancing you can test the `Source` [element](../glossary/glossary.md/#source), using the tests provided in `/test` directory.
 
-```
+```console
 mix test test/elements/source_test.exs
 ```
 

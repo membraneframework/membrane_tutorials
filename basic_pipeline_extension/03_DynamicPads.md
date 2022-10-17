@@ -72,7 +72,6 @@ The next thing we need to do is to implement the `handle_pad_added/3` callback, 
 **_`lib/elements/Mixer.ex`_**
 
 ```Elixir
-
 ...
 @impl true
 def handle_pad_added(pad, _context, state) do
