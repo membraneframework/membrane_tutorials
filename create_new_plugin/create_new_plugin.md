@@ -15,7 +15,7 @@ If you haven't already, we suggest you read [basic pipeline tutorial](/basic_pip
 
 When your plugin is ready for being integrated into another project you can simply add it as a dependency in `mix.exs` as described [here](https://hexdocs.pm/mix/Mix.Tasks.Deps.html). Here's what it can look like:
 
-```Elixir
+```elixir
 defp deps do
     [
       ...

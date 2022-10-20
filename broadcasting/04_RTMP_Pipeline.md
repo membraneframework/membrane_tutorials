@@ -7,7 +7,7 @@ which is invoked once the pipeline is initialized.
 
 **_`lib/rtmp_to_hls/pipeline.ex`_**
 
-```Elixir
+```elixir
  @impl true
  def handle_init(_opts) do
  ...
@@ -38,7 +38,7 @@ The fact that the configuration of a pipeline, which performs relatively complex
 After providing the children's specifications, we are ready to connect the pads between these children. Take a look at that part of the code:
 **_`lib/rtmp_to_hls/pipeline.ex`_**
 
-```Elixir
+```elixir
  @impl true
  def handle_init(_opts) do
  ...
@@ -66,7 +66,7 @@ By analogy, the source's `:video` pad is linked with the sink's `:video` pad - a
 The final thing that is done in the `handle_init/1` callback's implementation is returning the desired actions:
 **_`lib/rtmp_to_hls/pipeline.ex`_**
 
-```Elixir
+```elixir
  @impl true
  def handle_init(_opts) do
  ...
@@ -82,7 +82,7 @@ The pipeline is started with `Supervisor.start_link`, as a child of the applicat
 
 **_`lib/rtmp_to_hls/application.ex`_**
 
-```Elixir
+```elixir
  @impl true
  def start(_type, _args) do
     children = [
@@ -101,7 +101,7 @@ The files produced with the pipeline are written down to the `output/` directory
 The Phoenix Framework provides tools to achieve that - take a look at the `RtmpToHlsWeb.Router`:
 **_`lib/rtmp_to_hls_web/router.ex`_**
 
-```Elixir
+```elixir
 scope "/", RtmpToHlsWeb do
     pipe_through :browser
 
@@ -113,7 +113,7 @@ scope "/", RtmpToHlsWeb do
 We are directing HTTP requests on `/video/:filename` to the HlsController, whose implementation is shown below:
 **_`lib/rtmp_to_hls_web/controllers/hls_controller.ex`_**
 
-```Elixir
+```elixir
 defmodule RtmpToHlsWeb.HlsController do
     use RtmpToHlsWeb, :controller
 

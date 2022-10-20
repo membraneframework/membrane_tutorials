@@ -6,7 +6,7 @@ Since we want to parameterize the usage of that element, it will be good to defi
 
 **_`lib/elements/Sink.ex`_**
 
-```Elixir
+```elixir
 
 defmodule Basic.Elements.Sink do
  @moduledoc """
@@ -26,7 +26,7 @@ No surprises there - now we need to specify the element's behavior by defining t
 
 **_`lib/elements/Sink.ex`_**
 
-```Elixir
+```elixir
 
 defmodule Basic.Elements.Sink do
  ...
@@ -47,7 +47,7 @@ Later on, we can specify the `handle_prepared_to_playing/2` callback - this call
 
 **_`lib/elements/Sink.ex`_**
 
-```Elixir
+```elixir
 
 defmodule Basic.Elements.Sink do
  ...
@@ -63,7 +63,7 @@ There is only one more callback that needs to be specified - `handle_write/4`, w
 
 **_`lib/elements/Sink.ex`_**
 
-```Elixir
+```elixir
 
 defmodule Basic.Elements.Sink do
  ...

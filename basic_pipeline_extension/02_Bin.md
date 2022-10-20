@@ -18,7 +18,7 @@ Let's define the bin's output pads and its elements.
 
 **_`lib/Bin.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Bin do
   use Membrane.Bin
 
@@ -52,7 +52,7 @@ Although the bin is already functional, to make it reusable we have to parametri
 
 **_`lib/Bin.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Bin do
   use Membrane.Bin
 
@@ -82,7 +82,7 @@ Using the bin we created, we can replace the elements in the pipeline.
 **_`lib/Pipeline.ex`_**
 
 
-```Elixir
+```elixir
 defmodule Basic.Pipeline do
   @moduledoc """
   A module providing the pipeline, which aggregates and links the elements.

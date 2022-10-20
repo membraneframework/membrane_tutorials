@@ -7,7 +7,7 @@ Let's create a new module in the `lib/elements/Depayloader.ex` file:
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Depayloader do
  use Membrane.Filter
 
@@ -20,7 +20,7 @@ What input data do we expect? Of course in `Basic.Format.Packet` format!
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Depayloader do
  def_input_pad(:input, demand_unit: :buffers, caps: {Packet, type: :custom_packets})
  ...
@@ -32,7 +32,7 @@ We need to specify it while defining the `:output` pad:
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Depayloader do
  ...
  def_output_pad(:output, caps: {Frame, encoding: :utf8})
@@ -44,7 +44,7 @@ We will also need a parameter describing how many packets should we request once
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Depayloader do
  ...
  def_options(
@@ -63,7 +63,7 @@ In the `handle_init/1` callback we are simply saving the value of that parameter
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 @impl true
 def handle_init(options) do
 {:ok,
@@ -80,7 +80,7 @@ As noted in the [chapter dedicated to the caps](04_Caps.md), since we are changi
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 @impl true
 def handle_caps(_pad, _caps, _context, state) do
  caps = %Frame{encoding: :utf8}
@@ -92,7 +92,7 @@ As in most elements, the `handle_demand/5` implementation is quite easy - what w
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 @impl true
 def handle_demand(_ref, size, _unit, _ctx, state) do
  { {:ok, demand: {Pad.ref(:input), size * state.packets_per_frame} }, state}
@@ -103,7 +103,7 @@ There is nothing left apart from processing the input data - that is - the packe
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 @impl true
 def handle_process(_ref, buffer, _ctx, state) do
  packet = buffer.payload
@@ -124,7 +124,7 @@ Once we fetch the interesting values of the header's parameters, we can update t
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 @impl true
 def handle_process(_ref, buffer, _ctx, state) do
  ...
@@ -147,7 +147,7 @@ If we have the 'ending' packet, we are making the `:buffer` action with the fram
 
 **_`lib/elements/Depayloader.ex`_**
 
-```Elixir
+```elixir
 defp prepare_frame(frame) do
    frame |> Enum.reverse() |> Enum.join("")
 end

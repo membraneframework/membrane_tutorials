@@ -27,7 +27,7 @@ Here is how you define a caps specification:
 
 1. First you need to specify the format module
 
-```Elixir
+```elixir
 defmodule Formats.Raw do
   defstruct [:pixel_format, :framerate, :width, :height]
 end
@@ -42,7 +42,7 @@ Module name defines the type of the caps, however it is possible to pass some ot
 
 2. We specify the pad of the element with the format we have just defined, using the `:caps` option. For the purpose of an example, let it be the `:input` pad:
 
-```Elixir
+```elixir
 def_input_pad(:input,
   demand_unit: :buffers,
   caps: [
@@ -81,7 +81,7 @@ Imagine a pipeline, which starts with the source producing a video, which is the
 For the source element, we should have the `:output` pads caps which would allow us to send video in the higher and in the lower quality. The same caps should be specified on the input of the filter element. However, the caps on the output of the filter should accept only video in the lower quality.
 Here is the definition of the source element:
 
-```Elixir
+```elixir
 # Source element
 
 defmodule Source do
@@ -105,7 +105,7 @@ In fact, they will. The format matches (both in the caps being sent and in the c
 It means that the caps can be sent through the `:output` pad.
 Below there is the draft of the filter implementation:
 
-```Elixir
+```elixir
 # Filter
 
 defmodule Filter do

@@ -29,7 +29,7 @@ There are different types of both VCL and Non-VCL units - for more information o
 >
 > Once in iex, you can do the following thing:
 >
-> ```Elixir
+> ```elixir
 >   alias Membrane.H264.FFmpeg.Parser.NALu
 >
 >   # Of course you can read your own file, here is just an example file from the membrane_rtmp_plugin's test directory,
@@ -41,7 +41,7 @@ There are different types of both VCL and Non-VCL units - for more information o
 >
 > You should see the following response:
 >
-> ```Elixir
+> ```elixir
 >   {[
 >       %{
 >           metadata: %{h264: %{new_access_unit: %{key_frame?: true}, type: :sps}},

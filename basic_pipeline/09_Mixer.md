@@ -5,7 +5,7 @@ Once again we start with defining the initialization options and the pads of bot
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  @moduledoc """
  The element responsible for mixing the frames coming from two sources, based on their timestamps.
@@ -27,7 +27,7 @@ Each of these input pads will have a corresponding incoming [track](../glossary/
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  ...
  defmodule Track do
@@ -55,7 +55,7 @@ The next step in our element implementation is quite an obvious one:
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  ...
  @impl true
@@ -75,7 +75,7 @@ Following on the callbacks implementation, let's continue with `handle_process/4
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  ...
  @impl true
@@ -96,7 +96,7 @@ What we do is that we are simply putting the incoming `buffer` into the `Track` 
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  ...
  @impl true
@@ -118,7 +118,7 @@ There is nothing left to do apart from defining the `handle_demand/5` itself!
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
   ...
   @impl true
@@ -144,7 +144,7 @@ Each of these steps has a corresponding private function.
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  ...
  defp get_output_buffers_actions(state) do
@@ -186,7 +186,7 @@ Now let's focus on preparing `:end_of_stream` action:
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  ...
  defp maybe_send_end_of_stream(state) do
@@ -206,7 +206,7 @@ This action needs to be sent if both the tracks are in the `:finished` state - s
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Mixer do
  ...
  defp get_demand_actions(state, pads) do

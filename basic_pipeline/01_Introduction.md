@@ -35,7 +35,7 @@ Below you can see an exemplary frame sent by one peer to the other. It gets frag
 
 Here is how each packet looks like:
 
-```Elixir
+```elixir
 [seq:<sequence_id>][frameid:<frame_id>][timestamp:<timestamp>]<text>
 ```
 

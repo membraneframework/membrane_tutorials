@@ -6,7 +6,7 @@ We will put them in a separate directory - `lib/formats`. Let's start with the f
 
 **_`lib/formats/PacketFormat.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Formats.Packet do
  @moduledoc """
  A module describing the format of the packet.
@@ -21,7 +21,7 @@ In our [pipeline](../glossary/glossary.md#pipeline) we will also send another ty
 
 **_`lib/formats/FrameFormat.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Formats.Frame do
  @moduledoc """
  A module describing the format of the frame.
