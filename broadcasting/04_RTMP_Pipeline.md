@@ -70,7 +70,7 @@ The final thing that is done in the `handle_init/1` callback's implementation is
  @impl true
  def handle_init(_opts) do
  ...
- {{:ok, spec: spec, playback: :playing}, %{}}
+ { {:ok, spec: spec, playback: :playing}, %{} }
  end
 ```
 
