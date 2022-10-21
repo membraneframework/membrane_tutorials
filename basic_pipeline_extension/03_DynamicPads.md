@@ -6,7 +6,7 @@ Well, we would need to add another input [pad](../glossary/glossary.md#pad) in t
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 @impl true
 def handle_init(_opts) do
  children = %{
@@ -43,7 +43,7 @@ The very first thing we need to do is to use the `def_input_pads` appropriately.
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 ...
 def_input_pad(:input, demand_unit: :buffers, availability: :on_request, caps: {Basic.Formats.Frame, encoding: :utf8})
 ...
@@ -55,7 +55,7 @@ No more do we have the `:first_input` and the `:second_input` pads defined, so w
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 ...
 @impl true
 def handle_init(_options) do
@@ -71,7 +71,7 @@ The next thing we need to do is to implement the `handle_pad_added/3` callback, 
 
 **_`lib/elements/Mixer.ex`_**
 
-```Elixir
+```elixir
 ...
 @impl true
 def handle_pad_added(pad, _context, state) do
@@ -90,7 +90,7 @@ Below you can find the updated version of the pipeline's `handle_init/1` callbac
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 ...
 @impl true
 def handle_init(_opts) do

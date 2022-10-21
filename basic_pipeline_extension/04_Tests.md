@@ -20,7 +20,7 @@ Let's create a `test/elements/depayloader_test.exs` file and put the following c
 
 **_`test/elements/depayloader_test.exs`_**
 
-```Elixir
+```elixir
 defmodule DepayloaderTest do
  use ExUnit.Case 
  doctest Basic.Elements.Depayloader
@@ -38,7 +38,7 @@ We have decided to show the process of writing tests based on the depayloader - 
 
 **_`test/elements/depayloader_test.exs`_**
 
-```Elixir
+```elixir
 defmodule DepayloaderTest do
  ...
  alias Basic.Elements.Depayloader
@@ -93,7 +93,7 @@ Below we will rewrite the test we have just written, but with the support from t
 
 **_`test/elements/depayloader_test.exs`_**
 
-```Elixir
+```elixir
 defmodule DepayloaderTest do
   ...
   alias Membrane.Buffer
@@ -169,7 +169,7 @@ We will need to somehow mock the `outer environment` - let's see how this can be
 
 **_`test/elements/source_test.exs`_**
 
-```Elixir
+```elixir
 defmodule SourceTest do
  use ExUnit.Case, async: false
  import Mock

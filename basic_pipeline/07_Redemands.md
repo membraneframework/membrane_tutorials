@@ -14,7 +14,7 @@ In the [source elements](../glossary/glossary.md#source), there is a "side-chann
 The whole logic of fetching the data can be put inside the `handle_demand/5` callback - once we are asked to provide the [buffers](../glossary/glossary.md#buffer), the `handle_demand/5` callback gets called and we can provide the desired number of buffers from the "side-channel", inside the body of that callback. No processing occurs here - we get asked for the buffer and we provide the buffer, simple as that.
 The redemand mechanism here lets you focus on providing a single buffer in the `handle_demand/5` body - later on, you can simply return the `:redemand` action and that action will invoke the `handle_demand/5` once again, with the updated number of buffers which are expected to be provided. Let's see it in an example - we could have such a `handle_demand/5` definition (and it wouldn't be a mistake!):
 
-```Elixir
+```elixir
 @impl true
 def handle_demand(:output, size, _unit, _context, state) do
  actions = for x <- 1..size do
@@ -30,7 +30,7 @@ You would need to take under the consideration all these situations and your cod
 
 Wouldn't it be better to focus on a single buffer in each `handle_demand/5` call - and let the Membrane Framework automatically update the demand's size? This can be done in the following way:
 
-```Elixir
+```elixir
 @impl true
 def handle_demand(:output, _size, unit, context, state) do
  payload = Input.get_next() #Input.get_next() is an exemplary function which could be providing data

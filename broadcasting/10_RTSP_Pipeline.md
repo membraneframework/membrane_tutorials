@@ -37,7 +37,7 @@ def handle_other({:rtsp_setup_complete, options}, _ctx, state) do
   ]
 
   spec = %ParentSpec{children: children, links: links}
-  {{:ok, spec: spec}, %{state | video: %{sps: options[:sps], pps: options[:pps]}}}
+  { {:ok, spec: spec}, %{state | video: %{sps: options[:sps], pps: options[:pps]}} }
 end
 ```
 
@@ -81,7 +81,7 @@ def handle_notification({:new_rtp_stream, ssrc, 96, _extensions}, :rtp, _ctx, st
       [spec: %ParentSpec{children: children, links: links}]
     end
 
-  {{:ok, actions}, Map.put(state, :rtp_started, true)}
+  { {:ok, actions}, Map.put(state, :rtp_started, true) }
 end
 ```
 

@@ -6,7 +6,7 @@ Because Ordering Buffer is a filtering element, we need to specify both the inpu
 
 **_`lib/elements/OrderingBuffer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.OrderingBuffer do
   use Membrane.Filter
   alias Basic.Formats.Packet
@@ -23,7 +23,7 @@ In the next step let's specify how we want the state of our element to look like
 
 **_`lib/elements/OrderingBuffer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.OrderingBuffer do
   ...
   @impl true
@@ -46,7 +46,7 @@ Handling demand is quite straightforward:
 
 **_`lib/elements/OrderingBuffer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.OrderingBuffer do
  ...
  @impl true
@@ -64,7 +64,7 @@ The purpose of this callback is to process the incoming buffer. It gets called o
 
 **_`lib/elements/OrderingBuffer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.OrderingBuffer do
   ...
   @impl true
@@ -96,7 +96,7 @@ Do you remember what our packet looks like?
 Above you can see an exemplary packet. We need to fetch the value of the sequence id (in our case it is equal to 7) and get the rest of the packet.
 Therefore we have defined the regex description as:
 
-```Elixir
+```elixir
 ~r/^\[seq\:(?<seq_id>\d+)\](?<data>.*)$/
 ```
 
@@ -114,7 +114,7 @@ Therefore we have defined the regex description as:
 
 The result of `Regex.named_captures/2` applied to that regex description and the exemplary packet should be following:
 
-```Elixir
+```elixir
 {"seq_id"=>7, "data"=>"[frameid:2][timestamp:3]data"}
 ```
 
@@ -125,7 +125,7 @@ Here comes the rest of the `handle_process/4` definition:
 
 **_`lib/elements/OrderingBuffer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.OrderingBuffer do
   ...
   def handle_process(:input, buffer, _context, state) do
@@ -155,7 +155,7 @@ However, in the first situation, we need to get the ready packet's sequence - th
 
 **_`lib/elements/OrderingBuffer.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.OrderingBuffer do
   ...
   defp get_ready_packets_sequence([], acc) do

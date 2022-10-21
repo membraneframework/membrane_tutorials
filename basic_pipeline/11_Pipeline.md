@@ -10,7 +10,7 @@ The pipeline is another behavior introduced by the Membrane Framework. To make t
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 
 defmodule Basic.Pipeline do
 
@@ -24,7 +24,7 @@ Please add the following callback signature to our `Basic.Pipeline` module:
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 
 defmodule Basic.Pipeline do
  ...
@@ -59,7 +59,7 @@ Let's start with defining what children we need inside the `handle_init/1` callb
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 
 @impl true
 def handle_init(_opts) do
@@ -85,7 +85,7 @@ Now we have a `children` map which we will use to launch the processes. But the 
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 
 def handle_init(_opts) do
  ...
@@ -109,7 +109,7 @@ In the case of other elements we do not need to explicitly point the desired pad
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 
 def handle_init(_opts) do
  ...
@@ -128,7 +128,7 @@ That's almost it! All we need to do is to return a proper tuple from the `handle
 
 **_`lib/Pipeline.ex`_**
 
-```Elixir
+```elixir
 
 def handle_init(_opts) do
  ...
@@ -142,7 +142,7 @@ We will do so by starting the pipeline, and then playing it. For the ease of use
 
 **_`lib/start.exs`_**
 
-```Elixir
+```elixir
 {:ok, pid} = Basic.Pipeline.start()
 Basic.Pipeline.play(pid)
 Process.sleep(500)

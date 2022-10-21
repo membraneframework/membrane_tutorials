@@ -20,7 +20,7 @@ Let's start with specifying that our module will implement the `Membrane.Source`
 
 **_`lib/elements/Source.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Source do
  use Membrane.Source
  alias Membrane.Buffer
@@ -35,7 +35,7 @@ Later on, we will make use of [macros](https://elixir-lang.org/getting-started/m
 
 **_`lib/elements/Source.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Source do
  ...
  def_options location: [type: :string, description: "Path to the file"]
@@ -47,7 +47,7 @@ end
 The first macro, `def_options` allows us to define the parameters which are expected to be passed while instantiating the element. The parameters will be passed as an automatically generated structure `%Basic.Elements.Source{}`. In our case, we will have a `:location` field inside of that structure. This parameter is about to be a path to the files which will contain input [packets](../glossary/glossary.md#packet).
 Later on, while instantiating the Source element, we will be able to write:
 
-```Elixir
+```elixir
 %Basic.Elements.Source{location: "input.A.txt"}
 ```
 
@@ -63,7 +63,7 @@ Let's define our first callback! Why not start with [`handle_init/1`](https://he
 
 **_`lib/elements/Source.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Source do
  ...
  @impl true
@@ -94,7 +94,7 @@ The callbacks we are about to implement will be called once the transition betwe
 
 **_`lib/elements/Source.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Source do
  ...
  @impl true
@@ -126,7 +126,7 @@ Once the succeeding element requests for the data, the `handle_demand/4` callbac
 
 **_`lib/elements/Source.ex`_**
 
-```Elixir
+```elixir
 defmodule Basic.Elements.Source do
  ...
 
