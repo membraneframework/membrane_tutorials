@@ -1,3 +1,5 @@
+# Server's communication channel
+
 I know you have been waiting for that moment - let's start coding!
 
 ## Let's prepare the server's endpoint

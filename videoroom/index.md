@@ -13,4 +13,4 @@ graphicPath: assets/images/Illo_videoroom.png
 | 4      | Server's communication channel | 4_CreatingServersCommunicationChannels.md |
 | 5      | Server's room                  | 5_ImplementingServerRoom.md               |
 | 6      | Client's application           | 6_ImplementingClientsApplication.md       |
-| 7      | Futher steps                   | 7_FurtherSteps.md                         |
+| 7      | Further steps                  | 7_FurtherSteps.md                         |

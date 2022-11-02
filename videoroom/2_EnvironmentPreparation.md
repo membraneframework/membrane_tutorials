@@ -1,3 +1,5 @@
+# Environment preparation
+
 ## Elixir installation
 
 I don't think I can describe it any better: [How to install Elixir](https://elixir-lang.org/install.html).
