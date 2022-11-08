@@ -12,7 +12,7 @@ Let's start by creating the most basic RN application:
 npx react-native init MembraneRNWebRTCDemo
 ```
 
-Now it's time to install Membrane's client library:
+Now it's time to install Membrane's client library, so go to the application directory and type following command:
 
 ```bash
 npm install @membraneframework/react-native-membrane-webrtc
