@@ -82,7 +82,7 @@ So now we're almost ready to set up a connection with our server, but before tha
 
 Any application that is going to use sensitive pieces of information from a user's device needs to ask for the user's permission first. Our app will need permission to use the device's camera and microphone. To manage those permissions we can use [Expo's Camera library](https://docs.expo.dev/versions/latest/sdk/camera/). Let's install it:
 ```bash
-expo install expo-camera
+npm install expo-camera
 ```
 Now we need to add permission prompting functions to our component. First, we need to import it:
 ```
@@ -108,17 +108,16 @@ useEffect(() => {
 ```
 We used asynchronous functions to prevent connecting to the server before the user granted or declined requested permissions.
 
-> When requesting permissions you also need to declare them in native configuration files to be able to publish your app in the store. React Native Membrane WebRTC most probably done that for you. To see it check out:
+> When requesting permissions you also need to declare them in native configuration files to be able to publish your app in the store. To do it go to the file:
 > - For Android:
 > `android/app/src/main/AndroidManifest.xml` 
-> and look for:
+> and add:
 > `<uses-permission  android:name="android.permission.CAMERA"/>`
-> and
 > `<uses-permission  android:name="android.permission.RECORD_AUDIO"/>`
 > 
 > - For iOS
 > `ios/membranernwebrtcdemo/Info.plist`
-> and look for
+> and add:
 > `<key>NSCameraUsageDescription</key>`
 > `<string>Allow $(PRODUCT_NAME) to access your camera</string>`
 > `<key>NSMicrophoneUsageDescription</key>`
@@ -135,8 +134,7 @@ useEffect(() => {
 This hook will run when the value of `webRTC.error` changes.
 
 ### Appearance
-
-The last but not least part of our `VideoChat` component will be to render something after the connection is ready:
+Last but not least part of our `VideoChat` component will be to render something after the connection is ready:
 
 ```jsx
 return (

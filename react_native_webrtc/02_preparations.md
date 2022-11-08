@@ -1,53 +1,28 @@
 ## Preparations
 
-We need to start by preparing ourselves basic React Native application and installing all tools and dependencies we need to start development. You can start a new app using different tools. We've chosen to use [expo](https://expo.dev/) but if you're familiar with React Native you can do whatever leads you to have a 'hello-world' app set up.
+We need to start by preparing ourselves basic React Native application and installing all tools and dependencies we need to start development. You can start a new app using different tools. Since we already know we'll need native code to run our app we are going to use a basic `react-native` library, but if you're familiar with React Native you can choose a different one.
 
-### Creating a basic RN application
+You'll also need to have Android Studio and/or Xcode installed to build and run your app on a device. You can find a full list of requirements [here](https://reactnative.dev/docs/environment-setup).
 
-Let's start by creating the most basic RN application using `create-expo-app`:
+### Let's create an application
 
-```bash
-create-expo-app membrane_rn_webrtc_demo
-```
-
-> We assume that you've got a basic React Native tools installed, but if not here is a good starting point what and how you should prepare to start a development: [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup). 
-
-### Installing React Native Membrane WebRTC
-
-Let's go to the lib's GitHub page and see what needs to be done. Since we're using expo we can install it with:
+Let's start by creating the most basic RN application:
 
 ```bash
-expo install @membraneframework/react-native-membrane-webrtc.
+npx react-native init MembraneRNWebRTCDemo
 ```
 
-Next, add it to `plugins` in `App.json`:
-
-```json
-{
-  "expo": {
-    "name": "membrane_rn_webrtc_demo",
-    ...
-    "plugins": [
-      "@membraneframework/react-native-membrane-webrtc"
-    ],
-    ...
-  }
-}
-```
-
-Now we're ready to get some native code. We can prebuild our application with expo:
+Now it's time to install Membrane's client library:
 
 ```bash
-expo prebuild
+npm install @membraneframework/react-native-membrane-webrtc
 ```
 
-Now you can see two new directories that appeared in your project. One is for android native code, the other for ios. Let's go into the second one and install pods:
+and also it's ios native dependencies too:
 
 ```bash
 cd ios
 pod install
 ```
-
-> Sometimes prebuild may fault because of missing dependencies. If it do so, install them with `npm install` or `yarn add` and try again
 
 Now, as we've got our application set up, we can start to write some code.
