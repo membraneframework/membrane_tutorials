@@ -1,3 +1,5 @@
+# System architecture
+
 Hang on for a moment! I know that after slipping through the tons of the documentation you are really eager to start coding, but let's think for a moment before taking any actions. What do we want our application to look like?
 Can we somehow decompose our application?
 
