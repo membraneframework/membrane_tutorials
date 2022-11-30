@@ -23,22 +23,22 @@ Take a look at our `assets/package.json` file which defines outer dependencies f
 **_`assets/package.json`_**
 ```JSON
 "dependencies": {
-  "membrane_rtc_engine": "file:../deps/membrane_rtc_engine/",
+  "@membraneframework/membrane-webrtc-js": "^0.3.0",
   ...
 }
 ```
 
-which is a client library provided by the RTC engine plugin from the Membrane Framework.
+which is a client library for the RTC engine plugin from Membrane Framework.
 Let's import some constructs from this library (their name should be self-explanatory and you can read about them in [the official Membrane's RTC engine documentation](https://docs.membrane.stream/membrane-webrtc-js) along with some other dependencies which we will need later:
 
 **_`assets/src/room.ts`_**
 ```ts
-import {MEDIA_CONSTRAINTS, LOCAL_PEER_ID} from './consts';
 import {
-  MembraneWebRTC,
-  Peer,
-  SerializedMediaEvent,
-} from "membrane_rtc_engine";
+    MembraneWebRTC,
+    Peer,
+    SerializedMediaEvent,
+} from "@membraneframework/membrane-webrtc-js";
+import {MEDIA_CONSTRAINTS, LOCAL_PEER_ID} from './consts';
 import { Push, Socket } from "phoenix";
 import { parse } from "query-string";
 ```
