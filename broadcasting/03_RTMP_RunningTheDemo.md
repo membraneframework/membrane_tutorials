@@ -1,6 +1,6 @@
 This time we won't create the application from the scratch nor will we be based on some kind of template.
 Since most of the application's code is media-agnostic, we don't see a point in focusing on it. Instead, we will indicate the most crucial parts of the
-[RTMP to HLS demo](https://github.com/membraneframework/membrane_demo/rtmp_to_hls), one of many publicly available [Membrane demos](https://github.com/membraneframework/membrane_demo/).
+[RTMP to HLS demo](https://github.com/membraneframework/membrane_demo/tree/master/rtmp_to_hls), one of many publicly available [Membrane demos](https://github.com/membraneframework/membrane_demo/).
 The Membrane demos are supplementing the Membrane Tutorials on providing a source of knowledge in the field of multimedia processing - we warmly invite you to look at them as you may find some interesting
 use cases of Membrane in real-life scenarios.
 
