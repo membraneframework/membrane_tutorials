@@ -133,9 +133,9 @@ According to MembraneWebRTC [documentation](https://docs.membrane.stream/membran
 
 We will go through the callbacks list one by one, providing the desired implementation for each of them. All you need to do later is to gather them together into one JS object called `callbacks` before initializing `this.webrtc` object.
 
-### Callbacks
+## Callbacks
 
-#### onSendMediaEvent
+### onSendMediaEvent
 
 ```ts
 onSendMediaEvent: (mediaEvent: SerializedMediaEvent) => {
@@ -146,7 +146,7 @@ onSendMediaEvent: (mediaEvent: SerializedMediaEvent) => {
 If `mediaEvent` from our client Membrane Library appears (this event can be one of many types - for instance it can be message containing information about an [ICE](../glossary/glossary.md#ice) candidate in a form of [SDP](../glossary/glossary.md#sdp) attribute)
 we need to pass it to the server. That is why we are making use of our Phoenix channel which has a second endpoint on the server-side - and we are simply pushing data through that channel. The form of the event pushed: `("mediaEvent", { data: mediaEvent })` is the one we are expecting on the server-side - recall the implementation of `VideoRoomWeb.PeerChannel.handle_in("mediaEvent", %{"data" => event}, socket)`
 
-#### onConnectionError
+### onConnectionError
 
 ```ts
 onConnectionError: setErrorMessage,
@@ -156,7 +156,7 @@ This one is quite easy - if the error occurs on the client-side of our library, 
 In our template `setErrorMessage` method is already provided, but take a look at this method - `onConnectionError` callback forces us to
 provide a method with a given signature (because it is passing some parameters which might be helpful to track the reason of the error).
 
-#### onJoinSuccess
+### onJoinSuccess
 
 We will manipulate the list of peers in this method.
 Here is `onJoinSuccess` callback implementation:
@@ -197,7 +197,7 @@ How about you trying to implement the rest of the callbacks on your own? Please 
 Below you will find the expected result (callback implementation) for each of the methods - it might not be the best implementation...but this is the implementation you can afford!
 Seriously speaking - we have split some of these callbacks implementation into multiple functions, according to some good practices and we consider it to be a little bit...cleaner ;)
 
-#### onJoinError
+### onJoinError
 
 ```ts
 onJoinError: (metadata) => {
@@ -205,7 +205,7 @@ onJoinError: (metadata) => {
 },
 ```
 
-#### onTrackReady
+### onTrackReady
 
 ```ts
 onTrackReady: ({ stream, peer, metadata }) => {
@@ -213,19 +213,19 @@ onTrackReady: ({ stream, peer, metadata }) => {
 },
 ```
 
-#### onTrackAdded
+### onTrackAdded
 
 ```ts
 onTrackAdded: (ctx) => {},
 ```
 
-#### onTrackRemoved
+### onTrackRemoved
 
 ```ts
 onTrackRemoved: (ctx) => {},
 ```
 
-#### onPeerJoined
+### onPeerJoined
 
 ```ts
 onPeerJoined: (peer) => {
@@ -235,7 +235,7 @@ onPeerJoined: (peer) => {
 },
 ```
 
-#### onPeerLeft
+### onPeerLeft
 
 ```ts
 onPeerLeft: (peer) => {
@@ -245,7 +245,7 @@ onPeerLeft: (peer) => {
 },
 ```
 
-#### onPeerUpdated
+### onPeerUpdated
 
 ```ts
 onPeerUpdated: (ctx) => {},
