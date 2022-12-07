@@ -18,6 +18,8 @@ alias Membrane.RTC.Engine.Message
 alias Membrane.RTC.Engine.Endpoint.WebRTC
 require Membrane.Logger
 
+@mix_env MIX.env()
+
 #we will put something here ;)
 end
 ```
