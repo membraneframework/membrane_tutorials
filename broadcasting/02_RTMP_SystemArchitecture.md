@@ -36,7 +36,6 @@ H264 parser is quite a complex element, designed to read the incoming H264 strea
 ### AAC Parser
 
 At the same time, parsing happens to the buffers containing audio data. Since the audio track has been encoded with the use of AAC, we need [AAC parser](https://github.com/membraneframework/membrane_aac_plugin) to decode it.
-For a better understanding of why we need to encode audio data, as well as how it is done, feel free to visit [a part of our Multimedia Introduction Tutorial](<>), divagating on audio processing.
 That part of the tutorial does not describe the AAC codec itself, and in case you are interested in digging into that codec, we highly recommend visiting [that page](https://wiki.multimedia.cx/index.php/Understanding_AAC).
 
 ### HLS converter
