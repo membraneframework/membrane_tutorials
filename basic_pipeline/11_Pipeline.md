@@ -19,7 +19,7 @@ defmodule Basic.Pipeline do
 end
 ```
 
-You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/1` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them (here)[https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks].
+You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/1` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them [here](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks).
 Please add the following callback signature to our `Basic.Pipeline` module:
 
 **_`lib/Pipeline.ex`_**
