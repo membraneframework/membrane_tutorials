@@ -22,11 +22,11 @@ Now we can start the stream using `PLAY` method.
 
 ## Pipeline
 
-The pipeline consists of a couple elements, each of them performing a specific media processing task. You can definitely notice some similarities to the pipeline described in the [RTMP architecture](02_RTMP_SystemArchitecture.md). However, we will only be processing video so only the video processing elements will be necessary.
+The pipeline consists of a couple elements, each of them performing a specific media processing task. You can definitely notice some similarities to the pipeline described in the [RTMP architecture](02_RTMP_Introduction.md). However, we will only be processing video so only the video processing elements will be necessary.
 
 ![image](assets/rtsp_pipeline.drawio.png)
 
-We have already used the, `H264 Parser`, `MP4 H264 Payloader`, `CMAF Muxer` and `HLS Sink` elements in the RTMP pipeline, take a look at the [RTMP to HLS architecture](02_RTMP_to_HLS_architecture) chapter for details of the purpose of those elements.
+We have already used the, `H264 Parser`, `MP4 H264 Payloader`, `CMAF Muxer` and `HLS Sink` elements in the RTMP pipeline, take a look at the [RTMP to HLS architecture](03_RTMP_SystemArchitecture.md) chapter for details of the purpose of those elements.
 
 Let us describe briefly what is the purpose of the other components:
 
