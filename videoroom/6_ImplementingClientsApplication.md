@@ -288,7 +288,7 @@ public join = async () => {
 
 First, we are waiting for `this.init()` to complete. This method will be responsible for initializing media streams.
 Then we are setting up the disconnect button (which means we are making the button call `this.leave()` once it gets clicked).
-Later on, we are making our MembraneWebRTC [`join()`](https://hexdocs.pm/membrane_rtc_engine/js/classes/membranewebrtc.html#join) the room with our display name.
+Later on, we are making our MembraneWebRTC [`join()`](https://docs.membrane.stream/membrane-webrtc-js/classes/membranewebrtc.html#join) the room with our display name.
 
 Let's provide the implementation of `this.init()` used in the `this.join()` method.
 As noticed previously, this method will initialize the user's media stream handlers.
