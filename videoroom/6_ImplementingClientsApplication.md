@@ -369,7 +369,7 @@ The first thing we do is to import the appropriate class. Then we are creating a
 Later on, we are joining the server (which might take some time as it needs to get access to the user's media - that is why this method is asynchronous).
 That's it! We have our client defined! In case something does not work properly (or in case we have forgotten to describe some crucial part of code ;) )
 feel free to refer to the implementation of the video room's client-side available
-[here](https://github.com/membraneframework/membrane_demo/tree/master/webrtc/videoroom/assets/src).
+[here](https://github.com/membraneframework/membrane_videoroom_tutorial/tree/template/end/assets/src).
 
 Now, finally, you should be able to check the fruits of your labor!
 Please run:
