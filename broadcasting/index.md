@@ -19,4 +19,4 @@ part: 8
 | 10     | Connection manager               | 10_ConnectionManager.md          |
 | 11     | RTSP to HLS - pipeline           | 11_RTSP_Pipeline.md              |
 | 12     | Summary                          | 12_Summary.md                    |
-| 13     | (Suplement) H264 codec           | H264_codec.md                    |
+| 13     | (Suplement) H264 codec           | 13_H264_codec.md                 |
