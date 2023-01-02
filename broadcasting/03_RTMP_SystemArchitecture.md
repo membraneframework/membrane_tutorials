@@ -31,7 +31,7 @@ Buffers containing the given track data will be sent to the appropriate parser -
 
 ### H264 Parser
 
-H264 parser is quite a complex element, designed to read the incoming H264 stream. We have prepared a [separate, supplemental chapter of this tutorial](https://github.com/membraneframework/membrane_tutorials/blob/main/broadcasting/H264_codec.md) to describe the H264 codec and our parser's implementation - we invite you to read it, however, that knowledge is not necessary to successfully run the application.
+H264 parser is quite a complex element, designed to read the incoming H264 stream. We have prepared a [separate, supplemental chapter of this tutorial](13_H264_codec.md) to describe the H264 codec and our parser's implementation - we invite you to read it, however, that knowledge is not necessary to successfully run the application.
 
 ### AAC Parser
 
