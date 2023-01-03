@@ -27,7 +27,9 @@ In case you find yourself lost along with the tutorial, feel free to check the s
 
 ## Native dependencies installing
 
-First, some native dependencies are needed. Here is how you can install them and setup the required environment variables.
+You will need `npm` version 9.0.0 or higher, which you can install from [node.js](https://nodejs.org/)
+
+Apart from that, some native dependencies are needed. Here is how you can install them and setup the required environment variables.
 
 ### Mac OS with M1
 
@@ -71,7 +73,7 @@ At the same time, you will be able to run the project from the inside of the con
 If you are not using VS Code, you can still take advantage of the virtualization and use the image provided by us - however, you will need to create the shared filesystem volume and bridge the networks on your own. Here is the command which will make this for you:
 
 ```bash
-docker run -p 4000:4000 -it -v <path_to_cloned_templates>:/videoroom membraneframeworklabs/docker_membrane
+docker run -e RUNNING_IN_DOCKER=1 -p 4000:4000 -p 50000-50019:50000-50019/udp -it -v <path to cloned templates>:/videoroom membraneframeworklabs/docker_membrane
 ```
 
 where `<path_to_cloned_templates>` is the **absolute** path to the root directory of the project on your local system.
@@ -79,7 +81,7 @@ where `<path_to_cloned_templates>` is the **absolute** path to the root director
 If you have just cloned the repo and your current directory is the repo's root, you can use `pwd` to get that path:
 
 ```bash
-docker run -p 4000:4000 -it -v `pwd`:/videoroom membraneframeworklabs/docker_membrane
+docker run -e RUNNING_IN_DOCKER=1 -p 4000:4000 -p 50000-50019:50000-50019/udp -it -v `pwd`:/videoroom membraneframeworklabs/docker_membrane
 ```
 
 After running the command, a container terminal will be attached to your terminal. You will be able to find the project code inside the container in the `/videoroom` directory.
@@ -95,10 +97,12 @@ mix deps.get
 npm ci --prefix=assets
 ```
 
+You also need to find your local IP address. The way to do that is described [here](https://github.com/membraneframework/membrane_videoroom#launching-of-the-application-1).
+
 Then you can simply run the [Phoenix](../glossary/glossary.md#phoenix) server with the following command:
 
 ```bash
-mix phx.server
+EXTERNAL_IP=<IP address> mix phx.server
 ```
 
 If everything went well the application should be available on [http://localhost:4000](http://localhost:4000/).

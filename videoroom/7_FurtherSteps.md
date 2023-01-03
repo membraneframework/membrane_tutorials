@@ -4,7 +4,33 @@ We can share with you inspiration for further improvements!
 
 ## Voice activation detection
 Wouldn't it be great to have a feature that would somehow mark a person who is currently speaking in the room? That's where voice activation detection (VAD) joins the game!
-There is a chance that you remember that the RTC engine was sending some other messages which we purposely didn't handle (once again you can refer to the [documentation](https://hexdocs.pm/membrane_rtc_engine/Membrane.RTC.Engine.html#module-messages]). One of these messages sent from RTC to the client is ```{:vad_notification, val, peer_id}``` - the message which is sent once the client starts or stops speaking. We need to simply pass this message from RTC engine to the client's application and take some actions once it is received - for instance, you can change the user's name displayed under the video panel so that instead of the plain user's name (e.g. "John") we would be seeing "<user> is speaking now" message.
+
+You can turn VAD on by changing some fields while creating an endpoint on the server:
+
+**_`lib/videoroom/room.ex`_**
+```elixir
+@impl true
+def handle_info(%Message.NewPeer{rtc_engine: rtc_engine, peer: peer}, state) do
+  # ...
+  endpoint = %WebRTC{
+      rtc_engine: rtc_engine,
+      ice_name: peer.id,
+      extensions: %{
+        opus: Membrane.RTC.VAD
+      },
+      webrtc_extensions: [
+        Membrane.WebRTC.Extension.VAD
+      ],
+      owner: self(),
+      integrated_turn_options: state.network_options[:integrated_turn_options],
+      handshake_opts: handshake_opts,
+      log_metadata: [peer_id: peer.id]
+  }
+  # ...
+end
+```
+
+RTC will now start sending messages looking like this: ```{:vad_notification, val, peer_id}``` (`val` is either `:speech` or `:silence`) to clients whenever someone starts or stops speaking. We need to simply pass this message from RTC engine to the client's application and take some actions once it is received - for instance, you can change the user's name displayed under the video panel so that instead of the plain user's name (e.g. "John") we would be seeing "\<user\> is speaking now" message.
 Below you can see what is the expected result:
 
 ![VAD example](assets/records/vad.webp "VAD example")

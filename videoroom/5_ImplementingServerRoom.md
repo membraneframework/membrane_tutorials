@@ -18,6 +18,8 @@ alias Membrane.RTC.Engine.Message
 alias Membrane.RTC.Engine.Endpoint.WebRTC
 require Membrane.Logger
 
+@mix_env MIX.env()
+
 #we will put something here ;)
 end
 ```
@@ -51,11 +53,18 @@ def init(room_id) do
   id: room_id
  ]
 
+ mock_ip = Application.fetch_env!(:membrane_videoroom_demo, :external_ip)
+ external_ip = if @mix_env == :prod or System.get_env("RUNNING_IN_DOCKER", "0") == "1", do: {0, 0, 0, 0}, else: mock_ip
+ ports_range = Application.fetch_env!(:membrane_videoroom_demo, :port_range)
+ 
+ integrated_turn_options = [
+   ip: external_ip,
+   mock_ip: mock_ip,
+   ports_range: ports_range
+ ]
+
  network_options = [
-  stun_servers: [
-    %{server_addr: "stun.l.google.com", server_port: 19_302}
-  ],
-  turn_servers: [],
+  integrated_turn_options: integrated_turn_options,
   dtls_pkey: Application.get_env(:membrane_videoroom_demo, :dtls_pkey),
   dtls_cert: Application.get_env(:membrane_videoroom_demo, :dtls_cert)
  ]
@@ -75,7 +84,7 @@ Then we send a message to this process saying that we want to register ourselves
 The last thing we do is return the current state of the GenServer - in our state we are holding a reference to `:rtc_engine` which is the id of this process and `peer_channels` - the map of the following form: (peer_uuid -> peer_channel_pid). For now, this map is empty.
 
 What's next? We need to handle the callbacks to properly react to the incoming events. Once again - please take a look at the [plugin documentation](https://hexdocs.pm/membrane_rtc_engine/Membrane.RTC.Engine.html#module-messages) to find out what types of messages RTC sends and what types of messages RTC expects to receive.
-We won't implement handling all of these messages - only the ones which are crucial to set up the connection between peers, start the process of media streaming and take proper actions when participants disconnect. After finishing the reading of this tutorial you can try to implement handling of other messages (for instance those connected with voice activation detection - `:vad_notification`).
+We won't implement handling all of these messages - only the ones which are crucial to set up the connection between peers, start the process of media streaming and take proper actions when participants disconnect. After finishing the reading of this tutorial you can try to implement handling of other messages (for instance you could turn on voice activation detection messages - `:vad_notification`, but you can read more about those in chapter 7).
 Let's start with handling messages sent to us by RTC.
 
 **_`lib/videoroom/room.ex`_**
@@ -135,11 +144,11 @@ def handle_info(%Message.NewPeer{rtc_engine: rtc_engine, peer: peer}, state) do
  end
 
  endpoint = %WebRTC{
+  rtc_engine: rtc_engine,
   ice_name: peer.id,
   extensions: %{},
   owner: self(),
-  stun_servers: state.network_options[:stun_servers] || [],
-  turn_servers: state.network_options[:turn_servers] || [],
+  integrated_turn_options: state.network_options[:integrated_turn_options],
   handshake_opts: handshake_opts,
   log_metadata: [peer_id: peer.id]
  }
