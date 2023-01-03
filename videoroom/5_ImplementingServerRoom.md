@@ -54,13 +54,13 @@ def init(room_id) do
  ]
 
  mock_ip = Application.fetch_env!(:membrane_videoroom_demo, :external_ip)
- external_ip = if @mix_env == :prod, do: {0, 0, 0, 0}, else: mock_ip
- port_range = Application.fetch_env!(:membrane_videoroom_demo, :port_range)
-
+ external_ip = if @mix_env == :prod or System.get_env("RUNNING_IN_DOCKER", "0") == "1", do: {0, 0, 0, 0}, else: mock_ip
+ ports_range = Application.fetch_env!(:membrane_videoroom_demo, :port_range)
+ 
  integrated_turn_options = [
    ip: external_ip,
    mock_ip: mock_ip,
-   port_range: port_range
+   ports_range: ports_range
  ]
 
  network_options = [
