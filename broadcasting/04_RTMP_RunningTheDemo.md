@@ -39,7 +39,7 @@ Once you have OBS installed, you can perform the following steps:
 1. Finally, you can go back to the main window and start streaming with the `Start Streaming` button.
 
 Below you can see how to set the appropriate settings (steps 2) and 3) from the list of steps above):
-![OBS settings](doc_assets/OBS_settings.webp)
+![OBS settings](assets/OBS_settings.webp)
 
 Once the streaming has started, you can visit `localhost:4000`, where the client application should be available. After a few seconds, you should be able to play
 the video you are streaming. Most likely, a kind of latency will occur and the stream played by the client application will be delayed. That latency can reach values as great as 10 seconds, which is the result
