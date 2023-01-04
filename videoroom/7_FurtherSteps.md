@@ -47,6 +47,5 @@ This simple feature has nothing to do with the server-side of our system. Everyt
 ![Mute example](assets/records/mute.webp "mute example")
 
 You can also conduct some experiments on how to disable the video track (so that the user can turn off and on camera while being in the room).
-Our suggested implementation of these two features is available at the [template repository](https://github.com/membraneframework/membrane_videoroom_tutorial/), on `template/additional_features` branch.
 
 Here our journey ends! I modestly hope that you have enjoyed the tutorial and have fetched out of it that much interesting information and skills as possible. Or maybe you have even found yourself passionate about media streaming? Goodbye and have a great time playing with the tool you have just created!
