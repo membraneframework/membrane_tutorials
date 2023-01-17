@@ -10,17 +10,17 @@ Let's start by creating `lib/videoroom/room.ex` file with a declaration of Video
 
 ```elixir
 defmodule Videoroom.Room do
-@moduledoc false
+  @moduledoc false
 
-use GenServer
-alias Membrane.RTC.Engine
-alias Membrane.RTC.Engine.Message
-alias Membrane.RTC.Engine.Endpoint.WebRTC
-require Membrane.Logger
+  use GenServer
+  alias Membrane.RTC.Engine
+  alias Membrane.RTC.Engine.Message
+  alias Membrane.RTC.Engine.Endpoint.WebRTC
+  require Membrane.Logger
 
-@mix_env MIX.env()
+  @mix_env Mix.env()
 
-#we will put something here ;)
+  #we will put something here ;)
 end
 ```
 
@@ -47,32 +47,36 @@ Then we are providing the implementation of `init/1` callback:
 ```elixir
 @impl true
 def init(room_id) do
- Membrane.Logger.info("Spawning room proces: #{inspect(self())}")
+  Membrane.Logger.info("Spawning room proces: #{inspect(self())}")
 
- rtc_engine_options = [
-  id: room_id
- ]
+  rtc_engine_options = [
+    id: room_id
+  ]
 
- mock_ip = Application.fetch_env!(:membrane_videoroom_demo, :external_ip)
- external_ip = if @mix_env == :prod or System.get_env("RUNNING_IN_DOCKER", "0") == "1", do: {0, 0, 0, 0}, else: mock_ip
- ports_range = Application.fetch_env!(:membrane_videoroom_demo, :port_range)
- 
- integrated_turn_options = [
-   ip: external_ip,
-   mock_ip: mock_ip,
-   ports_range: ports_range
- ]
+  mock_ip = Application.fetch_env!(:membrane_videoroom_demo, :external_ip)
+  external_ip =
+    if @mix_env == :prod or System.get_env("RUNNING_IN_DOCKER", "0") == "1",
+      do: {0, 0, 0, 0},
+      else: mock_ip
 
- network_options = [
-  integrated_turn_options: integrated_turn_options,
-  dtls_pkey: Application.get_env(:membrane_videoroom_demo, :dtls_pkey),
-  dtls_cert: Application.get_env(:membrane_videoroom_demo, :dtls_cert)
- ]
+  ports_range = Application.fetch_env!(:membrane_videoroom_demo, :port_range)
 
- {:ok, pid} = Membrane.RTC.Engine.start(rtc_engine_options, [])
- Engine.register(pid, self())
+  integrated_turn_options = [
+    ip: external_ip,
+    mock_ip: mock_ip,
+    ports_range: ports_range
+  ]
 
- {:ok, %{rtc_engine: pid, peer_channels: %{}, network_options: network_options}}
+  network_options = [
+    integrated_turn_options: integrated_turn_options,
+    dtls_pkey: Application.get_env(:membrane_videoroom_demo, :dtls_pkey),
+    dtls_cert: Application.get_env(:membrane_videoroom_demo, :dtls_cert)
+  ]
+
+  {:ok, pid} = Membrane.RTC.Engine.start(rtc_engine_options, [])
+  Engine.register(pid, self())
+
+  {:ok, %{rtc_engine: pid, peer_channels: %{}, network_options: network_options}}
 end
 ```
 
