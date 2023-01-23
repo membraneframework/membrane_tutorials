@@ -372,7 +372,7 @@ feel free to refer to the implementation of the video room's client-side availab
 [here](https://github.com/membraneframework/membrane_videoroom_tutorial/tree/template/end/assets/src).
 
 Now, finally, you should be able to check the fruits of your labor!
-Please run (EXTERNAL_IP is needed only if you develop inside docker):
+Please run:
 
 ```bash
 EXTERNAL_IP=<IP address> mix phx.server
