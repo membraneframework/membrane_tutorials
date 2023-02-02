@@ -97,7 +97,7 @@ mix deps.get
 npm ci --prefix=assets
 ```
 
-You also need to find your local IP address. The way to do that is described [here](https://github.com/membraneframework/membrane_videoroom#launching-of-the-application-1).
+In case you want your videoroom to be accessible from outside of the localhost, or you are about to be developing from inside of a docker container, you need to find your machine's IP address in the network. We will refer to that IP adress as an `EXTERNAL_IP`. The way to do that is described [here](https://github.com/membraneframework/membrane_videoroom#launching-of-the-application-1).
 
 Then you can simply run the [Phoenix](../glossary/glossary.md#phoenix) server with the following command:
 

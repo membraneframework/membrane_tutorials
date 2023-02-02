@@ -357,7 +357,7 @@ Ok, it seems that we have already defined the process of creating and initializi
 Why not create this object! Go to `assets/src/index.ts` file (do you remember that this is the file which is loaded in template .heex file for our room's template?)
 Until now this file is probably empty. Let's create `Room` instance there!
 
-**_`assets/src/room.ts`_**
+**_`assets/src/index.ts`_**
 ```ts
 import { Room } from "./room";
 
@@ -375,7 +375,7 @@ Now, finally, you should be able to check the fruits of your labor!
 Please run:
 
 ```bash
-mix phx.server
+EXTERNAL_IP=<IP address> mix phx.server
 ```
 
 Then, visit the following page in your browser:
