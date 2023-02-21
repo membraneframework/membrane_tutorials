@@ -95,7 +95,7 @@ defmodule Source do
  ...
  def handle_stopped_to_prepared(_ctx, state) do
  ...
-   { {:ok, [caps: {:output, %Formats.Raw{pixel_format: I420, framerate: 45, width: 720, height: 300} }]}, state}
+   { {:ok, [caps: {:output, %Formats.Raw{pixel_format: I420, framerate: 45, width: 720, height: 480} }]}, state}
  end
 ```
 
