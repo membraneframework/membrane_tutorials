@@ -79,14 +79,14 @@ These are some of the types that can be met in the NAL units syntax (for all of 
 
 Below there is a description of each NAL unit's structure. The structure description that you can find in chapter 7.3.1 of the ITU Specification is slightly different (and much more complicated). That is because it also covers the fact that there is a need to get rid of emulation_prevention_bytes. In order to simplify things, we assume that in the structure description we use, the byte stream has already been converted to RBSP. 
 
-| nal_unit( NumBytesInNALunit ) | Descriptor |
-|-------------------------------|------------|
-|{                              |            |
-|   forbidden_zero_bit          |f(1)        |
-|   nal_ref_idc                 |u(2)        |
-|   nal_unit_type               |u(5)        |
-|   nal_unit_data()             |            |
-|}                              |            |
+| nal_unit( NumBytesInNALunit )                          | Descriptor |
+|------------------------------------------------------- |------------|
+|{                                                       |            |
+|   &nbsp;&nbsp;&nbsp;&nbsp; forbidden_zero_bit          |f(1)        |
+|   &nbsp;&nbsp;&nbsp;&nbsp; nal_ref_idc                 |u(2)        |
+|   &nbsp;&nbsp;&nbsp;&nbsp; nal_unit_type               |u(5)        |
+|   &nbsp;&nbsp;&nbsp;&nbsp; nal_unit_data()             |            |
+|}                                                       |            |
 
 As you can see, each NAL unit starts with a single byte being a kind of a NAL unit header. Its first bit (`forbidden_zero_bit`) is always equal to 0, then comes a `nal_ref_idc` field consisting of two bits, and finally `nal_unit_type` - an unsigned integer written with the use of 5 bits, which determines the type of NAL unit. 
 
