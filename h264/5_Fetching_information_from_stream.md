@@ -80,7 +80,7 @@ reserved_zero_2bits /\* equal to 0 \*/                                          
 | }
 
 <br>                                                                                                                                                                                   
-We won't dig any further - of course, there are still  vui_parameters() to be parsed, but their structure is described in the same way as the beginning of the SPS NALu shown just above.
+We won't dig any further - of course, there are still vui_parameters() to be parsed, but their structure is described in the same way as the beginning of the SPS NALu shown just above.
 
 ## Fetching resolution of a video
 

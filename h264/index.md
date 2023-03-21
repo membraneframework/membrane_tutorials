@@ -3,7 +3,7 @@ title: H264 - what, why and how
 
 description: In this tutorial we will describe what is H264, why to use it and how to fetch interesting information from the H264 stream
 part: 1
-graphicPath: assets/images/Illo_get started.png
+graphicPath:
 ---
 
 | number | title                            | file                                  |
