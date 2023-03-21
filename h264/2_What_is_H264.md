@@ -38,5 +38,4 @@ The NAL was the subject of our interest when it comes to the H.264 parser - the 
 
 
 ![VCL vs NAL scheme](assets/images/VCL_vs_NAL.png)
-<br>     
-[FROM: https://www.researchgate.net/figure/H264-AVC-network-abstraction-layer-NAL-and-video-coding-layer-VCL-25_fig8_322523982]
+<br>
