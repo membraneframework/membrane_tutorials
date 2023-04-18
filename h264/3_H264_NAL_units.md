@@ -58,7 +58,7 @@ aligned(8) class AVCDecoderConfigurationRecord {
     }
 }
 ```
-The value of `lengthSizeMinusOne` field (which can be: 0, 1, 2 or 3) determines how many bytes are used to store a length of NALu (that is, correspondingly, 1, 2, 3 or 4 bytes). The most commonly used one is a 4-bytes size field that allows for NAL units of length up to `2^32-1` bytes.  
+The value of `lengthSizeMinusOne` field (which can be: 0, 1 or 3) determines how many bytes are used to store a length of NALu (that is, correspondingly, 1, 2 or 4 bytes). The most commonly used one is a 4-bytes size field that allows for NAL units of length up to `2^32-1` bytes.  
 
  
 ## NAL unit syntax
