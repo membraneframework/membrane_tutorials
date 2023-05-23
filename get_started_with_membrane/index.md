@@ -1,11 +1,10 @@
 ---
 title: Get Started with Membrane
-# This description to recreate ;)
-description: In this tutorial we will explain you how does membrane work. We will go through envinronment preparation and tell you about pipelines - basic concept behind the framework.
+description: This tutorial explains how membrane works. It covers environment preparation, pipelines, and the basic concepts behind the framework.
 part: 1
 graphicPath: assets/images/Illo_get started.png
 ---
 
-| number | title           | file               |
-| ------ | --------------- | ------------------ |
+| number | title                     | file                         |
+| ------ | ------------------------- | ---------------------------- |
 | 1      | Get Started with Membrane | get_started_with_membrane.md |
