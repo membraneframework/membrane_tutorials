@@ -27,8 +27,6 @@
   HLS (HTTP Live Streaming) is an adaptive streaming protocol developed by Apple for efficiently delivering live and on-demand multimedia content over the internet by breaking the media files into chunks and serving them over HTTP.
   - #### **MPEG-DASH**
   MPEG-DASH (Dynamic Adaptive Streaming over HTTP) is a standardized adaptive bitrate streaming protocol that dynamically adjusts media quality to fit the viewer's network conditions and device capabilities, seamlessly delivering multimedia content over the internet using HTTP.
-  - #### **CMAF**
-  CMAF (Common Media Application Format) is a standardized media file format for adaptive bitrate streaming over the internet. It enhances the interoperability between different streaming protocols, such as [HLS](#hls) and [MPEG-DASH](#mpeg-dash), by using a single set of media files and encryption methods. CMAF simplifies content delivery to various devices and platforms, reducing the need for multiple file formats and enabling more efficient media streaming.
   - #### **HTTP**
     Hypertext Transfer Protocol. An [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [MPEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
   - #### **Long Polling** 
@@ -53,6 +51,8 @@
   [Network address translation](https://developer.mozilla.org/en-US/docs/Glossary/NAT). A technique of sharing one public IP address by multiple computers.
 - #### **Container format**
   A file format that allows multiple data streams to be embedded into a single file, e.g. MP4 format can contain video, audio, and subtitles streams inside of it.
+- #### **CMAF**
+  CMAF (Common Media Application Format) is a standardized media file format for adaptive bitrate streaming over the internet. It enhances the interoperability between different streaming protocols, such as [HLS](#hls) and [MPEG-DASH](#mpeg-dash), by using a single set of media files and encryption methods. CMAF simplifies content delivery to various devices and platforms, reducing the need for multiple file formats and enabling more efficient media streaming.
 - #### **YUV**
   A color encoding system that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with a minuscule effect on human perception of the image.
 - #### **Encoding**
