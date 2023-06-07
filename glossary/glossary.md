@@ -14,7 +14,7 @@
   - #### **RTP**
     Real-time Transport Protocol. An [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for delivering real-time audio and video over IP networks. RTP packet structure is described [here](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol#Packet_header). There is an extension of RTP - [SRTP](https://developer.mozilla.org/en-US/docs/Glossary/RTP) (Secure RTP), which adds security features and is used by [WebRTC](#webrtc).
   - #### **HTTP**
-    Hypertext Transfer Protocol. An [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [M§PEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
+    Hypertext Transfer Protocol. An [application layer](https://en.wikipedia.org/wiki/OSI_model#Layer_7:_Application_layer) protocol for fetching data from a server by a client. It is used by [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) and [MPEG-DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) for media streaming.
   - #### **Long Polling** 
     HTTP Long Pollingis a technique of keeping an open connection after the client's request for as long as new data is not available. This is more efficient than naive repeated polling by a client until new data is received.
   - #### **WebRTC**
@@ -24,7 +24,7 @@
   - #### **SDP**
     [Session Description Protocol](https://www.ietf.org/rfc/rfc2327.txt). A protocol used for describing multimedia communication sessions for the purposes of announcement and invitation. It is used in the WebRTC signaling process for describing a session.
   - #### **WebSocket**
-    An application layer communication protocol that enables full-duplex communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, allows to create persistent connections. Today it is supported by most web browsers and web servers.
+    An application layer communication protocol working allowing for a communication between client and server in near real-time. It is based on TCP and, in contrast to HTTP, it provides full-duplex communication. Today it is supported by most web browsers and web servers.
   - #### **ICE**
     [Interactive Connectivity Establishment](https://developer.mozilla.org/en-US/docs/Glossary/ICE). It's a technique for establishing the most direct connection between two computers, which is used in P2P communication.
   - #### **STUN**
@@ -40,7 +40,7 @@
 - #### **YUV**
   A color encoding system that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with minuscule effect on human perception of the image.
 - #### **Encoding**
-  A process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space. Examples of encoded formats are [MP3](https://en.wikipedia.org/wiki/MP3) and [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio and [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) and [MPEG4](https://en.wikipedia.org/wiki/MPEG-4_Part_2) for video.
+  A process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space. Examples of encoded formats are [MP3](https://en.wikipedia.org/wiki/MP3) and [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio and [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) and [MPEG-4 Part 2](https://en.wikipedia.org/wiki/MPEG-4_Part_2) for video.
 - #### **Decoding**
   A process of converting media from encoded format to raw format, e.g. in order to play it on the end device.
 - #### **Encryption**
@@ -52,7 +52,7 @@
 - #### **Demuxing**
   Abbr. from demultiplexing. A method of separating streams from one combined container, e.g. retrieving audio and video from MP4.
 - ### Server's architecture
-  [here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started
+  [Here](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/) is a short article to get you started
   - #### **SFU**
     [Selective Forwarding Unit](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#22-sfuselective-forwarding-unit-server). A video conferencing architecture that consists of a single server, which receives incoming streams from all participants and forwards each participant's stream to all other conference participants.
   - #### **MCU** 
@@ -60,11 +60,16 @@
   - #### **P2P**
     [Peer to Peer](https://millo-l.github.io/WebRTC-implementation-method-Mesh-SFU-MCU/#21-signaling-serverp2pmesh). An architecture in which each participant is directly connected to all other participants, which eliminates the need for MCU or SFU.
 ## Membrane Framework
-
+- #### **Action**
+  An action can be returned from [callback][#callback] and it is a way of element interaction with other elements and parts of framework. An exemplary actions might be: [`:buffer`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer/0) action, that sends buffers through a pad, or [`:terminate`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:terminate/0) action, that terminates element with given reason.
+- #### **Callback**
+  A callback is a function defined by user, that gets called once a particular event happens.
+  An exemplary callbacks in the Membrane Framework are: [`handle_end_of_stream/3`](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_end_of_stream/3) being called once end of stream event is received on some pad or []`handle_init/2`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/2) called on initialization of an [element](#element).
 - #### **Pad**
-  An input or output of an [elements](#element) or a [bin](#bin). Output pads of one element are connected to input pads of another element or bin.
-- #### **Caps**
-  Abbr. from capabilities. They define [pads](#pad) specification, allowing us to determine whether two elements are compatible with each other.
+  An input or output of an [elements](#element) or a [bin](#bin). Output pads of one element or a bin are connected to input pads of another element or a bin.
+- #### **Stream format, formely: caps**
+  It defines [pads](#pad) specification, allowing us to determine whether two elements are compatible with each other.
+  The formely used name "caps" is an abbrevation from "capabilities". 
 - #### **Pipeline**
   A chain of linked [elements](#element) or [bins](#bin) which together accomplish some media processing task.
 - #### **Bin**
@@ -72,16 +77,19 @@
 - #### **Buffer**
   A fundamental structure in Membrane used to send data between elements.
 - #### **Element** 
-  The most basic entity responsible for processing multimedia. Each element is created to solve one problem. Elements can be divided into three categories:
+  The most basic entity responsible for processing multimedia. Each element is created to solve one problem. Elements can be divided into four categories:
   - #### **Source** 
-    An element with only output pads, the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
+    An element with only output [pads](#pads), the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
   - #### **Filter**
-    An element with both input and output pads, which is responsible for transforming data.
+    An element with both input and output [pads](#pads), which is responsible for transforming data.
   - #### **Sink** 
     An element with only input [pads](#pads), the last element of a pipeline. It might be responsible, i.e. for writing the output to the file or playing the incoming media stream.
+  - #### **Endpoint**
+    An element with both input and output [pads](#pads), responsible for receiving and consuming data (e.g., writing to a soundcard, sending via TCP, etc.) as well as producing data (e.g., reading from a soundcard, downloading via HTTP, etc.) and sending it through the corresponding pads. It can be thought as an element merging all the functionalities of previously mentioned element categories: source, filter and sink.
 - ### Types of elements:
   - #### **Payloader** and **Depayloader**
-    Elements responsible for respectively dividing frames into [packets](#packet) and assembling packets back into frames.
+    Payloader is responsible for preparing the data stream to be put in some specific format, typically a network-friendly format
+    or a container format. This preparation may include the addition of headers or various metadata. Depayloader does the reverse operation - it allows to receive original data stream from specific format.
   - #### **Encoder** and **Decoder**
     Elements responsible for [encoding](#encoding) and [decoding](#decoding).
   - #### **Encryptor** and **Decryptor**
@@ -93,14 +101,17 @@
   - #### **Jitter buffer** / **Ordering buffer**
     An element responsible for ordering packets incoming from the network as their order can be disrupted during transmission due to network unreliability.
 - ### Demands mechanism
+  - #### **Demands**, **Demanding**
+    Demanding is a name for Membrane Framework backpressure mechanism. Elements are allowed to send "demands" to the preceeding
+    element, in which they describe the amount of data they want to receive.
   - #### **Redemands**
-    In Membrane it's an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called.
+    In Membrane it's an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called. You can read more about redemands [here](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:redemand/0).
 
 ## General Elixir/Erlang concepts
 - ### OTP Behavior
   - #### **GenServer**
     Elixir bahaviour abstracts client/server interaction. [https://elixir-lang.org/getting-started/mix-otp/genserver.html](https://elixir-lang.org/getting-started/mix-otp/genserver.html)
-  - #### **Phoenix** 
+- ### **Phoenix** 
     The web development framework written in Elixir. [https://phoenixframework.org/](https://phoenixframework.org/)
-  - #### **Mix**
+- ### **Mix**
     A build tool for creating and managing Elixir projects. [https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html)
