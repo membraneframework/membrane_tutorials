@@ -3,9 +3,9 @@
   - #### **Packet**
     It is a formatted unit of data transmitted over the network. To send data over the network it has to be fragmented into packets, which size is limited by [MTU(Maximum Transfer Unit)](https://en.wikipedia.org/wiki/Maximum_transmission_unit) - 1500 bytes when using [Ethernet](https://en.wikipedia.org/wiki/Ethernet_frame).
   - #### **Frame**
-    The frame can refer to either [network frame](<https://en.wikipedia.org/wiki/Frame_(networking)>) or **media frame**, which is a basic data unit used by media coding formats. In particular, one media frame can represent a single image in a video.
+    'Frame' can refer to either [network frame](<https://en.wikipedia.org/wiki/Frame_(networking)>) or **media frame**, which is a basic data unit used by media coding formats. In particular, one media frame can represent a single image in a video.
   - #### **Track**
-    A Media track is equivalent to a single audio or video stream.
+    A media track is equivalent to a single audio or video stream.
   - #### **Simulcast**
     It is the technique of broadcasting multiple versions of the same content simultaneously, typically at different resolutions or quality levels, to accommodate diverse network conditions and user devices.
   - #### **PTS** and **DTS**
@@ -54,7 +54,9 @@
 - #### **CMAF**
   CMAF (Common Media Application Format) is a standardized media file format for adaptive bitrate streaming over the internet. It enhances the interoperability between different streaming protocols, such as [HLS](#hls) and [MPEG-DASH](#mpeg-dash), by using a single set of media files and encryption methods. CMAF simplifies content delivery to various devices and platforms, reducing the need for multiple file formats and enabling more efficient media streaming.
 - #### **YUV**
-  A color encoding system that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with a minuscule effect on human perception of the image.
+  Color space that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with a minuscule effect on human perception of the image. That encoding is commonly used for analog video processing.
+- #### **YCbCr**
+  Color space that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance difference] components: [blue-difference](https://en.wikipedia.org/wiki/B-Y) and [red-difference](https://en.wikipedia.org/wiki/R-Y). In contrast to **YUV** it's more often used in digital video processing. It happens that YCbCr is mistakenly called [YUV](#yuv).
 - #### **Encoding**
   A process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space. Examples of encoded formats are [MP3](https://en.wikipedia.org/wiki/MP3) and [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio and [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) and [MPEG-4 Part 2](https://en.wikipedia.org/wiki/MPEG-4_Part_2) for video.
 - #### **Decoding**
@@ -119,10 +121,10 @@
     A B frame (Bidirectional predictive frame) is a video compression frame that relies on both the preceding and following I or P frames for data, using the motion differences between these frames to further reduce the stored information, resulting in even smaller file sizes and better compression efficiency.
 ## Membrane Framework
 - #### **Action**
-  An action can be returned from [callback][#callback] and it is a way of element interaction with other elements and parts of the framework. An exemplary action might be [`:buffer`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer/0) action, that sends buffers through a pad, or [`:terminate`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:terminate/0) action, that terminates element with given reason.
+  An action can be returned from [callback](#callback) and it is a way of element interaction with other elements and parts of the framework. An exemplary action might be [`:buffer`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer/0) action, that sends buffers through a pad, or [`:terminate`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:terminate/0) action, that terminates element with given reason.
 - #### **Callback**
   A callback is a function defined by a user, that gets called once a particular event happens.
-  Exemplary callbacks in the Membrane Framework are: [`handle_end_of_stream/3`](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_end_of_stream/3) being called once the end of stream event is received on some pad or []`handle_init/2`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/2) called on initialization of an [element](#element).
+  Exemplary callbacks in the Membrane Framework are: [`handle_end_of_stream/3`](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_end_of_stream/3) being called once the end of stream event is received on some pad or [`handle_init/2`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/2) called on initialization of an [element](#element).
 - #### **Pad**
   An input or output of an [elements](#element) or a [bin](#bin). Output pads of one element or a bin are connected to input pads of another element or a bin.
 - #### **Stream format, formerly: caps**
@@ -145,7 +147,7 @@
   - #### **Endpoint**
     An element with both input and output [pads](#pads), responsible for receiving and consuming data (e.g., writing to a soundcard, sending via TCP, etc.) as well as producing data (e.g., reading from a soundcard, downloading via HTTP, etc.) and sending it through the corresponding pads. It can be thought of as an element merging all the functionalities of previously mentioned element categories: source, filter, and sink.
 - #### **ChildrenSpec**
-  In Membrane Framework, we call ChildrenSpec a bunch of functionalities that allow for defining the topology of the [pipeline](#pipeline) or a [bin](#bin). You can read more about ChildrenSpec [here](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html).
+  In Membrane Framework, `ChildrenSpec` is a way of describing the topology of a [pipeline](#pipeline) or a [bin](#bin). You can read more about `ChildrenSpec` [here](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html).
 - ### Types of elements:
   - #### **Payloader** and **Depayloader**
     Payloader is responsible for preparing the data stream to be put in some specific format, typically a network-friendly format
@@ -172,9 +174,9 @@
     In Membrane it's an element's action that lets the programmer handle just one buffer at a time. When redemanding, the `handle_demand/5` callback is synchronously called. You can read more about redemands [here](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:redemand/0).
 
 ## General Elixir/Erlang concepts
-- ### OTP Behavior
+- ### OTP Behaviour
   - #### **GenServer**
-    Elixir behavior abstracts client/server interaction. [https://elixir-lang.org/getting-started/mix-otp/genserver.html](https://elixir-lang.org/getting-started/mix-otp/genserver.html)
+    Elixir behaviour abstracts client/server interaction. [https://elixir-lang.org/getting-started/mix-otp/genserver.html](https://elixir-lang.org/getting-started/mix-otp/genserver.html)
 - ### **Phoenix** 
     The web development framework is written in Elixir. [https://phoenixframework.org/](https://phoenixframework.org/)
 - ### **Mix**
