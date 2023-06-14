@@ -56,7 +56,7 @@
 - #### **YUV**
   Color space that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance](https://en.wikipedia.org/wiki/Chrominance) components. By reducing the resolution of the chrominance components it is possible to compress an image with a minuscule effect on human perception of the image. That encoding is commonly used for analog video processing.
 - #### **YCbCr**
-  Color space that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two [chrominance difference] components: [blue-difference](https://en.wikipedia.org/wiki/B-Y) and [red-difference](https://en.wikipedia.org/wiki/R-Y). In contrast to **YUV** it's more often used in digital video processing. It happens that YCbCr is mistakenly called [YUV](#yuv).
+  Color space that defines one [luminance](https://en.wikipedia.org/wiki/Luminance) and two chrominance difference components: [blue-difference](https://en.wikipedia.org/wiki/B-Y) and [red-difference](https://en.wikipedia.org/wiki/R-Y). In contrast to **YUV** it's more often used in digital video processing. It happens that YCbCr is often mistakenly called [YUV](#yuv).
 - #### **Encoding**
   A process of converting media from raw format to encoded format. The main purpose is to reduce media size - the raw format is uncompressed and takes up a lot of space. Examples of encoded formats are [MP3](https://en.wikipedia.org/wiki/MP3) and [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio and [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) and [MPEG-4 Part 2](https://en.wikipedia.org/wiki/MPEG-4_Part_2) for video.
 - #### **Decoding**
