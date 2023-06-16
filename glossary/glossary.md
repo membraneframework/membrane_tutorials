@@ -9,8 +9,8 @@
   - #### **Simulcast**
     It is the technique of broadcasting multiple versions of the same content simultaneously, typically at different resolutions or quality levels, to accommodate diverse network conditions and user devices.
   - #### **PTS** and **DTS**
-  PTS (Presentation Timestamp) is a value in a video or audio stream that indicates the precise time a specific frame or sample should be displayed or played back, ensuring proper synchronization of media content during playback.
-  DTS (Decoding Timestamp) is a value in a video or audio stream that specifies the exact moment a particular frame or sample should be decoded by the decoder, ensuring the correct decoding order and maintaining the integrity of media content during playback.
+    PTS (Presentation Timestamp) is a value in a video or audio stream that indicates the precise time a specific frame or sample should be displayed or played back, ensuring proper synchronization of media content during playback.
+    DTS (Decoding Timestamp) is a value in a video or audio stream that specifies the exact moment a particular frame or sample should be decoded by the decoder, ensuring the correct decoding order and maintaining the integrity of media content during playback.
   
 - ### Web protocols:
   - #### **UDP**
