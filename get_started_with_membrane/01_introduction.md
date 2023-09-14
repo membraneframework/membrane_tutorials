@@ -9,6 +9,8 @@ Membrane is a multimedia processing framework that focuses on reliability, concu
 - seamlessly scale and recover from errors,
 - do whatever you imagine if you implement it yourself :D Membrane makes it easy to plug in your code at almost any point of processing.
 
+If the abbreviations above don't ring any bells, don't worry - this tutorial doesn't require any multimedia-specific knowledge. Then, [other tutorials](https://membrane.stream/learn) and [demos](https://github.com/membraneframework/membrane_demo) will introduce you to the multimedia world!
+
 ## Structure of the framework
 
 The most basic media processing entities of Membrane are `Element`s. An element might be able, for example, to mux incoming audio and video streams into MP4, or play raw audio using your sound card. You can create elements yourself, or choose from the ones provided by the framework.
