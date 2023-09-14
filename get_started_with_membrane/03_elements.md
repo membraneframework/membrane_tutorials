@@ -14,7 +14,7 @@ The basic types of elements are the following:
 * `Filter` - receives the stream from other elements, processes it and sends it further to the subsequent elements
 * `Endpoint` - a `Source` and a `Sink` combined - can both deliver and consume the data from other elements
 
-To create an element, you need to implement the appropriate behaviour - `Membrane.Source`, `Membrane.Sink`, `Membrane.Filter` or `Membrane.Endpoint`, for example:
+To create an element, you need to implement the appropriate behaviour - [Membrane.Source](https://hexdocs.pm/membrane_core/Membrane.Source.html), [Membrane.Sink](https://hexdocs.pm/membrane_core/Membrane.Sink.html), [Membrane.Filter](https://hexdocs.pm/membrane_core/Membrane.Filter.html) or [Membrane.Endpoint](https://hexdocs.pm/membrane_core/Membrane.Endpoint.html), for example:
 
 ```elixir
 defmodule MyElement do
@@ -37,13 +37,13 @@ raw audio with a specific sample rate or encoded audio in a given format.
 To send data between elements, their pads need to be linked. There are a couple of rules that apply to pad linking:
 
 * One pad of an element can only be linked with one pad from another element.
-  (Dynamic pads can help with that limitation, you'll learn about them in the `pads_and_linking` chapter)
+  (Dynamic pads can help with that limitation; you'll learn about them in the `pads_and_linking` chapter)
 * Only links between `output` and `input` pads are allowed.
 * Accepted stream formats of pads have to be compatible.
 
 ### Defining pads
 
-Pads can be defined using `def_input_pad` and `def_output_pad` macros. They both accept the pad name and the list of properties. The name allows for the identification of the pad. If an element has a single input or output pad, the convention is to name it `input` or `output`, respectively. The pad properties are listed below:
+Pads can be defined using [def_input_pad](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#def_input_pad/2) and [def_output_pad](https://hexdocs.pm/membrane_core/Membrane.Element.WithOutputPads.html#def_output_pad/2) macros. They both accept the pad name and the list of properties. The name allows for the identification of the pad. If an element has a single input or output pad, the convention is to name it `input` or `output`, respectively. The pad properties are listed below:
 
 * `accepted_format` - a pattern for a stream format expected on the pad, for example `%Membrane.RawAudio{channels: 2}`. It serves documentation purposes and is validated in runtime.
 * `flow_control` - configures how back pressure should be handled on the pad. You can choose from the following options:
@@ -60,11 +60,11 @@ A pad definition may look like this:
 def_input_pad :input, flow_control: :auto, accepted_format: %Membrane.RawAudio{channels: 2}
 ```
 
-It means that the element has a static input pad called `input`, with automatic flow control, that accepts raw audio with two channels.
+It means that the element has a static input pad called `input`, with automatic flow control, that accepts [raw audio](http://hexdocs.pm/membrane_raw_audio_format) with two channels.
 
 ## Options
 
-Options make it possible to pass configuration data to an element. Elements aren't required to accept any options, but it's useful in many cases. Available options can be specified using the `def_options` macro, for example:
+Options make it possible to pass configuration data to an element. Elements aren't required to accept any options, but it's useful in many cases. Available options can be specified using the [def_options](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#def_options/1) macro, for example:
 
 ```elixir
 def_options some_option: [
@@ -83,40 +83,40 @@ We'll see a practical example of defining options in the [sample element](#sampl
 
 ## Callbacks
 
-Apart from specifying pads and options, creating an element involves implementing callbacks. They have different responsibilities and are called in a specific order. As in the case of pipelines, callbacks interact with the framework by returning actions.
+Apart from specifying pads and options, creating an element involves implementing callbacks. They have different responsibilities and are called in a specific order. As in the case of pipelines, callbacks interact with the framework by returning [actions](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html). Here are some most useful callbacks:
 
-**handle_init** is invoked once, upon the element creation.
+[handle_init](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_init/2) is invoked once, upon the element creation.
 It receives options specified by the user, which should be parsed and on their base,
 the element should create and initialize its internal state. It is called synchronously (the parent waits until it returns), thus you shouldn't perform any long tasks there.
 
-**handle_setup** is invoked right after `handle_init`. It's intended for resource allocation or some potentially time-consuming initialization. If you need to make sure that resources are properly released upon element termination, use `Membrane.ResourceGuard` or `Membrane.UtilitySupervisor`
+[handle_setup](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_setup/2) is invoked right after `handle_init`. It's intended for resource allocation or some potentially time-consuming initialization. If you need to make sure that resources are properly released upon element termination, use [Membrane.ResourceGuard](https://hexdocs.pm/membrane_core/Membrane.ResourceGuard.html) or [Membrane.UtilitySupervisor](https://hexdocs.pm/membrane_core/Membrane.UtilitySupervisor.html)
 
 After `handle_setup`, the following callbacks can be called at any point:
-- **handle_pad_added** and **handle_pad_removed** are called when a dynamic pad is added and removed, respectively
-- **handle_parent_notification** is called whenever the parent sends a notification to the element; elements can send notifications the other way with the **notify** action
+- [handle_pad_added](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_pad_added/3) and [handle_pad_removed](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_pad_removed/3) are called when a dynamic pad is added and removed, respectively
+- [handle_parent_notification](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_parent_notification/3) is called whenever the parent sends a notification to the element; elements can send notifications the other way with the **notify** action
 
-**handle_playing** is called when the stream processing starts. From that point, you can return the following actions:
-- **stream_format** tells subsequent element what kind of stream it should expect on the given pad
-- **buffer** sends media data to the subsequent element; stream_format has to be sent before the first buffer
-- **event** sends a custom struct to the subsequent or preceding element; downstream events are sent in order with buffers
-- **demand** requests data from the previous element; only works for pads in `flow_control: manual` mode
-- **end_of_stream** tells the subsequent element that the stream has finished, nothing can be sent through that pad afterwards
+[handle_playing](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_playing/2) is called when the stream processing starts. From that point, you can return the following actions:
+- [stream_format](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:stream_format/0) tells subsequent element what kind of stream it should expect on the given pad
+- [buffer](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer/0) sends media data to the subsequent element; stream_format has to be sent before the first buffer
+- [event](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:event/0) sends a custom struct to the subsequent or preceding element; downstream events are sent in order with buffers
+- [demand](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:demand/0) requests data from the previous element; only works for pads in `flow_control: manual` mode
+- [end_of_stream](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:end_of_stream/0) tells the subsequent element that the stream has finished, nothing can be sent through that pad afterwards
 
 After `handle_playing`, you should expect the following callbacks to be called:
 
-- **handle_stream_format** tells you what kind of stream you should expect on the given pad; called at least once, before `handle_start_of_stream`, may be called later when the stream format changes
+- [handle_stream_format](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_stream_format/4) tells you what kind of stream you should expect on the given pad; called at least once, before `handle_start_of_stream`, may be called later when the stream format changes
 
-- **handle_start_of_stream** is called just before the first buffer arrives from the preceding element
+- [handle_start_of_stream](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_start_of_stream/3) is called just before the first buffer arrives from the preceding element
 
-- **handle_process** or **handle_write** is called every time a buffer arrives from the preceding element
+- [handle_process](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_process/4) or [handle_write](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_write/4) is called every time a buffer arrives from the preceding element
 
-- **handle_event** is called once an event arrives from the preceding or subsequent element
+- [handle_event](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_event/4) is called once an event arrives from the preceding or subsequent element
 
-- **handle_demand** is called when the subsequent element requests data on the given pad; only works for pads in `flow_control: :manual` mode
+- [handle_demand](https://hexdocs.pm/membrane_core/Membrane.Element.WithOutputPads.html#c:handle_demand/5) is called when the subsequent element requests data on the given pad; only works for pads in `flow_control: :manual` mode
 
-- **handle_end_of_stream** is called when the stream has finished; it may be because the preceding element explicitly returned `end_of_stream` action, the pad is about to be unlinked or the current element is about to terminate
+- [handle_end_of_stream](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_end_of_stream/3) is called when the stream has finished; it may be because the preceding element explicitly returned `end_of_stream` action, the pad is about to be unlinked or the current element is about to terminate
 
-Finally, **handle_terminate_request** is called when the parent decides to remove the element. By default, it returns the `terminate: :normal` action and the element terminates gracefully. Note that this callback is only called when the element is gracefully asked to terminate.
+Finally, [handle_terminate_request](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_terminate_request/2) is called when the parent decides to remove the element. By default, it returns the `terminate: :normal` action and the element terminates gracefully. Note that this callback is only called when the element is gracefully asked to terminate.
 
 
 ## Sample element
@@ -217,11 +217,11 @@ def handle_process(:input, buffer, ctx, state) do
 
 The callback is called whenever a buffer arrives on a pad, and receives four arguments:
 - the pad where the buffer arrived,
-- the `Membrane.Buffer` structure carrying the stream data,
-- `Membrane.Element.CallbackContext`, providing some useful information about the element,
+- the [Membrane.Buffer](https://hexdocs.pm/membrane_core/Membrane.Buffer.html) structure carrying the stream data,
+- [Membrane.Element.CallbackContext](https://hexdocs.pm/membrane_core/Membrane.Element.CallbackContext.html), providing some useful information about the element,
 - the element's state that we created in `handle_init`.
 
-Firstly, we use the callback context to get the stream format present on the pad and use a utility from `Membrane.RawAudio` to calculate the sample size:
+Firstly, we use the callback context to get the stream format present on the pad and use a utility from [Membrane.RawAudio](https://hexdocs.pm/membrane_raw_audio_format/Membrane.RawAudio.html) to calculate the sample size:
 ```elixir
 stream_format = ctx.pads.input.stream_format
 sample_size = RawAudio.sample_size(stream_format)
@@ -236,7 +236,7 @@ payload =
   for <<sample::binary-size(sample_size) <- buffer.payload>>, into: <<>> do
 ```
 
-Now we can convert each sample to an integer with another utility from `Membrane.RawAudio`: `sample_to_value`. Having the integer, we can multiply it by the gain and convert it back to the binary representation.
+Now we can convert each sample to an integer with another utility from `Membrane.RawAudio`: (sample_to_value)[https://hexdocs.pm/membrane_raw_audio_format/Membrane.RawAudio.html#sample_to_value/2]`. Having the integer, we can multiply it by the gain and convert it back to the binary representation.
 
 ```elixir
     value = RawAudio.sample_to_value(sample, stream_format)
@@ -245,7 +245,7 @@ Now we can convert each sample to an integer with another utility from `Membrane
   end
 ```
 
-Finally, we can update the payload and forward the buffer to the output pad using the `buffer` action.
+Finally, we can update the payload and forward the buffer to the output pad using the [buffer](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer/0) action.
 
 ```elixir
   buffer = %Membrane.Buffer{buffer | payload: payload}

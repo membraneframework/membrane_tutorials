@@ -14,9 +14,9 @@ For example, an audio mixer may have any number of inputs.
 
 ### Creating an element with dynamic pads
 
-To make a pad dynamic, you need to set its `availability` to `:on_request` in `def_input_pad` or `def_output_pad`.
+To make a pad dynamic, you need to set its `availability` to `:on_request` in [def_input_pad](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#def_input_pad/2) or [def_output_pad](https://hexdocs.pm/membrane_core/Membrane.Element.WithOutputPads.html#def_output_pad/2).
 
-Now, each time some element is linked to this pad, a new instance of the pad is created and `handle_pad_added` callback is invoked. Instances of a dynamic pad can be referenced as `Pad.ref(pad_name, pad_id)`. When a dynamic pad is unlinked, the `handle_pad_removed` callback is called.
+Now, each time some element is linked to this pad, a new instance of the pad is created and [handle_pad_added](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_pad_added/3) callback is invoked. Instances of a dynamic pad can be referenced as `Pad.ref(pad_name, pad_id)`. When a dynamic pad is unlinked, the [handle_pad_removed](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_pad_removed/3) callback is called.
 
 ### Gotchas
 
@@ -25,7 +25,7 @@ dynamic pads, you need to consider what should happen when they are added or rem
 
 ### Linking dynamic pads
 
-Let's see how to link dynamic pads. We'll use `membrane_file_plugin`, a plugin that allows reading and writing to files, and `membrane_tee_plugin` which allows forwarding the stream from a single input to multiple outputs. Running the pipeline below with `Membrane.Pipeline.start_link(MyPipeline)` should copy the "source" file to "target1", "target2" and "target3" files. Don't forget to create the "source" file before.
+Let's see how to link dynamic pads. We'll use [membrane_file_plugin](https://github.com/membraneframework/membrane_file_plugin), a plugin that allows reading and writing to files, and [membrane_tee_plugin](https://github.com/membraneframework/membrane_file_plugin) which allows forwarding the stream from a single input to multiple outputs. Running the pipeline below with `Membrane.Pipeline.start_link(MyPipeline)` should copy the "source" file to "target1", "target2" and "target3" files. Don't forget to create the "source" file before.
 
 ```elixir
 Mix.install([
@@ -51,7 +51,7 @@ defmodule MyPipeline do
 end
 ```
 
-The `Membrane.Tee.Parallel` element has a single static input and a single dynamic output pad. Because the output is dynamic, each time we link it, a new pad instance is created with a unique reference. In the example above, pad references were generated automatically. It's possible to specify them directly with `via_in` or `via_out` and `Membrane.Pad.ref`:
+The [Membrane.Tee.Parallel](https://hexdocs.pm/membrane_tee_plugin/Membrane.Tee.Parallel.html) element has a single static input and a single dynamic output pad. Because the output is dynamic, each time we link it, a new pad instance is created with a unique reference. In the example above, pad references were generated automatically. It's possible to specify them directly with [via_in](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html#via_in/3) or [via_out](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html#via_out/3) and [Membrane.Pad.ref](https://hexdocs.pm/membrane_core/Membrane.Pad.html#ref/1):
 
 ```elixir
 spec = [
@@ -67,7 +67,7 @@ In this case, it won't make a difference, but elements can rely on pad reference
 
 ## Pad options
 
-Just like elements, pads can have options. You can provide them in a keyword list within the second argument of `via_in` or `via_out`. For example, `Membrane.AudioMixer` allows passing offset to delay mixing the particular stream relative to others:
+Just like elements, pads can have options. You can provide them in a keyword list within the second argument of `via_in` or `via_out`. For example, [Membrane.AudioMixer](https://hexdocs.pm/membrane_audio_mix_plugin/Membrane.AudioMixer.html) allows passing offset to delay mixing the particular stream relative to others:
 
 ```elixir
 spec = [

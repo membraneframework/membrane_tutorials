@@ -4,7 +4,7 @@ Building `Pipeline`s is the way to create streaming applications with Membrane. 
 
 Connecting elements together is called `linking`. 
 
-To create a pipeline, you need to implement the `Membrane.Pipeline` behavior. It boils down to implementing callbacks and returning actions from them. For a simple pipeline, it's sufficient to implement the `handle_init` callback, which is called upon the pipeline startup, and return the `spec` action, which spawns and links elements. Let's see it in an example:
+To create a pipeline, you need to implement the [Membrane.Pipeline](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html) behavior. It boils down to implementing callbacks and returning actions from them. For a simple pipeline, it's sufficient to implement the [handle_init](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/2) callback, which is called upon the pipeline startup, and return the [spec](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec/0) action, which spawns and links elements. Let's see it in an example:
 
 ## Sample pipeline
 
@@ -37,7 +37,7 @@ Membrane.Pipeline.start_link(MyPipeline, mp3_url)
 ```
 
 This is an [Elixir](elixir-lang.org) snippet, that streams an mp3 via HTTP and plays it on your speaker. Here's how to run it:
-- Install libmad and portaudio. Membrane uses these libs to decode the mp3 and to access your speaker, respectively. You can use these commands:
+- Install [libmad](https://github.com/markjeee/libmad) and [portaudio](https://github.com/PortAudio/portaudio). Membrane uses these libs to decode the mp3 and to access your speaker, respectively. You can use these commands:
   - On Mac OS: `brew install libmad portaudio pkg-config`
   - On Debian: `apt install libmad0-dev portaudio19-dev`
 
@@ -124,7 +124,7 @@ spec =
   |> child(Membrane.PortAudio.Sink)
 ```
 
-Even though not necessary here, `via_in` and `via_out` are useful in more complex scenarios that we'll cover later.
+Even though not necessary here, [via_in](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html#via_in/3) and [via_out](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html#via_out/3) are useful in more complex scenarios that we'll cover later.
 
 The value returned from `handle_init`:
 
@@ -133,10 +133,10 @@ The value returned from `handle_init`:
 ```
 
 is a tuple containing the list of actions and the state.
-- Actions are the way to interact with Membrane. Apart from `spec`, you can for example return `terminate: reason` that will stop the elements and terminate the pipeline. Most actions, including `spec`, can be returned from multiple callbacks, allowing, for example, to spawn elements on demand. Check the `Membrane.Pipeline` behavior for the available callbacks and `Membrane.Pipeline.Action` for the available actions.
+- Actions are the way to interact with Membrane. Apart from `spec`, you can for example return `terminate: reason` that will stop the elements and terminate the pipeline. Most actions, including `spec`, can be returned from multiple callbacks, allowing, for example, to spawn elements on demand. Check the [Membrane.Pipeline](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html) behavior for the available callbacks and [Membrane.Pipeline.Action](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html) for the available actions.
 - State is an arbitrary data that will be passed to subsequent callbacks as the last argument. It's usually a map. As we have no use for the state in this case, we just set it to an empty map.
 
-When we have created our pipeline module, we can call `Membrane.Pipeline.start_link` to run it:
+When we have created our pipeline module, we can call [Membrane.Pipeline.start_link](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#start_link/3) to run it:
 
 ```elixir
 Membrane.Pipeline.start_link(MyPipeline, mp3_url)
