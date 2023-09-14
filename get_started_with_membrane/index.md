@@ -12,4 +12,5 @@ graphicPath: assets/images/Illo_get_started.png
 | 3      | Elements                  | 03_elements.md                  |
 | 4      | Bins                      | 04_bins.md                      |
 | 5      | Pads & linking            | 05_pads_and_linking.md          |
-| 6      | Native code integration   | 06_native_code_integration.md   |
+| 6      | Observability & logging   | 06_observability_and_logging.md |
+| 7      | Native code integration   | 07_native_code_integration.md   |
