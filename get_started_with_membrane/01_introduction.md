@@ -1,5 +1,8 @@
 # Getting started
-Hello, and welcome to the getting started guide to the Membrane Framework!
+
+Hello there, and a warm welcome to the Membrane tutorials. We're glad you chose to learn Membrane; and we'd like to invite you on a journey around multimedia with us, where we explore how to utilize the Membrane Framework to build applications that process audio, video, and other multimedia content in interesting ways.
+
+## What is Membrane?
 
 Membrane is a multimedia processing framework that focuses on reliability, concurrency, and scalability. It is primarily written in Elixir, while some platform-specific or time-constrained parts are written in Rust C. With a range of existing packages and an easy-to-use interface for writing your own, Membrane can be used to process almost any type of multimedia, for example:
 - stream via WebRTC, RTSP, RTMP, HLS, HTTP and other protocols,

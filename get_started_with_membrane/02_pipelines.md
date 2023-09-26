@@ -36,7 +36,15 @@ mp3_url = "https://raw.githubusercontent.com/membraneframework/membrane_demo/mas
 Membrane.Pipeline.start_link(MyPipeline, mp3_url)
 ```
 
-This is an [Elixir](elixir-lang.org) snippet, that streams an mp3 via HTTP and plays it on your speaker. Here's how to run it:
+The code above is one of the simplest examples of Membrane usage. It plays an MP3 file through your computer's default audio playback device with the help of the [PortAudio](http://www.portaudio.com/) audio I/O library. Let's digest this code and put it to work playing some sound.
+> **Elixir**
+>
+> Membrane is written in Elixir. It's an awesome programming language of the functional paradigm with great fault tolerance and process management, which made it the best choice for Membrane.
+> If you're not familiar with it, you can use [this cheatsheet](https://devhints.io/elixir) for a quick look-up.
+> We encourage you to also take a [deep look into Elixir](https://elixir-lang.org/getting-started/introduction.html) and learn how to use it to take full advantage of all its awesomeness. We believe you'll fall in love with Elixir too!
+
+
+To run the snippet, follow the steps below:
 - Install [libmad](https://github.com/markjeee/libmad) and [portaudio](https://github.com/PortAudio/portaudio). Membrane uses these libs to decode the mp3 and to access your speaker, respectively. You can use these commands:
   - On Mac OS: `brew install libmad portaudio pkg-config`
   - On Debian: `apt install libmad0-dev portaudio19-dev`
@@ -54,7 +62,7 @@ This is an [Elixir](elixir-lang.org) snippet, that streams an mp3 via HTTP and p
 
 Let's figure out step-by-step what happens in the sample pipeline.
 
-Firstly, we install the needed dependencies:
+Firstly, we install the needed dependencies. They are plugins, that contain elements that we will use in the pipeline.
 
 ```elixir
 Mix.install([
@@ -75,7 +83,7 @@ defmodule MyPipeline do
 end
 ```
 
-and implement the `handle_init` callback:
+Using the `Membrane.Pipeline` behaviour means we are treating our module as a Membrane Pipeline, so we will have access to functions defined in the `Membrane.Pipeline` module, and we can implement some of its callbacks. Let's implement the `handle_init/2` callback, which is a function that is invoked to initialize a pipeline during start-up:
 
 ```elixir
 defmodule MyPipeline do
@@ -88,7 +96,9 @@ defmodule MyPipeline do
 end
 ```
 
-The `handle_init` callback is executed at the pipeline startup. We use it to spawn and link elements:
+> If the concept of callbacks and behaviours is new to you, you can read more about it [here](https://elixir-lang.org/getting-started/typespecs-and-behaviours.html#behaviours), or see examples of behaviours in the Elixir standard library, for example the [GenServer](https://elixir-lang.org/getting-started/mix-otp/genserver.html) and [Supervisor](https://elixir-lang.org/getting-started/mix-otp/supervisor-and-application.html) behaviours.
+
+We'll use `handle_init` to specify all its [elements](../glossary/glossary.md#element) as children and set up links between them to define the order in which data will flow through the pipeline:
 
 ```elixir
 @impl true
@@ -104,9 +114,9 @@ def handle_init(_ctx, path_to_mp3) do
 end
 ```
 
-The spawned elements are:
+The [child](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html#child/2) function allows us to spawn particular elements. By piping one child to another with the `|>` operator, we can specify the order of the elements in the pipeline. Thus, the code above links `Membrane.Hackney.Source` to `Membrane.MP3.MAD.Decoder` and `Membrane.MP3.MAD.Decoder` to `Membrane.PortAudio.Sink`. Here's what they are:
 - Hackney source - an element based on the [Hackney HTTP library](https://github.com/benoitc/hackney), that downloads a file via HTTP chunk by chunk, and sends these chunks through its `output` pad. We pass two options to it: a URL where the MP3 is stored and a flag to make it follow HTTP redirects.
-- MP3 decoder - an element based on [libmad](https://github.com/markjeee/libmad), that accepts MP3 audio on the `input` pad and sends decoded audio through the `output` pad.
+- MP3 decoder - an element based on [libmad](https://github.com/markjeee/libmad), that accepts MP3 audio on the `input` pad and sends the [decoded](../glossary/glossary.md#decoding) audio through the `output` pad.
 - PortAudio sink - an element that accepts decoded audio on its `input` pad and uses the [PortAudio](https://github.com/PortAudio/portaudio) library to play in on the speaker.
 
 In our spec, we don't mention the names of the pads, because `input` and `output` are the defaults. However, we could explicitly specify them:
@@ -144,4 +154,4 @@ Membrane.Pipeline.start_link(MyPipeline, mp3_url)
 
 We pass to it the pipeline module and options, which in our case is the `mp3_url`. The options are passed directly to the `handle_init` callback.
 
-Now you know a thing or two about pipelines. Let's now have a deeper look at the elements.
+Congratulations! You've just built and run your first Membrane application. Let's now have a deeper look at the elements.
