@@ -26,11 +26,11 @@ To embrace modularity, Membrane is delivered to you in multiple packages, includ
 
 **Plugins**
 
-Plugins provide elements that you can use in your pipeline. Each plugin lives in a `membrane_X_plugin` repository, where X can be a protocol, codec, container or functionality, for example [mebrane_opus_plugin](github.com/membraneframework/membrane_opus_plugin). Plugins wrapping a tool or library are named `membrane_X_LIBRARYNAME_plugin` or just `membrane_LIBRARYNAME_plugin`, like [membrane_mp3_mad_plugin](github.com/membraneframework/membrane_mp3_mad_plugin). Plugins are published on [hex.pm](hex.pm), for example [hex.pm/packages/membrane_opus_plugin](hex.pm/pakcages/membrane_opus_plugin) and docs are at [hexdocs](hexdocs.pm), like [hexdocs.pm/membrane_opus_plugin](hexdocs.pm/membrane_opus_plugin). Some plugins require native libraries installed in your OS. Those requirements, along with usage examples are outlined in each plugin's readme.
+Plugins provide elements that you can use in your pipeline. Each plugin lives in a `membrane_X_plugin` repository, where `X` can be a protocol, codec, container or functionality, for example [mebrane_opus_plugin](github.com/membraneframework/membrane_opus_plugin). Plugins wrapping a tool or library are named `membrane_X_LIBRARYNAME_plugin` or just `membrane_LIBRARYNAME_plugin`, like [membrane_mp3_mad_plugin](github.com/membraneframework/membrane_mp3_mad_plugin). Plugins are published on [hex.pm](hex.pm), for example [hex.pm/packages/membrane_opus_plugin](hex.pm/pakcages/membrane_opus_plugin) and docs are at [hexdocs](hexdocs.pm), like [hexdocs.pm/membrane_opus_plugin](hexdocs.pm/membrane_opus_plugin). Some plugins require native libraries installed in your OS. Those requirements, along with usage examples are outlined in each plugin's readme.
 
 **Formats**
 
-Apart from plugins, Membrane has stream formats, which live in `membrane_X_format` repositories, where X is usually a codec or container, for example, [mebrane_opus_format](github.com/membraneframework/mebrane_opus_format). Stream formats are published the same way as packages and are used by elements to define what kind of stream can be sent or received. They also provide utility functions to deal with a given codec/container.
+Apart from plugins, Membrane has stream formats, which live in `membrane_X_format` repositories, where `X` is usually a codec or container, for example, [mebrane_opus_format](github.com/membraneframework/mebrane_opus_format). Stream formats are published the same way as packages and are used by elements to define what kind of stream can be sent or received. They also provide utility functions to deal with a given codec/container.
 
 **Core**
 
@@ -39,8 +39,7 @@ The documentation for the developer's API is available at [hexdocs](https://hexd
 
 **Standalone libraries**
 
-Last but not least, Membrane provides tools and libraries that can be used standalone and don't depend on the membrane_core, for example, [video_compositor](github.com/membraneframework/video_compositor), [ex_sdp](github.com/membraneframework/ex_sdp) or [unifex](github.com/membraneframework/unifex).
-
+Last but not least, Membrane provides tools and libraries that can be used standalone and don't depend on the `membrane_core`, for example, [video_compositor](github.com/membraneframework/video_compositor), [ex_sdp](github.com/membraneframework/ex_sdp) or [unifex](github.com/membraneframework/unifex).
 
 ## Where can I learn Membrane?
 There are a number of resources available for learning about Membrane:

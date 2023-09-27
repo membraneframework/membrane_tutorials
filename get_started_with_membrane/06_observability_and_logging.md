@@ -13,7 +13,7 @@ Mix.install([:kino_membrane])
 and run
 
 ```elixir
-KinoMembrane.pipeline_dashboard(pipeline)
+KinoMembrane.pipeline_dashboard(pipeline_pid)
 ```
 
 in Livebook, and you'll get a panel with the pipeline graph, metrics and other utilities:

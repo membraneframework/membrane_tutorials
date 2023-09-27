@@ -20,8 +20,7 @@ Now, each time some element is linked to this pad, a new instance of the pad is 
 
 ### Gotchas
 
-As usual, with great power comes great responsibility. When implementing an element with
-dynamic pads, you need to consider what should happen when they are added or removed. Usually, you need to implement `handle_pad_added` and `handle_pad_removed` callbacks, and the logic of an element may generally become more complicated.
+As usual, with great power comes great responsibility. When implementing an element with dynamic pads, you need to consider what should happen when they are added or removed. Usually, you need to implement `handle_pad_added` and `handle_pad_removed` callbacks, and the logic of an element may generally become more complicated.
 
 ### Linking dynamic pads
 
