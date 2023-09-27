@@ -24,7 +24,7 @@ defmodule MyElement do
 end
 ```
 
-The 'Element implementation' consists of defining pads, options and callbacks. Let's find out how to do that.
+The `Element implementation` consists of defining pads, options and callbacks. Let's find out how to do that.
 
 ## Pads
 
@@ -48,8 +48,8 @@ Pads can be defined using [def_input_pad](https://hexdocs.pm/membrane_core/Membr
 * `accepted_format` - a pattern for a stream format expected on the pad, for example `%Membrane.RawAudio{channels: 2}`. It serves documentation purposes and is validated in runtime.
 * `flow_control` - configures how back pressure should be handled on the pad. You can choose from the following options:
   * `auto` - Membrane automatically manages the flow control. It works under the assumption that the element does not need to block or slow down the processing rate, it just processes or consumes the stream as it flows. This option is not available for `Source` elements.
-  * `manual` - You need to manually control the flow control by using the `demand` action on `input` pads and implementing the `handle_demand` callback for `output` pads.
-  * `push` - it's a simple mode where an element producing data pushes it right away through the `output` pad. An `input` pad in this mode should be always ready to process that data.
+  * `:manual` - You need to manually control the flow control by using the `demand` action on `input` pads and implementing the `handle_demand` callback for `output` pads.
+  * `:push` - It's a simple mode where an element producing data pushes it right away through the `output` pad. An `input` pad in this mode should be always ready to process that data.
 * `demand_unit` - only for `flow_control` set to `manual`. Either `:bytes` or `:buffers`, specifies what unit will be used to request or receive demands.
 * `availability` - either `:always` (default) - meaning the pad is static and available from the moment an element is spawned, or `:on_request` meaning it is dynamic. See `pads_and_linking` chapter for more details.
 * `options` - optional; specification of options accepted by the pad. See `pads_and_linking` chapter for more details.
@@ -64,7 +64,7 @@ It means that the element has a static input pad called `input`, with automatic 
 
 ## Options
 
-Options make it possible to pass configuration data to an element. Elements aren't required to accept any options, but it's useful in many cases. Available options can be specified using the [def_options](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#def_options/1) macro, for example:
+Element options make it possible to pass configuration data to an element. Elements aren't required to accept any options, but it's useful in many cases. Available options can be specified using the [def_options](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#def_options/1) macro, for example:
 
 ```elixir
 def_options some_option: [
