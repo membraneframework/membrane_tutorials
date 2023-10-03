@@ -66,7 +66,22 @@ In this case, it won't make a difference, but elements can rely on pad reference
 
 ## Pad options
 
-Just like elements, pads can have options. You can provide them in a keyword list within the second argument of `via_in` or `via_out`. For example, [Membrane.AudioMixer](https://hexdocs.pm/membrane_audio_mix_plugin/Membrane.AudioMixer.html) allows passing offset to delay mixing the particular stream relative to others:
+Just like elements, pads can have options. They have to be defined with the `options` key in `def_input_pad` and `def_output_pad`, using the same syntax as the element options. For example, [Membrane.AudioMixer](https://hexdocs.pm/membrane_audio_mix_plugin/Membrane.AudioMixer.html) does it to make its `input` pad accept the `offset` option:
+
+```elixir
+def_input_pad :input,
+    availability: :on_request,
+    options: [
+      offset: [
+        spec: Time.non_neg(),
+        default: 0,
+        description: "Offset of the input audio at the pad."
+      ]
+    ],
+    # ...
+```
+
+Pad options can be set via a keyword list within the second argument of `via_in` or `via_out`. Here's how to provide the `offset` option to the mixer:
 
 ```elixir
 spec = [
@@ -76,4 +91,14 @@ spec = [
   |> child(Membrane.AudioMixer)
   # ...
 ]
+```
+
+Pad options' values can be accessed in the context of the `handle_pad_added` callback:
+
+```elixir
+@impl true
+def handle_pad_added(pad, context, state) do
+  %{offset: offset} = context.pad_options
+  # ...
+end
 ```

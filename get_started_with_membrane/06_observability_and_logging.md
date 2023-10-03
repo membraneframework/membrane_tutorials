@@ -31,7 +31,7 @@ import Config
 config :membrane_core, :logger, verbose: true
 ```
 
-See [`Membrane.Logger`](https://hexdocs.pm/membrane_core/Membrane.Logger.html) for details.
+For this change to take effect, it may be necessary to recompile the whole project with `mix deps.compile --force && mix compile --force`. See [`Membrane.Logger`](https://hexdocs.pm/membrane_core/Membrane.Logger.html) for details.
 
 Moreover, in a pipeline or bin, you can add logger metadata to the [children spec](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html):
 
