@@ -22,7 +22,7 @@ Elements can be organized into a pipeline - a sequence of linked elements that p
 
 ### Membrane packages
 
-To embrace modularity, Membrane is delivered to you in multiple packages, including plugins, formats, core and standalone libraries. The complete list of all the Membrane packages maintained by the Membrane team is available [here](https://github.com/membraneframework/membrane_core/Membrane-packages).
+To embrace modularity, Membrane is delivered to you in multiple packages, including plugins, formats, core and standalone libraries. The list of all Membrane packages is available [here](https://github.com/membraneframework/membrane_core/#All-packages). It contains all the packages maintained by the Membrane team and some third-party packages.
 
 **Plugins**
 
