@@ -1,5 +1,3 @@
-# Getting started
-
 Hello there, and a warm welcome to the Membrane tutorials. We're glad you chose to learn Membrane; and we'd like to invite you on a journey around multimedia with us, where we explore how to utilize the Membrane Framework to build applications that process audio, video, and other multimedia content in interesting ways.
 
 ## What is Membrane?
