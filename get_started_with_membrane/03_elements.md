@@ -241,7 +241,7 @@ payload =
   for <<sample::binary-size(sample_size) <- buffer.payload>>, into: <<>> do
 ```
 
-Now we can convert each sample to an integer with another utility from `Membrane.RawAudio`: (sample_to_value)[https://hexdocs.pm/membrane_raw_audio_format/Membrane.RawAudio.html#sample_to_value/2]`. Having the integer, we can multiply it by the gain and convert it back to the binary representation.
+Now we can convert each sample to an integer with another utility from `Membrane.RawAudio`: [sample_to_value](https://hexdocs.pm/membrane_raw_audio_format/Membrane.RawAudio.html#sample_to_value/2). Having the integer, we can multiply it by the gain and convert it back to the binary representation.
 
 ```elixir
     value = RawAudio.sample_to_value(sample, stream_format)
