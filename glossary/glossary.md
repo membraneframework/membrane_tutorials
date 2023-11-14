@@ -139,9 +139,9 @@
 - #### **Action**
   An action can be returned from [callback](#callback) and it is a way of element interaction with other elements and parts of the framework. An exemplary action might be [`:buffer`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer/0) action, that sends buffers through a pad, or [`:terminate`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:terminate/0) action, that terminates element with given reason.
 - #### **ChildrenSpec**
-  In Membrane Framework, `ChildrenSpec` is a way of describing the topology of a [pipeline](#pipeline) or a [bin](#bin). You can read more about `ChildrenSpec` [here](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html).
-\
-Each element is created to solve one problem. Elements can be divided into four categories:
+  In Membrane Framework, `ChildrenSpec` is a way of describing the topology of a [pipeline](#pipeline) or a [bin](#bin). You can read more about `ChildrenSpec` [here](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html). 
+<br/>
+### Each element is created to solve one problem. Elements can be divided into four categories:
   - #### **Source** 
     An element with only output [pads](#pads), the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
   - #### **Filter**
