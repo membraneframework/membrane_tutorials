@@ -141,6 +141,7 @@
 - #### **ChildrenSpec**
   In Membrane Framework, `ChildrenSpec` is a way of describing the topology of a [pipeline](#pipeline) or a [bin](#bin). You can read more about `ChildrenSpec` [here](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html). 
 <br/>
+
 ### Each element is created to solve one problem. Elements can be divided into four categories:
   - #### **Source** 
     An element with only output [pads](#pads), the first element of each pipeline. It is responsible for fetching the data and transmitting it through the output pad.
