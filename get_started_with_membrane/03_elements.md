@@ -84,8 +84,7 @@ Each option can have the following fields:
 - `default` - The value that the option will have if it's not specified. If the default is not provided, the option must be always explicitly specified.
 - `description` - Write here what the option does. It will be included in the module documentation.
 
-We'll see a practical example of defining options in the [sample element](#sample-element).
-
+We'll see a practical example of defining options in the [sample element](#sample-element). <!-- This links correctly in VSCode but not in the browser? -->
 ## Callbacks
 
 Apart from specifying pads and options, creating an element involves implementing callbacks. They have different responsibilities and are called in a specific order. As in the case of pipelines, callbacks interact with the framework by returning [actions](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html). Here are some most useful callbacks:
@@ -113,7 +112,7 @@ After `handle_playing`, you should expect the following callbacks to be called:
 
 - [handle_start_of_stream](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_start_of_stream/3) is called just before the first buffer arrives from the preceding element
 
-- [handle_process](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_process/4) or [handle_write](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_write/4) is called every time a buffer arrives from the preceding element
+- [handle_buffer](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_buffer/4) is called every time a buffer arrives from the preceding element
 
 - [handle_event](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_event/4) is called once an event arrives from the preceding or subsequent element
 
@@ -157,7 +156,7 @@ defmodule VolumeKnob do
   end
   
   @impl true
-  def handle_process(:input, buffer, ctx, state) do
+  def handle_buffer(:input, buffer, ctx, state) do
     stream_format = ctx.pads.input.stream_format
     sample_size = RawAudio.sample_size(stream_format)
     payload =
@@ -213,11 +212,11 @@ end
 
 The callback does not return any actions (thus the empty list), but it saves the gain passed through options in the state.
 
-Then goes the main part of the element - the `handle_process` callback:
+Then goes the main part of the element - the `handle_buffer` callback:
 
 ```elixir
 @impl true
-def handle_process(:input, buffer, ctx, state) do
+def handle_buffer(:input, buffer, ctx, state) do
 ```
 
 The callback is called whenever a buffer arrives on a pad, and receives four arguments:
