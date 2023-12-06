@@ -12,13 +12,13 @@ As you can see, we are returning an optional list of [actions](https://hexdocs.p
 the updated state (which later on will be passed to the next invoked callback).
 Take your time and read about the possible actions which can be requested to be performed while returning from the callback. Their usage is crucial for the pipeline to work.
 
-As you can judge based on the structure of the project, all the elements will be put in the `lib/elements` directory. Therefore there is a place where `Source.ex` with the `Basic.Elements.Source` module's definition should be placed.
+As you can judge based on the structure of the project, all the elements will be put in the `lib/elements` directory. Therefore there is a place where `source.ex` with the `Basic.Elements.Source` module's definition should be placed.
 
 ## What makes our module a Membrane Framework's element?
 
 Let's start with specifying that our module will implement the `Membrane.Source` behavior as well as alias the modules which will be used later in the module's code:
 
-**_`lib/elements/Source.ex`_**
+**_`lib/elements/source.ex`_**
 
 ```elixir
 defmodule Basic.Elements.Source do
@@ -33,7 +33,7 @@ end
 
 Later on, we will make use of [macros](https://elixir-lang.org/getting-started/meta/macros.html) defined in the `Membrane.Source` module:
 
-**_`lib/elements/Source.ex`_**
+**_`lib/elements/source.ex`_**
 
 ```elixir
 defmodule Basic.Elements.Source do
@@ -67,7 +67,7 @@ You can read more on pad specification [here](https://hexdocs.pm/membrane_core/M
 
 Let's define our first callback! Why not start with [`handle_init/2`](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_init/2), which gets called once the element is created?
 
-**_`lib/elements/Source.ex`_**
+**_`lib/elements/source.ex`_**
 
 ```elixir
 defmodule Basic.Elements.Source do
@@ -97,7 +97,7 @@ All we need to do there is to initialize the state - our state will be in a form
 When an element requires more time to initialise, you should delegate complex tasks to `handle_setup/2`. This callback runs after `handle_init/2` if it returns the `setup: :incomplete` action. 
 In our example, we'd like to open, read and save the contents of the input file. We then save it in our state as `content`.
 
-**_`lib/elements/Source.ex`_**
+**_`lib/elements/source.ex`_**
 
 ```elixir
 defmodule Basic.Elements.Source do
@@ -117,7 +117,7 @@ end
 
 When the setup is complete, the element goes into `playing` state. It can then demand buffers from previous elements and send its `:stream_format` to receiving elements. Since we are implementing a sink we do not have anything to demand from, but we can specify the format. We can do this, for example, in `handle_playing/2`:
 
-**_`lib/elements/Source.ex`_**
+**_`lib/elements/source.ex`_**
 
 ```elixir
 defmodule Basic.Elements.Source do
@@ -137,28 +137,28 @@ The `:stream_format` action means that we want to transmit the information about
 Before going any further let's stop for a moment and talk about the demands. Do you remember, that the `:output` pad is working in `:manual` mode? That means that the succeeding element has to ask the Source element for the data to be sent and our element has to take care of keeping that data in some kind of buffer until it is requested.
 Once the succeeding element requests for the data, the `handle_demand/4` callback will be invoked - therefore it would be good for us to define it:
 
-**_`lib/elements/Source.ex`_**
+**_`lib/elements/source.ex`_**
 
 ```elixir
 defmodule Basic.Elements.Source do
  ...
 
- @impl true
- def handle_demand(:output, _size, :buffers, _ctx, state) do
-  if state.content == [] do
-    { [end_of_stream: :output], state}
-  else
-    [first_packet | rest] = state.content
-    new_state = %{state | content: rest}
-    
-    actions = [
-      buffer: {:output, %Buffer{payload: first_packet}},
-      redemand: :output
-    ]
+  @impl true
+  def handle_demand(:output, _size, :buffers, _context, state) do
+    if state.content == [] do
+      {[end_of_stream: :output], state}
+    else
+      [first_packet | rest] = state.content
+      new_state = %{state | content: rest}
 
-    {actions, new_state}
+      actions = [
+        buffer: {:output, %Buffer{payload: first_packet}},
+        redemand: :output
+      ]
+
+      {actions, new_state}
+    end
   end
- end
  ...
 end
 ```

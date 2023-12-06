@@ -93,7 +93,7 @@ defmodule Source do
    ]
  )
  ...
- def handle_playing(_ctx, state) do
+ def handle_playing(_context, state) do
  ...
    { {[stream_format: {:output, %Formats.Raw{pixel_format: I420, framerate: 45, width: 720, height: 300} }]}, state}
  end
