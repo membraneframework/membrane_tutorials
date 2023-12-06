@@ -74,7 +74,7 @@ defmodule Basic.Elements.Source do
  ...
   @impl true
   def handle_init(_context, options) do
-    {[setup: :incomplete],
+    {[],
      %{
        location: options.location,
        content: nil
@@ -85,7 +85,7 @@ end
 ```
 
 As said before, `handle_init/2` expects a structure with the previously defined parameters to be passed as an argument.
-All we need to do there is to initialize the state - our state will be in a form of a map, and for now on we will put there a `location` (a path to the input file) and the `content`, where we will be holding packets read from the file, which haven't been sent yet. For now, the content is set to nil as we haven't read anything from the input file yet. That's also why we send back the action `setup: :incomplete`. In the next section we'll talk about more involved initialization and resources managed by our element.
+All we need to do there is to initialize the state - our state will be in a form of a map, and for now on we will put there a `location` (a path to the input file) and the `content`, where we will be holding packets read from the file, which haven't been sent yet. The recommended approach is to keep `handle_init/2` lean and defer any heavier initialization to `handle_setup/2` which runs automatically afterwards, if defined. In the next section we'll talk about more involved initialization and resources managed by our element.
 
 > ### TIP
 >
@@ -94,8 +94,7 @@ All we need to do there is to initialize the state - our state will be in a form
 
 ## Preparing our element
 
-When an element requires more time to initialise, you should delegate complex tasks to `handle_setup/2`. This callback runs after `handle_init/2` if it returns the `setup: :incomplete` action. 
-In our example, we'd like to open, read and save the contents of the input file. We then save it in our state as `content`.
+In the `handle_setup/2` callback, we'd like to open, read and save the contents of the input file. We then save it in our state as `content`.
 
 **_`lib/elements/source.ex`_**
 
