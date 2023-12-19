@@ -47,7 +47,7 @@ Pads can be defined using [def_input_pad](https://hexdocs.pm/membrane_core/Membr
 
 * `accepted_format` - A pattern for a stream format expected on the pad, for example `Membrane.RawAudio` or `%Membrane.RawAudio{channels: 2}`. It serves documentation purposes and is validated in runtime.
 * `flow_control` - Configures how back pressure should be handled on the pad. You can choose from the following options:
-  * `:auto` - Membrane automatically manages the flow control. It works under the assumption that the element does not need to block or slow down the processing rate, it just processes or consumes the stream as it flows. This option is not available for output pads of `Source` end `Endpoint` elements.
+  * `:auto` - Membrane automatically manages the flow control. It works under the assumption that the element does not need to block or slow down the processing rate, it just processes or consumes the stream as it flows. This option is not available for output pads of `Source` end `Endpoint` elements, while for all other pads it's the default.
   * `:manual` - You need to manually control the flow control by using the `demand` action on `input` pads and implementing the `handle_demand` callback for `output` pads.
   * `:push` - It's a simple mode where an element producing data pushes it right away through the `output` pad. An `input` pad in this mode should be always ready to process that data.
 * `demand_unit` - Either `:bytes` or `:buffers`, specifies what unit will be used to request or receive demands. Must be specified for inputs that have `flow_control` is set to `:manual`.
@@ -113,7 +113,7 @@ After `handle_playing`, you should expect the following callbacks to be called:
 
 - [handle_start_of_stream](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_start_of_stream/3) is called just before the first buffer arrives from the preceding element
 
-- [handle_process](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_process/4) or [handle_write](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_write/4) is called every time a buffer arrives from the preceding element
+- [handle_buffer](https://hexdocs.pm/membrane_core/Membrane.Element.WithInputPads.html#c:handle_buffer/4) is called every time a buffer arrives from the preceding element
 
 - [handle_event](https://hexdocs.pm/membrane_core/Membrane.Element.Base.html#c:handle_event/4) is called once an event arrives from the preceding or subsequent element
 
@@ -157,7 +157,7 @@ defmodule VolumeKnob do
   end
   
   @impl true
-  def handle_process(:input, buffer, ctx, state) do
+  def handle_buffer(:input, buffer, ctx, state) do
     stream_format = ctx.pads.input.stream_format
     sample_size = RawAudio.sample_size(stream_format)
     payload =
@@ -213,11 +213,11 @@ end
 
 The callback does not return any actions (thus the empty list), but it saves the gain passed through options in the state.
 
-Then goes the main part of the element - the `handle_process` callback:
+Then goes the main part of the element - the `handle_buffer` callback:
 
 ```elixir
 @impl true
-def handle_process(:input, buffer, ctx, state) do
+def handle_buffer(:input, buffer, ctx, state) do
 ```
 
 The callback is called whenever a buffer arrives on a pad, and receives four arguments:
