@@ -114,7 +114,7 @@ defmodule Basic.Elements.Source do
 end
 ```
 
-When the setup is complete, the element goes into `playing` state. It can then demand buffers from previous elements and send its `:stream_format` to receiving elements. Since we are implementing a sink we do not have anything to demand from, but we can specify the format. We can do this, for example, in `handle_playing/2`:
+When the setup is complete, the element goes into `:playing` state. It can then demand buffers from previous elements and send its `:stream_format` to subsequent elements. Since we are implementing a sink we do not have any previous element to demand from, but we can specify the format. We can do this, for example, in `handle_playing/2`:
 
 **_`lib/elements/source.ex`_**
 
@@ -129,7 +129,7 @@ defmodule Basic.Elements.Source do
 end
 ```
 
-The `:stream_format` action means that we want to transmit the information about the supported [formats](../glossary/glossary.md#stream-format-formerly-caps) through the `output` pad, to the next element in the pipeline. In [chapter 4](../basic_pipeline/04_Caps.md) you will find out more about stream formats and learn why it is required to do so.
+The `:stream_format` action means that we want to transmit the information about the supported [formats](../glossary/glossary.md#stream-format-formerly-caps) through the `output` pad, to the next element in the pipeline. In [chapter 4](../basic_pipeline/04_StreamFormat.md) you will find out more about stream formats and learn why it is required to do so.
 
 ## Demands
 
@@ -162,11 +162,16 @@ defmodule Basic.Elements.Source do
 end
 ```
 
-The callback's body describes the situation in which some buffers were requested. Then we are checking if we have any packets left in the list persisting in the state of the element. If that list is empty, we are sending an `end_of_stream` action, indicating that there will be no more buffers sent through the `:output` pad and that is why there is no point in requesting more buffers.
-However, in case of the `content` list of packets being non-empty, we are taking the head of that list, and storing the remaining tail of the list in the state of the element. Later on, we are defining the actions we want to take - that is, we want to return a buffer with the head packet from the original list. We make use of the [`buffer:` action](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer_t/0), and specify that we want to transmit the [`%Buffer`](https://hexdocs.pm/membrane_core/Membrane.Buffer.html#t:t/0) structure through the `:output` pad. Note the fields available in the `%Buffer` structure - in our case, we make use of only the `:payload` field, which, according to the documentation, can be of `any` type - however, in almost all cases you will need to send binary data within this field. Any structured data (just like timestamps etc.) should be passed in the other fields available in the `%Buffer`, designed especially for that cases.
-However, there is the other action that is taken - the `:redemand` action, queued to take place on the `:output` pad. This action will simply invoke the `handle_demand/4` callback once again, which is helpful when the whole demand cannot be completely fulfilled in the single `handle_demand` invocation we are just processing. The great thing here is that the `size` of the demand will be automatically determined by the element and we do not need to specify it anyhow. Redemanding, in the context of sources, helps us simplify the logic of the `handle_demand` callback since all we need to do in that callback is to supply a single piece of data and in case this is not enough, take a [`:redemand`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:redemand_t/0) action and invoke that callback once again. As you will see later, the process of redemanding is even more powerful in the context of [filter elements](../glossary/glossary.md#filter). 
-But don't give up if you don't grasp demands just yet! :) Membrane also supports `:auto` flow control, which takes care of demands and should be enough for 90% of use cases.
+The callback's body describes the situation in which some buffers were requested. Then we are checking if we have any packets left in the list persisting in the state of the element. If that list is empty, we are sending an `end_of_stream` action, indicating that there will be no more buffers sent through the `:output` pad and that is why there is no point in requesting more buffers. 
 
-By now you should have created a `Basic.Element.Source` element, with options and output pads defined and its `handle_init/2`, `handle_setup/2`, `handle_playing/2` and `handle_demand/5` callbacks implemented.
+However, in case of the `content` list of packets being non-empty, we are taking the head of that list, and storing the remaining tail of the list in the state of the element. Later on, we are defining the actions we want to take - that is, we want to return a buffer with the head packet from the original list. We make use of the [`buffer:` action](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:buffer_t/0), and specify that we want to transmit the [`%Buffer`](https://hexdocs.pm/membrane_core/Membrane.Buffer.html#t:t/0) structure through the `:output` pad. Note the fields available in the `%Buffer` structure - in our case, we make use of only the `:payload` field, which, according to the documentation, can be of `any` type - however, in almost all cases you will need to send binary data within this field. Any structured data (just like timestamps etc.) should be passed in the other fields available in the `%Buffer`, designed especially for that cases. 
+
+Then there's the other action that is taken - the `:redemand` action, queued to take place on the `:output` pad. This action will simply invoke the `handle_demand/4` callback once again, which is helpful when the whole demand cannot be completely fulfilled in the single `handle_demand` invocation we are just processing. The great thing here is that the `size` of the demand will be automatically determined by the element and we do not need to specify it anyhow. Redemanding, in the context of sources, helps us simplify the logic of the `handle_demand` callback since all we need to do in that callback is to supply a single piece of data and in case this is not enough, take a [`:redemand`](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html#t:redemand_t/0) action and invoke that callback once again. As you will see later, the process of redemanding is even more powerful in the context of [filter elements](../glossary/glossary.md#filter). 
+
+> ### TIP
+>
+> Membrane also supports `:auto` demand mode, which should cover 90% of use cases. 
+> 
+> You can learn more about demand modes [here](https://membrane.stream/learn/get_started_with_membrane/6).
 
 In the next chapter we will explore what stream formats are in Membrane.

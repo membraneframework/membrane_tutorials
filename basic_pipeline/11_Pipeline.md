@@ -82,8 +82,9 @@ defmodule Basic.Pipeline do
 Remember to pass the desired file paths in the `:location` option! 
 
 Now... that's it! :) 
-The spec list using Membrane's DSL is enough to describe our pipeline's topology. The child keywords spawn components of the specified type and we can use the `|>` operator to link them together. When the pads that should be linked are unamibiguous this is straightforward but for links like those with `Mixer` we can specify the pads using `via_in/1`. There also exists a `via_out/1` keyword which works in a similar way. 
-As you can see the first argument to `child/2` is a component identifier, but it's also possible to have anonymous children using `child/1`, which just has Membrane generate a unique id under the hood.
+The spec list using Membrane's DSL is enough to describe our pipeline's topology. The child keywords spawn components of the specified type and we can use the `|>` operator to link them together. When the pads that should be linked are unamibiguous this is straightforward but for links like those with `Mixer` we can specify the pads using `via_in/1`. There also exists a `via_out/1` keyword which works similarly for output pads. 
+
+As you can see the first argument to `child/2` is a component identifier. If we had omitted it Membrane would generate a unique identifier under the hood. For more about the `child` functions please refer to [the docs](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html#child/1).
 
 Our pipeline is ready! Let's try to launch it.
 We will do so by starting the pipeline, and then playing it. For the ease of use we will do it in a script.
@@ -91,8 +92,13 @@ We will do so by starting the pipeline, and then playing it. For the ease of use
 **_`start.exs`_**
 
 ```elixir
-{:ok, _sup, _pipeline} = Membrane.Pipeline.start_link(Basic.Pipeline)
-Process.sleep(500)
+{:ok, _sup, pipeline} = Membrane.Pipeline.start_link(Basic.Pipeline)
+Process.monitor(pipeline)
+
+# Wait for the pipeline to terminate
+receive do
+  {:DOWN, _monitor, :process, ^pipeline, _reason} -> :ok
+end
 ```
 
 You can execute it by running `mix run start.exs` in the terminal.

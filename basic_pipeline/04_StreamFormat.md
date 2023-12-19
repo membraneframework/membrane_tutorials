@@ -44,13 +44,15 @@ Module name defines the type of the format, however it is possible to pass some 
 2. We specify the pad of the element with the format we have just defined, using the `:accepted_format` option. For the purpose of an example, let it be the `:input` pad:
 
 ```elixir
-def_input_pad(:input,
+def_input_pad :input,
   demand_unit: :buffers,
-  accepted_format: [
-     {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
-     {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 720, height: 480}
-  ]
-)
+    accepted_format:
+      any_of([
+        %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 480, height: 300}
+        when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60,
+        %Format.Raw{pixel_format: pixel_format, framerate: range(30, 60), width: 720, height: 480}
+        when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60
+      ])
 ```
 
 As you can see, we pass a list of compatible formats, each described with the tuple, consisting of our module name, and the keywords list fulfilling the

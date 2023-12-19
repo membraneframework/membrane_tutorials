@@ -32,7 +32,7 @@ end
 
 Same as in the case of the previous format - we are defining a structure with a single field, called `:encoding`, and the default value of that field - `:utf8`.
 
-That's it! Format modules are really simple - the more complicated thing is to make use of them - which we will do in the subsequent chapters while defining the specs!
+That's it! Format modules are really simple, and using them is not that hard either, as you will see in the subsequent chapters - defining the accepted stream formats and sending stream format actions!
 
 Before advancing you can test the `Source` [element](../glossary/glossary.md/#source), using the tests provided in `/test` directory.
 
