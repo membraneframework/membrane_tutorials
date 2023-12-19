@@ -49,8 +49,10 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-As you can see in the code snippet above, the `Track` will consist of the `:buffer` field, holding the very last buffer received on the corresponding input pad, and the `:status` fields, indicating the status of the track - `:started`, in case we are still expecting some buffers to come (that means - in case `:end_of_stream` event hasn't been received yet) and `:finished` otherwise.
-It's a good practice to provide a type specification for such a custom struct since it makes the code easier to reuse and lets the compiler warn us about some misspellings (for instance in the status field atoms), which cause some hard to spot errors.
+As you can see in the code snippet above, the `Track` will consist of the `:buffer` field, holding the very last buffer received on the corresponding input pad, and the `:status` fields, indicating the status of the track - `:started`, in case we are still expecting some buffers to come (that means - in case `:end_of_stream` event hasn't been received yet) and `:finished` otherwise. 
+
+It's a good practice to provide a type specification for such a custom struct since it makes the code easier to reuse and lets the compiler warn us about some misspellings (for instance in the status field atoms), which cause some hard to spot errors. 
+
 A careful reader might notice, that we are holding only one buffer for each track, instead of a list of all the potentially unprocessed buffers - does it mean that we are losing some of them? Not at all, since we are taking advantage of the elements which have appeared earlier in the [pipeline](../glossary/glossary.md#pipeline) and which provide us with an ordered list of frames on each of the inputs - however, we will need to process each buffer just at the moment it comes on the pad.
 
 The logic we're going to implement can be described in the following three steps:
@@ -79,7 +81,9 @@ end
 
 We have provided a `handle_init/2` callback, which does not expect any options to be passed. We are simply setting up the structure of the element state.
 As mentioned previously, we will have a `Track` structure for each of the input pads. 
-What's interesting is this is where the mixer having exactly two inputs stops being important. The missing functionality can be defined generically without much hassle.
+
+What's interesting is this is where the mixer having exactly two inputs stops being important. The missing functionality can be defined generically without much hassle. 
+
 Following on the callbacks implementation, let's continue with the `handle_buffer/4` implementation:
 
 **_`lib/elements/mixer.ex`_**
@@ -100,6 +104,7 @@ end
 ```
 
 In this callback we update the mixer's state by assigning the incoming buffer to its track. We can be sure no overwriting of an existing buffer happens, which will become more apparent as we delve further into the logic's implementation. 
+
 Once the state is updated we gather all buffers that can be sent (might be none) in `get_output_buffers_actions/1` and return the coresponding `buffer` actions. In case any demands should be sent afterwards we also tell the output pad to redemand.
 
 **_`lib/elements/mixer.ex`_**
@@ -125,34 +130,9 @@ defmodule Basic.Elements.Mixer do
 end
 ```
 
-What we did here was similar to the logic defined in `handle_buffer/4` - we have just updated the state of the track (in that case - by setting its status as `:finished`), gather the buffers and send them. The important difference is that in case all inputs have closed, we should forward an `end_of_stream` action instead of a `redemand`, signaling the mixer has finished its processing. 
-The `has_buffer?/1` function is a private utility that will show up in a few more places in our element's definition and is nothing more than a simple check `track.buffer != nil`.
-Let's now implement the `handle_demand/5` callback:
+What we did here was similar to the logic defined in `handle_buffer/4` - we have just updated the state of the track (in that case - by setting its status to `:finished`), gather the buffers and send them. The important difference is that in case all inputs have closed, we should forward an `end_of_stream` action instead of a `redemand`, signaling the mixer has finished its processing. 
 
-**_`lib/elements/mixer.ex`_**
-
-```elixir
-defmodule Basic.Elements.Mixer do
- ...
-  def handle_demand(:output, _size, _unit, context, state) do
-    demand_actions =
-      state.tracks
-      |> Enum.reject(&has_buffer?/1)
-      |> Enum.filter(fn {track_id, track} ->
-        track.status != :finished and context.pads[track_id].demand == 0
-      end)
-      |> Enum.map(fn {track_id, _track} -> {:demand, {track_id, 1}} end)
-
-    {demand_actions, state}
-  end
- ...
-end
-```
-
-Since it should be responsible for producing and sending `demand` actions to the corresponding input pads, we accordingly filter tracks for ones that are empty, started, and with no demands pending. 
-It should also become clearer why in `handle_buffer/4` the receiving track is sure to have an empty buffer ready to be overwritten, since we only send demands to input pads of empty tracks.
-All that's left now is to implement the main processing logic, gathering buffers that are ready to be sent: 
-
+Let's now implement gathering ready buffers:
 
 **_`lib/elements/mixer.ex`_**
 
@@ -197,8 +177,35 @@ end
 ```
 
 The `prepare_buffers/1` function is the most involved here, so let's start with that. We first check whether we can send a buffer at all. The next buffer to send in order will of course be one with lowest `.pts`. We then empty the corresponding track's buffer. There might be more than one buffer ready to send and so we iterate the gathering recursively. 
+
 We define `can_send_buffer?` as follows. If there's any `:started` track still waiting on a buffer we cannot send more, since whatever buffers the mixer's currently holding might come after the one that's yet to be received on this track. 
+
 Otherwise, if all tracks have finished it can still be the case that some have non-empty buffers. We can happily send all of these in order since it is guaranteed there is no buffer preceding them that we would have to wait for.
+
+All that's left now is to handle redemands.
+
+**_`lib/elements/mixer.ex`_**
+
+```elixir
+defmodule Basic.Elements.Mixer do
+ ...
+  def handle_demand(:output, _size, _unit, context, state) do
+    demand_actions =
+      state.tracks
+      |> Enum.reject(&has_buffer?/1)
+      |> Enum.filter(fn {track_id, track} ->
+        track.status != :finished and context.pads[track_id].demand == 0
+      end)
+      |> Enum.map(fn {track_id, _track} -> {:demand, {track_id, 1}} end)
+
+    {demand_actions, state}
+  end
+ ...
+end
+```
+
+Since it should be responsible for producing and sending `demand` actions to the corresponding input pads, we accordingly filter tracks for ones that are empty, started, and with no demands pending. 
+It should also become clearer why in `handle_buffer/4` the receiving track is sure to have an empty buffer ready to be overwritten, since we only send demands to input pads of empty tracks.
 
 And that's all! the mixer's ready to mix, and ready to be tested:
 
