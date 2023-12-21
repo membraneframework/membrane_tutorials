@@ -44,27 +44,27 @@ Module name defines the type of the format, however it is possible to pass some 
 2. We specify the pad of the element with the format we have just defined, using the `:accepted_format` option. For the purpose of an example, let it be the `:input` pad:
 
 ```elixir
+  def_input_pad :input,
+  demand_unit: :buffers,
+  accepted_format:
+    %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 480, height: 300}
+    when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60
+```
+As you can see, the argument of that option is simply a match pattern. The incoming stream format is later confronted against that match pattern. If it does not match, an exception is thrown at the runtime. 
+
+To simplify the pattern definition, there is `any_of/1` helper function that allows to define a alternative of match patterns - the matching will succeed if the stream format received on the pad matches any of the patterns listed as `any_of/1` argument. Below you can see an example of defining alternative of match patterns:
+
+```elixir
 def_input_pad :input,
   demand_unit: :buffers,
     accepted_format:
       any_of([
         %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 480, height: 300}
         when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60,
-        %Format.Raw{pixel_format: pixel_format, framerate: range(30, 60), width: 720, height: 480}
+        %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 720, height: 480}
         when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60
       ])
 ```
-
-As you can see, we pass a list of compatible formats, each described with the tuple, consisting of our module name, and the keywords list fulfilling the
-structure defined in that module. For the format's options, we can use the `range/2` or `one_of/1` specifier, which will modify the way in which the comparison between the accepted specification and the actual format received by the element is performed.
-
-3. Once the `:stream_format` event comes to the element's pad, the format description sent in that event is confronted with each of the formats in the specification list of the pad. If the event's format description matches even one of the formats present in the list it means that they are matching.
-
-- We have used `framerate: range(30, 60)`, so will accept the framerate value in the given interval, between 30 and 60 FPS.
-- We have also used `pixel_format: one_of([:I420, :I422]`, and that will accept formats, whose pixel format is either I420 or I422
-- We have used a plain value to specify the `width` and the `height` of a picture - the format will match if that option will be equal to the value passed in the specification
-
-4. As noted previously, one can specify the format as `:any`. Such a specification will match all the formats sent on the pad, however, it is not a recommended way to develop the element - formats are there for a reason!
 
 Our journey with stream formats does not end here. We know how to describe their specification...but we also need to make our elements send the `:stream_format` events so that the following elements will be aware of what type of data our element is producing!
 
@@ -89,10 +89,12 @@ Here is the definition of the source element:
 defmodule Source do
  def_output_pad(:output,
    demand_unit: :buffers,
-   stream_format: [
-      {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
-      {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 720, height: 480}
-   ]
+   stream_format:  any_of([
+        %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 480, height: 300}
+        when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60,
+        %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 720, height: 480}
+        when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60
+      ])
  )
  ...
  def handle_playing(_context, state) do
@@ -103,36 +105,37 @@ defmodule Source do
 
 While returning from the `handle_playing/2` callback, the element will send the format described by the `Formats.Raw` structure, through the `:output` pad.
 Will this format meet the accepted specification provided by us? Think about it!
-In fact, it will. The format matches (both in the event being sent and in the accepted specification of the pad, we have `Format.Raw` module). When it comes to the options, we see, that `I420` is in the `one_of` list, acceptable by the specification format for `width` equal to 720 and `height` equal to 480, and the `framerate`, equal to 45, is in the `range` between 30 and 60, as defined in the specification.
-It means that the format can be sent through the `:output` pad.
+In fact, it will, as the `Formats.Raw` structure sent with `:stream_format` action matches the pattern - the value of `:pixel_format` field is one of `:I420` and `:I422`, and the `:framerate` is in the range between 30 and 60. In case the structure didn't match the pattern, a runtime exception would be thrown.
+
 Below there is the draft of the filter implementation:
 
 ```elixir
 # Filter
 
 defmodule Filter do
- def_input_pad(:input,
+ def_input_pad:input,
    demand_unit: :buffers,
-   accepted_format: [
-      {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
-      {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 720, height: 480}
-   ]
- )
+   accepted_format: any_of([
+          %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 480, height: 300}
+          when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60,
+          %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 720, height: 480}
+          when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60
+        ])
 
- def_output_pad(:output,
-   demand_unit: :buffers,
-   accepted_format: {Format.Raw, pixel_format: one_of([:I420, :I422]), framerate: range(30, 60), width: 480, height: 300},
- )
+  def_output_pad :output,
+    demand_unit: :buffers,
+    accepted_format: %Format.Raw{pixel_format: pixel_format, framerate: framerate, width: 480,height: 300} when pixel_format in [:I420, :I422] and framerate >= 30 and framerate <= 60
 
  ...
+
  def handle_stream_format(_pad, _stream_format, _context, state) do
- ...
-   { {:ok, [stream_format: {:output, %Formats.Raw{pixel_format: I420, framerate: 60, width: 480, height:300} }]}, state}
+  ...
+  { {[stream_format: {:output, %Formats.Raw{pixel_format: I420, framerate: 60, width: 480, height: 300} }]}, state}
  end
 
 end
 ```
 
-When we receive the spec on the input pad, we do not propagate it to our `:output` pad - instead, we send a different format, with reduced quality (width and height options are lower).
+When we receive the spec on the input pad, we do not propagate it to our `:output` pad - instead, we send a different format, with reduced quality (values of the `width` and `height` fields might be lower).
 
 We hope by now you have a better understanding of what stream formats are. This knowledge will be helpful in the following chapters.
