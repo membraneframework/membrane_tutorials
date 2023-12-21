@@ -84,7 +84,8 @@ Each option can have the following fields:
 - `default` - The value that the option will have if it's not specified. If the default is not provided, the option must be always explicitly specified.
 - `description` - Write here what the option does. It will be included in the module documentation.
 
-We'll see a practical example of defining options in the [sample element](#sample-element). <!-- This links correctly in VSCode but not in the browser? -->
+We'll see a practical example of defining options in the [sample element](#sample-element). 
+
 ## Callbacks
 
 Apart from specifying pads and options, creating an element involves implementing callbacks. They have different responsibilities and are called in a specific order. As in the case of pipelines, callbacks interact with the framework by returning [actions](https://hexdocs.pm/membrane_core/Membrane.Element.Action.html). Here are some most useful callbacks:
