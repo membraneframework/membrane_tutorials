@@ -84,7 +84,7 @@ Each option can have the following fields:
 - `default` - The value that the option will have if it's not specified. If the default is not provided, the option must be always explicitly specified.
 - `description` - Write here what the option does. It will be included in the module documentation.
 
-We'll see a practical example of defining options in the [sample element](#sample-element).
+We'll see a practical example of defining options in the [sample element](#sample-element). 
 
 ## Callbacks
 

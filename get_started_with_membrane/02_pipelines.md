@@ -49,7 +49,7 @@ To run the snippet, follow the steps below:
   - On Mac OS: `brew install libmad portaudio pkg-config`
   - On Debian: `apt install libmad0-dev portaudio19-dev`
 
-- Option 1: Click [here](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fmembraneframework%2Fmembrane_core%2Fblob%2Fmaster%2Fexample.livemd). You'll be directed to install [Livebook](livebook.dev), an interactive notebook similar to Jupyter, and it'll open the snippet in there for you. Then just click the 'run' button in there.
+- Option 1: Click [here](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fmembraneframework%2Fmembrane_core%2Fblob%2Fmaster%2Fexample.livemd). You'll be directed to install [Livebook](https://livebook.dev), an interactive notebook similar to Jupyter, and it'll open the snippet in there for you. Then just click the 'run' button in there.
 
 - Option 2: If you don't want to use Livebook, you can [install Elixir](https://elixir-lang.org/install.html), type `iex` to run the interactive shell and paste the snippet there.
 

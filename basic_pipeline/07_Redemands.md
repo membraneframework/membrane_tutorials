@@ -6,7 +6,7 @@ Generally speaking, it can be used in two situations:
 - in the [source elements](../glossary/glossary.md#source)
 - in the [filter elements](../glossary/glossary.md#filter)
 
-To comprehensively understand the concept behind redemanding, you need to be aware of the typical control flow which occurs in the Membrane's [elements](../glossary/glossary.md#element) - which you could have seen in the elements we have already defined.
+To comprehensively understand the concept behind redemanding, you need to be aware of the typical control flow which occurs in Membrane's [elements](../glossary/glossary.md#element) - which you could have seen in the elements we have already defined.
 
 ## In Source elements
 
@@ -40,16 +40,19 @@ end
 ```
 
 ## In Filter elements
-
 In the filter element, the situation is quite different.
-Since the filter's responsibility is to process the data sent via the input pads and transmit it through the output pads, there is no 'side-channel' from which we could take data. That is why in normal circumstances you would transmit the buffer through the output pad in the `handle_process/4` callback (which means - once your element receives a buffer, you process it, and then you 'mark' it as ready to be output with the `:buffer` action). When it comes to the `handle_demand/5` action on the output pad, all you need to do is to demand the appropriate number of buffers on the element's input pad. The behavior which is easy to specify when we exactly know how many input buffers correspond to the one output buffer (recall the situation in the [Depayloader](../glossary/glossary.md#payloader-and-depayloader) of our pipeline, where we *a priori* knew, that each output buffer ([frame](../glossary/glossary.md#frame)) consists of a given number of input buffers ([packets](../glossary/glossary.md#packet)), becomes impossible to define if the output buffer might be a combination of a discretionary set number of input buffers. However, we have dealt with an unknown number of required buffers in the OrderingBuffer implementation, where we didn't know how many input buffers do we need to demand to fulfill the missing spaces between the packets ordered in the list. How did we manage to do it?
-We simply used the `:redemand` action! In case there was a missing space between the packets, we returned the `:redemand` action, which immediately called the `handle_demand/5` callback (implemented in a way to request for a buffer on the input pad). The fact, that that callback invocation was immediate, which means - the callback was called synchronously, right after returning from the `handle_process/4` callback, before processing any other message from the element's mailbox - might be crucial in some situations, since it makes us sure, that the demand will be done before handling any other event.
+Since the filter's responsibility is to process the data sent via the input pads and transmit it through the output pads, there is no 'side-channel' from which we could take data. That is why in normal circumstances you would transmit the buffer through the output pad in the `handle_buffer/4` callback (which means - once your element receives a buffer, you process it, and then you 'mark' it as ready to be output with the `:buffer` action). When it comes to the `handle_demand/5` action on the output pad, all you need to do is to demand the appropriate number of buffers on the element's input pad. 
+
+That behavior is easy to specify when we exactly know how many input buffers correspond to the one output buffer (recall the situation in the [Depayloader](../glossary/glossary.md#payloader-and-depayloader) of our pipeline, where we *a priori* knew, that each output buffer ([frame](../glossary/glossary.md#frame)) consists of a given number of input buffers ([packets](../glossary/glossary.md#packet))). However it becomes impossible to define if the output buffer might be a combination of a discretionary set number of input buffers. At the same time, we have dealt with an unknown number of required buffers in the OrderingBuffer implementation, where we didn't know how many input buffers do we need to demand to fulfill the missing spaces between the packets ordered in the list. How did we manage to do it? 
+
+We simply used the `:redemand` action! In case there was a missing space between the packets, we returned the `:redemand` action, which immediately called the `handle_demand/5` callback (implemented in a way to request for a buffer on the input pad). The fact, that that callback invocation was immediate, which means - the callback was called synchronously, right after returning from the `handle_buffer/4` callback, before processing any other message from the element's mailbox - might be crucial in some situations, since it guarantees that the demand will be done before handling any other event.
 Recall the situation in the [Mixer](../glossary/glossary.md#mixer), where we were producing the output buffers right in the `handle_demand/5` callback. We needed to attempt to create the output buffer after:
 
-- updating the buffers' list in the `handle_process/4`
-- updating the status of the [track](../glossary/glossary.md#track) in the `handle_end_of_stream/3`
+- updating the buffers' list in `handle_buffer/4`
+- updating the status of the [track](../glossary/glossary.md#track) in `handle_end_of_stream/3`
   Therefore, we were simply returning the `:redemand` action, and the `handle_demand/5` was called sequentially after on, trying to produce the output buffer.
 
 As you can see, redemand mechanism in filters helps us deal with situations, where we do not know how many input buffers to demand in order to be able to produce an output buffer/buffers.
+In case we don't provide enough buffers in the `handle_demand/5` callback (or we are not sure that we do provide), we should call `:redemand` somewhere else (usually in the `handle_buffer/4`) to make sure that the demand is not lost.
 
 With that knowledge let's carry on with the next element in our pipeline - `Depayloader`.

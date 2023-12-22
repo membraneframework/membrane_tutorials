@@ -15,5 +15,5 @@ For more information, see [Bundlex's GitHub page](https://github.com/membranefra
 
 Process of creating natives is not only difficult but also quite arduous, because it requires using cumbersome Erlang APIs, and thus a lot of boilerplate code. To make it more pleasant, we created [Unifex](https://github.com/membraneframework/unifex), a tool that is responsible for generating interfaces between C or C++ libraries and Elixir on the base of short `.exs` configuration files. An important feature of Unifex is that you can write the C/C++ code once and use it either as a NIF or as a C node.
 
-A quick introduction to Unifex is available [here](https://hexdocs.pm/unifex/creating_unifex_nif.html).
+A quick introduction to Unifex is available [here](https://hexdocs.pm/unifex/creating_unifex_natives.html).
 

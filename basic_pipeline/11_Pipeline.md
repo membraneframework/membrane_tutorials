@@ -6,30 +6,30 @@ In many real-life scenarios, this part would be the only thing you would need to
 
 ## Defining the pipeline
 
-The pipeline is another behavior introduced by the Membrane Framework. To make the module a pipeline, we need to make it `use Membrane.Pipeline`. That is how we will start our implementation of the pipeline module, in the `lib/Pipeline.ex` file:
+The pipeline is another behavior introduced by the Membrane Framework. To make the module a pipeline, we need to make it `use Membrane.Pipeline`. That is how we will start our implementation of the pipeline module, in the `lib/pipeline.ex` file:
 
-**_`lib/Pipeline.ex`_**
+**_`lib/pipeline.ex`_**
 
 ```elixir
 
 defmodule Basic.Pipeline do
 
- use Membrane.Pipeline
+  use Membrane.Pipeline
  ...
 end
 ```
 
-You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/1` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them [here](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks).
+You could have guessed - all we need to do now is to describe the desired behavior by implementing the callbacks! In fact, the only callback we want to implement if the pipeline is the `handle_init/2` callback, called once the pipeline is initialized - of course, there are plenty of other callbacks which you might find useful while dealing with a more complex task. You can read about them [here](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#callbacks).
 Please add the following callback signature to our `Basic.Pipeline` module:
 
-**_`lib/Pipeline.ex`_**
+**_`lib/pipeline.ex`_**
 
 ```elixir
 
 defmodule Basic.Pipeline do
  ...
  @impl true
- def handle_init(_opts) do
+ def handle_init(_context, _options) do
 
  end
 end
@@ -45,110 +45,63 @@ With such a concept in mind, it's possible to create reliable and fault-tolerant
 [Here](https://blog.appsignal.com/2021/08/23/using-supervisors-to-organize-your-elixir-application.html) there is a really nice article describing that concept and providing an example of the actor system. Feel free to stop here and read about the supervision mechanism in Elixir if you have never met with that concept before.
 Our pipeline will also be an actor system - with the `Basic.Pipeline` module being the supervisor of all its elements.
 As you have heard before - it is the supervisor's responsibility to launch its children's processes.
-In the Membrane Framework's pipeline there is a special action designed for that purpose - [`:spec`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec_t/0).
-As you can see, you need to specify the `Membrane.ParentSpec` for that purpose.
-It consists of:
+In the Membrane Framework's pipeline there is a special action designed for that purpose - [`:spec`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.Action.html#t:spec/0).
+As you can see, you need to specify the `Membrane.ChildrenSpec` for that purpose.
 
-- `:children` - map of the pipeline's (or a bin) elements
-- `:links` - list consisting of links between the elements
-
-Please stop for a moment and read about the [`Membrane.ParentSpec`](https://hexdocs.pm/membrane_core/Membrane.ParentSpec.html).
+Please stop for a moment and read about the [`Membrane.ChildrenSpec`](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html).
 We will wait for you and once you are ready, we will define our own children and links ;)
 
-Let's start with defining what children we need inside the `handle_init/1` callback! If you have forgotten what structure we want to achieve please refer to the [2nd chapter](02_SystemArchitecture.md) and recall what elements we need inside of our pipeline.
+Let's start with defining what children we need inside the `handle_init/2` callback! If you have forgotten what structure we want to achieve please refer to the [2nd chapter](02_SystemArchitecture.md) and recall what elements we need inside of our pipeline.
 
-**_`lib/Pipeline.ex`_**
-
-```elixir
-
-@impl true
-def handle_init(_opts) do
- children = %{
-  input1: %Basic.Elements.Source{location: "input.A.txt"},
-  ordering_buffer1: Basic.Elements.OrderingBuffer,
-  depayloader1: %Basic.Elements.Depayloader{packets_per_frame: 4},
-
-  input2: %Basic.Elements.Source{location: "input.B.txt"},
-  ordering_buffer2: Basic.Elements.OrderingBuffer,
-  depayloader2: %Basic.Elements.Depayloader{packets_per_frame: 4},
-
-  mixer: Basic.Elements.Mixer,
-  output: %Basic.Elements.Sink{location: "output.txt"}
- }
-end
-```
-
-Remember to pass the desired file paths in the `:location` option!
-We have just created the map, which keys are in the form of atoms that describe each of the children and the values are particular module built-in structures (with all the required fields passed).
-
-Now we have a `children` map which we will use to launch the processes. But the Membrane needs to know how those children elements are connected (and, in fact, how the pipeline is defined!). Therefore let's create a `links` list with the description of the links between the elements:
-
-**_`lib/Pipeline.ex`_**
+**_`lib/pipeline.ex`_**
 
 ```elixir
+defmodule Basic.Pipeline do
+ ...
+  @impl true
+  def handle_init(_context, _options) do
+    spec = [
+      child(:input1, %Basic.Elements.Source{location: "input.A.txt"})
+      |> child(:ordering_buffer1, Basic.Elements.OrderingBuffer)
+      |> child(:depayloader1, %Basic.Elements.Depayloader{packets_per_frame: 4})
+      |> via_in(:first_input)
+      |> child(:mixer, Basic.Elements.Mixer)
+      |> child(:output, %Basic.Elements.Sink{location: "output.txt"}),
+      child(:input2, %Basic.Elements.Source{location: "input.B.txt"})
+      |> child(:ordering_buffer2, Basic.Elements.OrderingBuffer)
+      |> child(:depayloader2, %Basic.Elements.Depayloader{packets_per_frame: 4})
+      |> via_in(:second_input)
+      |> get_child(:mixer)
+    ]
 
-def handle_init(_opts) do
+    {[spec: spec], %{}}
+  end
  ...
- links = [
-  link(:input1) |> to(:ordering_buffer1) |> to(:depayloader1),
-  link(:input2) |> to(:ordering_buffer2) |> to(:depayloader2),
-  link(:depayloader1) |> via_in(:first_input) |> to(:mixer),
-  link(:depayloader2) |> via_in(:second_input) |> to(:mixer),
-  link(:mixer) |> to(:output)
- ]
- ...
-end
 ```
 
-We hope the syntax is visually descriptive enough to show what is the desired result of that definition.  Just to be sure let us go through it bit-by-bit.
-Each pipeline's "branch" starts with the `link/1` which takes as an argument an atom corresponding to a given element. All the further elements in the branch can be accessed with the use of the `to/1` function, expecting an atom that identifies that element to be passed as an argument. Note, that the mentioned atoms must be the same as the ones you have used as keys in the `children` map!
-`|>` operator allows "linking" of the elements accessed in the way described above, via their [pads](../glossary/glossary.md#pad). By default, the elements' link will be using an `:input` pad as the input pad and an `:output` pad as the output pad.
-`via_in/1` allows specifying an input pad with a given name. Since in a [mixer](../glossary/glossary.md#mixer) there are two input pads (`:first_input` and `:second_input`, defined in `Basic.Elements.Mixer` module with `def_input_pad` and `def_output_pad` macros), we need to distinguish between them while linking the elements.
-Of course, there is also a `via_out/1` function, which is used to point the output pad with the given identifier, but there was no need to use it.
-In the case of other elements we do not need to explicitly point the desired pads since we are taking advantage of the default pads name - `:input` for the input pads and `:output` for the output ones (see what names we have given to our pads in the elements other than the mixer!). However, we could rewrite the following `links` definitions and explicitly specify the pad names:
+Remember to pass the desired file paths in the `:location` option! 
 
-**_`lib/Pipeline.ex`_**
+Now... that's it! :) 
+The spec list using Membrane's DSL is enough to describe our pipeline's topology. The child keywords spawn components of the specified type and we can use the `|>` operator to link them together. When the pads that should be linked are unamibiguous this is straightforward but for links like those with `Mixer` we can specify the pads using `via_in/1`. There also exists a `via_out/1` keyword which works similarly for output pads. 
 
-```elixir
-
-def handle_init(_opts) do
- ...
- links = [
-  link(:input1) |> via_out(:output) |> via_in(:input) |> to(:ordering_buffer1) |> via_out(:output) |> via_in(:input) |> to(:depayloader1),
-  link(:input2) |> via_out(:output) |> via_in(:input) |> to(:ordering_buffer2) |> via_out(:output) |> via_in(:input) |>to(:depayloader2),
-  link(:depayloader1) |> via_out(:output) |> via_in(:first_input) |> to(:mixer),
-  link(:depayloader2) |> via_out(:output) |> via_in(:second_input) |> to(:mixer),
-  link(:mixer) |> via_out(:output) |> via_in(:input) |> to(:output)
- ]
- ...
-end
-```
-
-That's almost it! All we need to do is to return a proper tuple from the `handle_init/1` callback, with the `:spec` action defined:
-
-**_`lib/Pipeline.ex`_**
-
-```elixir
-
-def handle_init(_opts) do
- ...
- spec = %ParentSpec{children: children, links: links}
- { {:ok, spec: spec}, %{} }
-end
-```
+As you can see the first argument to `child/2` is a component identifier. If we had omitted it Membrane would generate a unique identifier under the hood. For more about the `child` functions please refer to [the docs](https://hexdocs.pm/membrane_core/Membrane.ChildrenSpec.html#child/1).
 
 Our pipeline is ready! Let's try to launch it.
 We will do so by starting the pipeline, and then playing it. For the ease of use we will do it in a script.
 
-**_`lib/start.exs`_**
+**_`start.exs`_**
 
 ```elixir
-{:ok, pid} = Basic.Pipeline.start()
-Basic.Pipeline.play(pid)
-Process.sleep(500)
+{:ok, _sup, pipeline} = Membrane.Pipeline.start_link(Basic.Pipeline)
+Process.monitor(pipeline)
+
+# Wait for the pipeline to terminate
+receive do
+  {:DOWN, _monitor, :process, ^pipeline, _reason} -> :ok
+end
 ```
 
-You can execute it by running `mix run lib/start.exs` in the terminal.
+You can execute it by running `mix run start.exs` in the terminal.
 
 In the output file (the one specified in the `handle_init/1` callback of the pipeline) you should see the recovered conversation.
 

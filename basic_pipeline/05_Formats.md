@@ -1,10 +1,10 @@
-# Formats
+# Stream formats in action
 
-Since we have already discussed what caps are and how to use them, let's make use of them in our project!
+Since we have already discussed what stream formats are and how to use them, let's make use of them in our project!
 The first thing to do is to define modules responsible for describing the formats used in our pipeline.
 We will put them in a separate directory - `lib/formats`. Let's start with the format describing the [packets](../glossary/glossary.md#packet):
 
-**_`lib/formats/PacketFormat.ex`_**
+**_`lib/formats/packet_format.ex`_**
 
 ```elixir
 defmodule Basic.Formats.Packet do
@@ -15,11 +15,11 @@ defmodule Basic.Formats.Packet do
 end
 ```
 
-The definition of the module is not complicated, as you can see in the code snippet above - we are only defining a structure within that module, with a `:type` parameter, which default value is `:custom_packtes`.
+The definition of the module is not complicated, as you can see in the code snippet above - we are only defining a structure within that module, with a `:type` parameter, whose default value is `:custom_packets`.
 
 In our [pipeline](../glossary/glossary.md#pipeline) we will also send another type of data - [frames](../glossary/glossary.md#frame). Let's define a format for them:
 
-**_`lib/formats/FrameFormat.ex`_**
+**_`lib/formats/frame_format.ex`_**
 
 ```elixir
 defmodule Basic.Formats.Frame do
@@ -32,7 +32,7 @@ end
 
 Same as in the case of the previous format - we are defining a structure with a single field, called `:encoding`, and the default value of that field - `:utf8`.
 
-That's it! Format modules are really simple - the more complicated thing is to make use of them - which we will do in the subsequent chapters while defining the caps!
+That's it! Format modules are really simple, and using them is not that hard either, as you will see in the subsequent chapters - defining the accepted stream formats and sending stream format actions!
 
 Before advancing you can test the `Source` [element](../glossary/glossary.md/#source), using the tests provided in `/test` directory.
 
