@@ -8,21 +8,16 @@ Well, we would need to add another input [pad](../glossary/glossary.md#pad) in t
 
 ```elixir
 @impl true
-def handle_init(_opts) do
- children = %{
-    ...
-    input3: %Basic.Elements.Source{location: "input.C.txt"},
-    ordering_buffer3: Basic.Elements.OrderingBuffer,
-    depayloader3: %Basic.Elements.Depayloader{packets_per_frame: 4},
-    ...
-}
-
- links = [
-    ...
-    link(:input3) |> to(:ordering_buffer3) |> to(:depayloader3),
-    ...
-    link(:depayloader3) |> via_in(:third_input) |> to(:mixer),
-    ...
+def handle_init(_ctx, _opts) do
+ spec = [
+   ...
+   child(:input3, %Basic.Elements.Source{location: "input.C.txt"}) 
+   |> child(:ordering_buffer3, Basic.Elements.OrderingBuffer) 
+   |> child(:depayloader3, %Basic.Elements.Depayloader{packets_per_frame: 4}),
+   ...
+   get_child(:depayloader3) 
+   |> via_in(:third_input) 
+   |> get_child(:mixer),
  ]
  ...
 end
@@ -45,23 +40,25 @@ The very first thing we need to do is to use the `def_input_pads` appropriately.
 
 ```elixir
 ...
-def_input_pad(:input, demand_unit: :buffers, availability: :on_request, caps: {Basic.Formats.Frame, encoding: :utf8})
+def_input_pad :input, 
+   demand_unit: :buffers, 
+   flow_control: :pull, 
+   availability: :on_request, 
+   accepted_format: %Basic.Formats.Frame{encoding: :utf8}
 ...
 ```
 
-We have added the [`availability: :on_request` option](https://hexdocs.pm/membrane_core/Membrane.Pad.html#t:availability_t/0), which allows us to define the set of dynamic pads, identified as `:input`.
+We have added the [`availability: :on_request` option](https://hexdocs.pm/membrane_core/Membrane.Pad.html#t:availability/0), which allows us to define the set of dynamic pads, identified as `:input`.
 
-No more do we have the `:first_input` and the `:second_input` pads defined, so we do not have the [tracks](../glossary/glossary.md#track) corresponding to them either! Let's update the `handle_init/1` callback:
+No more do we have the `:first_input` and the `:second_input` pads defined, so we do not have the [tracks](../glossary/glossary.md#track) corresponding to them either! Let's update the `handle_init/2` callback:
 
 **_`lib/elements/Mixer.ex`_**
 
 ```elixir
 ...
 @impl true
-def handle_init(_options) do
-    { :ok,
-        %{ tracks: %{} }
-    }
+def handle_init(_ctx, _options) do
+    {[], %{ tracks: %{} }}
 end
 ...
 ```
@@ -75,8 +72,8 @@ The next thing we need to do is to implement the `handle_pad_added/3` callback, 
 ...
 @impl true
 def handle_pad_added(pad, _context, state) do
- state = %{state| tracks: Map.put(state.tracks, pad, %Track{})}
- {:ok, state}
+ state = %{state | tracks: Map.put(state.tracks, pad, %Track{})}
+ {[], state}
 end
 ...
 ```
@@ -86,38 +83,32 @@ That's it! Since we have already designed the Mixer in a way it is capable of se
 
 ## Updated pipeline
 
-Below you can find the updated version of the pipeline's `handle_init/1` callback:
+Below you can find the updated version of the pipeline's `handle_init/2` callback:
 
 **_`lib/Pipeline.ex`_**
 
 ```elixir
 ...
 @impl true
-def handle_init(_opts) do
- children = %{
-    input1: %Basic.Elements.Source{location: "input.A.txt"},
-    ordering_buffer1: Basic.Elements.OrderingBuffer,
-    depayloader1: %Basic.Elements.Depayloader{packets_per_frame: 4},
-
-    input2: %Basic.Elements.Source{location: "input.B.txt"},
-    ordering_buffer2: Basic.Elements.OrderingBuffer,
-    depayloader2: %Basic.Elements.Depayloader{packets_per_frame: 4},
-
-    mixer: Basic.Elements.Mixer,
-    output: %Basic.Elements.Sink{location: "output.txt"}
- }
-
- links = [
-    link(:input1) |> to(:ordering_buffer1) |> to(:depayloader1),
-    link(:input2) |> to(:ordering_buffer2) |> to(:depayloader2),
-    link(:depayloader1) |> via_in(Pad.ref(:input, :first)) |> to(:mixer),
-    link(:depayloader2) |> via_in(Pad.ref(:input, :second)) |> to(:mixer),
-    link(:mixer) |> to(:output)
+def handle_init(_ctx, _opts) do
+ spec = [
+    child(:input1, %Basic.Elements.Source{location: "input.A.txt"}) 
+    |> child(:ordering_buffer1, Basic.Elements.OrderingBuffer) 
+    |> child(:depayloader1, %Basic.Elements.Depayloader{packets_per_frame: 4}),
+    child(:input2, %Basic.Elements.Source{location: "input.B.txt"}) 
+    |> child(:ordering_buffer2, Basic.Elements.OrderingBuffer) 
+    |> child(:depayloader2, %Basic.Elements.Depayloader{packets_per_frame: 4}),
+    get_child(:depayloader1) 
+    |> via_in(Pad.ref(:input, :first))
+    |> child(:mixer, Basic.Elements.Mixer),
+    get_child(:depayloader2) 
+    |> via_in(Pad.ref(:input, :second)) 
+    |> get_child(:mixer),
+    get_child(:mixer) 
+    |> child(:output, %Basic.Elements.Sink{location: "output.txt"})
  ]
 
- spec = %ParentSpec{children: children, links: links}
-
- { {:ok, spec: spec}, %{} }
+ {[spec: spec], %{}}
 end
 ...
 ```
@@ -128,8 +119,6 @@ As you can see, we have created two `:input` pads: `:first` and `:second`. While
 
 ## Further actions
 
-As an exercise, you can try to modify the `lib/Pipeline.ex` file and define a pipeline consisting of three parallel branches, being mixed in a single Mixer. Later on, you can check if the pipeline works as expected, by generating the input files out of the conversation in which participate three speakers.
-
-The proposed solution can be found on the [dynamic_pads branch of the template repository](https://github.com/membraneframework/membrane_basic_pipeline_tutorial/tree/dynamic_pads).
+As an exercise, you can try to modify the `lib/pipeline.ex` file and define a pipeline consisting of three parallel branches, being mixed in a single Mixer. Later on, you can check if the pipeline works as expected, by generating the input files out of the conversation in which participate three speakers.
 
 If you combine the approach taken in the chapter about [Bin](02_Bin.md) you can simplify this solution by reducing the size of the link defintions inside the pipeline.

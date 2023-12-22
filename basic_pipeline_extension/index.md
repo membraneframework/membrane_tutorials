@@ -1,5 +1,5 @@
 ---
-title: How to set up a Membrane Pipeline pt 2
+title: All you need to know about pipelines pt 2
 description: >-
   Additional features you might find usefull while setting up your pipelines
 part: 3

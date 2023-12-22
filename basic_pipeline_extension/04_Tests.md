@@ -45,26 +45,26 @@ defmodule DepayloaderTest do
  alias Membrane.Buffer
  
  test "Depayloader should assemble the packets and form a frame" do
-  {:ok, state} = Depayloader.handle_init(%Depayloader{packets_per_frame: 5})
+  {[], state} = Depayloader.handle_init(nil, %Depayloader{packets_per_frame: 5})
 
-  {:ok, state} =
-    Depayloader.handle_process(
+  {[], state} =
+    Depayloader.handle_buffer(
       :input,
       %Buffer{payload: "[frameid:1s][timestamp:1]Hello! "},
       nil,
       state
     )
 
-  {:ok, state} =
-    Depayloader.handle_process(
+  {[], state} =
+    Depayloader.handle_buffer(
       :input,
       %Buffer{payload: "[frameid:1][timestamp:1]How are"},
       nil,
       state
     )
 
-  { {:ok, actions}, _state} =
-    Depayloader.handle_process(
+  {actions, _state} =
+    Depayloader.handle_buffer(
       :input,
       %Buffer{payload: "[frameid:1e][timestamp:1] you?"},
       nil,
@@ -78,9 +78,9 @@ end
 ```
 
 We have been explicitly calling the callbacks defined in the `Depayloader` module, with the appropriate arguments.
-First, we have initialized the state by calling the `handle_init/1` callback, later on, we have made the depayloader `handle_process/4` some [buffers](../glossary/glossary.md#buffer) (note that we had to explicitly pass the `%Membrane.Buffer{}` structure as the argument of the function invocation as well as keep track of the state, which gets updated after each call).
+First, we have initialized the state by calling the `handle_init/2` callback, later on, we have made the depayloader `handle_buffer/4` some [buffers](../glossary/glossary.md#buffer) (note that we had to explicitly pass the `%Membrane.Buffer{}` structure as the argument of the function invocation as well as keep track of the state, which gets updated after each call).
 Finally, after the last buffer is processed (the last buffer is the buffer whose `frameid` should contain the `e` letter meaning that that is the packet that is ending a given frame), we are expecting the action to be returned - and this action should be a `:buffer` actions, transmitting the buffer with the complete frame through the `:output` pad. We also assert (using the ExUnit's [`assert`](https://hexdocs.pm/ex_unit/ExUnit.Assertions.html#assert/1) macro) the value hold in the buffer's payload (It should be a complete sentence).
-If no action was returned from the last `handle_process/4`, the pattern wouldn't match to the `{ {:ok, actions}, _state}`, and the test would fail.
+If no action was returned from the last `handle_buffer/4`, the pattern wouldn't match to the `{ {actions, _state}`, and the test would fail.
 If the assertion on the output buffer's payload wouldn't be true - the test would also fail.
 
 ## The Membrane's support for tests
@@ -111,43 +111,54 @@ defmodule DepayloaderTest do
       "[frameid:1e][timestamp:1] you?"
     ]
 
-    options = %Pipeline.Options{
-      elements: [
-        source: %Source{output: inputs, caps: %Packet{type: :custom_packets} },
-        depayloader: %Depayloader{packets_per_frame: 5},
-        sink: Sink
-      ]
-    }
+    generator = fn state, size ->
+      if state == [] do
+        {[end_of_stream: :output], state}
+      else
+        [payload | new_state] = state
 
-    {:ok, pipeline} = Pipeline.start_link(options)
-    Pipeline.play(pipeline)
+        if size > 1 do
+          {[buffer: {:output, %Buffer{payload: payload}}, redemand: :output], new_state}
+        else
+          {[buffer: {:output, %Buffer{payload: payload}}], new_state}
+        end
+      end
+    end
+
+    spec =
+      child(:source, %Source{
+        output: {initial_state, generator},
+        stream_format: %Packet{type: :custom_packets}
+      })
+      |> child(:depayloader, %Depayloader{packets_per_frame: 5})
+      |> child(:sink, Sink)
+
+    pipeline = Pipeline.start_link_supervised!(spec: spec)
     assert_start_of_stream(pipeline, :sink)
 
     assert_sink_buffer(pipeline, :sink, %Buffer{payload: "Hello! How are you?"})
 
     assert_end_of_stream(pipeline, :sink)
-    refute_sink_buffer(pipeline, :sink, _, 0)
-    Pipeline.stop_and_terminate(pipeline, blocking?: true)
+    refute_sink_buffer(pipeline, :sink, _, 2000)
+    Pipeline.terminate(pipeline)
  end
 end
 ```
 
 First, we have defined a `:inputs` list, consisting of the messages which will be wrapped by the `Membrane.Buffer` and used to "feed" our element.
-Later on, we have specified the testing pipeline with the `%Membrane.Testing.Pipeline.Options` structure.
+Later on, we have specified the testing pipeline.
 Our testing pipeline consists only of three elements - the source, the sink, and the element we are about to test.
-We are specifying these elements by passing options structures, just as in the case of the regular pipeline.
-The generic [`Membrane.Testing.Source`](https://hexdocs.pm/membrane_core/Membrane.Testing.Source.html) accepts `:output` field as one of its options - we can pass the list of payloads which will be sent through the `:output` pad of the testing - in our case we are passing the previously defined `:inputs` list.
-It is also important to specify the `:caps` option, because, as you remember, the Source element is responsible for generating the [caps](../glossary/glossary.md#caps). In our case, we have specified the caps, which will be accepted by the Depayloader's caps specification.
+We are specifying these elements by passing the list of link as a `:spec` option to the `Membrane.Testing.Pipeline`, in a similar manner as we do when we return the list of links with the `:spec` action in a regular pipeline.
+The generic [`Membrane.Testing.Source`](https://hexdocs.pm/membrane_core/Membrane.Testing.Source.html) accepts `:output` field as one of its options - we can pass the list of payloads which will be sent through the `:output` pad of the testing or a ("generator")[https://hexdocs.pm/membrane_core/Membrane.Testing.Source.html#t:generator/0]. In our case we use the "generator" which allows us to pass a function describing the source behaviour.
 Once the pipeline structure is defined, we can start the pipeline process.
-Just after that, we start playing the pipeline.
 And here comes the assertions section - we are taking advantage of some [Membrane specific assertions](https://hexdocs.pm/membrane_core/Membrane.Testing.Assertions.html):
 
 - first, we are asserting that the stream has started, with the `assert_start_of_stream/2`
-- then we are asserting that the ink has received a buffer of a given form (in our case - we want the sink to receive the buffer with a frame assembled out of the input packets) - with the help of `assert_sink_buffer/3`
+- then we are asserting that the sink has received a buffer of a given form (in our case - we want the sink to receive the buffer with a frame assembled out of the input packets) - with help of `assert_sink_buffer/3`
 - then we are asserting that `:end_of_stream` has reached the `:sink` - with `assert_end_of_stream/2`
 - the last assertion we made is that the `:sink` hasn't received any buffer within 2000 milliseconds - and `refute_sink_buffer/4` helps us do it
 
-Finally, we need to stop and terminate our pipeline. It is a good practice to do it in a blocking manner so that the test returns after the pipeline is terminated.
+Finally, we need to stop and terminate our pipeline. It is a good practice to do it in a blocking manner so that the test returns after the pipeline is terminated (the `Membrane.Pipeline.terminate` works in a blocking manner by default).
 
 At the first glance, this might look like a little bit of overkill to use the Membrane's testing framework - the amount of code in this particular test has swollen enormously!
 But that is just because the functionality we are testing is quite simple.
@@ -172,24 +183,24 @@ We will need to somehow mock the `outer environment` - let's see how this can be
 ```elixir
 defmodule SourceTest do
  use ExUnit.Case, async: false
- import Mock
- alias Basic.Elements.Source
- alias Membrane.Buffer
+  import Mock
+  alias Basic.Elements.Source
+  alias Membrane.Buffer
 
- doctest Basic.Elements.Source
+  doctest Basic.Elements.Source
 
- @exemplary_content ["First Line", "Second Line"]
- @exemplary_location "path/to/file"
- @options %Source{location: @exemplary_location}
- ....
+  @exemplary_content ["First Line", "Second Line"]
+  @exemplary_location "path/to/file"
+  @options %Source{location: @exemplary_location}
+ ...
 
- test "reads the input file correctly" do
-  with_mock File, read!: fn _ -> "First Line\nSecond Line" end do
-    { {:ok, _}, state} =
-    Source.handle_stopped_to_prepared(nil, %{location: @exemplary_location, content: nil})
+  test "reads the input file correctly" do
+    with_mock File, read!: fn _ -> "First Line\nSecond Line" end do
+      {_actions, state} =
+        Source.handle_setup(nil, %{location: @exemplary_location, content: nil})
 
-    assert state.content == @exemplary_content
-  end
+      assert state.content == @exemplary_content
+    end
  end
 ```
 
