@@ -22,58 +22,29 @@ Let's define the bin's output pads and its elements.
 defmodule Basic.Bin do
   use Membrane.Bin
 
-  def_output_pad :output,
-    demand_unit: :buffers,
-    caps: {Basic.Formats.Frame, encoding: :utf8}
-
-  @impl true
-  def handle_init(_opts) do
-    children = %{
-      input: %Basic.Elements.Source{location: "input.A.txt"},
-      ordering_buffer: Basic.Elements.OrderingBuffer,
-      depayloader: %Basic.Elements.Depayloader{packets_per_frame: 4}
-    }
-
-    links = [
-      link(:input) |> to(:ordering_buffer) |> to(:depayloader) |> to_bin_output(:output)
-    ]
-
-    spec = %ParentSpec{children: children, links: links}
-
-    { {:ok, spec: spec}, %{} }
-  end
-end
-```
-
-The output pads of the bin are matching the one we [defined for depayloader](/basic_pipeline/08_Depayloader.md#libelementsdepayloaderex-2).
-Notice that the last link is between `depayloader` and the bin's output pads. In general, if we wanted to receive data in a bin we would have to define input pads and the first link would be `link_bin_input()` which would link the input pads with the first element in the bin.
-
-Although the bin is already functional, to make it reusable we have to parametrize it with the input filename. That's why we will define options for the bin, which we will use in the `source` element.
-
-**_`lib/Bin.ex`_**
-
-```elixir
-defmodule Basic.Bin do
-  use Membrane.Bin
-
-  ...
-
+  def_output_pad :output, accepted_format: %Basic.Formats.Frame{encoding: :utf8}
 
   def_options input_filename: [
-                type: :string,
-                description: "Input file for conversation."
-              ]
+              type: :string,
+              description: "Input file for conversation."
+            ]
 
   @impl true
-  def handle_init(options) do
-    children = %{
-      input: %Basic.Elements.Source{location: options.input_filename},
-      ...
-    }
-    ...
+  def handle_init(_ctx, options) do
+    spec = [
+      child(:input, %Basic.Elements.Source{location: options.input_filename})
+      |> child(:ordering_buffer, Basic.Elements.OrderingBuffer)
+      |> to(:depayloader, %Basic.Elements.Depayloader{packets_per_frame: 4}) 
+      |> bin_output(:output)
+    ]
+
+    {[spec: spec] %{} }
   end
 end
 ```
+
+The output pads of the bin are matching the ones we [defined for depayloader](/basic_pipeline/08_Depayloader.md#libelementsdepayloaderex-2).
+Notice that the last link is between `depayloader` and the bin's output pads. In general, if we wanted to receive data in a bin we would need to link the first processing component in the bin with the `bin_input(<bin's input pad name>)`.
 
 ## Modifying pipeline using bin
 
@@ -90,23 +61,19 @@ defmodule Basic.Pipeline do
   use Membrane.Pipeline
 
   @impl true
-  def handle_init(_opts) do
-    children = %{
-      bin1: %Basic.Bin{input_filename: "input.A.txt"},
-      bin2: %Basic.Bin{input_filename: "input.B.txt"},
-      mixer: Basic.Elements.Mixer,
-      output: %Basic.Elements.Sink{location: "output.txt"}
-    }
-
-    links = [
-      link(:bin1) |> via_in(:first_input) |> to(:mixer),
-      link(:bin2) |> via_in(:second_input) |> to(:mixer),
-      link(:mixer) |> to(:output)
+  def handle_init(_ctx, _opts) do
+    spec = [
+      child(:bin1, %Basic.Bin{input_filename: "input.A.txt"}) 
+      |> via_in(:first_input)
+      |> child(:mixer, Basic.Elements.Mixer),
+      child(:bin2, %Basic.Bin{input_filename: "input.B.txt"}) 
+      |> via_in(:second_input) 
+      |> get_child(:mixer),
+      get_child(:mixer) 
+      |> child(:output, %Basic.Elements.Sink{location: "output.txt"})
     ]
 
-    spec = %ParentSpec{children: children, links: links}
-
-    { {:ok, spec: spec}, %{} }
+    {[spec: spec], %{}}
   end
 end
 ```

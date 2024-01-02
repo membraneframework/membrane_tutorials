@@ -103,7 +103,7 @@ end
 
 You can execute it by running `mix run start.exs` in the terminal.
 
-In the output file (the one specified in the `handle_init/1` callback of the pipeline) you should see the recovered conversation.
+In the output file (the one specified in the `handle_init/2` callback of the pipeline) you should see the recovered conversation.
 
 In case of any problems you can refer to the code on the `template/end` branch of `membrane_basic_pipeline_tutorial` repository.
 
