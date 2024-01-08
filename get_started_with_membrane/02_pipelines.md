@@ -44,10 +44,7 @@ The code above is one of the simplest examples of Membrane usage. It plays an MP
 > We encourage you to also take a [deep look into Elixir](https://elixir-lang.org/getting-started/introduction.html) and learn how to use it to take full advantage of all its awesomeness. We believe you'll fall in love with Elixir too!
 
 
-To run the snippet, follow the steps below:
-- Install [libmad](https://github.com/markjeee/libmad) and [portaudio](https://github.com/PortAudio/portaudio). Membrane uses these libs to decode the mp3 and to access your speaker, respectively. You can use these commands:
-  - On Mac OS: `brew install libmad portaudio pkg-config`
-  - On Debian: `apt install libmad0-dev portaudio19-dev`
+You have two options to run the snippet:
 
 - Option 1: Click [here](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fmembraneframework%2Fmembrane_core%2Fblob%2Fmaster%2Fexample.livemd). You'll be directed to install [Livebook](https://livebook.dev), an interactive notebook similar to Jupyter, and it'll open the snippet in there for you. Then just click the 'run' button in there.
 
