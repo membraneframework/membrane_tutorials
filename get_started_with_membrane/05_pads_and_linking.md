@@ -24,7 +24,7 @@ As usual, with great power comes great responsibility. When implementing an elem
 
 ### Linking dynamic pads
 
-Let's see how to link dynamic pads. We'll use [membrane_file_plugin](https://github.com/membraneframework/membrane_file_plugin), a plugin that allows reading and writing to files, and [membrane_tee_plugin](https://github.com/membraneframework/membrane_file_plugin) which allows forwarding the stream from a single input to multiple outputs. Running the pipeline below with `Membrane.Pipeline.start_link(MyPipeline)` should copy the "source" file to "target1", "target2" and "target3" files. Don't forget to create the "source" file before.
+Let's see how to link dynamic pads. We'll use [membrane_file_plugin](https://github.com/membraneframework/membrane_file_plugin), a plugin that allows reading and writing to files, and [membrane_tee_plugin](https://github.com/membraneframework/membrane_tee_plugin) which allows forwarding the stream from a single input to multiple outputs. Running the pipeline below with `Membrane.Pipeline.start_link(MyPipeline)` should copy the "source" file to "target1", "target2" and "target3" files. Don't forget to create the "source" file before.
 
 ```elixir
 Mix.install([
