@@ -41,8 +41,6 @@ The very first thing we need to do is to use the `def_input_pads` appropriately.
 ```elixir
 ...
 def_input_pad :input, 
-   demand_unit: :buffers, 
-   flow_control: :pull, 
    availability: :on_request, 
    accepted_format: %Basic.Formats.Frame{encoding: :utf8}
 ...

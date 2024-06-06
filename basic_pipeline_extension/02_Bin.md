@@ -34,7 +34,7 @@ defmodule Basic.Bin do
     spec = [
       child(:input, %Basic.Elements.Source{location: options.input_filename})
       |> child(:ordering_buffer, Basic.Elements.OrderingBuffer)
-      |> to(:depayloader, %Basic.Elements.Depayloader{packets_per_frame: 4}) 
+      |> child(:depayloader, %Basic.Elements.Depayloader{packets_per_frame: 4}) 
       |> bin_output(:output)
     ]
 
