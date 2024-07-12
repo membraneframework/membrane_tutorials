@@ -29,13 +29,13 @@ The server will be waiting for an RTMP stream on localhost:9009, and the client 
 
 ## Exemplary stream generation with OBS
 
-You can send RTMP stream onto `localhost:9009` with your favorite streaming tool. As an example, we will show you how to generate an RTMP stream with
+You can send RTMP stream onto `localhost:9006` with your favorite streaming tool. As an example, we will show you how to generate an RTMP stream with
 [OBS](https://obsproject.com).
 Once you have OBS installed, you can perform the following steps:
 
 1. Open the OBS application
 1. Open the `Settings` windows
-1. Go to the `Stream` tab and set the value in the `Server` field to: `rtmp://localhost:9009` (the address where the server is waiting for the stream)
+1. Go to the `Stream` tab and set the value in the `Server` field to: `rtmp://localhost:9006` (the address where the server is waiting for the stream)
 1. Finally, you can go back to the main window and start streaming with the `Start Streaming` button.
 
 Below you can see how to set the appropriate settings (steps 2) and 3) from the list of steps above):
