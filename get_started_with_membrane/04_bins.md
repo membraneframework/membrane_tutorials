@@ -1,6 +1,6 @@
 # Bins
 
-Bins, similarly to pipelines, are containers for elements. However, at the same time, they can be placed and linked within pipelines. Although a bin is a separate Membrane entity, it can be perceived as a pipeline within an element. Bins can also be nested within one another, though we don't recommend too much nesting, as it may end up hard to maintain. For an example of a bin, have a look at the [RTMP source bin](https://github.com/membraneframework/membrane_rtmp_plugin/blob/master/lib/membrane_rtmp_plugin/rtmp/source/bin.ex) or [HTTP adaptive stream sink bin](https://github.com/membraneframework/membrane_http_adaptive_stream_plugin/blob/master/lib/membrane_http_adaptive_stream/sink_bin.ex).
+Bins, similarly to pipelines, are containers for elements. However, at the same time, they can be placed and linked within pipelines. Although a bin is a separate Membrane entity, it can be perceived as a pipeline within an element. Bins can also be nested within one another, though we don't recommend too much nesting, as it may end up hard to maintain. For an example of a bin, have a look at the [RTMP source bin](https://github.com/membraneframework/membrane_rtmp_plugin/blob/master/lib/membrane_rtmp_plugin/rtmp/source/source_bin.ex) or [HTTP adaptive stream sink bin](https://github.com/membraneframework/membrane_http_adaptive_stream_plugin/blob/master/lib/membrane_http_adaptive_stream/sink_bin.ex).
 
 The main use cases for a bin are:
 - creating reusable element groups,
