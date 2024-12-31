@@ -114,7 +114,7 @@ defmodule Basic.Elements.Source do
 end
 ```
 
-When the setup is complete, the element goes into `:playing` state. It can then demand buffers from previous elements and send its `:stream_format` to subsequent elements. Since we are implementing a sink we do not have any previous element to demand from, but we can specify the format. We can do this, for example, in `handle_playing/2`:
+When the setup is complete, the element goes into `:playing` state. It can then demand buffers from previous elements and send its `:stream_format` to subsequent elements. Since we are implementing a source we do not have any previous element to demand from, but we can specify the format. We can do this, for example, in `handle_playing/2`:
 
 **_`lib/elements/source.ex`_**
 
