@@ -2,7 +2,7 @@
 title: Membrane broadcasting tutorial
 description: >-
   Create your own media broadcasting solution!
-part: 8
+part: 7
 ---
 
 | number | title                            | file                             |

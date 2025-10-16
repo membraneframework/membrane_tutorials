@@ -1,5 +1,5 @@
 ---
-title: All you need to know about pipelines pt 1
+title: All you need to know about pipelines
 description: >-
   See how pipeline works in Membrane and learn how to set it up for you
 part: 2
@@ -19,3 +19,6 @@ graphicPath: assets/images/Illo_basic pipeline.png
 | 9      | Mixer               | 09_Mixer.md              |
 | 10     | Sink                | 10_Sink.md               |
 | 11     | Pipeline            | 11_Pipeline.md           |
+| 12     | Bin                 | 12_Bin.md                |
+| 13     | Dynamic Pads        | 13_DynamicPads.md        |
+| 14     | Tests               | 14_Tests.md              |
