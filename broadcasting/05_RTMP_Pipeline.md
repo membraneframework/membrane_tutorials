@@ -56,7 +56,7 @@ After providing the children's specifications, we are ready to connect the pads 
  end
 ```
 
-The structure of links reflects the desired architecture of the application, described in the [chapter about system architecture](../videoroom/3_SystemArchitecture.md).
+The structure of links reflects the desired architecture of the application.
 `:src` has two output pads: the `:audio` pad and the `:video` pad, transferring the appropriate media tracks.
 The source's `:audio` pad is linked to the input `:audio` pad of the sink - along with the `:encoding` option. That option is an atom, describing the codec which is used to encode the media data - when it comes to audio data,
 we will be using AAC coded.

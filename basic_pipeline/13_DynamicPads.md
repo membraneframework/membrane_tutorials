@@ -121,4 +121,4 @@ As you can see, we have created two `:input` pads: `:first` and `:second`. While
 
 As an exercise, you can try to modify the `lib/pipeline.ex` file and define a pipeline consisting of three parallel branches, being mixed in a single Mixer. Later on, you can check if the pipeline works as expected, by generating the input files out of the conversation in which participate three speakers.
 
-If you combine the approach taken in the chapter about [Bin](02_Bin.md) you can simplify this solution by reducing the size of the link defintions inside the pipeline.
+If you combine the approach taken in the chapter about [Bin](12_Bin.md) you can simplify this solution by reducing the size of the link defintions inside the pipeline.
