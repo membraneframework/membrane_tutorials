@@ -20,11 +20,11 @@ Now we can start the stream using `PLAY` method.
 
 ## Receiving the stream
 
-The source is a bin containing a few elements, each of them performing a specific media processing task. You can definitely notice some similarities to the pipeline described in the [RTMP architecture](02_RTMP_Introduction.md). However, we will only be processing video so only the video processing elements will be necessary.
+The source is a bin containing a few elements, each of them performing a specific media processing task. You can definitely notice some similarities to the pipeline described in the [RTMP architecture](03_RTMP_Architecture.md). However, we will only be processing video so only the video processing elements will be necessary.
 
 ![image](assets/rtsp_pipeline.drawio.png)
 
-We have already used the, `H264 Parser` and `HLS Sink Bin` elements in the RTMP pipeline, take a look at the [RTMP to HLS architecture](03_RTMP_SystemArchitecture.md) chapter for details of the purpose of those elements.
+We have already used the `H264 Parser` and `HLS Sink Bin` elements in the RTMP pipeline, take a look at the [RTMP to HLS architecture](03_RTMP_Architecture.md) chapter for details of the purpose of those elements.
 
 Let us describe briefly what is the purpose of the other components:
 
