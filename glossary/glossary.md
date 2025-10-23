@@ -3,7 +3,7 @@
   - #### **Packet**
     It is a formatted unit of data transmitted over the network. To send data over the network it has to be fragmented into packets, which size is limited by [MTU(Maximum Transfer Unit)](https://en.wikipedia.org/wiki/Maximum_transmission_unit) - 1500 bytes when using [Ethernet](https://en.wikipedia.org/wiki/Ethernet_frame).  
   - #### **Frame**
-    'Frame' can refer to either [network frame](<https://en.wikipedia.org/wiki/Frame_(networking)>) or **media frame**, which is a basic data unit used by media coding formats. In particular, one media frame can represent a single image in a video.  
+    'Frame' can refer to either [network frame](https://en.wikipedia.org/wiki/Frame_(networking)) or **media frame**, which is a basic data unit used by media coding formats. In particular, one media frame can represent a single image in a video.  
   - #### **Track**
     A media track is equivalent to a single audio or video stream.  
   - #### **Simulcast**

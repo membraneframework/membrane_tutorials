@@ -109,4 +109,4 @@ In case of any problems you can refer to the code on the `template/end` branch o
 
 Now our solution is completed. You have acquired a basic understanding of Membrane, and you can implement a simple pipeline using elements.
 
-If you wish to extend your knowledge of Membrane's concepts we encourage you to read the [extension to this tutorial](../basic_pipeline_extension/01_Introduction.md).
+If you wish to extend your knowledge of Membrane's concepts we encourage you to read the next chapters. There you'll learn about some abstractions and concepts that are useful for creating solutions that are more scalable and maintainable.
