@@ -1,4 +1,4 @@
-As explained in the [Architecture chapter](08_RTSP_Architecture.md), the pipeline will consist of a couple of elements, that will be processing the RTP stream.
+As explained in the [Architecture chapter](07_RTSP_Architecture.md), the pipeline will consist of a couple of elements, that will be processing the RTP stream.
 
 The flow of the pipeline will consist of three steps. First, when the pipeline is initialized we will start the Connection Manager, which will set up the RTP stream via the RTSP.
 Once that is finished, we will set up two initial elements in the pipeline - the `UDP Source` and `RTP SessionBin`, which will allow us to receive RTP packets and process them.
