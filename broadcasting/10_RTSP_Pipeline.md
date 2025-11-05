@@ -1,6 +1,4 @@
-As explained in the [Architecture chapter](08_RTSP_Architecture.md), the pipeline will consist of a RTSP Source and a HLS Sink.
-
-The initial pipeline will consist of the `RTSP Source`, which will start establishing the connection with the RTSP server, and the `HLS Sink Bin`. For now we won't connect this elements in any way, since we don't have information about what tracks we'll receive from the RTSP server which we're connecting with. 
+As explained in the [Architecture chapter](08_RTSP_Architecture.md), the pipeline will consist of an RTSP Source and an HLS Sink Bin. For now we won't connect this elements in any way, since we don't have information about what tracks we'll receive from the RTSP server which we're connecting with. 
 
 ##### lib/pipeline.ex
 ```elixir

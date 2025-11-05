@@ -24,7 +24,7 @@ rtp_port = 20000
 
 The `output_path` attribute defines the storage directory for hls files and the `rtp_port` defines on which port we will be expecting the rtp stream, once the RTSP connection is established.
 
-The `rtsp_stream_url` attribute contains the address of the stream, which we will be converting. If you want to receive a stream from some accessible RTSP server, you can pass it's URL here. In this demo we'll run our own, simple server: 
+The `rtsp_stream_url` attribute contains the address of the stream, which we will be converting. If you want to receive a stream from some accessible RTSP server, you can pass it's URL here. In this demo we'll run our own, simple server, using port 30001: 
 
 ```bash
 mix run server.exs
