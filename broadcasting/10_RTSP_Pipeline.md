@@ -1,4 +1,4 @@
-As explained in the [Architecture chapter](08_RTSP_Architecture.md), the pipeline will consist of an RTSP Source and an HLS Sink Bin. For now we won't connect this elements in any way, since we don't have information about what tracks we'll receive from the RTSP server which we're connecting with. 
+As explained in the [Architecture chapter](08_RTSP_Architecture.md), the pipeline will consist of an RTSP Source and an HLS Sink Bin. For now we won't connect this elements in any way, since we don't have information about what tracks we'll receive from the RTSP server which we're connecting to. 
 
 ##### lib/pipeline.ex
 ```elixir
@@ -6,7 +6,7 @@ As explained in the [Architecture chapter](08_RTSP_Architecture.md), the pipelin
 def handle_init(_context, options) do
   spec = [
     child(:source, %Membrane.RTSP.Source{
-      transport: {:udp, options.port, options.port + 5},
+      transport: {:udp, options.port, options.port + options.port_range},
       allowed_media_types: [:video, :audio],
       stream_uri: options.stream_url,
       on_connection_closed: :send_eos
