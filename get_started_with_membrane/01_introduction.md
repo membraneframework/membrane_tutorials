@@ -3,6 +3,7 @@ Hello there, and a warm welcome to the Membrane tutorials. We're glad you chose 
 ## What is Membrane?
 
 Membrane is a multimedia processing framework that focuses on reliability, concurrency, and scalability. It is primarily written in Elixir, while some platform-specific or time-constrained parts are written in Rust C. With a range of existing packages and an easy-to-use interface for writing your own, Membrane can be used to process almost any type of multimedia, for example:
+
 - stream via WebRTC, RTSP, RTMP, HLS, HTTP and other protocols,
 - transcode, mix and apply custom processing of video & audio,
 - accept and generate / record to MP4, MKV, FLV and other containers,
@@ -32,26 +33,42 @@ Apart from plugins, Membrane has stream formats, which live in `membrane_X_forma
 
 **Core**
 
-[Membrane Core](https://github.com/membraneframework/membrane_core) is the heart and soul of the Membrane Framework. It is written entirely in Elixir and provides the internal mechanisms and API that allow you to prepare processing elements and link them together in a convenient yet reliable way. Note that Membrane Core does not contain any multimedia-specific logic. 
+[Membrane Core](https://github.com/membraneframework/membrane_core) is the heart and soul of the Membrane Framework. It is written entirely in Elixir and provides the internal mechanisms and API that allow you to prepare processing elements and link them together in a convenient yet reliable way. Note that Membrane Core does not contain any multimedia-specific logic.
 The documentation for the developer's API is available at [hexdocs](https://hexdocs.pm/membrane_core/readme.html).
 
 **Standalone libraries**
 
-Last but not least, Membrane provides tools and libraries that can be used standalone and don't depend on the `membrane_core`, for example, [video_compositor](https://github.com/membraneframework/video_compositor), [ex_sdp](https://github.com/membraneframework/ex_sdp) or [unifex](https://github.com/membraneframework/unifex).
+Last but not least, Membrane provides tools and libraries that can be used standalone and don't depend on the `membrane_core`, for example, [bundlex](https://github.com/membraneframework/bundlex), [ex_sdp](https://github.com/membraneframework/ex_sdp) or [unifex](https://github.com/membraneframework/unifex).
+
+## Supported platforms
+
+Membrane was created and is being worked mainly with UNIX-based operating
+systems in mind - in most cases that means MacOS and Linux. When it comes to
+Windows, if a project uses any native code, not just pure Elixir, we can't
+guarantee it working correctly. To use Membrane on Windows we strongly
+recommend using WSL (Windows Subsystem for Linux), which allows for running a
+Linux environment on a Windows machine. If you wish to get more insight into
+direct support for Windows, see this
+[discussion](https://github.com/orgs/membraneframework/discussions/857).
 
 ## Where can I learn Membrane?
+
 There are a number of resources available for learning about Membrane:
 
 ### This guide
+
 The following sections in that guide will introduce the main concepts of creating Membrane elements and pipelines, without focusing on the specific details of multimedia processing.
 
 ### Demos
+
 The [membrane_demo](https://github.com/membraneframework/membrane_demo) repository contains many projects, scripts and livebooks that cover different use cases of the framework. It's a good place to learn by example.
 
 ### Tutorials
+
 For a step-by-step guide to implementing a specific system using Membrane, check out our [tutorials](https://membrane.stream/learn).
 
 ### Documentation
+
 For more detailed information, you can refer to the Membrane Core documentation and the documentation for the Membrane packages maintained by the Membrane team, both of which can be accessed [here](https://hex.pm/orgs/membraneframework).
 
 If you see something requiring improvement in this guide, feel free to create an issue or open a PR in the [membrane_tutorials](https://github.com/membraneframework/membrane_tutorials) repository.
