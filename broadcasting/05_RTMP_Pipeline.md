@@ -2,14 +2,14 @@ In this chapter, we will discuss the multimedia-specific part of the application
 
 ## The pipeline
 
-Let's start with `lib/rtmp_to_hls/pipeline.ex` file. All the logic is put inside the [`Membrane.Pipeline.handle_init/1`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/1) callback,
+Let's start with `lib/rtmp_to_hls/pipeline.ex` file. All the logic is put inside the [`Membrane.Pipeline.handle_init/2`](https://hexdocs.pm/membrane_core/Membrane.Pipeline.html#c:handle_init/2) callback,
 which is invoked once the pipeline is initialized.
 
 **_`lib/rtmp_to_hls/pipeline.ex`_**
 
 ```elixir
 @impl true
-def handle_init(_opts) do
+def handle_init(_context) do
   ...
   spec = [
     child(:src, %Membrane.RTMP.SourceBin{socket: 9009})
@@ -19,7 +19,7 @@ def handle_init(_opts) do
     )
     |> child(:sink, %Membrane.HTTPAdaptiveStream.SinkBin{
       manifest_module: Membrane.HTTPAdaptiveStream.HLS,
-      target_window_duration: :infinity,
+      target_window_duration: Membrane.Time.seconds(20),
       persist?: false,
       storage: %Membrane.HTTPAdaptiveStream.Storages.FileStorage{directory: "output"}
     }),
@@ -54,7 +54,7 @@ At the time of writing, the available codecs accepted by `:encoding` are `:H264`
 
 We refer to previously defined elements using `get_child` to also configure the `:video` pads, using `:H264` as the preferred encoding and a segment duration of 4 seconds.
 
-The final thing that is done in the `handle_init/1` callback's implementation is returning the pipeline structure through the `:spec` action:
+The final thing that is done in the `handle_init/2` callback's implementation is returning the pipeline structure through the `:spec` action:
 **_`lib/rtmp_to_hls/pipeline.ex`_**
 
 ```elixir
