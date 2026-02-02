@@ -9,7 +9,7 @@ which is invoked once the pipeline is initialized.
 
 ```elixir
 @impl true
-def handle_init(_context) do
+def handle_init(_context, _opts) do
   ...
   spec = [
     child(:src, %Membrane.RTMP.SourceBin{socket: 9009})
@@ -44,9 +44,10 @@ First, we define the list of children. The following children are defined:
 
 The fact that the configuration of a pipeline, which performs relatively complex processing, consists of just two elements, proves the power of [bins](/basic_pipeline/12_Bin.md). Feel free to stop for a moment and read about them if you haven't done it yet.
 
-At the same time, we configure the pads linking the two bins. 
+At the same time, we configure the pads linking the two bins.
 `:src` has two output pads: the `:audio` pad and the `:video` pad, transferring the appropriate media tracks.
 The source's `:audio` pad is linked to the input `:audio` pad of the sink - along with an `:encoding` option and a `:segment_duration`.
+
 - `:encoding` is an atom, describing the codec which is used to encode the media data - when it comes to audio data, we will be using the AAC codec.
 - `:segment_duration` specifies the maximal duration of a segment. Each segment of each track shouldn't exceed that value. In our case, we have decided to limit the length of each segment to 4 seconds.
 
